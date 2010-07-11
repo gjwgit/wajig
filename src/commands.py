@@ -29,7 +29,6 @@ import string
 import sys
 import tempfile
 import signal
-import datetime
 #
 # When writing to a pipe where there is no reader (e.g., when
 # output is directed to head or to less and the user exists from less
@@ -323,13 +322,12 @@ def do_describe(packages):
             # is a description available.
             package_short_description = ""
             if describe_list[pkg]:
-              line_end = string.find(describe_list[pkg], "\n")
-              package_short_description = describe_list[pkg][0:line_end]
-            print "%-24s %s" % (pkg, \
-                string.capitalize(package_short_description))
+                line_end = describe_list[pkg].find("\n")
+                package_short_description = describe_list[pkg][0:line_end]
+            print "%-24s %s" % (pkg, package_short_description.capitalize())
     elif verbose == 1:
         for pkg in pkgs:
-            print pkg + ": " + string.capitalize(describe_list[pkg]) + "\n"
+            print pkg + ": " + describe_list[pkg].capitalize() + "\n"
     else:
         #
         # TODO is there a way of doing this using apt_pkg easily?
@@ -369,7 +367,7 @@ def do_describe_new(install=False):
     if len(new_pkgs) == 0:
         print "No new packages"
     else:
-        do_describe(new_pkgs);
+        do_describe(new_pkgs)
         if install:
             print "="*76
             do_install(new_pkgs)
@@ -599,13 +597,13 @@ def do_install_suggest(packages, type, noauth=""):
     #
     if len(packages) == 1 and packages[0] == "-":
         packages = string.split(
-            string.join(map(string.strip,sys.stdin.readlines())))
+            string.join(map(string.strip, sys.stdin.readlines())))
 
     #
     # For each package obtain the list of suggested packages
     #
     suggest_list = ""
-    
+
     ## Obtain the details of each available package.
 
     avail = get_available()
@@ -617,7 +615,8 @@ def do_install_suggest(packages, type, noauth=""):
             sug = section.get("Suggests")
             rec = section.get("Recommends")
             if type == "Suggests" or type == "Both":
-                if sug: suggest_list = suggest_list+" "+sug
+                if sug:
+                    suggest_list = suggest_list+" "+sug
             if type == "Recommends" or type == "Both":
                 if rec:
                     suggest_list = suggest_list+" "+rec
@@ -768,7 +767,7 @@ def do_new():
     #
     new_pkgs = changes.get_new_available()
     new_pkgs.sort()
-    for i in range(0,len(new_pkgs)):
+    for i in range(0, len(new_pkgs)):
         print "%-24s %s" % (new_pkgs[i],
             changes.get_available_version(new_pkgs[i]))
 
@@ -806,7 +805,6 @@ def do_news(packages):
 
     Returns: News items
     """
-    orig = packages
     ping_host("packages.debian.org")
     results = tempfile.mktemp()
     packages = map_sources(packages)
@@ -841,52 +839,6 @@ def do_news(packages):
 # Updated 2004-10-19 07:00:08 graham Change host name
 #
 #------------------------------------------------------------------------
-
-# 2006-05-24 NO LONGER USED - COMMENT OUT FOR NOW THEN REMOVE ON NEXT
-# CLEANUP, JUST IN CASE...
-
-# def pool_version(pkg, orig):
-#     #
-#     # Check first if package is available, if not then
-#     # get version from original. Fixes Bug#295455
-#     #
-#     revert = False
-#     changes.load_dictionaries()
-#     available = changes.get_available_list()
-#     if pkg not in available:
-#         package = orig
-#         revert = True
-#     else:
-#         package = pkg
-#     #
-#     # Get the version
-#     #
-#     command = "apt-cache show " + package
-#     packages_pipe = perform.execute(command, noquiet=True, pipe=True)
-#     Parse = apt_pkg.TagFile(packages_pipe)
-#     version = '0'
-#     filename = ''
-#     while Parse.Step():
-#         v = Parse.Section.get("Version")
-#         if perform.execute("dpkg --compare-versions %s gt %s" % (v, version))\
-#                == 0:
-#             version = v
-#             filename = Parse.Section.get("Filename")
-#             #
-#             # If we reverted to the original package, be sure to get the
-#             # changelog from the source package. Fixes Bug#295455
-#             #
-#             if revert:
-#                 filename = filename.replace(orig, pkg)
-#             #
-#             # Special case of local installed packages.
-#             # Take a guess... Example is my own locally installed wajig.
-#             #
-#             if filename[0:2] == "./":
-#                 filename = "pool/main/" + filename[2] +\
-#                            filename.split("_")[0][1:] + "/" + filename[2:]
-#     return (filename, version)
-
 def do_changelog(packages):
     """List latest changelog for each package.
 
@@ -895,9 +847,7 @@ def do_changelog(packages):
 
     Returns: Changelogs
     """
-    orig = packages
     ping_host("packages.debian.org")
-    results = tempfile.mktemp()
     packages = map_sources(packages)
     if not packages:
         # list the original package name (maybe it is a source package)
@@ -913,7 +863,6 @@ def do_changelog(packages):
         # we don't any longer really need this.
 
         p = pk[0]
-        o = pk[1]
 
         # Print a header.
 
@@ -927,11 +876,9 @@ def do_changelog(packages):
 
         pkg = p.split()
         if len(pkg) > 1:
-            ver = pkg[1][1:-1]  # Remove the round brackets
             pkg = pkg[0]
         else:
             pkg = pkg[0]
-            ver = "`egrep '^%s ' %s | cut -d' ' -f2`" % (pkg, available_file)
 
         # Find pool file name and get latest version number.
         # Previously I relied on changelogs.debian.net, but it seems
@@ -984,7 +931,7 @@ def do_newupgrades(install=False):
         print "No new upgrades"
     else:
         print "%-24s %-24s %s" % ("Package", "Available", "Installed")
-        print "="*24 + "-" + "="*24 + "-" + "="*24 
+        print "="*24 + "-" + "="*24 + "-" + "="*24
         new_upgrades.sort()
         for i in range(0, len(new_upgrades)):
             print "%-24s %-24s %-24s" % (new_upgrades[i], \
@@ -1010,7 +957,6 @@ def do_removedepend(pkg, purge=False):
     if dependencies:
         for p in dependencies:
             # Check if the supplied pkg is the only dependee
-            dp = changes.get_dependees(p)
             if changes.get_dependees(p) == [pkg]:
                 toremove += " " + p
     #
@@ -1031,7 +977,7 @@ def do_size(packages, size):
     # Work with the list of installed packages
     # (I think status has more than installed?)
     #
-    status = apt_pkg.TagFile(open("/var/lib/dpkg/status","r"));
+    status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"));
     #
     # Initialise the sizes dictionary.
     #
@@ -1185,7 +1131,7 @@ def do_toupgrade():
     # things down quite a bit!
     #
     print "%-24s %-24s %s" % ("Package", "Available", "Installed")
-    print "="*24 + "-" + "="*24 + "-" + "="*24 
+    print "="*24 + "-" + "="*24 + "-" + "="*24
     #
     # List each upgraded pacakge and it's version.
     #
@@ -1217,7 +1163,7 @@ def do_unhold(packages):
         perform.execute(command, root=1)
     print "The following packages are still on hold:"
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
-        
+
 #------------------------------------------------------------------------
 #
 # UPDATE
@@ -1237,7 +1183,7 @@ def do_update(query=0, quiet=0):
                updated."
     if query > 0:
         versionfile = open("/etc/debian_version")
-        debian_version = string.split(versionfile.read())[0]
+        debian_version = versionfile.read().split()[0]
         if debian_version == "testing/unstable":
             print """
 You appear to be running the `unstable' or `testing' distribution of
@@ -1509,7 +1455,6 @@ def do_findpkg(pkg):
 # RECDOWNLOAD
 #
 #------------------------------------------------------------------------
-
 def do_recdownload(packages):
     #FIXME: This has problems with virtual packages, FIX THEM!!!
 

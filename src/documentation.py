@@ -22,9 +22,7 @@
 
 import const
 
-#
-# VERSION
-#
+
 def version():
     print "JIG " + const.version +\
           """ - Command-line system admin for Debian GNU/Linux
@@ -40,9 +38,7 @@ On Debian systems, it may be found in /usr/share/common-licenses/GPL.
 Fuller documentation can be found at http://wajig.togaware.com/.
 """
 
-#
-# USAGE
-#
+
 def usage():
     print """Usage:
         wajig [options] [command] [packages|files] ...
@@ -67,9 +63,7 @@ def usage():
         -y|--yes        Assume yes for any questions asked.
 """
 
-#
-# HELP
-#
+
 def help(verbose):
 
 #
@@ -102,7 +96,7 @@ Run 'wajig -v commands' for a complete list of commands.
 # ALL COMMANDS AND OPTIONS
 #
     elif verbose == 1:
-      print """All JIG commands:
+        print """All JIG commands:
 
  addcdrom       Add a CD-ROM to the list of available sources of packages
  auto-alts      Mark the alternative to be auto set (using set priorities)
@@ -219,7 +213,7 @@ Run 'wajig -v commands' for a complete list of commands.
  version	Show the current version of wajig.
  versions       List version and distribution of (all) packages.
  whatis         A synonym for describe
- whichpkg       Find the package that supplies the given command or file 
+ whichpkg       Find the package that supplies the given command or file
 
 Command line options:
 
@@ -238,7 +232,7 @@ Fuller documentation can be found at http://www.togaware.com/wajig.
 # FULL DOCUMENTATION
 #
     else:
-      print """Welcome to JIG, bringing the pieces of system
+        print """Welcome to JIG, bringing the pieces of system
 administration together - a tool for Debian GNU/Linux.
 
 JIG is Copyright (c) Graham.Williams@togaware.com
@@ -315,7 +309,7 @@ If you've tried to remember all the different commands to get
 different information about different aspects of Debian package
 management and then used other commands to install and remove packages
 then you'll know that it can become a little too much.
- 
+
 Swapping between dselect, deity, deity-gtk, aptitude, apt-get, dpkg,
 gnome-apt, apt-cache, and so on is interesting but cumbersome.  Plus
 personally I find dselect, deity, and aptitude confusing and even
@@ -348,8 +342,8 @@ Debian. The command line interface is apt-get but it is also used
 within wajig dselect, deity, and aptitude. See
 http://newbieDoc.sourceForge.net/system/apt-get-intro.html for a great
 introduction to apt-get. Also see
-  
-  /usr/share/doc/apt/offline.html/index.html 
+
+  /usr/share/doc/apt/offline.html/index.html
 
 on your local Debian machine for using apt off line.
 
@@ -365,7 +359,7 @@ for sudo or regularly supplying passwords). Using sudo requires a
 little setting up as described below.
 
 Try the help command for a list of common commands provided by
-wajig: 
+wajig:
 
   $ wajig help
 
@@ -395,12 +389,12 @@ All wajig commands:
 
 Command line options:
 
- -h|--help      Print usage message. 
+ -h|--help      Print usage message.
  -n|--noauth    Allow packages from unathenticated archives.
- -q|--quiet     Do system commands everything quietly. 
- -s|--simulate  Trace but don't execute the sequence of underlying commands. 
- -t|--teaching  Trace the sequence of commands performed. 
- -v|--verbose=n Increase (or set) the level of verbosity (to n). 
+ -q|--quiet     Do system commands everything quietly.
+ -s|--simulate  Trace but don't execute the sequence of underlying commands.
+ -t|--teaching  Trace the sequence of commands performed.
+ -v|--verbose=n Increase (or set) the level of verbosity (to n).
  -y|--yes       Assume yes for any questions asked.
 
 Wajig expects a command and will call upon other Debian tools to
@@ -425,7 +419,7 @@ message.
 Installing sudo is straight forward. As root run the command visudo to
 edit the configration file.  Add the lines:
 
-  Cmnd_Alias  APT = /usr/bin/apt-get, /usr/bin/apt-cache, /usr/bin/dpkg, \\ 
+  Cmnd_Alias  APT = /usr/bin/apt-get, /usr/bin/apt-cache, /usr/bin/dpkg, \\
                     /usr/sbin/dpkg-reconfigure, /usr/bin/dpkg-repack, \\
                     /etc/init.d/*, /usr/sbin/update-alternatives, \\
                     /usr/lib/apt-move/fetch, /usr/bin/dselect, \\
@@ -447,7 +441,7 @@ packages with what is currently available from the Debian archives for
 downloading.  If you are staying with the stable release you generally
 only need to update the list of available packages once.  The
 following command is used to update the information about what is
-available for downloading: 
+available for downloading:
 
   $ wajig update                (dselect update)
 
@@ -456,7 +450,7 @@ wajig calls upon to perform the operation.)
 
 This uses entries in the file /etc/apt/sources.list to know where to
 get the list of available packages from and which release of Debian
-you wish to follow.  You can edit this file with: 
+you wish to follow.  You can edit this file with:
 
   $ wajig editsources           (apt-setup)
 
@@ -471,7 +465,7 @@ section.
 If you have a Debian CD-ROM or DVD-ROM then you can tell apt what is
 available on it using:
 
-  $ wajig add-cd-rom  
+  $ wajig add-cd-rom
 
 
 
@@ -489,7 +483,7 @@ which you can then review and add to the system sources.list, if you
 wish, with
 
   $ wajig edit-sources
-  
+
 
 FINDING PACKAGES
 
@@ -619,7 +613,7 @@ you can install it with:
 The .deb file will be searched for in both the current directory and
 in the apt archive at /var/cache/apt/archive/.
 
-You can list multiple .deb files to install. 
+You can list multiple .deb files to install.
 
 If the .deb package file you wish to install is available on the
 internet you can give its address and wajig will download then install
@@ -671,7 +665,7 @@ A neat trick with wajig is the ability to upgrade a collection of
 packages all with the same version number to another common version
 number:
 
-  $ wajig status | grep 3.2.3-2 | grep 3.3.0-1 | cut -f1 > list 
+  $ wajig status | grep 3.2.3-2 | grep 3.3.0-1 | cut -f1 > list
   $ wajig install-file list
 
 
@@ -851,7 +845,7 @@ Be sure to edit the list to remove, for example, gcc! Then a:
 
   $ sudo apt-build world
 
-will recompile and optimise all packages. 
+will recompile and optimise all packages.
 
 PINNING DISTRIBUTIONS
 
@@ -939,7 +933,7 @@ include:
   gdm    The Gnome Windows Display Manager (for logging on)
   ssh    The Secure Shell daemon
 
-Generally, daemons are started at system boot time automatically. 
+Generally, daemons are started at system boot time automatically.
 
 ALTERNATIVE APPLICATIONS
 
@@ -1002,7 +996,7 @@ To remove files immediately after they have been installed edit
 /etc/apt/apt.conf:
 
   // Things that effect the APT dselect method
-  DSelect 
+  DSelect
   {
     Clean "auto";   // always|auto|prompt|never
   ;
@@ -1020,7 +1014,7 @@ list run:
 
   deb http://snapshot.debian.net/archive pool sed
 
-Then you can do, for example: 
+Then you can do, for example:
 
   $ wajig available sed
   $ wajig install sed=4.1.2-1

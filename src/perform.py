@@ -1,5 +1,3 @@
-
-#
 # WAJIG - Debian Package Management Front End
 #
 # Copyright (c) Graham.Williams@togaware.com

@@ -1,4 +1,3 @@
-#
 # Gnome Glade toolkit utilities
 #
 # Copyright (c) Graham Williams
