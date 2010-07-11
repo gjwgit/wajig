@@ -1,0 +1,26 @@
+This package was first debianized by its original author Graham Williams
+<Graham.Williams@togaware.com> on Fri, 7 Sep 2001 13:44:54 +1000.
+
+As Graham Williams was not then a Debian maintainer, Dirk Eddelbuettel
+<edd@debian.org> kindly maintained wajig as a part of the Debian 
+distribution until February 2005.
+
+It is available for download from 
+   deb http://www.togaware.com/debian ./
+
+Copyright (C) 2001 - 2008 Graham J Williams
+
+License: GPL
+
+This software is copyright (c) by Graham J Williams.
+
+Upstream Author: Graham Williams <Graham.Williams@togaware.com>
+
+License:
+
+You are free to distribute this software under the terms of
+the GNU General Public License.
+
+On Debian systems, the complete text of the GNU General Public
+License can be found in the file /usr/share/common-licenses/GPL.
+

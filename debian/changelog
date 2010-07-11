@@ -1,0 +1,1023 @@
+wajig (2.0.48) unstable; urgency=low
+
+  * Tidy up the list of commands from the "list-commands"
+    command. (Closes: #582252).
+
+ --
+
+wajig (2.0.47) unstable; urgency=low
+
+  * Use apt-get remove --auto-remove to implement remove-depend.  This is
+    simpler than making wajig do the dependency checking, and runs much
+    faster. (Closes: #579419).
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Wed, 19 May 2010 20:16:10 +1000
+
+wajig (2.0.46) unstable; urgency=low
+
+  * Change installr to use aptitude -r so that we get recursive install of
+    recommended packages. (Closes: #477921).
+  
+  * Patch from Julian Klode and Dirk Eddelbuettel for new API - apply
+    patches but no longer works on Ubuntu - assume works on
+    Debian. (Closes: #571766).
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Wed, 17 Mar 2010 06:27:07 +1100
+
+wajig (2.0.45) unstable; urgency=low
+
+  * Update web search interface call for whichpkg and remove extraneous
+    link information from the call to lynx - Bernat Arlandis i
+    Mañó. (Closes: #565666).
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Mon, 18 Jan 2010 09:08:41 +1100
+
+wajig (2.0.44) unstable; urgency=low
+
+  * the describe/detail commands should handle installed but no longer
+    available packages - Reuben Thomas.  (Closes: #432266)
+
+  * ensure all old tmp files removed - Robert Luberda. (Closes: #563573)
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Mon, 4 Jan 2010 08:30:43 +1100
+
+wajig (2.0.43) unstable; urgency=low
+
+  * revert untested code from Reuben Thomas causing issues with "new"
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Mon, 1 May 2009 11:46:27 +1000
+
+wajig (2.0.42) unstable; urgency=low
+
+  * update purgeremoved as suggested by Reuben Thomas.  (Closes: #477921)
+  * some debian control updates provided by Dirk.
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Mon, 30 Apr 2009 07:44:46 +0700
+
+wajig (2.0.41) unstable; urgency=low
+
+  * Allow commas in list of packages so can copy from other programs
+  * Ensure join uses langC=True - new coretuils join complains otherwise.
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Mon, 25 Apr 2009 08:46:45 +1100
+
+wajig (2.0.40) unstable; urgency=low
+
+  * Add noauth to autoinstall reported by Leslie Viljoen. (Closes: #506795)
+  * Allow commas in list of packages so can copy from other programs
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Mon, 30 Nov 2008 17:27:23 +1000
+
+wajig (2.0.39) unstable; urgency=low
+
+  * Add purge-removed command requested by Reuben Thomas. (Closes: #477921)
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Mon, 2 Jun 2008 05:41:50 +1000
+
+wajig (2.0.38) unstable; urgency=low
+
+  * Don't use invoke-rc.d as this is really meant for package maintainers,
+    not interactive user usage, and there are cases where it won't
+    work. Bug reported by William Xu. (Closes: #426969)
+
+  * Ensure auto-remove is in the auto completion list. Reported by
+    Reuben Thomas. (Closes: #445713)
+
+  * Fix problem with change of HTML format for WHICH-PKG query.
+    Bug reported by Alex Malinovich and David Liontooth.
+    (Closes: #443593 #442169)
+
+  * Add INFO, CONTENTS, and EXTRACT commands to run dpkg --info,
+    dpkg --contents, and dpkg --extract to list info or contents or to
+    extract the contents of a package file.
+
+  * For LISTFILES support the listing of the contents of a .deb file.
+    (Suggested by Roland.Baudin).
+
+  * Fix documentation pointing to sarovar. (Closes: #442168)
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Thu, 4 Nov 2007 16:41:11 +1100
+
+wajig (2.0.37) unstable; urgency=low
+
+  * Add AUTO-REMOVE command to run apt-get autoremove, to remove any
+    packages that were automatically installed through dependencies,
+    and are no longer required. (Closes: #430457)
+	
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 1 Jul 2007 17:50:35 +1000
+
+wajig (2.0.36) unstable; urgency=high
+
+  * Fix grave bug on moving to using pycentral - needed XS-Python-Version
+    and XB-Python-Version, otherwise pycentral is crashing. Reported by
+    Laurent Bonnaud and Anthony Campbell. If you get an error like
+    package has no field Python-Version, then remove
+    /var/lib/dpkg/info/wajig.prerm, and reinstall wajig. (Closes: #422596)
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Mon, 7 Mar 2007 22:06:10 +1000
+
+wajig (2.0.35) unstable; urgency=low
+
+  [Graham Williams]
+  * LOCATE is a synonym for FIND-FILE (suggested by Alexandre Girao).
+
+  * CHANGELOG query was not correctly stripping off version numbers. Bug
+    reported by Reuben Thomas. (Closes: #385612)
+
+  * VERIFY introduced to check the md5sums of an installed
+    packages. Suggested by Francesco Potorti. (Closes: #386658)
+
+  * Considered removing bash_completion.py. It is redundant, but does no
+    harm. (Closes: #396698)
+
+  * Replace depend on superseded base-config with locales. Suggested by 
+    Michael Gilbert. (Closes: #415378)
+
+  * Depend on dselect because at least the update command depends on it.
+    Suggested by Chris AtLee. (Closes: #415365)
+	
+  [Dirk Eddelbuettel]
+  * debian/rules: Change dh_python to dh_pycentral
+  * debian/control: Added Build-Depends-Indep: on 'python-central (>= 0.5)'
+	
+ -- Graham Williams <Graham.Williams@togaware.com>  Mon, 7 Mar 2007 06:44:28 +1000
+
+wajig (2.0.34) unstable; urgency=low
+
+  * Update to python 2.4 and new python policy. (Closes: #375591)
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Thu, 29 May 2006 18:11:34 +1000
+
+wajig (2.0.33) unstable; urgency=low
+
+  * MADISON command added to directly call apt-cache madison. Suggested by
+    Dirk Eddelbuettel.
+
+  * SHOW, DESCRIBE, LISTSECTIONS, LISTSECTION, DEPENDENTS, INSTALLS all
+    stopped working with new version of Python apt_pkg which uses mmap for
+    ParseTagFile and so could no longer handle pipes. Fixed by saving
+    dumpavail output to temporary file. Bug reported by Anthony Campbell, 
+    with suggested fix using new apt from Michael Vogt. (Closes: #366678)
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 25 May 2006 08:56:11 +1000
+
+wajig (2.0.32) unstable; urgency=low
+
+  * EDITSOURCES now calls the editor rather than apt-setup because 	
+    the latter is now in a udeb and not generally available.
+
+  * Introduce the --noauth option, which for a DISTUPGRADE will use the
+    --allow-unauthenticated option. This is particularly for the case 
+    where an archive you trust has no signed Release file, but you want
+    that archive to supply packages ahead of those that are formally 
+    signed. E.g., a local package archive you maintain. The option applies
+    to specific commands (not checked): INSTALL, DISTUPGRADE, UPGRADE.
+
+  * NEWS has been fixed to extract latest changelog from the changelog
+    archive since old news source has disappeared.
+
+  * PURGE now using dpkg --purge rather than apt-get purge. The latter no
+    longer works for removed packages. Reported by David Lionthooth
+    (Closes: #362632)
+
+  * CHANGELOG and NEWS updated to use the 
+    http://packages.debian.org/changelog:pkg as suggested by David
+    Liontooth. (Closes: #364227)
+	
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 23 Apr 2006 07:53:11 +1000
+
+wajig (2.0.31) unstable; urgency=low
+
+  * In BUILD two commands are run, but if first fails or is aborted
+    then second was still being run. Fix it by test result. Bug
+    reported by John V. Belmonte. (Closes: #337587)
+
+  * bash_completion now works on multiple package name arguments. Bug
+    reported by Kamaraju Kusumanchi. (Closes: #318048)
+
+  * Add UPDATE-PCI-IDS and UPDATE-USB-IDS commands to call update-pciids
+    and update-usbids, as suggested by Karl Schmidt.
+
+  * The use of "+/-N" in tail is deprecated. Using "-n +/-N" instead. Bug
+    reported by Yves-Alexis Perez. (Closes: #339010)
+	
+ -- Graham Williams <Graham.Williams@togaware.com>  Tue, 15 Nov 2005 06:48:22 +1000
+
+wajig (2.0.30) unstable; urgency=low
+
+  * In glutil.py (used by gjig) fix gnome __init__ call to pass args 
+    without names since the names seem to have changed. Also replace
+    deprecated mainloop and mainquit with main and main_quit.
+
+  * Extended the VERSION command and introduced VERSIONS as a near 
+    synonym to list the version available and the source distribution 
+    of the package. Suggested by John V. Belmonte. (Closes: #317584)
+
+  * Introduce the --yes option to ask apt-get to assume yes to
+    questions. Requested by Jason Lewis.
+
+  * Do sudo -v before any sudo commands with pipes to avoid issues 
+    with pipes and multiple password requests. Bug reported by Karl Chen. 
+    (Closes: #320126)
+
+  * Add extra information in documentation about NETSELECT-APT writing
+    a candidate sources.list to the current directory, not to the system
+    file. Reported by David Fedoruk. (Closes: #332822)
+
+  * Revert behaviour of SOURCE to not do a BUILDDEPEND. Requested by
+    John Belmonte. (Closes: #337588)
+
+  * Ensure wajig.completions is updated each make. Reported by John
+    V. Belmonte. (Closes: #330473)
+	
+  * debian/control: Standards-Version increased to 3.6.2
+	
+ -- Graham Williams <Graham.Williams@togaware.com>  Sat, 5 Nov 2005 15:35:13 +1000
+	
+wajig (2.0.29) unstable; urgency=low
+	
+  * In query through wget to packages.debian.org replace + with %2B.
+    Bug reported by John V. Belmonte. (Closes: #315082)
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Tue, 21 Jun 2005 21:05:25 +1000
+
+wajig (2.0.28) unstable; urgency=low
+
+  * Add new option to NEW and NEWUPGRADES to INSTALL the packages.
+    Suggested by David Liontooth. (Closes: #314730)
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sat, 18 Jun 2005 16:25:25 +1000
+
+wajig (2.0.27) unstable; urgency=low
+
+  * Allow DIST-UPGRADE to have an optional argument to identify a
+    distribution to upgrade to. Suggested by August Mayer.
+    (Closes: #311543)
+	
+ -- Graham Williams <Graham.Williams@togaware.com>  Thu, 2 Jun 2005 05:54:36 +1000
+
+wajig (2.0.26) unstable; urgency=low
+
+  * BUILD and SOURCE will also now call apt-get build-dep first to
+    ensure dependent packages for the build are installed.
+
+  * LIST-LOG takes an optional argument to filter the output on.
+
+  * LIST-LOG filters output to make the reading of the timestamp
+    more pleasant. (Closes: #304435)
+
+  * DEPENDENTS output now indicates the dependency: d=depend, s=suggest,
+    r=recommend, p=replaces, c=conflict, o=other. (Closes: #306221)
+
+  * STATUS-SEARCH calls to perform.execute all use langC to avoid
+    LOCALE problems with sort. (Closes: #302648)
+
+  * LIST-SCRIPTS will display the contents of the package script files
+    to the screen. Suggested by Jerry Quinn. (Closes: #306222)
+	
+ -- Graham Williams <Graham.Williams@togaware.com>  Wed, 27 Apr 2005 20:24:36 +1100
+
+wajig (2.0.25) unstable; urgency=low
+
+  * Extend LIST-ALL with optional argument to filter output on.
+    Requested by Karl Schmidt.
+
+  * Start implementing logging of install/remove/update. Suggested
+    by Karl Schmidt (Closes: #297461).
+
+  * New command LIST-LOG will simply list the contents of the log file.
+
+  * LIST-WIDE removes extra space to list as compact as possible. Suggested
+    by Karl Schmidt
+
+  * PURGE-DEPEND now only checks installed packages. Suggested by Manuel
+    Hernandez.
+	
+ -- Graham Williams <Graham.Williams@togaware.com>  Sat,  5 Mar 2005 06:51:36 +1100
+
+wajig (2.0.24) unstable; urgency=low
+
+  * Add DOC back into wajig. Suggested by Francesco Potorti. (Closes
+    Bug#295806).
+  * Use langC for grep when doing apt-cache dumpavail and count_upgrades
+    since grep is very slow on other locales. Fix suggested by Reuben Thomas
+    in relation to Bug#295022. (Closes: #295022).
+  * Add LIST-SECTION(S) to the documentation. Reported by David 
+    Liontooth. (Closes: #295923).
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun,  20 Feb 2005 10:01:06 +1100
+	
+wajig (2.0.23) unstable; urgency=low
+
+  * Change plurality of a message
+  * Fix problem with CHANGLOG when the source package is not an
+    installable package, as in libgtk2.0-dev and source gtk+2.0.
+    Bug reported by Matthew Hawkins (Closes: #295455).
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Fri,  18 Feb 2005 18:17:37 +1100
+	
+wajig (2.0.22) unstable; urgency=low
+
+  * New commands LISTSECTION and LISTSECTIONS.
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun,  6 Feb 2005 19:47:37 +1100
+
+wajig (2.0.21) unstable; urgency=low
+
+  * New upstream release
+    - Exit with status 1 if LISTNAMES returns no results. Bug reported by 
+      A Costa (Closes: #292581).
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Tue,  1 Feb 2005 19:43:47 +1100
+
+wajig (2.0.20-1) unstable; urgency=low
+
+  * New maintainer (== upstream author), with the previous maintainer as 
+    sponsor
+	
+  * Regenerate Graham's debian package build.
+
+    - Fix a locale problem where LC_ALL was being set to C by wajig for 
+      all external system calls. Only needed for STATUS? Bug reported
+      by Serge Matveev (Closes: #288852).
+    - Fix bug in getting username when USER not define, reported by
+      Dirk Eddelbuettel
+    - Fix typo reported by A Costa (Closes: #292456)
+    - LISTALTS should ignore the README Reported by A Costa 
+      (Closes: #292457)
+    - Fix change of DEPENDEES to DEPENDENTS Reported by A Costa 
+      (Closes: #292469)
+
+	
+ -- Graham Williams <Graham.Williams@togaware.com>  Sat, 29 Jan 2005 21:41:43 +1100
+
+wajig (2.0.19-2) unstable; urgency=low
+
+  * Applied two small fixes suggested by Graham to address issues 
+    when running as root  (Closes: #290286):
+    - src/perform.py: Use getpass.getuser() for root test
+    - src/commands.py: Escape quotes in quietopt assignment
+    - src/wajig.py: Idem in filter_str assignment 
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 13 Jan 2005 06:25:43 -0600
+
+wajig (2.0.19-1) unstable; urgency=low
+
+  * New upstream release:
+    - Fix problem when using sudo, and running wajig as root - if root
+      was not in sudoers file then wajig could not run. root did not need
+      to be in the sudoers file to run wajig - added a check for root
+      running wajig and if so, don't use sudo if sudo is installed.
+      Bug reported by Serge Matveev (Closes: #288849).
+    - Fix bug with PURGE-ORPHANS whereby sudo was being doubly used
+      and causing problems if root was not in sudoers. Bug reported by
+      Serge Matveev (Closes: #288847)
+    - Continue work on command interpreter completion. Only command
+      complete the first "word" not all "words" in the command line.
+    - REC-DOWNLOAD has been renamed RECURSIVE (but kept for
+      compatibility)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Fri,  7 Jan 2005 20:19:41 -0600
+
+wajig (2.0.18-1) unstable; urgency=low
+
+  * New upstream release:
+    - Without any arguments wajig will start a command interpreter.
+      The command interpreter accepts any wajig command, with completion.
+      Suggested by Lorenzo Prince (Closes: #288041).
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon,  3 Jan 2005 06:24:04 -0600
+
+wajig (2.0.17-1) unstable; urgency=low
+
+  * New upstream release:
+    - DETAILS now allows DEB files as arguments. Calls dpkg-deb --info.
+    - CHANGELOG now tries harder to get most recent changelog. Rather
+      than relying on http://changelogs.debian.net/<pkg>, use http://
+      packages.debian.org/changelogs/pool/..../<pkg>_<version>/changelog.
+      Delay in the updating of changelogs.debian.net links pointed out
+      by Matthew Hawkins (and puts full closure on #286580).
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 29 Dec 2004 21:19:41 -0600
+
+wajig (2.0.16-1) unstable; urgency=low
+
+  * New upstream release:
+    - Add new command SNAPSHOT which prints each package installed and
+      its version number in the "package=version" format. Saving this
+      to file will allow a Debian system to be restored to just this
+      collection of packages at some later stage with the RESTORE
+      command (yet to be implemented). Suggested by Dirk Eddelbuettel.
+    - Update README command to report missing READMEs and missing doc
+      directory. Suggested by Gintautas Miliauskas.
+    - Remove remaining TABS from files to avoid mixing tabs and space.
+      (Closes: #283335)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 28 Nov 2004 15:07:14 -0600
+
+wajig (2.0.15-1) unstable; urgency=low
+
+  * New upstream release:
+    - Move the main documentation out of wajig into the Survival Guide.
+    - Improve README to show all documentation files found.
+    - Add second argument completion for bash (Closes: #283307)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 27 Nov 2004 22:34:05 -0600
+
+wajig (2.0.14-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 17 Nov 2004 07:01:04 -0600
+
+wajig (2.0.13-1) unstable; urgency=low
+
+  * New upstream release with fixes for the three outstanding bugs:
+    - Update documentation of DEPENDENTS (Closes: #280163)
+    - Documentation updates from Gintautas Miliauskas (Closes: #280486)
+    - HOLD/UNHOLD work when `sudo' is not installed (Closes: #280305) 
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 13 Nov 2004 22:59:59 -0600
+
+wajig (2.0.12-1) unstable; urgency=low
+
+  * New upstream release with fixes for all outstanding bugs:
+    - option to upgrade packages with the same version number (Closes: #253392)
+    - wajig: download error (Closes: #271620)
+    - wajig changelog wajig fails (Closes: #276862)
+    - "wajig dependees" should be "wajig dependents" (Closes: #277186)
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Fri,  5 Nov 2004 23:15:50 -0600
+
+wajig (2.0.11-4) unstable; urgency=low
+
+  * The (hopefully) final revision, with special thanks to Matthias Klose for 
+    clarifications on the Python Policy in a series of helpful emails.
+
+  * Partial reversal of some of the changes in the 2.0.11-{2,3} revisions:
+    - debian/rules: Back to removing the .pyo/.pyc files generated by Make
+    - debian/dirs: Remove usr/lib/wajig entry 
+    - {wajig.sh.in,gjig.sh.in}: Reverse change using /usr/lib/wajig
+    - {wajig.sh.in,gjig.sh.in}: Add -O to Python call
+    - debian/postrm: Remove as in Martin's patch as files are re-created
+  * Also revert back to Architecture: all
+    - debian/control: Updated accordingly
+    - debian/rules: Switched back to using binary-independent section
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 17 Oct 2004 09:58:39 -0500
+
+wajig (2.0.11-3) unstable; urgency=low
+
+  * Bug fix upload to complement previous patch:
+    - {wajig.sh.in,gjig.sh.in}: Need to override @datadir@ substitution;
+      calling configure with --datadir=/usr/lib creates other problems
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 14 Oct 2004 21:22:39 -0500
+
+wajig (2.0.11-2) unstable; urgency=low
+
+  * Bug fix upload based on two patches provided by Martin F. Krafft:
+    - src/wajig.py: Use invoke-rc.d, not /etc/init.d, (Closes: #276538)
+    - debian/rules: Move python modules from /usr/share to /usr/lib to
+      satisfy the Debian Python Policy (Closes: #276537)
+    - debian/rules: Use dh_python
+    - debian/rules: Use DESTDIR, not prefix
+    - {Makefile.in, src/Makefile.in}: Use DESTDIR
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 14 Oct 2004 20:51:01 -0500
+
+wajig (2.0.11-1) unstable; urgency=low
+
+  * New upstream release:
+    - the 'force' command now works if the package has not yet been 
+      downloaded (Closes: #252600)
+    - the 'changelog' command handles source packages with different 
+      (but specified) version numbers. (Closes: #248549)
+  * debian/control: Standards-Version increased to 3.6.1.1
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 15 Aug 2004 21:41:34 -0500
+
+wajig (2.0.10-1) unstable; urgency=low
+
+  * New upstream release:
+    - new commands listwide (Closes: #249091), liststatus, fileremove
+  * debian/control: s/deborphans/deborphan/  (Closes: #247610)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 24 May 2004 20:57:37 -0500
+
+wajig (2.0.9-2) unstable; urgency=low
+
+  * Makefile.in: Don't install bash_completion file (Closes: #247410)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue,  4 May 2004 19:15:49 -0500
+
+wajig (2.0.9-1) unstable; urgency=low
+
+  * New upstream release:
+    - reimplement status-match (Closes: #240359, #240403)
+    - modified policy command (Closes: #246931)
+    - see upstream changelog for more changes
+  * debian/control: Added 'deborphans, vrms' to Suggests (Closes: #238313)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue,  4 May 2004 06:54:27 -0500
+
+wajig (2.0.7-1) unstable; urgency=low
+
+  * New upstream release with new command tasksel, enhancements to hold/unhold 
+    commands, and updates to listcache and status (Closes: #235064)
+  
+  * debian/rules: Added gnome-tasksel to Suggests per Graham's suggestion
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue,  2 Mar 2004 22:00:17 -0600
+
+wajig (2.0.6-3) unstable; urgency=low
+
+  * debian/rules: Activate binary-arch which was still commented out from
+    when this was an 'Architecture: all' package
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 23 Feb 2004 13:24:44 -0600
+
+wajig (2.0.6-2) unstable; urgency=low
+
+  * debian/control: Added python-dev to Build-Depends (Closes: #234372)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 23 Feb 2004 09:58:08 -0600
+
+wajig (2.0.6-1) unstable; urgency=low
+
+  * New upstream version released today
+
+  * debian/control: Added 'base-config' to Suggests as the apt-setup
+    command is used by the wajig commands setup/editsources (Closes: #232536)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 15 Feb 2004 17:12:39 -0600
+
+wajig (2.0.5-1) unstable; urgency=low
+
+  * New upstream version released today
+  
+  * The package is now again an Architecture: any package as we are 
+    depending on a particular Python version anyway
+  * debian/control: Switched to Architecture: any, and Build-Depends:
+  * debian/rules: No longer purge *.pyo files
+    
+  * debian/control: Added Suggests: gnome-terminal
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon,  9 Feb 2004 19:11:26 -0600
+
+wajig (2.0.4-1) unstable; urgency=low
+
+  * New upstream version released today
+
+  * Upstream version number jumped as both a new Gui (gjig) and some new
+    features were; minor revision .4 is the first public release Graham
+    sent me. As usual, see his changelog for the full details.
+
+  * The new gjig gui requires python-gtk2, python-glade2, and python-gnome2 
+    which implies another, larger set of other packages -- so that for now,
+    we only Suggests: these gui components as to not force a whole new set
+    of packages onto systems which would use only the tried and tested 
+    command line version of wajig. Long term, maybe gjig should be in its
+    own package and depend on wajig. Or maybe I'm going overboard here.
+  * This also implies a Depends on the actual version supplying the default
+    gtk2, glade and gnome modules, so we now Depend on the default Python
+    version and conflict with the next one up as per Python Policy.
+  
+  * Upstream fix for 'apt-cache show run as root' (Closes:# 229330)
+  
+  * debian/control: Depends on python now 'python (>= 2.2)' (Closes: #228778)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun,  8 Feb 2004 16:39:10 -0600
+
+wajig (1.0.2-1) unstable; urgency=low
+
+  * New upstream version released today
+    - Fix typo in documentation. (Closes: Bug#217411)
+    - Reimplement PURGE/DEPEND and REMOVE/DEPEND - no longer rely on
+      aptitude (since it didn't work - only if you use aptitude to also
+      install). Both commands now remove pkg plus any it requires/suggests
+      which are not required by anything else. (Closes: Bug#211211)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 26 Oct 2003 19:08:14 -0600
+
+wajig (1.0.1-1) unstable; urgency=low
+
+  * New upstream version released today
+    - CHANGELOG to list the change log of a package. Useful to check
+      to see if you want to install the package without downloading
+      it.
+    - FINDPKG and UNOFFICIAL to search for an unofficial Debian
+      package at apt-get.org.
+    - SHOW-INSTALL and SHOW-REMOVE to list the steps that would be taken
+      for the install or removal. Also document SHOW-UPGRADE and
+      SHOW-DIST-UPGRADE which had been overlooked. (Closes: #215835)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 23 Oct 2003 20:23:36 -0500
+
+wajig (1.0.0-1) unstable; urgency=low
+
+  * New upstream version released today:
+    - Fix NEWS to check Source package.
+      Reported by John Belmonte. (Closes: #211130)
+    - INSTALL/DIST will choose the distribution DIST (Closes: #209385)
+    - "/" added as command meta character
+    - UPGRADE/SECURITY will do security upgrade. 
+      Suggested by Markus Hegland.
+    - Outstanding issue with REMOVE-DEPEND under review.
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed,  1 Oct 2003 07:10:00 -0500
+
+wajig (0.3.30-1) unstable; urgency=low
+
+  * New upstream version released moments ago:
+    - Fixes WHICHPKG - it did not handle diversions (Closes: #210499)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Fri, 12 Sep 2003 19:35:33 -0500
+
+wajig (0.3.29-1) unstable; urgency=low
+
+  * New upstream version released today:
+    - New command PURGE-DEPEND to purge pkg and dependees (Closes: #209383)
+    - Update NEWS to handle HTML entities using lynx (Closes: #208632
+  * debian/control: Add lynx to Suggests:
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue,  9 Sep 2003 23:32:48 -0500
+
+wajig (0.3.28-1) unstable; urgency=low
+
+  * New upstream version released today:
+     - New command UNHOLD to remove the hold flag on packages.
+     - Update NEWS to handle some HTML sequences (Closes: #208632)
+     - Update DEPENDEES to not use grep-dctrl
+  * debian/control: Removed grep-dctrl from Suggests:
+  * Internal disk usage has been reduced since 0.3.27 (Closes: #206662)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue,  9 Sep 2003 06:33:32 -0500
+
+wajig (0.3.27-2) unstable; urgency=low
+
+  * src/{commands,documentation,wajig}.py: Wrote small patch for new 
+    'unhold' command functionality; derived from 'hold' command
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed,  3 Sep 2003 20:17:31 -0500
+
+wajig (0.3.27-1) unstable; urgency=low
+
+  * New upstream version released today:
+    - Remove redundant (and large) Packages cache
+    - Remove the Installed packages cache
+    - Note version 0.3.26 not released
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 23 Aug 2003 10:02:21 -0500
+
+wajig (0.3.25-1) unstable; urgency=low
+
+  * New upstream version released today (whereas 0.3.24 never made it)
+    - new 'recdownload' command - download package and dependees
+    - fix available list problem - cache the list
+    - new 'size', 'sizes', 'large' commands - print size of packages
+  * debian/control: Standards-Version increased to 3.6.0.1
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 21 Aug 2003 20:58:59 -0500
+
+wajig (0.3.23-1) unstable; urgency=low
+
+  * New upstream version released today:
+    - strip space from Available file (Closes: #192861)
+    - 'lastupdate' works even if no 'update' performed (Closes: #192862)
+    - 'removedepend' added using 'aptitude' (Closes: #192685)
+    - new commands: 'news' and 'avail'
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 17 May 2003 17:53:35 -0500
+
+wajig (0.3.22-1) unstable; urgency=low
+
+  * New upstream version released today:
+    - 'download' command improved (Closes: #192123)
+    - 'localupgrade' command added
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue,  6 May 2003 07:16:43 -0500
+
+wajig (0.3.21-1) unstable; urgency=low
+
+  * New upstream version released today:
+    - better 'remove-orphans' when no orphans present (Closes: #191670)
+    - added 'purge-orphans'
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue,  6 May 2003 06:21:18 -0500
+
+wajig (0.3.20-1) unstable; urgency=low
+
+  * New upstream version released today:
+    - 'wajig purge' now uses dpkg (Closes: #189301)
+    - New commands 'showupgrade', 'showdistupgrade' (Closes: #189923)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 23 Apr 2003 21:36:14 -0500
+
+wajig (0.3.19-1) unstable; urgency=low
+
+  * New upstream version released today (Closes: #187437)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu,  3 Apr 2003 14:37:06 -0600
+
+wajig (0.3.18-1) unstable; urgency=low
+
+  * New upstream version released today
+  * debian/copyright: Updated upstream location
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 22 Mar 2003 01:16:49 -0600
+
+wajig (0.3.17-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.17; 0.3.16 was also released today
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue, 11 Feb 2003 20:05:14 -0600
+
+wajig (0.3.15-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.15 (Closes: #174011, #174948)
+
+ -- Dirk Eddelbuettel <edd@eddelbuettel.com>  Thu, 30 Jan 2003 19:28:32 -0600
+
+wajig (0.3.14-2) unstable; urgency=low
+
+  * debian/control: Added grep-dctrl to Suggests (Closes: #175707)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue,  7 Jan 2003 20:10:27 -0600
+
+wajig (0.3.14-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.14
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat,  9 Nov 2002 08:09:00 -0600
+
+wajig (0.3.13-3) unstable; urgency=low
+
+  * debian/control: Build-Depends on python (Closes: #164072)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Fri, 11 Oct 2002 22:44:59 -0500
+
+wajig (0.3.13-2) unstable; urgency=low
+
+  * debian/control: Depends changed to python (>= 1.5) -- we do not need 
+    versioned Depends as .py[co] file are not shipped (anymore), and 
+    differences between Python versions should be fine (Closes: #159208)
+  * debian/control: Similarly, no longer Build-Depends on python-dev
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu,  5 Sep 2002 19:44:26 -0500
+
+wajig (0.3.13-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.13 (Closes: #150015, #150308)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 29 Jun 2002 07:07:32 -0500
+
+wajig (0.3.11-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.11 (Closes: #139157)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu,  6 Jun 2002 22:27:22 -0500
+
+wajig (0.3.10-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.10 (Closes: #148723)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat,  1 Jun 2002 08:28:25 -0500
+
+wajig (0.3.9-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.9 (Closes: #145902)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 30 May 2002 22:02:31 -0500
+
+wajig (0.3.7-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.7 (Closes: #144524, #144527))
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 28 Apr 2002 07:23:05 -0500
+
+wajig (0.3.5-3) unstable; urgency=low
+
+  * wajig.py: Ooops, apply the fix for 0.3.5-2 at the right spot.
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue, 16 Apr 2002 22:02:44 -0500
+
+wajig (0.3.5-2) unstable; urgency=low
+
+  * wajig.py: For 'wajig source', do not call 'apt-get source' as root.
+    Thanks to Christian Steigies for finding the bug, and testing the
+    the suggested fix (Closes: #142763)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 14 Apr 2002 13:49:37 -0500
+
+wajig (0.3.5-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.5 
+  * This release adds a host of new features as e.g. support for .rpm
+    packages using alien(1) and fixes a few minor bugs (Closes: #139001)
+  * debian/control: Added Suggests: alien, fping
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 31 Mar 2002 19:52:17 -0600
+
+wajig (0.3.1-1) unstable; urgency=low
+
+  * Upgraded to new upstream release 0.3.1 following interim releases 
+    0.2.13 and 0.3.0 all from this weekend. 
+  * This new upstream release fixes several bugs, adds a few new commands
+    and uses python-apt for good measure (Closes: #119900, #136439, #136280)
+  * debian/control: Depends and Build-Depends on Python 2.1 with double
+    relation python (>= 2.1), python (<< 2.2)
+  * debian/control: Also added Depends on python-apt 
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun,  3 Mar 2002 09:23:17 -0600
+
+wajig (0.2.12-2) unstable; urgency=low
+
+  * debian/rules: Remove .pyo,.pyc files (Closes: #128957)
+  * debian/control: Architecture: all (Closes: #128911)
+  * debian/rules: Corresponding changes for Arch: all
+  * The net effect of these two changes is that wajig will run slower,
+    but this is bound to make the FHS Policy happy. 
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 13 Jan 2002 10:57:52 -0600
+
+wajig (0.2.12-1) unstable; urgency=low
+
+  * Upgraded to new upstream release (Closes: #128431)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Fri, 11 Jan 2002 09:06:06 -0600
+
+wajig (0.2.11-1) unstable; urgency=low
+
+  * Upgraded to new upstream release
+ 
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon,  7 Jan 2002 19:47:42 -0600
+
+wajig (0.2.10-1) unstable; urgency=low
+
+  * Upgraded to new upstream release
+ 
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed,  5 Dec 2001 23:07:53 -0600
+
+wajig (0.2.9-1) unstable; urgency=low
+
+  * Upgraded to new upstream release
+  * debian/control: Rewrote Depends: and Suggests: with upstream author
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed,  5 Dec 2001 20:29:40 -0600
+
+wajig (0.2.8-2) unstable; urgency=low
+
+  * Adapted Python Policy (as of version 0.3.7)
+  * debian/control: Unversioned Depends on python (Closes: #118916)
+  * debian/control: Added Build-Depends on python-dev (Closes: #119009)
+  * debian/control: Clarified/rewrote Description (Closes: #119139)
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 12 Nov 2001 09:54:22 -0600
+
+wajig (0.2.8-1) unstable; urgency=low
+
+  * Initial Debian release following WNPP head's up (Closes: #115474)
+  * The release is made with the understanding that Graham will maintain
+    his wajig package once he has cleared the New Maintainer process.
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon,  5 Nov 2001 21:54:58 -0600
+
+wajig (0.2.7-1) unstable; urgency=low
+
+  * New upstream release: Minor documentation update
+
+ -- Graham Williams <Graham.Williams@acm.org>  Sat, 13 Oct 2001 09:56:37 +1000
+
+wajig (0.2.6-1) unstable; urgency=low
+
+  * New upstream release: Serious bug fix
+
+ -- Graham Williams <Graham.Williams@acm.org>  Sat,  6 Oct 2001 21:43:11 +1000
+
+wajig (0.2.5-1) unstable; urgency=low
+
+  * New upstream release: Wajig in shared /home environment
+
+ -- Graham Williams <Graham.Williams@acm.org>  Wed,  3 Oct 2001 08:24:11 +1000
+
+wajig (0.2.4-1) unstable; urgency=low
+
+  * New upstream release: Fix su problem with hold command
+
+ -- Graham Williams <Graham.Williams@acm.org>  Tue,  2 Oct 2001 13:16:05 +1000
+
+wajig (0.2.3-1) unstable; urgency=low
+
+  * New upstream release: Added reload command.
+
+ -- Graham Williams <Graham.Williams@acm.org>  Fri, 28 Sep 2001 11:25:08 +1000
+
+wajig (0.2.2-1) unstable; urgency=low
+
+  * New upstream release
+     Fix problem with removing non-existent temp files.
+  * Add wget as a dependency.
+
+ -- Graham Williams <Graham.Williams@acm.org>  Mon, 24 Sep 2001 11:19:57 +1000
+
+wajig (0.2.1-1) unstable; urgency=low
+
+  * New upstream release: Address some temp problems. Add new commands
+  updatealts, listalts, lastupdate.
+
+ -- Graham Williams <Graham.Williams@acm.org>  Thu, 20 Sep 2001 14:04:35 +1000
+
+wajig (0.2.0-1) unstable; urgency=low
+
+  * New upstream release: All old wajig commands now implemented. Ready
+  for release.
+
+ -- Graham Williams <Graham.Williams@acm.org>  Mon, 17 Sep 2001 14:00:23 +1000
+
+wajig (0.1.10-1) unstable; urgency=low
+
+  * New upstream release: Added force and hold. Improved status
+    output.
+	
+ -- Graham Williams <Graham.Williams@acm.org>  Sat, 15 Sep 2001 22:35:10 +1000
+
+wajig (0.1.9-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Graham Williams <Graham.Williams@acm.org>  Fri, 14 Sep 2001 12:38:44 +1000
+
+wajig (0.1.8-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Graham Williams <Graham.Williams@acm.org>  Fri, 14 Sep 2001 10:26:21 +1000
+
+wajig (0.1.7-1) unstable; urgency=low
+
+  * New upstream release adding new commands
+
+ -- Graham Williams <Graham.Williams@acm.org>  Thu, 13 Sep 2001 10:12:13 +1000
+
+wajig (0.1.6-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Graham Williams <Graham.Williams@acm.org>  Wed, 12 Sep 2001 19:40:47 +1000
+
+wajig (0.1.5-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Graham Williams <Graham.Williams@acm.org>  Wed, 12 Sep 2001 13:37:47 +1000
+
+wajig (0.1.4-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Graham Williams <Graham.Williams@acm.org>  Tue, 11 Sep 2001 20:19:08 +1000
+
+wajig (0.1.3-3) unstable; urgency=low
+
+  * Remove INSTALL from doc.
+
+  * Fix Upstream Author in copyright
+
+ -- Graham Williams <Graham.Williams@acm.org>  Tue, 11 Sep 2001 20:11:53 +1000
+
+wajig (0.1.3-2) unstable; urgency=low
+
+  * Add dh_installdocs to get docs installed.
+
+ -- Graham Williams <Graham.Williams@acm.org>  Tue, 11 Sep 2001 20:03:41 +1000
+
+wajig (0.1.3-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Graham Williams <Graham.Williams@acm.org>  Tue, 11 Sep 2001 19:44:22 +1000
+
+wajig (0.1.2-2) unstable; urgency=low
+
+  * Fix some of the debian files.
+
+ -- Graham Williams <Graham.Williams@acm.org>  Tue, 11 Sep 2001 19:26:34 +1000
+
+wajig (0.1.2-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Graham Williams <Graham.Williams@acm.org>  Tue, 11 Sep 2001 19:16:47 +1000
+
+wajig (0.1.1-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Graham Williams <Graham.Williams@acm.org>  Tue, 11 Sep 2001 15:12:39 +1000
+
+wajig (0.1.0-1) unstable; urgency=low
+
+  * Initial Release of rewritten Python version
+
+ -- Graham Williams <Graham.Williams@acm.org>  Fri,  7 Sep 2001 13:44:54 +1000

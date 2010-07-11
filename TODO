@@ -1,0 +1,73 @@
+Use /var/log/dpkg.log for the log, not own log?
+
+------------------------------------------------------------------------
+
+Idea from Dirk 13 Nov 2004
+
+wajig restore 041129
+
+      This will purge all packages currently installed but not listed
+      in the named snapshot, and perhaps it also installs any packages
+      listed in the snapshot but not currently installed?
+
+Not sure about restoring specific versions.  Would be possible from the 
+Japanesse archive I think.
+
+------------------------------------------------------------------------
+
+Rewrite!!!!  The code has evolved to a state where it would be best to
+redesign it properly, object-oriented.
+
+------------------------------------------------------------------------
+
+Add the following commands:
+
+ upgrade-version 4.3.0.dfsg.1-6 4.3.0.dfsg.1-8
+
+	Suggested by David Liontooth
+
+	This would upgrade every package at the first version level to 
+	that of the second version. Something like:
+
+	wajig status | grep 4.3.0.dfsg.1-6 | grep 4.3.0.dfsg.1-8 |
+	cut -f1 | xargs wajig install
+
+Possibly begin using grep-dctrl.
+
+GJig
+
+	Reconfigure (and Settings -> Gnome/...)
+	TaskSel
+	Local Dist Upgrade
+	Move
+	List Cache
+
+	How to make "Help -> Basics" as default action instead of Update!
+	In Help -> Contents, go to canonincal Web page.
+	Move full documentation out to the Web Page.
+
+	Add gjig to Gnome Menu (Under System?)
+
+	If command expects arguments then instead of error, give a text box
+	to enter the arguments, then add it to the Packages text box.
+
+========================================================================
+
+From: August Mayer <amayer@cosy.sbg.ac.at>
+Date: Thu, 02 Jun 2005 12:05:20 +0200
+
+   wajig toupgrade unstable
+
+would show all packages that are newer in unstable, even if I have a
+pin. Currently, I have to do
+
+   sudo apt-get -t unstable dist-upgrade
+
+then cancel the upgrade and install the packages I want.
+
+========================================================================
+
+Should there be an option where netselect-apt directly places the
+results into /etc/apt/sources.list?
+
+========================================================================

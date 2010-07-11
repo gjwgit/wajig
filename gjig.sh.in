@@ -1,0 +1,8 @@
+#! /bin/sh -f 
+# @configure_input@
+
+prefix=@prefix@
+
+export WAJIGDIR=@datadir@/@PACKAGE@
+
+@PYTHON@ -O $WAJIGDIR/gjig.py "$@"

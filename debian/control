@@ -1,0 +1,25 @@
+Source: wajig
+Section: admin
+Priority: optional
+Maintainer: Graham Williams <Graham.Williams@togaware.com>
+Homepage: http://wajig.togaware.com
+Standards-Version: 3.8.4
+XS-Python-Version: all
+Build-Depends-Indep: python, python-central (>= 0.5.6)
+Build-Depends: debhelper (>= 5.0.38)
+
+Package: wajig
+Architecture: all
+XB-Python-Version: all
+Depends: ${python:Depends}, ${misc:Depends}, apt, python-apt, dselect
+Suggests: wget, fping, debconf, reportbug, apt-move, dpkg-repack, alien, fakeroot, gkdebconf, lynx, python-gtk2, python-glade2, python-gnome2, gnome-terminal, locales, gnome-tasksel, deborphan, vrms, sudo, apt-show-versions, apt-listbugs
+Description: simplified Debian package management front end
+ Wajig is a single commandline wrapper around apt, apt-cache, dpkg,
+ /etc/init.d scripts and more, intended to be easy to use and providing 
+ extensive documentation for all of its functions. 
+ .
+ With a suitable sudo(1) configuration, most (if not all) package installation
+ as well as creation tasks can be done from a user shell. Wajig is also 
+ suitable for general system administration.
+ .
+ A GNOME GUI command 'gjig' is also included in the package. 
