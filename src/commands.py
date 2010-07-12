@@ -25,7 +25,6 @@
 #
 import os
 import re
-import string
 import sys
 import tempfile
 import signal
@@ -510,14 +509,16 @@ def do_install(packages, noauth=""):
     # If reading from standard input generate the list of packages.
     #
     if len(packages) == 1 and packages[0] == "-":
-        packages = string.split(
-            string.join(map(string.strip, sys.stdin.readlines())))
+        stripped = [x.strip() for x in sys.stdin.readlines()]
+        joined = str.join(stripped)
+        packages = joined.split()
     #
     # If reading packages from file generate list of packages.
     #
     elif len(packages) == 2 and packages[0] == "-f":
-        packages = string.split(string.join(map(string.strip, \
-                   (open(packages[1])).readlines())))
+        stripped = [x.strip() for x in open(packages[1]).readlines()]
+        joined = str.join(stripped)
+        packages = str.split(joined)
     #
     # Check if a specific web location was specified.
     #
@@ -596,8 +597,9 @@ def do_install_suggest(packages, type, noauth=""):
     # If reading from stanard input generate the list of packages
     #
     if len(packages) == 1 and packages[0] == "-":
-        packages = string.split(
-            string.join(map(string.strip, sys.stdin.readlines())))
+        stripped = [x.strip() for x in sys.stdin.readlines()]
+        joined = str.join(stripped)
+        packages = joined.split()
 
     #
     # For each package obtain the list of suggested packages
@@ -638,7 +640,7 @@ def do_install_suggest(packages, type, noauth=""):
     # Remove duplicates
     #
     suggest_list = suggest_list + " "
-    for i in string.split(suggest_list):
+    for i in suggest_list.split():
         suggest_list = i + " " + re.sub(" " + i + " ", ' ', suggest_list)
     #
     # For the list of supplied packages and the list of suggested packages

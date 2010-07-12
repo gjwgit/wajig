@@ -25,7 +25,6 @@
 #
 import getopt
 import os
-import string
 import sys
 import re
 import tempfile
@@ -478,11 +477,13 @@ def select_command(command, args, verbose, teaching):
         if requires_args(command, args, "a list of packages"):
             pkgs = args[1:]
             if len(pkgs) == 1 and pkgs[0] == "-":
-                pkgs = string.split(
-                    string.join(map(string.strip, sys.stdin.readlines())))
+                stripped = [x.strip() for x in sys.stdin.readlines()]
+                joined = str.join(stripped)
+                pkgs = joined.split()
             elif len(pkgs) == 2 and pkgs[0] == "-f":
-                pkgs = string.split(string.join(map(string.strip,
-                (open(pkgs[1])).readlines())))
+                stripped = [x.strip() for x in open(pkgs[1]).readlines()]
+                joined = str.join(stripped)
+                pkgs = joined.split()
             #
             # Print message here since no messages are printed for the command.
             #
@@ -510,19 +511,22 @@ def select_command(command, args, verbose, teaching):
     elif command in ["filedownload", "downloadfile"]:
         if requires_one_arg(command, args,
         "a file name containing list of packages"):
-            pkgs = string.join(map(string.strip, (open(args[1])).readlines()))
+            stripped = [x.strip() for x in open(args[1]).readlines()]
+            pkgs = str.join(stripped)
             perform.execute("apt-get --download-only install " + pkgs, root=1)
 
     elif command in ["fileinstall", "installfile"]:
         if requires_one_arg(command, args,
         "a file name containing list of packages"):
-            pkgs = string.join(map(string.strip, (open(args[1])).readlines()))
+            stripped = [x.strip() for x in open(args[1]).readlines()]
+            pkgs = str.join(stripped)
             perform.execute("apt-get install " + pkgs, root=1)
 
     elif command in ["fileremove", "removefile"]:
         if requires_one_arg(command, args,
         "a file name containing list of packages"):
-            pkgs = string.join(map(string.strip, (open(args[1])).readlines()))
+            stripped = [x.strip() for x in open(args[1]).readlines()]
+            pkgs = str.join(stripped)
             perform.execute("apt-get remove " + pkgs, root=1)
 
     elif command in ["findfile", "locate"]:

@@ -31,7 +31,6 @@
 #
 #------------------------------------------------------------------------
 import os
-import string
 import tempfile
 import socket
 import datetime
@@ -273,8 +272,8 @@ def count_upgrades():
               "awk '$2 != $3 {print}' | sort -k 1b,1 | join - " + ifile + " |" +\
               "awk '$4 != $3 {print}' | wc -l | awk '{print $1}' "
     # 090425 Use langC=True to work with change from coreutils 6.10 to 7.2
-    count = string.split(perform.execute(command, noquiet=1, pipe=1,
-            langC=True).read())[0]
+    count = perform.execute(command, noquiet=1, pipe=1,
+            langC=True).read().split()[0]
     if os.path.exists(ifile):
         os.remove(ifile)
     return count
@@ -320,16 +319,16 @@ def load_dictionaries():
 
     afile = open(available_file, "r").readlines()
     for i in range(0, len(afile)):
-        available_list[string.split(afile[i])[0]] = string.split(afile[i])[1]
+        available_list[afile[i].split()[0]] = afile[i].split()[1]
 
     pfile = open(previous_file, "r").readlines()
     for i in range(0, len(pfile)):
-        previous_list[string.split(pfile[i])[0]] = string.split(pfile[i])[1]
+        previous_list[pfile[i].split()[0]] = pfile[i].split()[1]
 
     ifile = perform.execute(gen_installed_command_str(),
                             noquiet=1, pipe=1).readlines()
     for i in range(0, len(ifile)):
-        installed_list[string.split(ifile[i])[0]] = string.split(ifile[i])[1]
+        installed_list[ifile[i].split()[0]] = ifile[i].split()[1]
 
 
 def get_available_list():
