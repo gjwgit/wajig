@@ -3,6 +3,8 @@ wajig (2.0.48) unstable; urgency=low
   * Tidy up the list of commands from the "list-commands"
     command. (Closes: #582252).
 
+  * show downgraded packages in 'wajig list-log'. (Closes: #366796).
+
  --
 
 wajig (2.0.47) unstable; urgency=low
