@@ -242,8 +242,15 @@ def finish_log():
             elif o[0] > n[0]:
                 lf.write("%s %s %s %s\n" % (ts, "install", n[0], n[1]))
                 n = new_iter.next().strip().split(" ")
+
         if o[1] != n[1]:
-            lf.write("%s %s %s %s\n" % (ts, "upgrade", n[0], n[1]))
+            old_version = o[1].split(".")  # for a more accurate comparison
+            new_version = n[1].split(".")  # same
+            if old_version > new_version:
+                lf.write("{0} {1} {2} {3}\n".format(ts, "downgrade", n[0], n[1]))
+            else:
+                lf.write("{0} {1} {2} {3}\n".format(ts, "upgrade", n[0], n[1]))
+
     os.remove(old_log)
 
 #------------------------------------------------------------------------
