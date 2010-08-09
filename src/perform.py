@@ -77,7 +77,7 @@ def set_teaching_level(new_level):
     teaching = new_level
 
 
-def set_simulate_level(new_level):
+def set_simulate(new_level):
     global simulate
     simulate = new_level
 

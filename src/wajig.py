@@ -218,33 +218,21 @@ def main():
     #
     # Remove commas and insert the arguments appropriately.
     #
-    #print sys.argv
     oldargv = sys.argv
     sys.argv = oldargv[0:2]
     for i in range(2, len(oldargv)):
         sys.argv += oldargv[i].split(",")
-    #print sys.argv
-    #
-    # Process any command line options
-    #
+
     try:
-        #
-        # Parse the command line arguments
-        #
         sopts = "dhnpqstvy"
         lopts = ["debug", "help", "pause", "quiet", "simulate", "teaching",
                  "verbose=", "version", "yes", "noauth"]
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
     except getopt.error, e:
-        #
-        # On error print help information and exit:
-        #
         print e
         documentation.usage()
         finishup(2)
-    #
-    # Initialise variables
-    #
+
     simulate = False
     teaching = False
     verbose = 0
@@ -267,7 +255,7 @@ def main():
             perform.set_quiet()
         elif o in ("-s", "--simulate"):
             simulate = True
-            perform.set_simulate_level(simulate)
+            perform.set_simulate(simulate)
         elif o in ("-t", "--teaching"):
             teaching = True
             perform.set_teaching_level(teaching)
