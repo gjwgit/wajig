@@ -279,7 +279,7 @@ def count_upgrades():
               "awk '$2 != $3 {print}' | sort -k 1b,1 | join - " + ifile + " |" +\
               "awk '$4 != $3 {print}' | wc -l | awk '{print $1}' "
     # 090425 Use langC=True to work with change from coreutils 6.10 to 7.2
-    count = perform.execute(command, noquiet=True, pipe=1,
+    count = perform.execute(command, noquiet=True, pipe=True,
             langC=True).read().split()[0]
     if os.path.exists(ifile):
         os.remove(ifile)
@@ -333,7 +333,7 @@ def load_dictionaries():
         previous_list[pfile[i].split()[0]] = pfile[i].split()[1]
 
     ifile = perform.execute(gen_installed_command_str(),
-                            noquiet=True, pipe=1).readlines()
+                            noquiet=True, pipe=True).readlines()
     for i in range(0, len(ifile)):
         installed_list[ifile[i].split()[0]] = ifile[i].split()[1]
 
