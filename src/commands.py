@@ -82,14 +82,14 @@ def ping_host(hostname):
     # Check if fping is installed.
     #
     if perform.execute("fping localhost 2>/dev/null >/dev/null",
-                       display=0) != 0:
+                       display=False) != 0:
         print "JIG Warning: fping was not found. " +\
               "Consider installing the package fping.\n"
     #
     # Check if we can talk to the HOST
     #
     elif perform.execute("fping " + hostname + " 2>/dev/null >/dev/null",
-                         display=0) != 0:
+                         display=False) != 0:
         print "JIG Warning: Could not contact the Debian server at\n" +\
               "             " + hostname + """
              Perhaps it is down or you are not connected to the network.
@@ -1064,7 +1064,7 @@ def do_status(packages, snapshot=False):
     # See Bug#288852 and Bug#119899.
     #
     perform.execute(changes.gen_installed_command_str() + " > " + ifile,
-                    noquiet=1, langC=True)
+                    noquiet=True, langC=True)
     #
     # Build the command to list the status of installed packages.
     #
@@ -1171,7 +1171,7 @@ def do_unhold(packages):
 # UPDATE
 #
 #------------------------------------------------------------------------
-def do_update(query=0, quiet=0):
+def do_update(query=0, quiet=False):
     """Perform.Execute an update of the available packages
 
     Arguments:

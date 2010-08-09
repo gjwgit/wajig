@@ -221,7 +221,7 @@ old_log = tempfile.mktemp()
 def start_log():
     # Write list of installed to tmp file
     perform.execute(gen_installed_command_str() + " > " + old_log,
-                    noquiet=1, langC=True)
+                    noquiet=True, langC=True)
 
 
 def finish_log():
@@ -230,7 +230,7 @@ def finish_log():
     # Generate new list of installed and compare to old
     lf = file(log_file, "a")
     new_iter = perform.execute(gen_installed_command_str(),
-                               noquiet=1, langC=True, pipe=True)
+                               noquiet=True, langC=True, pipe=True)
     old_iter = file(old_log)
     for o in old_iter:
         o = o.strip().split(" ")
@@ -274,12 +274,12 @@ def count_upgrades():
     ifile = tempfile.mktemp()
     # Use langC in the following since it uses a grep.
     perform.execute(gen_installed_command_str() + " > " + ifile,
-                    langC=True, noquiet=1)
+                    langC=True, noquiet=True)
     command = "join " + previous_file + " " + available_file + " |" +\
               "awk '$2 != $3 {print}' | sort -k 1b,1 | join - " + ifile + " |" +\
               "awk '$4 != $3 {print}' | wc -l | awk '{print $1}' "
     # 090425 Use langC=True to work with change from coreutils 6.10 to 7.2
-    count = perform.execute(command, noquiet=1, pipe=1,
+    count = perform.execute(command, noquiet=True, pipe=1,
             langC=True).read().split()[0]
     if os.path.exists(ifile):
         os.remove(ifile)
@@ -333,7 +333,7 @@ def load_dictionaries():
         previous_list[pfile[i].split()[0]] = pfile[i].split()[1]
 
     ifile = perform.execute(gen_installed_command_str(),
-                            noquiet=1, pipe=1).readlines()
+                            noquiet=True, pipe=1).readlines()
     for i in range(0, len(ifile)):
         installed_list[ifile[i].split()[0]] = ifile[i].split()[1]
 

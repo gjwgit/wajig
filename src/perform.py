@@ -62,14 +62,14 @@ if os.path.exists("/usr/bin/sudo") and user != 'root':
 #------------------------------------------------------------------------
 
 quiet = ""
+simulate = False
+teaching = False
 
 
 def set_quiet():
     global quiet
     quiet = "> /dev/null"
 
-simulate = 0
-teaching = 0
 
 
 def set_teaching_level(new_level):
@@ -85,11 +85,11 @@ def set_simulate_level(new_level):
 def concat(args):
     result = ""
     for a in args:
-        result = result + "'" + a + "' "
+        result = "{0}'{1}' ".format(result, a)
     return result
 
 
-def execute(command, root=0, noquiet=0, display=1, pipe=0, langC=False):
+def execute(command, root=False, noquiet=False, display=True, pipe=False, langC=False):
     """Ask the operating system to perform a command.
 
     Arguments:
@@ -108,11 +108,11 @@ def execute(command, root=0, noquiet=0, display=1, pipe=0, langC=False):
     Note that the PIPE option was added as a minor modification and has not
     been fully tested, but is extremely useful in avoiding temporary files."""
 
-    if teaching > 0:
+    if teaching:
         print "Performing: " + command
-    elif simulate > 0 and display == 1:
+    elif simulate and display:
         print command
-    if root > 0:
+    if root:
         if setroot == "/usr/bin/sudo":
             #
             # Bug #320126. Karl suggested that we use -v to preset the
@@ -153,7 +153,7 @@ Using `su' and requiring root password. Install `sudo' to support user
 passwords. See wajig documentation (wajig doc) for details.
 """
             command = setroot + " -c '" + command + "'"
-    if not noquiet > 0:
+    if not noquiet:
         command = command + quiet
     #
     # Bug#119899 from Michal Politowski <mpol@charybda.icm.edu.pl>
@@ -171,12 +171,9 @@ passwords. See wajig documentation (wajig doc) for details.
     #
     if langC:
         command = "LC_ALL=C; export LC_ALL; " + command
-    if simulate == 0:
-        if pipe == 0:
-            #if pause:
-            #    command += " | /usr/bin/pager"
-            # return os.system(command)
-            return os.system(command)
-        else:
+    if not simulate:
+        if pipe:
             return os.popen(command)
+        else:
+            return os.system(command)
     return 0
