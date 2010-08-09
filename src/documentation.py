@@ -201,7 +201,7 @@ Run 'wajig -v commands' for a complete list of commands.
  status         Show the version and available version of packages
  status-search  Show the version and available version of matching packages
  stop           Stop a daemon, e.g., gdm, apache (see list-daemons)
- tasksel        Run the Gnome task selector to install groups of packages
+ tasksel        Run the task selector to install groups of packages
  toupgrade      List packages with newer versions available for upgrading
  unhold         Remove listed packages from hold so they are again upgraded
  update         Update the list of downloadable packages

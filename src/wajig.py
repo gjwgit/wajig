@@ -994,8 +994,8 @@ def select_command(command, args, verbose, teaching):
 
     elif command == "tasksel":
         if requires_no_args(command, args):
-            if requires_package("gnome-tasksel", "/usr/bin/gnome-tasksel"):
-                perform.execute("gnome-tasksel", root=True)
+            if requires_package("tasksel", "/usr/bin/tasksel"):
+                perform.execute("tasksel", root=True)
 
     elif command == "toupgrade":
         if requires_no_args(command, args):

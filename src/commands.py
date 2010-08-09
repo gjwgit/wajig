@@ -725,7 +725,7 @@ def do_listnames(pattern, pipe=False):
     if len(results) == 0:
         sys.exit(1)
     # End fix for Bug #292581
-    return perform.execute(command, root=needsudo, pipe)
+    return perform.execute(command, root=needsudo, pipe=pipe)
 
 
 def do_listscripts(pkg):
