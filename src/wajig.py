@@ -40,7 +40,6 @@ import perform
 ########################################################################
 # Global Variables
 #
-progname = "wajig"
 pause = False
 interactive = False  # Set to true for interactive command line
 match_commands = []  # For interactive command line completion
@@ -54,7 +53,7 @@ match_commands = []  # For interactive command line completion
 def requires_no_args(command, args):
     if len(args) > 1:
         message = "no further arguments"
-        print progname + ": Error: " + command.upper() + " requires " + message
+        print "WaJIG Error: " + command.upper() + " requires " + message
         finishup(1)
         return False
     return True
@@ -62,7 +61,7 @@ def requires_no_args(command, args):
 
 def requires_one_arg(command, args, message):
     if len(args) != 2:
-        print progname + ": Error: " + command.upper() + " requires " + message
+        print "WaJIG Error: " + command.upper() + " requires " + message
         finishup(1)
         return False
     return True
@@ -70,7 +69,7 @@ def requires_one_arg(command, args, message):
 
 def requires_two_args(command, args, message):
     if len(args) != 3:
-        print progname + ": Error: " + command.upper() + " requires " + message
+        print "WaJIG Error: " + command.upper() + " requires " + message
         finishup(1)
         return False
     return True
@@ -78,7 +77,7 @@ def requires_two_args(command, args, message):
 
 def requires_opt_arg(command, args, message):
     if len(args) > 2:
-        print progname + ": Error: " + command.upper() +\
+        print "WaJIG Error: " + command.upper() +\
               " has one optional arg: " + message
         finishup(1)
         return False
@@ -87,7 +86,7 @@ def requires_opt_arg(command, args, message):
 
 def requires_args(command, args, type):
     if len(args) == 1:
-        print progname + ": Error: " + command.upper() + " requires " + type
+        print "WaJIG Error: " + command.upper() + " requires " + type
         finishup(1)
         return False
     return True
@@ -749,7 +748,7 @@ def select_command(command, args, verbose, teaching):
             elif args[1].lower() == "install":
                 commands.do_describe_new(install=True)
             else:
-                print progname + ": Error: NEW only accepts optional " +\
+                print "WaJIG Error: NEW only accepts optional " +\
                       "argument INSTALL"
                 finishup(1)
                 return False
@@ -766,7 +765,7 @@ def select_command(command, args, verbose, teaching):
             elif args[1].lower() == "install":
                 commands.do_newupgrades(install=True)
             else:
-                print progname + ": Error: NEWUPGRADES only accepts " +\
+                print "WaJIG Error: NEWUPGRADES only accepts " +\
                       "optional argument INSTALL"
                 finishup(1)
                 return False
