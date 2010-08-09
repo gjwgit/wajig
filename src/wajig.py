@@ -146,7 +146,7 @@ def list_commands():
 
 
 def wajig_completer(text, state):
-    """The starts of a completer function. Very rough so far."""
+    """The start of a completer function. Very rough so far."""
     #
     # Check first that we are completing just the first word.
     # Otherwise do not perform any completion.
@@ -301,15 +301,6 @@ def main():
     if len(args) == 0:
         interactive_shell()
         return
-    #
-    # THIS IS NOW REDUNDANT AS NO ARGS MEANS GO INTERACTIVE AS ABOVE
-    # If no command then print usage
-    #
-    #print args
-    #sys.exit(0)
-    if len(args) == 0:
-        documentation.usage()
-        finishup()
     #
     # Process the command. Lowercase it so that we allow any case
     # for commands and allow hyphens and underscores and slash.

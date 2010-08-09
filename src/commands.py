@@ -537,24 +537,24 @@ def do_install(packages, noauth=""):
         else:
             print "Wajig: The location " + packages[0] +\
                   " was not found. Check and try again."
-            return()
+            return
     #
     # Check if a specific .DEB file was specified
     #
     elif re.match(".*\.deb$", packages[0]):
-        command = "dpkg -i "
+        command = "dpkg -i"
         for pkg in packages:
             if os.path.exists(pkg):
-                command = command + "'" + pkg + "' "
+                command = "{0} '{1}' ".format(command, pkg)
             elif os.path.exists("/var/cache/apt/archives/" + pkg):
-                command = command + "'/var/cache/apt/archives/" + pkg + "' "
+                command = "{0} '/var/cache/apt/archives/{1}' ".format(command, pkg)
             else:
                 print "Wajig: The file " + pkg +\
                       " not found in either the" +\
                       " current directory\n" +\
                       "       nor in /var/cache/apt/archives/\n" +\
                       "       Please confirm location and try again."
-                return()
+                return
         perform.execute(command, root=1)
     #
     # Check if a "/+" is in a package name then use the following distribution

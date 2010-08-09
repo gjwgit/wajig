@@ -136,24 +136,12 @@ tempfile.tempdir = init_dir
 
 
 def get_available_filename():
-    """Obtain the name of the file containing list of available packages.
-
-    Arguments:
-
-    Returns:
-    string      The filename"""
-
+    "Obtain the name of the file containing list of available packages."
     return available_file
 
 
 def get_previous_filename():
-    """Obtain the name of the file containing list of previous packages.
-
-    Arguments:
-
-    Returns:
-    string      The filename"""
-
+    "Obtain the name of the file containing list of previous packages."
     return previous_file
 
 #------------------------------------------------------------------------
@@ -164,10 +152,8 @@ def get_previous_filename():
 def update_available(noreport=False):
     """Generate current list of available packages, backing up the old list.
 
-    Arguments:
-    noreport    If set then do not report on the number of packages.
-
-    Returns:"""
+    noreport    If set, do not report on the number of packages.
+    """
 
     if not os.path.exists(available_file):
         f = open(available_file, "w")
@@ -259,18 +245,18 @@ def finish_log():
 #
 #------------------------------------------------------------------------
 def gen_installed_command_str():
-    """Generate command to list installed packages and their status."""
+    "Generate command to list installed packages and their status."
     command = "cat /var/lib/dpkg/status | " +\
               "egrep '^(Package|Status|Version):' | " +\
               "awk '/^Package: / {pkg=$2} " +\
               "     /^Status: / {s1=$2;s2=$3;s3=$4}" +\
               "     /^Version: / {print pkg,$2,s1,s2,s3}' | " +\
               "grep 'ok installed' | awk '{print $1,$2}' | sort -k 1b,1"
-    return(command)
+    return command
 
 
 def count_upgrades():
-    """Return as a string the number of new upgrades since last update."""
+    "Return as a string the number of new upgrades since last update."
     ifile = tempfile.mktemp()
     # Use langC in the following since it uses a grep.
     perform.execute(gen_installed_command_str() + " > " + ifile,
@@ -291,8 +277,7 @@ def reset_files():
         os.remove(available_file)
     if os.path.exists(previous_file):
         os.remove(previous_file)
-    update_available(noreport=1)
-    update_available(noreport=1)
+    update_available(noreport=True)
 
 #------------------------------------------------------------------------
 #
@@ -300,12 +285,7 @@ def reset_files():
 #
 #------------------------------------------------------------------------
 def ensure_initialised():
-    """Make sure the init_dir and files exist and if not, create them.
-
-    Arguments:
-
-    Returns:"""
-
+    "Create the init_dir and files if they don't exist."
     if not os.path.exists(available_file):
         reset_files()
 
@@ -320,7 +300,7 @@ installed_list = {}
 
 
 def load_dictionaries():
-    """Create dictionaries of avail/installed packages for in-memory tasks."""
+    "Create dictionaries of avail/installed packages for in-memory tasks."
 
     ensure_initialised()
 
@@ -339,62 +319,33 @@ def load_dictionaries():
 
 
 def get_available_list():
-    """Obtain the dictionary of available packages.
-
-    Arguments:
-
-    Returns:
-    dictionary  Available packages"""
-
+    "Obtain the dictionary of available packages."
     return available_list
 
 
 def get_previous_list():
-    """Obtain the dictionary of previously available packages.
-
-    Arguments:
-
-    Returns:
-    dictionary  Previously available packages"""
-
+    "Obtain the dictionary of previously available packages."
     return previous_list
 
 
 def get_available_version(pkg):
-    """Obtain the package's available version number.
-
-    Arguments:
-
-    Returns:
-    string      available version"""
-
+    "Obtain the package's available version number."
     return available_list[pkg]
 
 
 def get_previous_version(pkg):
-    """Obtain the package's previously available version number.
-
-    Arguments:
-
-    Returns:
-    string      Previous version"""
-
+    "Obtain the package's previously available version number."
     return previous_list[pkg]
 
 
 def get_installed_version(pkg):
-    """Return, as string, the package's installed version number."""
+    "Return, as string, the package's installed version number."
     # TODO: Make sure the dictionary has been loaded.
     return installed_list[pkg]
 
 
 def get_new_available():
-    """Obtain the packages available now but not previously.
-
-    Arguments:
-
-    Returns:
-    list        New packages"""
+    "Obtain the packages available now but not previously."
     load_dictionaries()
     new_list = []
     for pkg in available_list.keys():
@@ -404,12 +355,7 @@ def get_new_available():
 
 
 def get_new_upgrades():
-    """Obtain the packages upgraded since previously.
-
-    Arguments:
-
-    Returns:
-    list        Newly upgraded packages"""
+    "Obtain newly-upgraded packages"
     load_dictionaries()
     upgraded_list = []
     apt_pkg.init_system()  # Not sure why!
@@ -422,12 +368,7 @@ def get_new_upgrades():
 
 
 def get_to_upgrade():
-    """Obtain the packages with newer versions available.
-
-    Arguments:
-
-    Returns:
-    list        Upgradeable packages"""
+    "Obtain the packages with newer versions available."
 
     load_dictionaries()
     upgraded_list = []
@@ -447,7 +388,7 @@ def get_status(pkg):
 
 
 def get_dependees(pkg):
-    """Return a list of other installed pkgs that depend on PKG."""
+    "Return a list of other installed pkgs that depend on PKG."
     pkginfo = perform.execute("apt-cache rdepends --installed " +
                               pkg, pipe=True)
     dp = []
@@ -475,7 +416,7 @@ def get_dependees(pkg):
 
 
 def get_dependencies(pkg):
-    """Return a list of installed packages that PKG depends on."""
+    "Return a list of installed packages that PKG depends on."
     pkginfo = perform.execute("apt-cache depends --installed " +
                               pkg, pipe=True)
     dp = []
