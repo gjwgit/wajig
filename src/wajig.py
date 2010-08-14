@@ -50,53 +50,60 @@ match_commands = []  # For interactive command line completion
 #
 #------------------------------------------------------------------------
 
-def requires_no_args(command, args):
+def requires_no_args(command, args, test=False):
     if len(args) > 1:
-        message = "no further arguments"
-        print "WaJIG Error: " + command.upper() + " requires " + message
-        finishup(1)
+        if not test:
+            message = "no further arguments"
+            print "WaJIG Error: " + command.upper() + " requires " + message
+            finishup(1)
         return False
     return True
 
 
-def requires_one_arg(command, args, message):
+def requires_one_arg(command, args, message=False):
     if len(args) != 2:
-        print "WaJIG Error: " + command.upper() + " requires " + message
-        finishup(1)
+        if message:  # checks if this is a unit test
+            print "WaJIG Error: " + command.upper() + " requires " + message
+            finishup(1)
         return False
     return True
 
 
-def requires_two_args(command, args, message):
+def requires_two_args(command, args, message=False):
     if len(args) != 3:
-        print "WaJIG Error: " + command.upper() + " requires " + message
-        finishup(1)
+        if message:  # checks if this is a unit test
+            print "WaJIG Error: " + command.upper() + " requires " + message
+            finishup(1)
         return False
     return True
 
 
-def requires_opt_arg(command, args, message):
+def requires_opt_arg(command, args, message=False):
     if len(args) > 2:
-        print "WaJIG Error: " + command.upper() +\
-              " has one optional arg: " + message
-        finishup(1)
+        if message:  # checks if this is a unit test
+            print "WaJIG Error: " + command.upper() +\
+                  " has one optional arg: " + message
+            finishup(1)
         return False
     return True
 
 
-def requires_args(command, args, type):
+def requires_args(command, args, required=False):
     if len(args) == 1:
-        print "WaJIG Error: " + command.upper() + " requires " + type
-        finishup(1)
+        if required:  # checks if this is a unit test
+            print "WaJIG Error: {0} requires {1}".\
+                   format(command.upper(), required)
+            finishup(1)
         return False
     return True
 
 
-def requires_package(package, path):
+def requires_package(package, path, test=False):
     if not os.path.exists(path):
-        print 'The "' + package + '" package does not appear to be installed.'
-        print 'Consider installing it with "wajig install ' + package + '".'
-        finishup(1)
+        if not test:
+            print 'The "' + package + '" package does not appear to be installed.'
+            print 'Consider installing it with "wajig install ' + package + '".'
+            finishup(1)
         return False
     return True
 
