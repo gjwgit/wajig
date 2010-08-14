@@ -66,10 +66,12 @@ simulate = False
 teaching = False
 
 
-def set_quiet():
+def set_quiet(check=True):
     global quiet
-    quiet = "> /dev/null"
-
+    if check:
+        quiet = "> /dev/null"
+    else:
+        quiet = ""
 
 
 def set_teaching_level(new_level):
@@ -89,7 +91,8 @@ def concat(args):
     return result
 
 
-def execute(command, root=False, noquiet=False, display=True, pipe=False, langC=False):
+def execute(command, root=False, noquiet=False, display=True, pipe=False,
+            langC=False, test=False):
     """Ask the operating system to perform a command.
 
     Arguments:
@@ -109,8 +112,12 @@ def execute(command, root=False, noquiet=False, display=True, pipe=False, langC=
     been fully tested, but is extremely useful in avoiding temporary files."""
 
     if teaching:
+        if test:
+            return "Performing: " + command
         print "Performing: " + command
     elif simulate and display:
+        if test:
+            return command
         print command
     if root:
         if setroot == "/usr/bin/sudo":
@@ -147,7 +154,7 @@ def execute(command, root=False, noquiet=False, display=True, pipe=False, langC=
             # says NOPASSWD. Only other alternative might be to store
             # intermediate results in temporary files.
         else:
-            if quiet == "" and user != "root":
+            if quiet == "" and user != "root" and not test:
                 print """
 Using `su' and requiring root password. Install `sudo' to support user
 passwords. See wajig documentation (wajig doc) for details.
@@ -171,9 +178,11 @@ passwords. See wajig documentation (wajig doc) for details.
     #
     if langC:
         command = "LC_ALL=C; export LC_ALL; " + command
-    if not simulate:
+    if not simulate and not test:
         if pipe:
             return os.popen(command)
         else:
             return os.system(command)
+    if test:
+        return command
     return 0
