@@ -369,7 +369,6 @@ def get_new_upgrades():
 
 def get_to_upgrade():
     "Obtain the packages with newer versions available."
-
     load_dictionaries()
     upgraded_list = []
     apt_pkg.init_system()  # Not sure why!

@@ -1,3 +1,12 @@
+"""
+Test some of WaJIG functionality.
+
+Not yet done:
+* changes.py
+* commands.py
+* glutil.py
+"""
+
 import unittest
 from src import perform
 from src import wajig
@@ -48,37 +57,37 @@ class WaJIGTests(unittest.TestCase):
         self.assertEqual(res, check)
 
     def test_wajig_requires_args(self):
-        res = wajig.requires_args("1", ["1"])
+        res = wajig.requires_args("", [1])
         self.assertFalse(res)
-        res = wajig.requires_args("1", ["1", "2"])
+        res = wajig.requires_args("", [1, 2])
         self.assertTrue(res)
 
     def test_wajig_requires_no_args(self):
-        res = wajig.requires_no_args("1", ["1"], test=True)
+        res = wajig.requires_no_args("", [1], test=True)
         self.assertTrue(res)
-        res = wajig.requires_no_args("1", ["1", "2"], test=True)
+        res = wajig.requires_no_args("", [1, 2], test=True)
         self.assertFalse(res)
 
     def test_wajig_requires_opt_arg(self):
-        res = wajig.requires_opt_arg("", ["1", "2"])
+        res = wajig.requires_opt_arg("", [1, 2])
         self.assertTrue(res)
-        res = wajig.requires_opt_arg("", ["1", "2", "3"])
+        res = wajig.requires_opt_arg("", [1, 2, 3])
         self.assertFalse(res)
 
     def test_wajig_requires_one_arg(self):
-        res = wajig.requires_one_arg("", ["1"])
+        res = wajig.requires_one_arg("", [1])
         self.assertFalse(res)
-        res = wajig.requires_one_arg("", ["1", "2"])
+        res = wajig.requires_one_arg("", [1, 2])
         self.assertTrue(res)
-        res = wajig.requires_one_arg("", ["1", "2", "3"])
+        res = wajig.requires_one_arg("", [1, 2, 3])
         self.assertFalse(res)
 
     def test_wajig_requires_two_args(self):
-        res = wajig.requires_two_args("", ["1", "2"])
+        res = wajig.requires_two_args("", [1, 2])
         self.assertFalse(res)
-        res = wajig.requires_two_args("", ["1", "2", "3"])
+        res = wajig.requires_two_args("", [1, 2, 3])
         self.assertTrue(res)
-        res = wajig.requires_two_args("", ["1", "2", "3", "4"])
+        res = wajig.requires_two_args("", [1, 2, 3, 4])
         self.assertFalse(res)
 
     def test_wajig_requires_package(self):
