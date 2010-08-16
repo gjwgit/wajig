@@ -7,7 +7,7 @@ wajig (2.0.48) unstable; urgency=low
 
   * Remove the unavailable gnome-tasksel from Suggested. (Closes: #549574).
 
- --
+ -- Graham Williams <Graham.Williams@togaware.com>  Wed, 19 May 2010 20:17:10 +1000
 
 wajig (2.0.47) unstable; urgency=low
 
