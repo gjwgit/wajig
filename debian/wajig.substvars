@@ -1,1 +1,3 @@
-python:Depends=python (>= 2.3), python (<< 2.4)
+python:Versions=all
+python:Depends=python, python-central (>= 0.6.11)
+misc:Depends=
