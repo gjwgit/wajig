@@ -351,6 +351,13 @@ def select_command(command, args, verbose, teaching):
         if requires_no_args(command, args):
             perform.execute("apt-cdrom add", root=True)
 
+    elif command == "addrepo":
+        if requires_one_arg(command, args,
+                "a PPA (Personal Package Archive) repository to add"):
+            if requires_package("add-apt-repository",
+                                "/usr/bin/add-apt-repository"):
+                perform.execute("add-apt-repository " + args[1], root=True)
+
     elif command in ["autoalts", "autoalternatives"]:
         if requires_one_arg(command, args, "name alternative to set as auto"):
             perform.execute("update-alternatives --auto " + args[1], root=True)

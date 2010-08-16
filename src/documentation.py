@@ -99,6 +99,7 @@ Run 'wajig -v commands' for a complete list of commands.
         print """All JIG commands:
 
  addcdrom       Add a CD-ROM to the list of available sources of packages
+ addrepo        Add a Launchpad PPA (Personal Package Archive) repository
  auto-alts      Mark the alternative to be auto set (using set priorities)
  auto-clean     Remove superseded .deb files from the download cache
  auto-download  Do an update followed by a download of all updated packages
@@ -230,6 +231,7 @@ Fuller documentation can be found at http://www.togaware.com/wajig.
 
 #
 # FULL DOCUMENTATION
+# TODO: no entry for 'addrepo'
 #
     else:
         print """Welcome to JIG, bringing the pieces of system
