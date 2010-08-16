@@ -27,13 +27,13 @@ JIG, wajig and gjig are Copyright 2004-2006 (c) Graham.Williams@togaware.com
 -------
 HACKING
 -------
-hg clone https://wajig.googlecode.com/hg
+$ hg clone https://wajig.googlecode.com/hg
 
 
 -----------------------
 How to build a deb file
 -----------------------
-autoconf configure.in > configure
-chmod 755 configure
-./configure
-dpkg-buildpackage -b -uc
+$ autoconf configure.in > configure
+$ chmod 755 configure
+$ ./configure
+$ dpkg-buildpackage -b -uc
