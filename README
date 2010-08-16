@@ -24,6 +24,7 @@ captured in the NEWS file.
 JIG, wajig and gjig are Copyright 2004-2006 (c) Graham.Williams@togaware.com
 
 How to build a deb file:
-* cd into wajig root dir
-* $ autoconf configure.in > configure
-* $ chmod 755 configure
+$ autoconf configure.in > configure
+$ chmod 755 configure
+$ ./configure --prefix=/usr
+$ dpkg-buildpackage -b -uc
