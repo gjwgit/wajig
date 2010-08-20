@@ -43,13 +43,13 @@ import perform
 pause = False
 interactive = False  # Set to true for interactive command line
 match_commands = []  # For interactive command line completion
+backup = False
 
 #------------------------------------------------------------------------
 #
 # SUPPORT METHODS
 #
 #------------------------------------------------------------------------
-
 def requires_no_args(command, args, test=False):
     if len(args) > 1:
         if not test:
@@ -222,6 +222,7 @@ def main():
     global pause
     global yes
     global noauth
+    global backup
     #
     # Remove commas and insert the arguments appropriately.
     #
@@ -231,9 +232,9 @@ def main():
         sys.argv += oldargv[i].split(",")
 
     try:
-        sopts = "dhnpqstvy"
-        lopts = ["debug", "help", "pause", "quiet", "simulate", "teaching",
-                 "verbose=", "version", "yes", "noauth"]
+        sopts = "bdhnpqstvy"
+        lopts = ["backup", "debug", "help", "pause", "quiet", "simulate",
+                 "teaching", "verbose=", "version", "yes", "noauth"]
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
     except getopt.error, e:
         print e
@@ -250,23 +251,25 @@ def main():
     # Action the command line options
     #
     for o, a in opts:
-        if o in ("-h", "--help"):
+        if o in ["-h", "--help"]:
             documentation.usage()
             finishup()
-        elif o in ("-d", "--debug"):
+        elif o in ["-b", "--backup"]:
+            backup = True
+        elif o in ["-d", "--debug"]:
             debug = True
-        elif o in ("-p", "--pause"):
+        elif o in ["-p", "--pause"]:
             pause = True
             perform.pause = True
-        elif o in ("-q", "--quiet"):
+        elif o in ["-q", "--quiet"]:
             perform.set_quiet()
-        elif o in ("-s", "--simulate"):
+        elif o in ["-s", "--simulate"]:
             simulate = True
             perform.set_simulate(simulate)
-        elif o in ("-t", "--teaching"):
+        elif o in ["-t", "--teaching"]:
             teaching = True
             perform.set_teaching_level(teaching)
-        elif o in ("-y", "--yes"):
+        elif o in ["-y", "--yes"]:
             yes = " --yes "
         # The --force-yes is a dangerous option that will cause apt to
         # continue without prompting if it is doing something
@@ -275,7 +278,7 @@ def main():
         # your system! Configuration Item: APT::Get::force-yes.
         # elif o in ("-Y", "--force-yes"):
         #    yes = " --yes --force-yes"
-        elif o in ("-n", "--noauth"):
+        elif o in ["-n", "--noauth"]:
             noauth = " --allow-unauthenticated "
         elif o == "-v":
             verbose = verbose + 1
@@ -828,7 +831,7 @@ def select_command(command, args, verbose, teaching):
                     cat = "zcat"
                 if os.path.exists(readme):
                     found = True
-                    print "=" * 30 + " " + r + " " + "=" * 30
+                    print "="*30 + " " + r + " " + "="*30
                     sys.stdout.flush()
                     perform.execute(cat + " " + readme)
             if not found:
@@ -1025,7 +1028,14 @@ def select_command(command, args, verbose, teaching):
                 perform.execute("update-usbids", root=True)
 
     elif command == "upgrade":
-        if len(args) > 1:
+        if backup and requires_package("dpkg-repack", "/usr/bin/dpkg-repack")\
+        and requires_package("fakeroot", "/usr/bin/fakeroot"):
+            if len(args) > 1:
+                bkdir = args[1]
+            else:
+                bkdir = None
+            changes.backup_before_upgrade(bkdir)
+        elif len(args) > 1:
             perform.execute("apt-get install " + perform.concat(args[1:]),
                                 root=True)
         else:

@@ -65,7 +65,6 @@ quiet = ""
 simulate = False
 teaching = False
 
-
 def set_quiet(check=True):
     global quiet
     if check:

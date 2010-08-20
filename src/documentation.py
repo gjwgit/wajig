@@ -54,6 +54,7 @@ def usage():
         Gnome-jig (gjig) provides a Gnome interface to JIG.
 
         Options include:
+        -b|--backup     Backup packages before they are upgraded.
         -d|--debug      Catch exceptions thrown by the program.
         -h|--help       Print this documentation and exit.
         -n|--noauth     Allow packages from unathenticated archives.
@@ -210,8 +211,8 @@ Run 'wajig -v commands' for a complete list of commands.
  update-pci-ids Updates the local list of PCI ids from the internet master list
  update-usb-ids Updates the local list of USB ids from the internet master list
  upgrade        Upgrade all of the installed packages or just those listed
- verify		Check the md5sums of a package.
- version	Show the current version of wajig.
+ verify         Check the md5sums of a package.
+ version        Show the current version of wajig.
  versions       List version and distribution of (all) packages.
  whatis         A synonym for describe
  whichpkg       Find the package that supplies the given command or file
@@ -638,6 +639,15 @@ UPGRADING PACKAGES
 You can upgrade all installed packages with:
 
   $ wajig upgrade                       (apt-get -u upgrade)
+
+You can also backup packages just before upgrading them with:
+
+  $ wajig --backup upgrade              (apt-get -u upgrade)
+
+This will run "dpkg-repack" inside a dated directory in "~/.wajig/backups"
+and place the packages in there. You have an option to specify another
+directory: "wajig -b upgrade here" will create "here/2010-08-20_22:53:42"
+in the current directory, for example, and place the packages in there.
 
 And you can upgrade all installed packages, remove those packages that
 need to be removed (for various reasons, including issues to do with

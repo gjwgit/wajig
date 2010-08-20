@@ -1,7 +1,7 @@
 """
 Test some of WaJIG functionality.
 
-Not yet done:
+TODO:
 * changes.py
 * commands.py
 * glutil.py
@@ -14,7 +14,9 @@ from src import wajig
 
 class WaJIGTests(unittest.TestCase):
 
+    # ----
     # testing perform.py
+    # ----
     def test_perform_normal(self):
         res = perform.execute("TEST", test=True)
         self.assertEqual(res, "set -o noglob; TEST")
@@ -49,11 +51,13 @@ class WaJIGTests(unittest.TestCase):
         res = perform.concat(["TEST1", "TEST2"])
         self.assertEqual(res, "'TEST1' 'TEST2' ")  # me not happy wit' this
 
+    # ----
     # testing wajig.py
+    #
     # missing:
     # * wajig_completer()
     # * wajig_listcommands()
-
+    # ----
     def test_wajig_requires_args(self):
         res = wajig.requires_args("", [1])
         self.assertFalse(res)

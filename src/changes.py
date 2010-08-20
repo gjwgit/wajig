@@ -34,6 +34,8 @@ import os
 import tempfile
 import socket
 import datetime
+import time
+import apt
 
 #------------------------------------------------------------------------
 #
@@ -427,3 +429,28 @@ def get_dependencies(pkg):
         if l.find(":") >= 0 and l.find("<") < 0:
             dp.append(l.split()[1])
     return dp
+
+
+def backup_before_upgrade(bkdir):
+    perform.execute("apt-get update", root=True)
+    cache = apt.Cache()
+    cache.upgrade()
+    pkgs = [pkg.name for pkg in cache.get_changes()]
+    if pkgs:
+        date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+        if bkdir:
+            target = os.path.abspath(bkdir + "/" + date)
+            try:
+                os.makedirs(target)
+            except Exception, e:
+                print "Quitting:", e
+        else:
+            target = init_dir + "/backups/" + date
+            os.makedirs(target)
+        os.chdir(target)
+        print "The packages will saved in", target
+        for pkg in pkgs:
+            command = "fakeroot -u dpkg-repack " + pkg
+            perform.execute(command)
+    else:
+        print "No upgrades."
