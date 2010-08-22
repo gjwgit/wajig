@@ -470,7 +470,11 @@ available on it using:
 
   $ wajig add-cd-rom
 
+To add a Launchpad PPA (Personal Package Archive) repository (used by
+Ubuntu) the ADD-REPO command con be used. For example, to add the
+daily builds of Google's Chromium browser, do the following:
 
+  $ wajig addrepo ppa:chromium-daily
 
 If you want to check when you last did an update then:
 
@@ -719,12 +723,12 @@ feature on.
 
 INSTALLING ALIEN PACKAGES
 
-RedHat is certainly the leader in terms of installed base. Some
-packages (particularly commercial packages) are available as RedHat
-packages (with the rpm extension). These can usually be installed in
-Debian with little effort.  The alien package is required to convert
-the rpm into deb format which can then be installed. This is taken
-care of by wajig:
+RedHat has quite an installed base of users. Some packages
+(particularly commercial packages) are available as RedHat packages
+(with the rpm extension). These can usually be installed in Debian
+with little effort.  The alien package is required to convert the rpm
+into deb format which can then be installed. This is taken care of by
+wajig:
 
   $ wajig rpminstall gmyclient-0.0.91b-1.i386.rpm
 

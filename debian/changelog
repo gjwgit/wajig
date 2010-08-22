@@ -1,13 +1,26 @@
 wajig (2.0.48) unstable; urgency=low
 
+  * Add new command ADDREPO to add a Launchpad PPA. Uses
+    add-apt-repository. (Tshepang Lekhonkhobe)
+  
+  * Add -b (backup) option to UPGRADE command so it is easier to revert to
+    a previous state if a problem arises. Uses dpkg-repack. (Tshepang
+    Lekhonkhobe)
+  
+  * Cleanup debian meta data and add unit testing and cleanup various
+    python code and improve readability and upgrade deprecated string
+    module. (Tshepang Lekhonkhobe)
+
   * Tidy up the list of commands from the "list-commands"
-    command. (Closes: #582252).
+    command. (Tshepang Lekhonkhobe) (Closes: #582252).
 
-  * Show downgraded packages in 'wajig list-log'. (Closes: #366796).
+  * Show downgraded packages in 'wajig list-log'. (Tshepang Lekhonkhobe)
+    (Closes: #366796).
 
-  * Remove the unavailable gnome-tasksel from Suggested. (Closes: #549574).
+  * Remove the unavailable gnome-tasksel from Suggested. (Tshepang
+    Lekhonkhobe) (Closes: #549574).
 
- -- Graham Williams <Graham.Williams@togaware.com>  Wed, 19 May 2010 20:17:10 +1000
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 22 Aug 2010 19:25:42 +1000
 
 wajig (2.0.47) unstable; urgency=low
 
