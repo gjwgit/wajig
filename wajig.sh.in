@@ -2,6 +2,7 @@
 # @configure_input@
 
 prefix=@prefix@
+datarootdir=@datarootdir@
 
 export WAJIGDIR=@datadir@/@PACKAGE@
 

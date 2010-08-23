@@ -9,6 +9,7 @@ top_srcdir      = @top_srcdir@
 prefix		= @prefix@
 exec_prefix	= ${DESTDIR}/@exec_prefix@
 bindir 		= @bindir@
+datarootdir     = @datarootdir@
 datadir		= ${DESTDIR}/@datadir@/@PACKAGE@
 INSTALL		= @INSTALL@
 sharedir        = ${DESTDIR}/${prefix}/share/@PACKAGE@

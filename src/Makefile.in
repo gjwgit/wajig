@@ -6,6 +6,7 @@ prefix		= @prefix@
 exec_prefix	= ${DESTDIR}/@exec_prefix@
 bindir 		= @bindir@
 datadir		= ${DESTDIR}/@datadir@/@PACKAGE@
+datarootdir     = @datarootdir@
 INSTALL		= @INSTALL@
 srcdir		= @srcdir@
 pycomp		= @top_srcdir@/py-compile

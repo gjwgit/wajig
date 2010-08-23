@@ -3,7 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
 Homepage: http://wajig.togaware.com
-Standards-Version: 3.8.4
+Standards-Version: 3.9.1
 XS-Python-Version: all
 Build-Depends-Indep: python, python-central (>= 0.5.6)
 Build-Depends: debhelper (>= 5.0.38)
