@@ -408,10 +408,10 @@ def select_command(command, args, verbose, teaching):
             if requires_package("fakeroot", "/usr/bin/fakeroot"):
                 # First make sure dependencies are met
                 result = perform.execute("apt-get build-dep " +
-                                         perform.concat(args[1:]), root=True)
+                                          perform.concat(args[1:]), root=True)
                 if not result:
-                    perform.execute("fakeroot " + "apt-get source -b " +
-                                    perform.concat(args[1:]))
+                    perform.execute("apt-get source -b " +
+                                     perform.concat(args[1:]), root=True)
 
     elif command == "builddepend":
         if requires_args(command, args, "a list of package names"):

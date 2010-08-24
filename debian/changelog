@@ -1,3 +1,10 @@
+wajig (2.0.49) unstable; urgency=low
+
+  * Get "wajig build" to use sudo instead of fakeroot to avoid
+    permission-related build failures for some packages.  (Closes: #464003).
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 22 Aug 2010 19:25:42 +1000
+
 wajig (2.0.48) unstable; urgency=low
 
   * Add new command ADDREPO to add a Launchpad PPA. Uses
