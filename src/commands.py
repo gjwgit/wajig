@@ -852,22 +852,11 @@ def do_changelog(packages):
     ping_host("packages.debian.org")
     packages = map_sources(packages)
     if not packages:
-        # list the original package name (maybe it is a source package)
-        # packages = map(lambda(x): [x,x], orig)
         print "No package of that name found - perhaps it's a source package."
     for pk in packages:
-
-        # map_sources was changed (gjw 17 Feb 2005) to return pairs
-        # (source package name, original package name) so that we can
-        # track the original package name in case the source package
-        # is not an installable package. Fixes Bug #295455.  (gjw 23
-        # Apr 2006) With the change to using the changelog:pkg syntax,
-        # we don't any longer really need this.
-
         p = pk[0]
 
         # Print a header.
-
         print "="*((70-len(p))/2) + " " + p + " " + "="*((70-len(p))/2)
         sys.stdout.flush()
 
@@ -882,33 +871,8 @@ def do_changelog(packages):
         else:
             pkg = pkg[0]
 
-        # Find pool file name and get latest version number.
-        # Previously I relied on changelogs.debian.net, but it seems
-        # that the symlink from, e.g.,
-        # http://changelogs.debian.net/metacity to the actual
-        # changelog file does not get updated very quickly.  So move
-        # to pointing the to latest version's actual changelog on
-        # packages.debian.org. (gjw 30 Dec 2004).
-
-        # Extra argument added 17 Feb for fix for Bug#295455. The orig
-        # package name is used to get version if source pkg is not an
-        # installable package.
-
-        # (gjw 23 Apr 2006) Move to using changelog:pkg
-        # syntax. Hopefully this takes care of the complications.
-        #
-        # (pool, version) = pool_version(pkg, o)
-        # changelog_path = re.sub(r'_[^_]*\.deb$', '/changelog', pool)
-
-        # Generate the command to retireve the changelog.
-
         command = "wget --timeout=60 --output-document=-"
-        # (gjw 30 Dec 2004) command += " http://changelogs.debian.net/"
         command += " http://packages.debian.org/"
-        #command += "changelogs/" + p[0] + "/"
-        #command += "%s/%s_%s/changelog" % (pkg, pkg, ver)
-        # (gjw 30 Dec 2004) command += "%s" % (pkg)
-        # (gjw 23 Apr 2006) Try changelog: command += "changelogs/%s" % (changelog_path)
         command += "changelog:" + pkg
         command += " 2> /dev/null"
         perform.execute(command)
