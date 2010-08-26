@@ -907,32 +907,6 @@ def do_newupgrades(install=False):
             print "="*74
             do_install(new_upgrades)
 
-# 100519 No longer used - user apt-get's --auto-remove instead
-
-def do_removedepend(pkg, purge=False):
-    print "Checking dependencies. Please wait..."
-    toremove = pkg
-    #
-    # Obtain list of dependencies.
-    #
-    dependencies = changes.get_dependencies(pkg)
-    #
-    # For each dependency, find dependents that are installed.
-    # If only one is this pkg, then add it to the removal list.
-    #
-    if dependencies:
-        for p in dependencies:
-            # Check if the supplied pkg is the only dependee
-            if changes.get_dependees(p) == [pkg]:
-                toremove += " " + p
-    #
-    # Now do the actual removal
-    #
-    print "Removing:", toremove
-    if purge:
-        perform.execute("apt-get remove --purge " + toremove, root=1)
-    else:
-        perform.execute("apt-get remove " + toremove, root=1)
 
 ########################################################################
 # SIZE
