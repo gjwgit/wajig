@@ -862,10 +862,7 @@ def do_changelog(packages):
         # number rather than the package's installed version number.
 
         pkg = p.split()
-        if len(pkg) > 1:
-            pkg = pkg[0]
-        else:
-            pkg = pkg[0]
+        pkg = pkg[0]
 
         command = "wget --timeout=60 --output-document=-"
         command += " http://packages.debian.org/"
