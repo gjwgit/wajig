@@ -44,6 +44,7 @@ pause = False
 interactive = False  # Set to true for interactive command line
 match_commands = []  # For interactive command line completion
 backup = False
+pager = False  # Use a pager?
 
 #------------------------------------------------------------------------
 #
@@ -223,6 +224,7 @@ def main():
     global yes
     global noauth
     global backup
+    global pager
     #
     # Remove commas and insert the arguments appropriately.
     #
@@ -234,7 +236,7 @@ def main():
     try:
         sopts = "bdhnpqstvy"
         lopts = ["backup", "debug", "help", "pause", "quiet", "simulate",
-                 "teaching", "verbose=", "version", "yes", "noauth"]
+                 "teaching", "verbose=", "version", "yes", "noauth", "pager"]
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
     except getopt.error, e:
         print e
@@ -261,6 +263,8 @@ def main():
         elif o in ["-p", "--pause"]:
             pause = True
             perform.pause = True
+        elif o in ["--pager"]:
+            pager = True
         elif o in ["-q", "--quiet"]:
             perform.set_quiet()
         elif o in ["-s", "--simulate"]:
@@ -420,9 +424,8 @@ def select_command(command, args, verbose, teaching):
 
     elif command == "changelog":
         if requires_one_arg(command, args, "package name") and \
-           requires_package("wget", "/usr/bin/wget") and \
-           requires_package("less", "/usr/bin/less"):
-                commands.do_changelog(args[1])
+           requires_package("wget", "/usr/bin/wget"):
+            commands.do_changelog(args[1], pager)
 
     elif command == "clean":
         if requires_no_args(command, args):

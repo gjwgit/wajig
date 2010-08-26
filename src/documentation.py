@@ -58,6 +58,8 @@ def usage():
         -d|--debug      Catch exceptions thrown by the program.
         -h|--help       Print this documentation and exit.
         -n|--noauth     Allow packages from unathenticated archives.
+        -p|--pause      Pause before exiting.
+           --pager      Use a pager for viewing Debian changelog.
         -q|--quiet	Do not show progress of commands.
         -s|--simulate   Show commands to be executed but don't execute.
         -t|--teaching   Show commands to be executed and then execute them.
@@ -603,6 +605,9 @@ or else obtain the complete Debian changelog with:
 An attempt is made to read the changelog from packages.debian.org server,
 and on failure (IE, the server isn't found OR the network connection is off)
 the local changelog is displayed instead.
+
+If you specify "--pager" as command-line option, the output will be piped
+through the system's default pager.
 
 
 INSTALLING PACKAGES

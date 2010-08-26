@@ -840,7 +840,7 @@ def do_news(packages):
 # CHANGELOG
 #
 #------------------------------------------------------------------------
-def do_changelog(package):
+def do_changelog(package, pager):
     """List latest changelog for each package.
 
     Arguments:
@@ -848,10 +848,17 @@ def do_changelog(package):
 
     Returns: Changelogs
     """
-    if ping_host("packages.debian.org"):  # check if Debian server can be found
+
+    if pager:
+        pipe_cmd = " | /usr/bin/sensible-pager"
+    else:
+        pipe_cmd = ""
+
+    # check if the Debian server where changelogs are located can be found
+    if ping_host("packages.debian.org"):
         package = map_sources(package)
         if not package:
-            print "No package of that name found - perhaps it's a source package."
+            print "Binary package not found; perhaps it's a source package?"
         for pk in package:
             p = pk[0]
 
@@ -862,18 +869,20 @@ def do_changelog(package):
             pkg = p.split()
             pkg = pkg[0]
             command = "wget --timeout=60 --output-document=-"
-            command += " http://packages.debian.org/"
-            command += "changelog:" + pkg
-            command += " 2> /dev/null | less"
-    else:  # displaying local changelog if Debian isn't found OR network is off
+            command += " http://packages.debian.org/changelog:" + pkg
+            command += " 2> /dev/null" + pipe_cmd
+
+    # displaying local changelog if Debian server isn't found OR network is off
+    else:
         changelog = "/usr/share/doc/" + package + "/changelog.Debian.gz"
         changelog_native = "/usr/share/doc/" + package + "/changelog.gz"
         if os.path.exists(changelog):
-            command = "zcat " + changelog + " | less"
+            command = "zcat " + changelog + pipe_cmd
         elif os.path.exists(changelog_native):
-            command = "zcat " + changelog_native + " | less"
+            command = "zcat " + changelog_native + pipe_cmd
         else:
             print "Package " + package + " is not installed."
+
     perform.execute(command)
 
 #------------------------------------------------------------------------
