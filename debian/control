@@ -12,7 +12,7 @@ Package: wajig
 Architecture: all
 XB-Python-Version: all
 Depends: ${python:Depends}, ${misc:Depends}, apt, python-apt, dselect
-Suggests: wget, fping, debconf, reportbug, apt-move, dpkg-repack, alien, fakeroot, gkdebconf, lynx, python-gtk2, python-glade2, python-gnome2, gnome-terminal, locales, deborphan, vrms, sudo, apt-show-versions
+Suggests: wget, fping, debconf, reportbug, apt-move, dpkg-repack, alien, fakeroot, gkdebconf, lynx, python-gtk2, python-glade2, python-gnome2, gnome-terminal, locales, deborphan, vrms, sudo, apt-show-versions, less
 Description: simplified Debian package management front end
  Wajig is a single commandline wrapper around apt, apt-cache, dpkg,
  /etc/init.d scripts and more, intended to be easy to use and providing 

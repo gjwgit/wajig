@@ -420,7 +420,8 @@ def select_command(command, args, verbose, teaching):
 
     elif command == "changelog":
         if requires_args(command, args, "a list of packages"):
-            if requires_package("wget", "/usr/bin/wget"):
+            if requires_package("wget", "/usr/bin/wget") and \
+               requires_package("less", "/usr/bin/less"):
                 commands.do_changelog(args[1:])
 
     elif command == "clean":

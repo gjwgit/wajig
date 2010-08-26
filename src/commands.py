@@ -874,7 +874,7 @@ def do_changelog(packages):
         command = "wget --timeout=60 --output-document=-"
         command += " http://packages.debian.org/"
         command += "changelog:" + pkg
-        command += " 2> /dev/null"
+        command += " 2> /dev/null | less"
         perform.execute(command)
 
 #------------------------------------------------------------------------
