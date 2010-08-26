@@ -391,7 +391,7 @@ def get_status(pkg):
 def get_dependees(pkg):
     "Return a list of other installed pkgs that depend on PKG."
     pkginfo = perform.execute("apt-cache rdepends --installed " +
-                              pkg, pipe=True)
+                               pkg, pipe=True)
     dp = []
     # Watch for changes to apt-cache output.
     if pkginfo.next().strip() != pkg:

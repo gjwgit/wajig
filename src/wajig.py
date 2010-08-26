@@ -786,9 +786,7 @@ def select_command(command, args, verbose, teaching):
 
     elif command == "purgedepend":
         if requires_one_arg(command, args, "a single package"):
-            # Bug#579419 - this is more efficient than do_removedepend 
             perform.execute("apt-get remove --purge --auto-remove " + args[1], root=True)
-            # commands.do_removedepend(args[1], purge=True)
 
     elif command == "purgeorphans":
         #
