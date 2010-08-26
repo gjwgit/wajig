@@ -853,6 +853,10 @@ def do_changelog(package, pager):
         pipe_cmd = " | /usr/bin/sensible-pager"
     else:
         pipe_cmd = ""
+        # Print a header.
+        print "="*((70-len(package))/2) + " " + package + " " + \
+              "="*((70-len(package))/2)
+        sys.stdout.flush()
 
     # check if the Debian server where changelogs are located can be found
     if ping_host("packages.debian.org"):
