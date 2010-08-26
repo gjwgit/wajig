@@ -856,10 +856,6 @@ def do_changelog(packages):
     for pk in packages:
         p = pk[0]
 
-        # Print a header.
-        print "="*((70-len(p))/2) + " " + p + " " + "="*((70-len(p))/2)
-        sys.stdout.flush()
-
         # Some source pakages have a different version which will be
         # included in the actual packaname string: e.g. "bash
         # (2.05b-2-15)".  We handle this case by using this version
