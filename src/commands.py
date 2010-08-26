@@ -854,8 +854,7 @@ def do_changelog(package, pager):
     else:
         pipe_cmd = ""
         # Print a header.
-        print "="*((70-len(package))/2) + " " + package + " " + \
-              "="*((70-len(package))/2)
+        print "{0:=^72}".format(" {0} ".format(package))
         sys.stdout.flush()
 
     # check if the Debian server where changelogs are located can be found
