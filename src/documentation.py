@@ -596,9 +596,14 @@ latest news) can be retrieved with:
 
   $ wajig news <package names>
 
-or else obtain the complete changelog with:
+or else obtain the complete Debian changelog with:
 
-  $ wajig changelog <package names>
+  $ wajig changelog <package name>
+
+An attempt is made to read the changelog from packages.debian.org server,
+and on failure (IE, the server isn't found OR the network connection is off)
+the local changelog is displayed instead.
+
 
 INSTALLING PACKAGES
 

@@ -78,23 +78,25 @@ def commify(strnum):
 # SUPPORT
 #
 def ping_host(hostname):
-    #
+
     # Check if fping is installed.
-    #
     if perform.execute("fping localhost 2>/dev/null >/dev/null",
                        display=False) != 0:
         print "JIG Warning: fping was not found. " +\
               "Consider installing the package fping.\n"
-    #
+        return False
+
     # Check if we can talk to the HOST
-    #
     elif perform.execute("fping " + hostname + " 2>/dev/null >/dev/null",
                          display=False) != 0:
-        print "JIG Warning: Could not contact the Debian server at\n" +\
-              "             " + hostname + """
+        print "JIG Warning: Could not contact the Debian server at " + hostname\
+        + """
              Perhaps it is down or you are not connected to the network.
-             JIG will continue to try to get the information required.
-"""
+             JIG will continue to try to get the information required."""
+        return False
+
+    else:
+        return True  # host found
 
 
 def get_available(command="dumpavail"):
@@ -773,11 +775,6 @@ def do_new():
         print "%-24s %s" % (new_pkgs[i],
             changes.get_available_version(new_pkgs[i]))
 
-#------------------------------------------------------------------------
-#
-# NEWS
-#
-#------------------------------------------------------------------------
 def map_sources(packages):
     """Return Source package name for each package in PACKAGES.
 
@@ -791,7 +788,6 @@ def map_sources(packages):
         # have been found - to be more efficient
         if section.get("Package") in packages:
             if section.get("Source"):
-                #pkgname = section.get("Source").split()[0]
                 pkgname = section.get("Source")
                 sources += [[pkgname, section.get("Package")]]
             else:
@@ -799,6 +795,11 @@ def map_sources(packages):
     return sources
 
 
+#------------------------------------------------------------------------
+#
+# NEWS
+#
+#------------------------------------------------------------------------
 def do_news(packages):
     """List latest news for each package.
 
@@ -837,11 +838,9 @@ def do_news(packages):
 #------------------------------------------------------------------------
 #
 # CHANGELOG
-# Updated 2004-06-05 21:05:39 graham
-# Updated 2004-10-19 07:00:08 graham Change host name
 #
 #------------------------------------------------------------------------
-def do_changelog(packages):
+def do_changelog(package):
     """List latest changelog for each package.
 
     Arguments:
@@ -849,26 +848,33 @@ def do_changelog(packages):
 
     Returns: Changelogs
     """
-    ping_host("packages.debian.org")
-    packages = map_sources(packages)
-    if not packages:
-        print "No package of that name found - perhaps it's a source package."
-    for pk in packages:
-        p = pk[0]
+    if ping_host("packages.debian.org"):  # check if Debian server can be found
+        package = map_sources(package)
+        if not package:
+            print "No package of that name found - perhaps it's a source package."
+        for pk in package:
+            p = pk[0]
 
-        # Some source pakages have a different version which will be
-        # included in the actual packaname string: e.g. "bash
-        # (2.05b-2-15)".  We handle this case by using this version
-        # number rather than the package's installed version number.
-
-        pkg = p.split()
-        pkg = pkg[0]
-
-        command = "wget --timeout=60 --output-document=-"
-        command += " http://packages.debian.org/"
-        command += "changelog:" + pkg
-        command += " 2> /dev/null | less"
-        perform.execute(command)
+            # Some source pakages have a different version which will be
+            # included in the actual packaname string: e.g. "bash
+            # (2.05b-2-15)".  We handle this case by using this version
+            # number rather than the package's installed version number.
+            pkg = p.split()
+            pkg = pkg[0]
+            command = "wget --timeout=60 --output-document=-"
+            command += " http://packages.debian.org/"
+            command += "changelog:" + pkg
+            command += " 2> /dev/null | less"
+    else:  # displaying local changelog if Debian isn't found OR network is off
+        changelog = "/usr/share/doc/" + package + "/changelog.Debian.gz"
+        changelog_native = "/usr/share/doc/" + package + "/changelog.gz"
+        if os.path.exists(changelog):
+            command = "zcat " + changelog + " | less"
+        elif os.path.exists(changelog_native):
+            command = "zcat " + changelog_native + " | less"
+        else:
+            print "Package " + package + " is not installed."
+    perform.execute(command)
 
 #------------------------------------------------------------------------
 #
