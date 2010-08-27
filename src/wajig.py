@@ -262,7 +262,6 @@ def main():
             debug = True
         elif o in ["-p", "--pause"]:
             pause = True
-            perform.pause = True
         elif o in ["--pager"]:
             pager = True
         elif o in ["-q", "--quiet"]:

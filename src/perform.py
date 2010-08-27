@@ -24,7 +24,6 @@
 #------------------------------------------------------------------------
 import os
 import getpass
-pause = False
 
 setroot = "/bin/su"
 #
