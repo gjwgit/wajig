@@ -318,11 +318,10 @@ different information about different aspects of Debian package
 management and then used other commands to install and remove packages
 then you'll know that it can become a little too much.
 
-Swapping between dselect, deity, deity-gtk, aptitude, apt-get, dpkg,
-gnome-apt, apt-cache, and so on is interesting but cumbersome.  Plus
-personally I find dselect, deity, and aptitude confusing and even
-though I've spent hours understanding each of them, I don't think the
-time was particularly well spent.
+Swapping between dselect, aptitude, apt-get, dpkg, apt-cache, and so
+on is interesting but cumbersome.  Plus personally I find dselect,
+and aptitude confusing and even though I've spent hours understanding
+each of them, I don't think the time was particularly well spent.
 
 This Python script simply collects together what I have learnt over
 the years about various commands!  Clearly I have yet to learn all
@@ -347,7 +346,7 @@ Also, see the Debian FAQ at http://www.debian.org/doc/FAQ/.  In
 particular, Section 6 deals with the Packaging system.  The Advanced
 Package Tool (apt) is the recommended way of managing packages under
 Debian. The command line interface is apt-get but it is also used
-within wajig dselect, deity, and aptitude. See
+within wajig, dselect, and aptitude. See
 http://newbieDoc.sourceForge.net/system/apt-get-intro.html for a great
 introduction to apt-get. Also see
 
