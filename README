@@ -40,4 +40,5 @@ How to build a deb file
 $ autoconf configure.in > configure
 $ chmod 755 configure
 $ ./configure
+$ python src/bash_completion.py > wajig.completion
 $ dpkg-buildpackage -b -uc

@@ -46,7 +46,7 @@ def usage():
         Wajig is a command-line system manager for Debian GNU/Linux
 
         For a list of common commands try `wajig help'.
-        For a list of all commands try `wajig commands'.
+        For a list of all commands try `wajig -v commands'.
         Basic documentation is available with `wajig doc | less'
 
         Full documentation from http://www.togaware.com/wajig
@@ -59,10 +59,11 @@ def usage():
         -h|--help       Print this documentation and exit.
         -n|--noauth     Allow packages from unathenticated archives.
         -p|--pause      Pause before exiting.
-           --pager      Use a pager for viewing Debian changelog.
-        -q|--quiet	Do not show progress of commands.
+        -l|--pager      Use a pager for viewing Debian changelog.
+        -q|--quiet      Do not show progress of commands.
         -s|--simulate   Show commands to be executed but don't execute.
         -t|--teaching   Show commands to be executed and then execute them.
+        -v|--verbose=n  Increase (or set) the level of verbosity (to n).
         -y|--yes        Assume yes for any questions asked.
 """
 
@@ -220,14 +221,16 @@ Run 'wajig -v commands' for a complete list of commands.
  whichpkg       Find the package that supplies the given command or file
 
 Command line options:
-
- -h|--help      Print usage message.
- -q|--quiet     Do system commands everything quietly.
- -n|--noauth    Allow packages from unathenticated archives.
- -s|--simulate  Trace but don't execute the sequence of underlying commands.
- -t|--teaching  Trace the sequence of commands performed.
- -v|--verbose=n Increase (or set) the level of verbosity (to n).
- -y|--yes       Assume yes for any questions asked.
+ -b|--backup     Backup packages before they are upgraded.
+ -d|--debug      Catch exceptions thrown by the program.
+ -h|--help       Print usage message.
+ -n|--noauth     Allow packages from unathenticated archives.
+ -p|--pause      Pause before exiting.
+ -l|--pager      Use a pager for viewing Debian changelog.
+ -q|--quiet      Execute system commands quietly.
+ -s|--simulate   Show commands to be executed but don't execute.
+ -t|--teaching   Show commands to be executed and then execute them.
+ -y|--yes        Assume yes for any questions asked.
 
 Fuller documentation can be found at http://www.togaware.com/wajig.
 """

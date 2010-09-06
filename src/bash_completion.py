@@ -19,7 +19,7 @@ import pprint
 pp = pprint.PrettyPrinter()
 
 # Run wajig command
-f = os.popen('python src/wajig.py commands', 'r')
+f = os.popen('python src/wajig.py -v commands', 'r')
 
 lines = f.readlines()
 
@@ -79,7 +79,7 @@ for l in lines:
 #print
 #pp.pprint(o_str)
 
-part1 = '''
+part1 = '''\
 have wajig &&
 _wajig()
 {
@@ -96,13 +96,14 @@ _wajig()
 
 part2 = ''' -- $cur ) )
         else
-            COMPREPLY=($( compgen -W \''''
+            COMPREPLY=($( compgen -W \'
+            '''
 
 part3 = ''' -- $cur ) )
         fi
 
 }
-[ -n "${have:-}" ] && complete -F _wajig $default wajig'''
+complete -F _wajig $default wajig'''
 
 
 wajig = part1

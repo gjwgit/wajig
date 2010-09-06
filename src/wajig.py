@@ -138,7 +138,7 @@ def print_help(command, args, verbose=False, exit=False):
 #
 #-----------------------------------------------------------------------
 def list_commands():
-    f = os.popen('wajig commands', 'r')
+    f = os.popen('wajig -v commands', 'r')
     lines = f.readlines()
     command_patt = r'^ ([a-z][a-z-]*) '
     command_patt_r = re.compile(command_patt)
@@ -234,7 +234,7 @@ def main():
         sys.argv += oldargv[i].split(",")
 
     try:
-        sopts = "bdhnpqstvy"
+        sopts = "bdhlnpqstvy"
         lopts = ["backup", "debug", "help", "pause", "quiet", "simulate",
                  "teaching", "verbose=", "version", "yes", "noauth", "pager"]
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
@@ -833,7 +833,7 @@ def select_command(command, args, verbose, teaching):
                     cat = "zcat"
                 if os.path.exists(readme):
                     found = True
-                    print "="*30 + " " + r + " " + "="*30
+                    print "{0:=^72}".format(" {0} ".format(r))
                     sys.stdout.flush()
                     perform.execute(cat + " " + readme)
             if not found:
@@ -938,7 +938,7 @@ def select_command(command, args, verbose, teaching):
         if requires_no_args(command, args):
             perform.execute("apt-get -u -s upgrade", root=True)
 
-    elif command == "size" or command == "sizes":
+    elif command in ["size", "sizes"]:
         commands.do_size(args[1:], 0)
 
     elif command == "snapshot":
@@ -964,7 +964,7 @@ def select_command(command, args, verbose, teaching):
     elif command == "status":
         commands.do_status(args[1:])
 
-    elif command == "statusmatch" or command == "statussearch":
+    elif command in ["statusmatch", "statussearch"]:
         if requires_one_arg(command, args,
         "a search string for the package name"):
             pkgs = map(lambda s: s.strip(),
