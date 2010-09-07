@@ -800,46 +800,6 @@ def map_sources(packages):
 
 #------------------------------------------------------------------------
 #
-# NEWS
-#
-#------------------------------------------------------------------------
-def do_news(packages):
-    """List latest news for each package.
-
-    Arguments:
-    packages    List the latest news for each.
-
-    Returns: News items
-    """
-    ping_host("packages.debian.org")
-    results = tempfile.mktemp()
-    packages = map_sources(packages)
-    if not packages:
-        # list the original package name (maybe it is a source package)
-        # packages = map(lambda(x): [x,x], orig)
-        print "No package of that name found - perhaps it's a source package."
-    for pk in packages:
-        p = pk[0]
-        #
-        # Print a header.
-        #
-        print "="*((70-len(p))/2) + " " + p + " " + "="*((70-len(p))/2)
-        #
-        #
-        #
-        command  = "wget --timeout=60 --output-document=-"
-        command += " http://packages.debian.org/changelog:" + p.split()[0]
-        command += " 2> /dev/null "
-        #
-        # Strip out only the first entry in the changelog.
-        #
-        command += "| awk 'NR==1{print;next} /^[^ ]/{exit}{print;next}' "
-        perform.execute(command)
-        if os.path.exists(results):
-            os.remove(results)
-
-#------------------------------------------------------------------------
-#
 # CHANGELOG
 #
 #------------------------------------------------------------------------

@@ -170,7 +170,6 @@ Run 'wajig -v commands' for a complete list of commands.
  madison        Runs the madison command of apt-cache.
  move           Move packages in the download cache to a local Debian mirror
  new            List packages that became available since last update
- news           Obtain the latest news about the package
  new-upgrades   List packages newly available for upgrading
  non-free       List installed packages that do not meet the DFSG
  orphans        List libraries not required by any installed package
@@ -597,12 +596,7 @@ The more detailed description of a package is available with:
 
 Here, the package name can be replaced with a specific deb file.
 
-The latest version of the appropriate change log file (i.e., the
-latest news) can be retrieved with:
-
-  $ wajig news <package names>
-
-or else obtain the complete Debian changelog with:
+The complete Debian changelog can be retrieved with:
 
   $ wajig changelog <package name>
 
@@ -612,6 +606,11 @@ the local changelog is displayed instead.
 
 If you specify "--pager" as command-line option, the output will be piped
 through the system's default pager.
+
+IF only the latest changelog entry is desired, use::
+
+  $ wajig --latest changelog <package names>
+
 
 
 INSTALLING PACKAGES

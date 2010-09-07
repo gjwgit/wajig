@@ -758,11 +758,6 @@ def select_command(command, args, verbose, teaching):
                 finishup(1)
                 return False
 
-    elif command == "news":
-        if requires_args(command, args, "a list of packages"):
-            if requires_package("lynx", "/usr/bin/lynx"):
-                commands.do_news(args[1:])
-
     elif command in ["newupgrades", "newupgrade"]:
         if requires_opt_arg(command, args, "whether to INSTALL upgraded pkgs"):
             if len(args) == 1:
