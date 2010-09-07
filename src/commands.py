@@ -864,10 +864,10 @@ def do_changelog(package, pager):
     if ping_host("packages.debian.org"):
         package = map_sources(package)
         if not package:
-            print "Binary package not found; perhaps it's a source package?"
-        for pk in package:
+            print "Package not found! Run 'wajig search package'."
+        for pkg in package:
             command = "wget --timeout=60 --output-document=-"
-            command += " http://packages.debian.org/changelog:" + pk[1]
+            command += " http://packages.debian.org/changelog:" + pkg[1]
             command += " 2> /dev/null" + pipe_cmd
 
     # displaying local changelog if Debian server isn't found OR network is off
