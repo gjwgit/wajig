@@ -1037,6 +1037,7 @@ def select_command(command, args, verbose, teaching):
             else:
                 bkdir = None
             changes.backup_before_upgrade(bkdir)
+            perform.execute("apt-get %s -u upgrade" % noauth, root=True)
         elif len(args) > 1:
             perform.execute("apt-get install " + perform.concat(args[1:]),
                                 root=True)
