@@ -28,6 +28,12 @@ import re
 import sys
 import tempfile
 import signal
+
+import apt_pkg
+
+# Wajig modules
+import changes
+import perform
 #
 # When writing to a pipe where there is no reader (e.g., when
 # output is directed to head or to less and the user exists from less
@@ -35,18 +41,6 @@ import signal
 # the signal and hadle it with the default handler.
 #
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)
-
-#
-# APT module
-#
-# import apt
-import apt_pkg
-
-#
-# Wajig modules
-#
-import changes
-import perform
 
 #
 # Global Variables
@@ -131,6 +125,7 @@ def get_available(command="dumpavail"):
         os.remove(tmpcache)
     return avail
 
+
 def do_dependents(package):
     command = "apt-cache showpkg " + package +\
               " | awk \'BEGIN{found=0}/^Reverse Depends:/{found=1;next}/^[^ ]/{found=0}found==1{print}{next}\' " +\
@@ -185,12 +180,7 @@ def do_dependents(package):
 #
 #------------------------------------------------------------------------
 def do_describe(packages):
-    """Print a description of each package.
-
-    Arguments:
-    packages    List of packages (or deb files) to describe
-
-    Returns:"""
+    "Print a description of each package."
 
     #
     # From where do we get information about the packages?
@@ -355,11 +345,7 @@ def do_describe(packages):
 #
 #------------------------------------------------------------------------
 def do_describe_new(install=False):
-    """Report on packages that are newly available.
-
-    Arguments:
-
-    Returns:"""
+    "Report on packages that are newly available."
 
     #
     # Describe each new package.
@@ -379,12 +365,7 @@ def do_describe_new(install=False):
 #
 #------------------------------------------------------------------------
 def do_download(packages):
-    """Download packages.
-
-    Arguments:
-    packages    List of packages to be downloaded
-
-    Returns:"""
+    "Download packages without installing them."
 
     command = "apt-get --download-only install " + perform.concat(packages)
     perform.execute(command, root=1)
@@ -400,11 +381,7 @@ def do_force(packages):
     This is useful when there is a conflict of the same file from
     multiple packages or when a dependency is not installed for
     whatever reason.
-
-    Arguments:
-    packages    The packages to be installed (either names or path to deb)
-
-    Returns:"""
+    """
     #
     # The basic function is to force install the package using dpkg.
     #
@@ -463,12 +440,7 @@ def do_force(packages):
 #
 #------------------------------------------------------------------------
 def do_hold(packages):
-    """Place packages on hold (they will not be upgraded).
-
-    Arguments:
-    packages    List of packages.
-
-    Returns:"""
+    "Place packages on hold (so they will not be upgraded)."
 
     for p in packages:
         # The dpkg needs sudo but not the echo.
@@ -485,13 +457,7 @@ def do_hold(packages):
 #
 #------------------------------------------------------------------------
 def do_install(packages, noauth=""):
-    """Install packages.
-
-    Arguments:
-    packages    List of packages to be installed or path to deb file
-    noauth      A string which might be --allow-unathenticated
-
-    Returns:"""
+    "Install packages."
 
     #
     # Currently we use the first argument to determine the type of all
@@ -587,33 +553,21 @@ def do_install(packages, noauth=""):
 #
 #------------------------------------------------------------------------
 def do_install_suggest(packages, type, noauth=""):
-    """Install packages suggested by the listed packages.
+    "Install packages suggested by the listed packages."
 
-    Arguments:
-    packages    List of packages
-    noauth      A string which might be --allow-unathenticated
-
-    Returns:"""
-
-    #
-    # If reading from stanard input generate the list of packages
-    #
+    # If reading from standard input, generate the list of packages.
     if len(packages) == 1 and packages[0] == "-":
         stripped = [x.strip() for x in sys.stdin.readlines()]
         joined = str.join(stripped)
         packages = joined.split()
 
-    #
     # For each package obtain the list of suggested packages
-    #
     suggest_list = ""
 
-    ## Obtain the details of each available package.
-
+    # Obtain the details of each available package.
     avail = get_available()
-    #
+
     # Check for information in the Available list
-    #
     for section in avail:
         if (section.get("Package") in packages):
             sug = section.get("Suggests")
@@ -624,23 +578,19 @@ def do_install_suggest(packages, type, noauth=""):
             if type == "Recommends" or type == "Both":
                 if rec:
                     suggest_list = suggest_list+" "+rec
-    #
+
     # Remove version information
-    #
     suggest_list = re.sub('\([^)]*\)', '', suggest_list)
-    #
+
     # Remove the commas from the list
-    #
     suggest_list = re.sub(',', '', suggest_list)
-    #
+
     # Deal with alternatives.
     # For now simply ignore all alternatives.
     # Should prompt user to select one?
-    #
     suggest_list = re.sub(' *[a-z0-9-]* *\| *[a-z0-9-]* *', ' ', suggest_list)
-    #
+
     # Remove duplicates
-    #
     suggest_list = suggest_list + " "
     for i in suggest_list.split():
         suggest_list = i + " " + re.sub(" " + i + " ", ' ', suggest_list)
@@ -695,7 +645,7 @@ def do_listsection(pattern):
 #
 #------------------------------------------------------------------------
 def do_listinstalled(pattern):
-    """Print list of installed packages."""
+    "Display a list of installed packages."
     command = "dpkg --get-selections | awk '$2 ~/^install$/ {print $1}'"
     if len(pattern) == 1:
         command = command + " | grep -- " + pattern[0] + " | sort -k 1b,1"
@@ -707,15 +657,10 @@ def do_listinstalled(pattern):
 #
 #------------------------------------------------------------------------
 def do_listnames(pattern, pipe=False):
-    """Print list of known package names.
+    "Print list of known package names."
 
-    Arguments:
-
-    Returns:"""
-    #
     # If user can't access /etc/apt/sources.list then must do this with
     # sudo or else most packages will not be found.
-    #
     needsudo = not os.access("/etc/apt/sources.list", os.R_OK)
     if len(pattern) == 0:
         command = "apt-cache pkgnames | sort -k 1b,1"
@@ -758,11 +703,7 @@ def do_listscripts(pkg):
 #
 #------------------------------------------------------------------------
 def do_new():
-    """Report on packages that are newly available.
-
-    Arguments:
-
-    Returns:"""
+    "Report on packages that are newly available."
 
     print "%-24s %s" % ("Package", "Available")
     print "="*24 + "-" + "="*16
@@ -780,7 +721,7 @@ def map_sources(packages):
 
     Note that the source could include a version number.
     Only replace with source if package exists (Bug#295455).
-"""
+    """
     tagfile = apt_pkg.TagFile(open("/var/lib/dpkg/available", "r"))
     sources = []
     for section in tagfile:
@@ -804,13 +745,7 @@ def map_sources(packages):
 #
 #------------------------------------------------------------------------
 def do_changelog(package, pager, latest):
-    """List latest changelog for each package.
-
-    Arguments:
-    packages    List the latest changelog for each.
-
-    Returns: Changelogs
-    """
+    "Display Debian changelog."
 
     if pager:
         pipe_cmd = " | /usr/bin/sensible-pager"
@@ -851,11 +786,7 @@ def do_changelog(package, pager, latest):
 #
 #------------------------------------------------------------------------
 def do_newupgrades(install=False):
-    """Report on packages that are newly upgraded.
-
-    Arguments:
-
-    Returns:"""
+    "Display packages that are newly upgraded."
 
     #
     # Load the dictionaries from file then list each one and it's version
@@ -880,7 +811,7 @@ def do_newupgrades(install=False):
 # SIZE
 #
 def do_size(packages, size):
-    """Print sizes for pkg in list PACAKAGES with size greater than SIZE."""
+    "Print sizes for pkg in list PACAKAGES with size greater than SIZE."
     #
     # Work with the list of installed packages
     # (I think status has more than installed?)
@@ -932,8 +863,7 @@ def do_status(packages, snapshot=False):
     Arguments:
     packages    List the version of installed packages
     snapshot    Whether a snapshot is required (affects output format)
-
-    Returns:"""
+    """
 
     if not snapshot:
         print "%-23s %-15s %-15s %-15s %s" %\
@@ -1024,11 +954,7 @@ def do_status(packages, snapshot=False):
 #
 #------------------------------------------------------------------------
 def do_toupgrade():
-    """List packages with Available version more recent than Installed.
-
-    Arguments:
-
-    Returns:"""
+    "List packages with Available version more recent than Installed."
 
     # A simple way of doing this is to just list packages in the installed
     # list and the available list which have different versions.
@@ -1057,12 +983,7 @@ def do_toupgrade():
 #
 #------------------------------------------------------------------------
 def do_unhold(packages):
-    """Remove packages from hold (they will again be upgraded).
-
-    Arguments:
-    packages   List of packages.
-
-    Returns:"""
+    "Remove packages from hold (they will again be upgraded)."
 
     for p in packages:
         # The dpkg needs sudo but not the echo.
@@ -1078,18 +999,12 @@ def do_unhold(packages):
 #
 #------------------------------------------------------------------------
 def do_update(query=0, quiet=False):
-    """Perform.Execute an update of the available packages
-
-    Arguments:
-    query       If non-zero then ask user whether this should be done.
-
-    Returns:
-    Return status of the command"""
+    "Perform an update of the available packages."
 
     if verbose > 0:
         print "The Packages files listing the available packages is being \
                updated."
-    if query > 0:
+    if query > 0:  # ask user whether this should be done.
         versionfile = open("/etc/debian_version")
         debian_version = versionfile.read().split()[0]
         if debian_version == "testing/unstable":
@@ -1157,12 +1072,7 @@ likely that your Packages files are out of date. Doing an UPDATE is optional
 #
 #------------------------------------------------------------------------
 def do_whatis0(packages):
-    """Look for a one-line description of the given packages.
-
-    Arguments:
-    packages    List of packages to get descriptions for
-
-    Returns:"""
+    "Look for a one-line description of the given packages."
 
     command = "fping packages.debian.org 2>&1 >/dev/null"
     if perform.execute(command) == 0:
@@ -1197,10 +1107,9 @@ def do_whichpkg(filename):
     packages containing a file with FILENAME in its name. The results
     are printed to standard output.
 
-    Arguments:
+    Argument:
     filename    Pattern to find
-
-    Returns:"""
+    """
 
     packages_host = "packages.debian.org"
     ping_host(packages_host)
@@ -1320,12 +1229,8 @@ def do_whichpkg(filename):
 #
 #------------------------------------------------------------------------
 def do_findpkg(pkg):
-    """Look for a particular pkg at apt-get.org.
+    "Look for a particular pkg at apt-get.org."
 
-    Arguments:
-    pkg         Package to find
-
-    Returns:"""
     ping_host("www.apt-get.org")
     #
     # Print out a suitable heading
@@ -1367,13 +1272,8 @@ def do_recdownload(packages):
     #FIXME: This has problems with virtual packages, FIX THEM!!!
 
     """Download packages and all dependencies recursively.
-
-        Arguments:
-        packages       List of packages to download recursively
-
-        Returns:
-
-        Author: Juanjo Alvarez <juanjux@yahoo.es>"""
+    Author: Juanjo Alvarez <juanjux@yahoo.es>
+    """
 
     def get_deps(package):
         tagfile = apt_pkg.TagFile(open("/var/lib/dpkg/available", "r"))
