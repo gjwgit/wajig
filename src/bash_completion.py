@@ -101,9 +101,9 @@ part2 = ''' -- $cur ) )
 
 part3 = ''' -- $cur ) )
         fi
-
 }
-complete -F _wajig $default wajig'''
+complete -F _wajig $default wajig
+'''
 
 
 wajig = part1
@@ -122,9 +122,7 @@ for i in range(1, len(c_str)):
     wajig = "%s           %s" % (wajig, c_str[i])
 
 #add the remainder.
-wajig = "%s'%s" % (wajig, part3)
+wajig = "%s'%s\n" % (wajig, part3)
 
-#w = open('wajig', 'w')
-#print >> w, wajig
-
-print wajig
+with open("wajig.completion", "w") as f:
+    f.write(wajig)
