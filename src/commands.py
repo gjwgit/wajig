@@ -789,6 +789,9 @@ def map_sources(packages):
         if section.get("Package") in packages:
             if section.get("Source"):
                 pkgname = section.get("Source")
+                # pkgname.split() ensures that we won't have "(1.0)" in 
+                # "pkg (1.0)", which is the case for gtk+2.0.
+                # This means that "wajig changelog libgtk2.0-0" now works.
                 sources.append([pkgname.split()[0], section.get("Package")])
             else:
                 sources += [[section.get("Package"), section.get("Package")]]
