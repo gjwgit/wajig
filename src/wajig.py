@@ -262,7 +262,7 @@ def main():
             debug = True
         elif o in ["-p", "--pause"]:
             pause = True
-        elif o in ["--pager"]:
+        elif o in ["-l", "--pager"]:
             pager = True
         elif o in ["-q", "--quiet"]:
             perform.set_quiet()
