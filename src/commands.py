@@ -866,16 +866,8 @@ def do_changelog(package, pager):
         if not package:
             print "Binary package not found; perhaps it's a source package?"
         for pk in package:
-            p = pk[1]
-
-            # Some source pakages have a different version which will be
-            # included in the actual packaname string: e.g. "bash
-            # (2.05b-2-15)".  We handle this case by using this version
-            # number rather than the package's installed version number.
-            pkg = p.split()
-            pkg = pkg[0]
             command = "wget --timeout=60 --output-document=-"
-            command += " http://packages.debian.org/changelog:" + pkg
+            command += " http://packages.debian.org/changelog:" + pk[1]
             command += " 2> /dev/null" + pipe_cmd
 
     # displaying local changelog if Debian server isn't found OR network is off
