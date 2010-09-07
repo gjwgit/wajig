@@ -88,9 +88,7 @@ def ping_host(hostname):
              Perhaps it is down or you are not connected to the network.
              JIG will continue to try to get the information required."""
         return False
-
-    else:
-        return True  # host found
+    return True  # host found
 
 
 def get_available(command="dumpavail"):
