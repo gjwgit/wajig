@@ -789,7 +789,7 @@ def map_sources(packages):
         if section.get("Package") in packages:
             if section.get("Source"):
                 pkgname = section.get("Source")
-                sources += [[pkgname, section.get("Package")]]
+                sources.append([pkgname.split()[0], section.get("Package")])
             else:
                 sources += [[section.get("Package"), section.get("Package")]]
     return sources
@@ -863,7 +863,7 @@ def do_changelog(package, pager):
         if not package:
             print "Binary package not found; perhaps it's a source package?"
         for pk in package:
-            p = pk[0]
+            p = pk[1]
 
             # Some source pakages have a different version which will be
             # included in the actual packaname string: e.g. "bash
