@@ -843,7 +843,7 @@ def do_news(packages):
 # CHANGELOG
 #
 #------------------------------------------------------------------------
-def do_changelog(package, pager):
+def do_changelog(package, pager, latest):
     """List latest changelog for each package.
 
     Arguments:
@@ -880,6 +880,8 @@ def do_changelog(package, pager):
             command = "zcat " + changelog_native + pipe_cmd
         else:
             print "Package " + package + " is not installed."
+    if latest:
+        command += "| awk 'NR==1{print;next} /^[^ ]/{exit}{print;next}' "
 
     perform.execute(command)
 

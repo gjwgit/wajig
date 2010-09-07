@@ -58,8 +58,9 @@ def usage():
         -d|--debug      Catch exceptions thrown by the program.
         -h|--help       Print this documentation and exit.
         -n|--noauth     Allow packages from unathenticated archives.
+        -l|--latest     Print only the latest changelog entry.
         -p|--pause      Pause before exiting.
-        -l|--pager      Use a pager for viewing Debian changelog.
+        -x|--pager      Use a pager for viewing Debian changelog.
         -q|--quiet      Do not show progress of commands.
         -s|--simulate   Show commands to be executed but don't execute.
         -t|--teaching   Show commands to be executed and then execute them.
@@ -224,9 +225,10 @@ Command line options:
  -b|--backup     Backup packages before they are upgraded.
  -d|--debug      Catch exceptions thrown by the program.
  -h|--help       Print usage message.
+ -l|--latest     Print only the latest changelog entry.
  -n|--noauth     Allow packages from unathenticated archives.
  -p|--pause      Pause before exiting.
- -l|--pager      Use a pager for viewing Debian changelog.
+ -x|--pager      Use a pager for viewing Debian changelog.
  -q|--quiet      Execute system commands quietly.
  -s|--simulate   Show commands to be executed but don't execute.
  -t|--teaching   Show commands to be executed and then execute them.
