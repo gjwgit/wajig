@@ -64,14 +64,14 @@ def commify(strnum):
     if len(strnum) <= 3:
         return strnum
     else:
-        pre = strnum[0:-3]
+        pre = strnum[:-3]
         post = strnum[-3:]
         pre = commify(pre)
         return pre + "," + post
-#
-# SUPPORT
-#
+
+
 def ping_host(hostname):
+    "Check if host is reachable."
 
     # Check if fping is installed.
     if perform.execute("fping localhost 2>/dev/null >/dev/null",
@@ -201,12 +201,6 @@ def do_describe(packages):
     # the dpkg available list /var/lib/dpkg/available for now and
     # make sure UPDATE uses "dselect update"
     #
-    # Compare also with gnome-tasksel which does the following:
-    #
-    #  apt-get update
-    #  apt-cache dumpavail > /tmp/avail
-    #  dpkg --update-avail /tmp/avail
-    #
     # avail  = apt_pkg.TagFile(open("/var/cache/apt/available","r"));
     # avail  = apt_pkg.TagFile(open("/var/cache/apt/pkgcache.bin","r"));
     # avail  = apt_pkg.TagFile(open("/var/lib/dpkg/available","r"))
@@ -221,11 +215,11 @@ def do_describe(packages):
     # First, extract the package names and the package files
     # and handle separately.
     #
-    package_files = filter(lambda x: x[-4:] == '.deb', packages)
-    package_names = filter(lambda x: x[-4:] != '.deb', packages)
+    package_files = [pkg for pkg in packages if pkg.endswith(".deb")]
+    package_names = [pkg for pkg in packages if not pkg.endswith(".deb")]
     if package_files:
-        for f in package_files:
-            perform.execute("dpkg-deb --info %s" % f)
+        for package_file in package_files:
+            perform.execute("dpkg-deb --info {0}".format(package_file))
             print "="*72
             sys.stdout.flush()
 
@@ -251,13 +245,10 @@ def do_describe(packages):
         return
     avail = get_available()
 
-    #
     # Record the descriptions
-    #
     describe_list = {}
-    #
+
     # Check for information in the Available list
-    #
     for section in avail:
         if (section.get("Package") in packages):
             package_name = section.get("Package")
@@ -284,9 +275,9 @@ def do_describe(packages):
     # through the value of "verbose"
     #
     if len(pkgs) == 0:
-        print "No packages found from those known to be available or installed"
+        print "No packages found from those known to be available/installed."
     elif verbose == 0:
-        print "%-24s %s" % ("Package", "Description")
+        print "{0:24} {1}".format("Package", "Description")
         print "="*24 + "-" + "="*51
 
 #
@@ -728,7 +719,7 @@ def map_sources(packages):
         if section.get("Package") in packages:
             if section.get("Source"):
                 pkgname = section.get("Source")
-                # pkgname.split() ensures that we won't have "(1.0)" in 
+                # pkgname.split() ensures that we won't have "(1.0)" in
                 # "pkg (1.0)", which is the case for gtk+2.0.
                 # This means that "wajig changelog libgtk2.0-0" now works.
                 sources.append([pkgname.split()[0], section.get("Package")])
@@ -814,7 +805,7 @@ def do_size(packages, size):
     # Work with the list of installed packages
     # (I think status has more than installed?)
     #
-    status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"));
+    status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"))
     #
     # Initialise the sizes dictionary.
     #
@@ -864,7 +855,7 @@ def do_status(packages, snapshot=False):
     """
 
     if not snapshot:
-        print "%-23s %-15s %-15s %-15s %s" %\
+        print "%-23s %-15s %-15s %-15s %s" % \
               ("Package", "Installed", "Previous", "Now", "State")
         print "="*23 + "-" + "="*15 + "-" + "="*15 + "-" + "="*15 + "-" + "="*5
         sys.stdout.flush()
@@ -983,10 +974,10 @@ def do_toupgrade():
 def do_unhold(packages):
     "Remove packages from hold (they will again be upgraded)."
 
-    for p in packages:
+    for package in packages:
         # The dpkg needs sudo but not the echo.
         # Do all of it as root then.
-        command = "echo \"" + p + " install\" | dpkg --set-selections"
+        command = "echo \"" + package + " install\" | dpkg --set-selections"
         perform.execute(command, root=1)
     print "The following packages are still on hold:"
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
@@ -1297,12 +1288,12 @@ def do_recdownload(packages):
 
     packageNames = []
     dontDownloadList = []
-    for p in packages[:]:
+    for package in packages[:]:
         # Ignore packages with a "-" at the end so the user can workaround some
         # dependencies problems (usually in unstable)
-        if p[len(p) - 1:] == "-":
-            dontDownloadList.append(p[:-1])
-            packages.remove(p)
+        if package[len(package) - 1:] == "-":
+            dontDownloadList.append(package[:-1])
+            packages.remove(package)
             continue
 
     print "Calculating all dependencies..."
@@ -1332,13 +1323,6 @@ def versions(packages):
         command = "apt-show-versions"
     else:
         command = ""
-    for p in packages:
-        command += "apt-show-versions " + p + "; "
+    for package in packages:
+        command += "apt-show-versions " + package + "; "
     perform.execute(command)
-
-
-def main():
-    do_size([], 100)
-
-if __name__ == '__main__':
-    main()

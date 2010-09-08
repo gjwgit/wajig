@@ -24,19 +24,20 @@ import const
 
 
 def version():
-    print "JIG " + const.version +\
-          """ - Command-line system admin for Debian GNU/Linux
-Copyright (c) Graham.Williams@togaware.com
+    print "\nJIG " + const.version + \
+    """ - Command-line system admin for Debian GNU/Linux
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+    Copyright (c) Graham.Williams@togaware.com
 
-On Debian systems, it may be found in /usr/share/common-licenses/GPL.
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-Fuller documentation can be found at http://wajig.togaware.com/.
-"""
+    On Debian systems, it may be found in /usr/share/common-licenses/GPL.
+
+    Fuller documentation can be found at http://wajig.togaware.com/.
+    """
 
 
 def usage():

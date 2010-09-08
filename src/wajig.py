@@ -1064,13 +1064,12 @@ def select_command(command, args, verbose, teaching):
         if requires_one_arg(command, args, "a package name"):
             perform.execute("debsums " + args[1])
 
-    elif command == "version" or command == "versions":
+    elif command in ["version", "versions"]:
         if command == "version" and len(args) == 1:
             documentation.version()
-        else:
-            if requires_package("apt-show-versions",
-                                "/usr/bin/apt-show-versions"):
-                commands.versions(args[1:])
+        elif requires_package("apt-show-versions",
+                              "/usr/bin/apt-show-versions"):
+            commands.versions(args[1:])
     elif command == "whatis":
         if requires_args(command, args, "a list of package names"):
             commands.do_describe(args[1:])
