@@ -178,7 +178,7 @@ def do_dependents(package):
 #
 #------------------------------------------------------------------------
 def do_describe(packages):
-    "Print a description of each package."
+    "Display a description of each package."
 
     #
     # From where do we get information about the packages?
@@ -766,6 +766,7 @@ def do_changelog(package, pager, latest):
             print "Package " + package + " is not installed."
     if latest:
         command += "| awk 'NR==1{print;next} /^[^ ]/{exit}{print;next}' "
+        print command
 
     perform.execute(command)
 

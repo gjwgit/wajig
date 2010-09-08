@@ -1070,6 +1070,7 @@ def select_command(command, args, verbose, teaching):
         elif requires_package("apt-show-versions",
                               "/usr/bin/apt-show-versions"):
             commands.versions(args[1:])
+
     elif command == "whatis":
         if requires_args(command, args, "a list of package names"):
             commands.do_describe(args[1:])
@@ -1085,9 +1086,8 @@ def select_command(command, args, verbose, teaching):
         else:
             print "The command `" + command + "' (entered as `" + args[0] + \
                   "') was not recognised."
-        print "Perhaps it is not yet implemented or you misspelt the command."
+        print "Perhaps it is not yet implemented or you misspelt it."
         print "Try `wajig help' for further information."
-        print "Try `wajig list-commands' for list of all commands."
 
     changes.finish_log()
 
