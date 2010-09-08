@@ -5,6 +5,7 @@ wajig (2.0.49) unstable; urgency=low
     build failures for some packages (EG, fakeroot & cdbs).  (Closes: #464003).
   * Add -l|--latest option for CHANGELOG, replacing NEWS (which is now removed).
   * Add -x|--pager option for CHANGELOG to allow can scrolling.
+  * Proceed to upgrade after using -b|--backup option for UPGRADE.
   * "wajig changelog libgtk2.0-0" now works.
 
  -- Graham Williams <Graham.Williams@togaware.com>  Sun, 22 Aug 2010 19:25:42 +1000
