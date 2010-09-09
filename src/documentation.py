@@ -225,7 +225,7 @@ Run 'wajig -v commands' for a complete list of commands.
 
 Command line options:
 
- -b|--backup     UPGRADE - Backup packages before they are upgraded.
+ -b|--backup=DIR UPGRADE - Backup packages before they are upgraded.
  -c|--complete   CHANGELOG - Output the entire changelog.
  -d|--debug      Catch exceptions thrown by the program.
  -h|--help       Print usage message.
@@ -673,12 +673,14 @@ You can upgrade all installed packages with:
 
 You can also backup packages just before upgrading them with:
 
-  $ wajig --backup upgrade              (apt-get -u upgrade)
+  $ wajig -b upgrade
 
-This will run "dpkg-repack" inside a dated directory in "~/.wajig/backups"
-and place the packages in there. You have an option to specify another
-directory: "wajig -b upgrade here" will create "here/2010-08-20_22:53:42"
-in the current directory, for example, and place the packages in there.
+OR
+
+  $ wajig --backup=DIR upgrade
+  
+DIR is directory where backups will end up. For both options, the the
+location of the backups will be displayed.
 
 And you can upgrade all installed packages, remove those packages that
 need to be removed (for various reasons, including issues to do with

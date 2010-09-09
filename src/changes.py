@@ -438,7 +438,7 @@ def backup_before_upgrade(bkdir):
     pkgs = [pkg.name for pkg in cache.get_changes()]
     if pkgs:
         date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
-        if bkdir:
+        if isinstance(bkdir, str):
             target = os.path.abspath(bkdir + "/" + date)
             try:
                 os.makedirs(target)
@@ -448,7 +448,7 @@ def backup_before_upgrade(bkdir):
             target = init_dir + "/backups/" + date
             os.makedirs(target)
         os.chdir(target)
-        print "The packages will saved in", target
+        print "JIG: The packages will saved in", target
         for pkg in pkgs:
             command = "fakeroot -u dpkg-repack " + pkg
             perform.execute(command)

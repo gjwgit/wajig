@@ -239,7 +239,7 @@ def main():
 
     try:
         sopts = "bcdhlnpqstvxy"
-        lopts = ["backup", "debug", "help", "pause", "quiet", "simulate",
+        lopts = ["backup=", "debug", "help", "pause", "quiet", "simulate",
                  "teaching", "verbose=", "version", "yes", "noauth", "pager",
                  "complete"]
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
@@ -263,8 +263,10 @@ def main():
         if o in ["-h", "--help"]:
             documentation.usage()
             finishup()
-        elif o in ["-b", "--backup"]:
+        elif o == "-b":
             backup = True
+        elif o == "--backup":
+            backup = a
         elif o in ["-c", "--complete"]:
             complete = True
         elif o in ["-d", "--debug"]:
@@ -1038,13 +1040,9 @@ def select_command(command, args, verbose, teaching):
                 perform.execute("update-usbids", root=True)
 
     elif command == "upgrade":
-        if backup and requires_package("dpkg-repack", "/usr/bin/dpkg-repack")\
+        if backup and requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
         and requires_package("fakeroot", "/usr/bin/fakeroot"):
-            if len(args) > 1:
-                bkdir = args[1]
-            else:
-                bkdir = None
-            changes.backup_before_upgrade(bkdir)
+            changes.backup_before_upgrade(backup)
             perform.execute("apt-get %s -u upgrade" % noauth, root=True)
         elif len(args) > 1:
             perform.execute("apt-get install " + perform.concat(args[1:]),
