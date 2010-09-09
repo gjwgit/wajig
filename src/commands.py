@@ -733,7 +733,42 @@ def map_sources(packages):
 # CHANGELOG
 #
 #------------------------------------------------------------------------
-def do_changelog(package, pager, latest):
+
+def local_changelog(package, pipe_cmd):
+    "Retrieve Debian changelog from local installation."
+
+    changelog = "/usr/share/doc/" + package + "/changelog.Debian.gz"
+    changelog_native = "/usr/share/doc/" + package + "/changelog.gz"
+    if os.path.exists(changelog):
+        command = "zcat " + changelog + pipe_cmd
+    elif os.path.exists(changelog_native):
+        command = "zcat " + changelog_native + pipe_cmd
+    else:
+        print "Package " + package + " is not installed."
+        return
+    return command
+
+
+def remote_changelog(package, pipe_cmd):
+    "Retrieve Debian changelog from 'packages.debian.org'"
+
+    package = map_sources(package)
+    if not package:
+        print "Package not found! Run 'wajig search package'."
+    for pkg in package:
+        command = "wget --timeout=60 --output-document=-"
+        command += " http://packages.debian.org/changelog:" + pkg[1]
+        command += " 2> /dev/null" + pipe_cmd
+    return command
+
+
+def tuple_it(version):
+    "Strip unwanted chars from version string, and convert to a tuple."
+    excluded = ('-', '.', '(', ')')
+    return tuple([c for c in version if c not in excluded])
+
+
+def do_changelog(package, pager, latest, complete):
     "Display Debian changelog."
 
     if pager:
@@ -746,29 +781,41 @@ def do_changelog(package, pager, latest):
 
     # check if the Debian server where changelogs are located can be found
     if ping_host("packages.debian.org"):
-        package = map_sources(package)
-        if not package:
-            print "Package not found! Run 'wajig search package'."
-        for pkg in package:
-            command = "wget --timeout=60 --output-document=-"
-            command += " http://packages.debian.org/changelog:" + pkg[1]
-            command += " 2> /dev/null" + pipe_cmd
+        if complete:
+            command = remote_changelog(package, pipe_cmd)
+        else:
+            tmp = tempfile.mkstemp()[1]
+            pipe_cmd = " > " + tmp
+            command = local_changelog(package, pipe_cmd)
+            perform.execute(command)
+            local_version = str()
+
+            with open(tmp) as f:
+                first_line = f.readline()
+                local_version = tuple_it(first_line.split()[1])
+
+            command = remote_changelog(package, pipe_cmd)
+            perform.execute(command)
+
+            with open(tmp) as f:
+                for line in f:
+                    if not line[0].isspace():
+                        remote_version = tuple_it(line.split()[1])
+                        if remote_version <= local_version:
+                            break
+                    sys.stdout.write(line)
+            return
 
     # displaying local changelog if Debian server isn't found OR network is off
     else:
-        changelog = "/usr/share/doc/" + package + "/changelog.Debian.gz"
-        changelog_native = "/usr/share/doc/" + package + "/changelog.gz"
-        if os.path.exists(changelog):
-            command = "zcat " + changelog + pipe_cmd
-        elif os.path.exists(changelog_native):
-            command = "zcat " + changelog_native + pipe_cmd
-        else:
-            print "Package " + package + " is not installed."
+        command = local_changelog(package, pipe_cmd)
+
+    # retrieve only the latest changelog entry
     if latest:
         command += "| awk 'NR==1{print;next} /^[^ ]/{exit}{print;next}' "
-        print command
-
-    perform.execute(command)
+        perform.execute(command)
+    elif complete:
+        perform.execute(command)
 
 #------------------------------------------------------------------------
 #

@@ -41,6 +41,7 @@ import perform
 # Global Variables
 #
 latest = False  # print only the latest changelog entry?
+complete = False  # print only the complete changelog?
 pause = False
 interactive = False  # Set to true for interactive command line
 match_commands = []  # For interactive command line completion
@@ -221,6 +222,7 @@ def interactive_shell():
 #------------------------------------------------------------------------
 
 def main():
+    global complete
     global latest
     global pause
     global yes
@@ -236,15 +238,17 @@ def main():
         sys.argv += oldargv[i].split(",")
 
     try:
-        sopts = "bdhlnpqstvxy"
+        sopts = "bcdhlnpqstvxy"
         lopts = ["backup", "debug", "help", "pause", "quiet", "simulate",
-                 "teaching", "verbose=", "version", "yes", "noauth", "pager"]
+                 "teaching", "verbose=", "version", "yes", "noauth", "pager",
+                 "complete"]
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
     except getopt.error, e:
         print e
         documentation.usage()
         finishup(2)
 
+    complete = False
     latest = False
     simulate = False
     teaching = False
@@ -261,14 +265,18 @@ def main():
             finishup()
         elif o in ["-b", "--backup"]:
             backup = True
+        elif o in ["-c", "--complete"]:
+            complete = True
         elif o in ["-d", "--debug"]:
             debug = True
         elif o in ["-p", "--pause"]:
             pause = True
         elif o in ["-x", "--pager"]:
             pager = True
+            complete = True
         elif o in ["-l", "--latest"]:
             latest = True
+            complete = True  # hack for commands.do_changelog()
         elif o in ["-q", "--quiet"]:
             perform.set_quiet()
         elif o in ["-s", "--simulate"]:
@@ -429,7 +437,7 @@ def select_command(command, args, verbose, teaching):
     elif command == "changelog":
         if requires_one_arg(command, args, "package name") and \
            requires_package("wget", "/usr/bin/wget"):
-            commands.do_changelog(args[1], pager, latest)
+            commands.do_changelog(args[1], pager, latest, complete)
 
     elif command == "clean":
         if requires_no_args(command, args):

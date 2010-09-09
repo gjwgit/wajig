@@ -56,6 +56,7 @@ def usage():
 
         Options include:
         -b|--backup     Backup packages before they are upgraded.
+        -c|--complete   CHANGELOG: Output the entire changelog.
         -d|--debug      Catch exceptions thrown by the program.
         -h|--help       Print this documentation and exit.
         -n|--noauth     Allow packages from unathenticated archives.
@@ -115,7 +116,7 @@ Run 'wajig -v commands' for a complete list of commands.
  bug            Check reported bugs in package using the Debian Bug Tracker
  build          Retrieve/unpack sources and build .deb for the named packages
  build-depend   Retrieve packages required to build listed packages
- changelog      Retrieve latest changelog for the package
+ changelog      Display Debian changelog for the package
  clean          Remove all deb files from the download cache
  contents       List the contents of a package file
  daily-upgrade  Perform an update then a dist-upgrade
@@ -221,14 +222,17 @@ Run 'wajig -v commands' for a complete list of commands.
  whatis         A synonym for describe
  whichpkg       Find the package that supplies the given command or file
 
+
 Command line options:
- -b|--backup     Backup packages before they are upgraded.
+
+ -b|--backup     UPGRADE - Backup packages before they are upgraded.
+ -c|--complete   CHANGELOG - Output the entire changelog.
  -d|--debug      Catch exceptions thrown by the program.
  -h|--help       Print usage message.
- -l|--latest     Print only the latest changelog entry.
+ -l|--latest     CHANGELOG - Print only the latest changelog entry.
  -n|--noauth     Allow packages from unathenticated archives.
  -p|--pause      Pause before exiting.
- -x|--pager      Use a pager for viewing Debian changelog.
+ -x|--pager      CHANGELOG - Use a pager for viewing Debian changelog.
  -q|--quiet      Execute system commands quietly.
  -s|--simulate   Show commands to be executed but don't execute.
  -t|--teaching   Show commands to be executed and then execute them.
@@ -398,13 +402,19 @@ All wajig commands:
 
 Command line options:
 
- -h|--help      Print usage message.
- -n|--noauth    Allow packages from unathenticated archives.
- -q|--quiet     Do system commands everything quietly.
- -s|--simulate  Trace but don't execute the sequence of underlying commands.
- -t|--teaching  Trace the sequence of commands performed.
- -v|--verbose=n Increase (or set) the level of verbosity (to n).
- -y|--yes       Assume yes for any questions asked.
+ -b|--backup     Backup packages before they are upgraded.
+ -c|--complete   CHANGELOG: Output the entire changelog.
+ -d|--debug      Catch exceptions thrown by the program.
+ -h|--help       Print this documentation and exit.
+ -n|--noauth     Allow packages from unathenticated archives.
+ -l|--latest     Print only the latest changelog entry.
+ -p|--pause      Pause before exiting.
+ -x|--pager      Use a pager for viewing Debian changelog.
+ -q|--quiet      Do not show progress of commands.
+ -s|--simulate   Show commands to be executed but don't execute.
+ -t|--teaching   Show commands to be executed and then execute them.
+ -v|--verbose=n  Increase (or set) the level of verbosity (to n).
+ -y|--yes        Assume yes for any questions asked.
 
 Wajig expects a command and will call upon other Debian tools to
 perform the command.  Commands can be in mixed case and with hyphens
@@ -597,7 +607,7 @@ The more detailed description of a package is available with:
 
 Here, the package name can be replaced with a specific deb file.
 
-The complete Debian changelog can be retrieved with:
+The Debian changelog can be retrieved with:
 
   $ wajig changelog <package name>
 
@@ -612,6 +622,9 @@ IF only the latest changelog entry is desired, use::
 
   $ wajig --latest changelog <package names>
 
+If the entire changelog is desired, use:
+
+  $ wajig --complete changelog <package names>
 
 
 INSTALLING PACKAGES
