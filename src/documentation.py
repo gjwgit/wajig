@@ -46,28 +46,14 @@ def usage():
 
         Wajig is a command-line system manager for Debian GNU/Linux
 
-        For a list of common commands try `wajig help'.
-        For a list of all commands try `wajig -v commands'.
-        Basic documentation is available with `wajig doc | less'
+        For a list of common commands try 'wajig help'.
+        For a list of all commands try 'wajig -v commands'.
+        Basic documentation is available with 'wajig doc | less'
 
         Full documentation from http://www.togaware.com/wajig
 
         Gnome-jig (gjig) provides a Gnome interface to JIG.
 
-        Options include:
-        -b|--backup     Backup packages before they are upgraded.
-        -c|--complete   CHANGELOG: Output the entire changelog.
-        -d|--debug      Catch exceptions thrown by the program.
-        -h|--help       Print this documentation and exit.
-        -n|--noauth     Allow packages from unathenticated archives.
-        -l|--latest     Print only the latest changelog entry.
-        -p|--pause      Pause before exiting.
-        -x|--pager      Use a pager for viewing Debian changelog.
-        -q|--quiet      Do not show progress of commands.
-        -s|--simulate   Show commands to be executed but don't execute.
-        -t|--teaching   Show commands to be executed and then execute them.
-        -v|--verbose=n  Increase (or set) the level of verbosity (to n).
-        -y|--yes        Assume yes for any questions asked.
 """
 
 
