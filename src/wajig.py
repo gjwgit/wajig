@@ -1040,13 +1040,12 @@ def select_command(command, args, verbose, teaching):
                 perform.execute("update-usbids", root=True)
 
     elif command == "upgrade":
-        if backup and requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
-        and requires_package("fakeroot", "/usr/bin/fakeroot"):
+        if backup \
+        and requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
+        and requires_package("fakeroot", "/usr/bin/fakeroot") \
+        and requires_no_args(command, args):
             changes.backup_before_upgrade(backup)
             perform.execute("apt-get %s -u upgrade" % noauth, root=True)
-        elif len(args) > 1:
-            perform.execute("apt-get install " + perform.concat(args[1:]),
-                                root=True)
         else:
             perform.execute("apt-get %s -u upgrade" % noauth, root=True)
 
