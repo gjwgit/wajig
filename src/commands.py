@@ -798,12 +798,19 @@ def do_changelog(package, pager, latest, complete):
             perform.execute(command)
 
             with open(tmp) as f:
+                running_latest_version = True
                 for line in f:
                     if not line[0].isspace():
                         remote_version = tuple_it(line.split()[1])
                         if remote_version <= local_version:
+                            if running_latest_version:
+                                print """
+You are running the latest version available from Debian repositories. To
+display the changelog regardless, run 'wajig --complete changelog pkgname'.
+"""
                             break
                     sys.stdout.write(line)
+                    running_latest_version = False
             return
 
     # displaying local changelog if Debian server isn't found OR network is off
