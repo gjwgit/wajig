@@ -46,11 +46,11 @@ def usage():
 
         Wajig is a command-line system manager for Debian GNU/Linux
 
-        For a list of common commands try 'wajig help'.
-        For a list of all commands try 'wajig -v commands'.
-        Basic documentation is available with 'wajig doc | less'
+        For a list of common commands try "wajig help".
+        For a list of all commands try "wajig -v help".
+        Basic documentation is available with "wajig doc | pager".
 
-        Full documentation from http://www.togaware.com/wajig
+        Full documentation is at http://www.togaware.com/wajig.
 
         Gnome-jig (gjig) provides a Gnome interface to JIG.
 
@@ -260,49 +260,26 @@ unity.'
 Development of WAJIG is sponsored and supported by Togaware, an
 Australian based Debian GNU/Linux company.
 
-WAJIG DOCUMENTATION
-
-Wajig is an interface to many Debian administrative tasks.  It
-consists of two interfaces: wajig is a command line interface and gjig
-is a Gnome interface.
-
-Wajig commands are entered as the first argument to wajig. For
-example: "wajig install gnome". On the other hand, gjig has buttons
-for many of the commands, whilst also allowing commands to be typed
-directly.  Gjig is also self documenting, providing extensive
-documentation as tooltips.
-
-The word jig a couple of meanings, as WordNet and Webster's 1913
-Dictionary will confirm. It is a small machine or handy tool used to
-guide other tools. It is also a quick dance, generally an old rustic
-dance involving kicking and leaping, as well as a light, humorous
-piece of writing, especially in rhyme, a farce in verse, or a ballad.
-"A jig shall be clapped at, and every rhyme praised and applauded!"
-For wajig, `wa' is Japanese, indicating `harmony' and `team spirit and
-unity.'
-
 Written in Python, wajig uses traditional Debian administration and
 user tools including apt-get, dpkg, apt-cache, wget, and others.  It
 is intended to unify and simplify common administrative tasks.
 
 Wajig has evolved over many years and there's an ever growing band of
-users.  It has some of the same aims as the feta package and I thought
-to wrap the extra wajig features into feta, but a number of users
-suggested that wajig should stay.  So it was rewritten from its
-original shell script to be a Python program. It is available under
-the GPL.
+users.  It was rewritten from its original shell script to be a Python
+program.
 
-As wajig is simply my frontend to various other commands the goal of
+As wajig is simply my frontend to various other commands, the goal of
 this chapter is more than simply demonstrating how to manage your
 system with wajig.  Wajig may not be the answer you are looking for
-and that is fine. Where ever I illustrate a procedure with wajig I
+and that is fine. Where-ever I illustrate a procedure with wajig I
 will often indicate the underlying commands that are being used to
 effect the wajig command.  You can then use these underlying commands
 directly if you prefer.
 
-Online information about wajig includes Karl Schmidt's rpm to
-apt-get/dpkg page at http://xtronics.com/reference/rpm2apt-dpkg.htm,
-and my own guide at http://wajig.togaware.com/.
+Online information about wajig is at http://wajig.togaware.com.
+Wajig is hosted on google code at http://code.google.com/p/wajig/ using
+Mercurial. Tshepang Lekhonkhobe is the current active developer.
+
 
 HISTORY: MOTIVATIONS FOR WAJIG
 
@@ -320,12 +297,14 @@ This Python script simply collects together what I have learnt over
 the years about various commands!  Clearly I have yet to learn all
 there is.
 
+
 INSTALLING WAJIG
 
 Wajig is available in the Debian distribution.  As root:
 
   # apt-get update
   # apt-get install wajig
+
 
 THE BASIC DEBIAN TOOLS
 
@@ -346,6 +325,7 @@ introduction to apt-get. Also see
   /usr/share/doc/apt/offline.html/index.html
 
 on your local Debian machine for using apt off line.
+
 
 WAJIG OVERVIEW
 
@@ -409,6 +389,7 @@ and underscores, and internally these are mapped to the one command.
 Thus, the commands `Install', `INSTALL', `install' and even `in-stall'
 are interpreted identically.
 
+
 GETTING STARTED WITH SUDO
 
 The aim of wajig is to operate as much as possible as a user command
@@ -437,6 +418,7 @@ and
 in the appropriate places (it should be obvious looking at the file).
 The user kayon can then run apt-get and related commands as the super
 user.
+
 
 AVAILABLE PACKAGES
 
@@ -652,6 +634,7 @@ list of installed packages on another system with:
 
   $ wajig listinstalled > <filename>    (dpkg --get-selections)
 
+
 UPGRADING PACKAGES
 
 You can upgrade all installed packages with:
@@ -660,11 +643,11 @@ You can upgrade all installed packages with:
 
 You can also backup packages just before upgrading them with:
 
-  $ wajig -b upgrade
+  $ wajig -b upgrade pkgname
 
 OR
 
-  $ wajig --backup=DIR upgrade
+  $ wajig --backup=DIR upgrade pkgname
   
 DIR is directory where backups will end up. For both options, the the
 location of the backups will be displayed.
@@ -716,6 +699,7 @@ To get rid of the configuation files as well use:
 
   $ wajig purge <package name>          (apt-get --purge remove)
 
+
 LOGGING THE INSTALLATION
 
 Whenever a package is installed, upgraded, or removed, a log is
@@ -737,7 +721,8 @@ the change log of the package and then decide whether to continue with
 the upgrade. Simply install the apt-listchanges package to turn this
 feature on.
 
-INSTALLING ALIEN PACKAGES
+
+INSTALLING ALIEN (RedHat/Fedora/CentOS) PACKAGES
 
 RedHat has quite an installed base of users. Some packages
 (particularly commercial packages) are available as RedHat packages
@@ -747,6 +732,7 @@ into deb format which can then be installed. This is taken care of by
 wajig:
 
   $ wajig rpminstall gmyclient-0.0.91b-1.i386.rpm
+
 
 PUTTING PACKAGES ON HOLD
 
@@ -765,6 +751,7 @@ the package on hold with:
 
 A wajig upgrade would not try to upgrade this package.
 
+
 BUILDING PACKAGES
 
 Sometimes the binary distribution of the package is configured or
@@ -778,6 +765,7 @@ solutions. One is to tune a specific source package and build a Debian
 package from it. The second is to specify general configuration
 options for your system and then rebuild many packages to with these
 options.
+
 
 BUILDING PACKAGES FROM SOURCE
 
@@ -879,6 +867,7 @@ Be sure to edit the list to remove, for example, gcc! Then a:
 
 will recompile and optimise all packages.
 
+
 PINNING DISTRIBUTIONS
 
 With the Debian packaging system you can specify that your packages
@@ -912,6 +901,7 @@ the configurator is:
 
   # dpkg-reconfigure --frontend=dialog debconf
 
+
 SETTING DEFAULT APPLICATIONS
 
 Debian has a system of alternatives for various commands (or
@@ -942,6 +932,7 @@ of high quality.
 In the following sections I identify a number of problems or issues that
 I've not yet resolved for some of my installations.
 
+
 MANAGING DAEMONS OR SERVICES
 
 In addition to managing the installed packages wajig also allows you
@@ -966,6 +957,7 @@ include:
   ssh    The Secure Shell daemon
 
 Generally, daemons are started at system boot time automatically.
+
 
 ALTERNATIVE APPLICATIONS
 
@@ -1000,6 +992,7 @@ priorities with:
 To remove a Window Manager:
 
 # update-alternatives --remove x-window-manager /usr/bin/mywm
+
 
 PACKAGE ARCHIVES
 
@@ -1050,6 +1043,7 @@ Then you can do, for example:
 
   $ wajig available sed
   $ wajig install sed=4.1.2-1
+
 
 MAINTAINING A DISTRIBUTION ARCHIVE
 
@@ -1149,6 +1143,7 @@ Then add the following line to /etc/apt/sources.list:
 
   deb file:/usr/local/cache local local
 
+
 OTHER COMMANDS
 
 These may work their way into wajig.
@@ -1183,4 +1178,3 @@ anther machine:
 # apt-get dselect-upgrade
 
 """
-
