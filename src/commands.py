@@ -765,7 +765,7 @@ def remote_changelog(package, pipe_cmd):
 def tuple_it(version):
     "Strip unwanted chars from version string, and convert to a tuple."
     excluded = ('-', '.', '(', ')')
-    return tuple([c for c in version if c not in excluded])
+    return tuple([char for char in version if char not in excluded])
 
 
 def do_changelog(package, pager, latest, complete):
