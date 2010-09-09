@@ -30,8 +30,9 @@ HACKING
 $ hg clone https://wajig.googlecode.com/hg
 * follow PEP-8 where it makes sense ($ pep8 src/wajig.py)
 * run pylint on the changed files ($ pylint src/wajig.py)
-* write unit tests if your code is easily testable
-* ensure that new features are documented in "src/documentation.py"
+* write unit tests, found in "test.py", if your code is easily testable
+* please ensure the unit tests pass before any commits
+* ensure that new features and changes are documented in "src/documentation.py"
 
 
 -----------------------
