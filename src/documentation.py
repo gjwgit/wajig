@@ -237,6 +237,7 @@ Command line options:
  -s|--simulate   Show commands to be executed but don't execute.
  -t|--teaching   Show commands to be executed and then execute them.
  -y|--yes        Assume yes for any questions asked.
+ -v|--verbose=n  Increase (or set) the level of verbosity (to n).
 
 Fuller documentation can be found at http://www.togaware.com/wajig.
 """

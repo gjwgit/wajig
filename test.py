@@ -119,7 +119,7 @@ _wajig()
                                   -h --help -l --latest -n --noauth  \ 
                                   -p --pause -x --pager -q --quiet  \ 
                                   -s --simulate -t --teaching -y  \ 
-                                  --yes' -- $cur ) )
+                                  --yes -v --verbose' -- $cur ) )
         else
             COMPREPLY=($( compgen -W '
             addcdrom addrepo auto-alts auto-clean auto-download \ 
