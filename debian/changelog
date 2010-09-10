@@ -1,22 +1,24 @@
 wajig (2.0.49) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
+  * UPGRADE: Don't automatically do an 'apt-get update' with the backup options
+    because it's non-standard behaviour.
   * UPGRADE: Add command line argument for --backup to specify target directory.
     * Used to be "wajig --backup upgrade BKDIR".
     * Now it's "wajig --backup=BKDIR upgrade".
   * UPGRADE: Proceed to upgrade after using -b|--backup option.
   * UPGRADE: Remove the option to install listed packages. This helps reduce
     code complexity.
-  * CHANGELOG: now displays uninstalled entries by default. (Closes: #424668).
+  * CHANGELOG: Now displays uninstalled entries by default. (Closes: #424668).
   * CHANGELOG: Add -c|--complete option to display the whole thing. This was
     the default option, but suggestion offered in #424668 is more sane.
   * CHANGELOG: Add -l|--latest option, replacing NEWS (which is now removed).
   * CHANGELOG: Add -x|--pager option to allow can scrolling.
   * DIST-UPGRADE: Add -b|--backup=BKDIR option to allow backing up of packages
     before dist-upgrade.
-  * BUILD: now uses sudo instead of fakeroot to avoid permission-related
+  * BUILD: Now uses sudo instead of fakeroot to avoid permission-related.
     build failures for some packages (EG, fakeroot & cdbs). (Closes: #464003).
-  * "wajig changelog libgtk2.0-0" now works.
+  * Fix a parsing bug where "wajig changelog libgtk2.0-0" didn't work.
 
  -- Graham Williams <Graham.Williams@togaware.com>  Sun, 22 Aug 2010 19:25:42 +1000
 

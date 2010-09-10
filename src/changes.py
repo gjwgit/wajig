@@ -432,7 +432,6 @@ def get_dependencies(pkg):
 
 
 def backup_before_upgrade(bkdir, distupgrade=False):
-    perform.execute("apt-get update", root=True)
     cache = apt.Cache()
     cache.upgrade(distupgrade)
     pkgs = [pkg.name for pkg in cache.get_changes()]
