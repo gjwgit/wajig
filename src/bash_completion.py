@@ -99,7 +99,7 @@ wajig = "{0}'{1}".format(wajig, part2)
 wajig += c_str[0].lstrip()
 for i in range(1, len(c_str)):
     wajig = "{0}           {1}".format(wajig, c_str[i])
-wajig = "{0}'{1}\n".format(wajig, part3)
+wajig = "{0}'{1}".format(wajig, part3)
 
 with open("wajig.completion", "w") as f:
     f.write(wajig)

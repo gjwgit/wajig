@@ -149,8 +149,7 @@ _wajig()
             whatis whichpkg' -- $cur ) )
         fi
 }
-complete -F _wajig $default wajig
-""".split("\n")
+complete -F _wajig $default wajig""".split("\n")
 
         import os, difflib
 
