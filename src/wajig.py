@@ -120,7 +120,7 @@ def package_exists(package, test=False):
     else:
         if not test:
             print package, "not found in the Binary cache. Does it exist?"
-        return False
+            finishup(1)
 
 
 def finishup(code=0):
@@ -449,8 +449,9 @@ def select_command(command, args, verbose, teaching):
                             root=True)
 
     elif command == "changelog":
-        if requires_one_arg(command, args, "package name") and \
-           requires_package("wget", "/usr/bin/wget"):
+        if requires_one_arg(command, args, "package name") \
+           and requires_package("wget", "/usr/bin/wget") \
+           and package_exists(args[1]):
             commands.do_changelog(args[1], pager, latest, complete)
 
     elif command == "clean":
