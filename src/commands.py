@@ -30,6 +30,7 @@ import tempfile
 import signal
 
 import apt_pkg
+import apt
 
 # Wajig modules
 import changes
@@ -763,12 +764,6 @@ def remote_changelog(package, pipe_cmd):
     return command
 
 
-def tuple_it(version):
-    "Strip unwanted chars from version string, and convert to a tuple."
-    excluded = ('-', '.', '(', ')')
-    return tuple([char for char in version if char not in excluded])
-
-
 def do_changelog(package, pager, latest, complete):
     "Display Debian changelog."
 
@@ -785,33 +780,12 @@ def do_changelog(package, pager, latest, complete):
         if complete:
             command = remote_changelog(package, pipe_cmd)
         else:
-            tmp = tempfile.mkstemp()[1]
-            pipe_cmd = " > " + tmp
-            command = local_changelog(package, pipe_cmd)
-            perform.execute(command)
-            local_version = str()
-
-            with open(tmp) as f:
-                first_line = f.readline()
-                local_version = tuple_it(first_line.split()[1])
-
-            command = remote_changelog(package, pipe_cmd)
-            perform.execute(command)
-
-            with open(tmp) as f:
-                running_latest_version = True
-                for line in f:
-                    if not line[0].isspace():
-                        remote_version = tuple_it(line.split()[1])
-                        if remote_version <= local_version:
-                            if running_latest_version:
-                                print """
-You are running the latest version available from Debian repositories. To
-display the changelog regardless, run 'wajig --complete changelog pkgname'.
-"""
-                            break
-                    sys.stdout.write(line)
-                    running_latest_version = False
+            changelog = apt.Cache()[package].get_changelog()
+            if "The list of changes is not available" == changelog:
+                changelog += ". You are likely running the latest version.\n" \
+                             "To display the changelog regardless, run " \
+                             "'wajig --pager changelog pkgname'."
+            print changelog
             return
 
     # displaying local changelog if Debian server isn't found OR network is off
