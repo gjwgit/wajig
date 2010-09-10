@@ -11,7 +11,6 @@ initial author: Author Don Rozenberg
 changes by Graham Williams and Tshepang Lekhonkhobe
 """
 
-import os
 import re
 import pprint
 import subprocess
