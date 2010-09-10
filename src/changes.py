@@ -432,6 +432,8 @@ def get_dependencies(pkg):
 
 
 def backup_before_upgrade(bkdir, distupgrade=False):
+    "Optional functionality to backup packages before a (dist)upgrade for \
+     later recovery in case of trouble caused by the newly installed."
     cache = apt.Cache()
     cache.upgrade(distupgrade)
     pkgs = [pkg.name for pkg in cache.get_changes()]
