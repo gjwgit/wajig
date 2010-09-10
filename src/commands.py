@@ -705,6 +705,12 @@ def do_new():
         print "%-24s %s" % (new_pkgs[i],
             changes.get_available_version(new_pkgs[i]))
 
+#------------------------------------------------------------------------
+#
+# CHANGELOG
+#
+#------------------------------------------------------------------------
+
 def map_sources(packages):
     """Return Source package name for each package in PACKAGES.
 
@@ -728,12 +734,6 @@ def map_sources(packages):
     return sources
 
 
-#------------------------------------------------------------------------
-#
-# CHANGELOG
-#
-#------------------------------------------------------------------------
-
 def local_changelog(package, pipe_cmd):
     "Retrieve Debian changelog from local installation."
 
@@ -744,7 +744,8 @@ def local_changelog(package, pipe_cmd):
     elif os.path.exists(changelog_native):
         command = "zcat " + changelog_native + pipe_cmd
     else:
-        print "Package " + package + " is not installed."
+        print "Package", package, "is not installed OR is not existent from \
+the repositories."
         return
     return command
 
