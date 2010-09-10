@@ -18,7 +18,7 @@ import subprocess
 
 pp = pprint.PrettyPrinter()
 
-option_patt = r'^(-[a-z]*)\|(--[a-z]*)'
+option_patt = r'^(-[a-z])\|(--[a-z]*)'
 option_patt_r = re.compile(option_patt)
 
 command_patt = r'^([a-z-]*)'
@@ -33,47 +33,36 @@ c_i = 0
 # Run wajig command
 cmd = "python src/wajig.py -v commands"
 with subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout as f:
-    for l in f:
-        l = l.strip()
-        if l == '':
+    for line in f:
+        line = line.strip()
+        if not line or (":" in line):
             continue
-        if l.find(':') > -1:
-            continue
-        if l.find('Run') == 0:
-            continue
-        if l.find('-') == 0:
-            mo = option_patt_r.search(l)
+        if line.startswith('-'):
+            mo = option_patt_r.search(line)
             if mo == None:
                 continue
             o1 = mo.group(1)
             o2 = mo.group(2)
             if len(o_str[o_i]) > 30:
-                o_str[o_i] = "%s %s" % (o_str[o_i], ' \\ \n')
+                o_str[o_i] = "{0} {1}".format(o_str[o_i], ' \\ \n')
                 o_str.append('')
                 o_i += 1
-            o_str[o_i] = "%s %s" % (o_str[o_i], o1)
+            o_str[o_i] = "{0} {1}".format(o_str[o_i], o1)
             if len(o_str[o_i]) > 30:
-                o_str[o_i] = "%s %s" % (o_str[o_i], ' \\ \n')
+                o_str[o_i] = "{0} {1}".format(o_str[o_i], ' \\ \n')
                 o_str.append('')
                 o_i += 1
-            o_str[o_i] = "%s %s" % (o_str[o_i], o2)
+            o_str[o_i] = "{0} {1}".format(o_str[o_i], o2)
         else:
-            mo = command_patt_r.search(l)
+            mo = command_patt_r.search(line)
             if mo == None:
                 continue
             cmd = mo.group(1)
             if len(c_str[c_i]) > 40:
-                c_str[c_i] = "%s %s" % (c_str[c_i], '\\ \n')
+                c_str[c_i] = "{0} {1}".format(c_str[c_i], '\\ \n')
                 c_str.append('')
                 c_i += 1
-            c_str[c_i] = "%s %s" % (c_str[c_i], cmd)
-
-# For debugging, print the commands and options.
-#print
-#pp.pprint(c_str)
-
-#print
-#pp.pprint(o_str)
+            c_str[c_i] = "{0} {1}".format(c_str[c_i], cmd)
 
 part1 = '''\
 have wajig &&
@@ -101,24 +90,17 @@ part3 = ''' -- $cur ) )
 complete -F _wajig $default wajig
 '''
 
-
-wajig = part1
-
 #add the options.
-wajig = "%s%s" % (wajig, o_str[0].lstrip())
+wajig = "{0}{1}".format(part1, o_str[0].lstrip())
 for i in range(1, len(o_str)):
-    wajig = "%s                                 %s" % (wajig, o_str[i])
-
-#add part2
-wajig = "%s'%s" % (wajig, part2)
+    wajig = "{0}                                 {1}".format(wajig, o_str[i])
+wajig = "{0}'{1}".format(wajig, part2)
 
 #add the commands.
-wajig = "%s%s" % (wajig, c_str[0].lstrip())
+wajig += c_str[0].lstrip()
 for i in range(1, len(c_str)):
-    wajig = "%s           %s" % (wajig, c_str[i])
-
-#add the remainder.
-wajig = "%s'%s\n" % (wajig, part3)
+    wajig = "{0}           {1}".format(wajig, c_str[i])
+wajig = "{0}'{1}\n".format(wajig, part3)
 
 with open("wajig.completion", "w") as f:
     f.write(wajig)
