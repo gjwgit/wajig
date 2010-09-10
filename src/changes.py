@@ -431,10 +431,10 @@ def get_dependencies(pkg):
     return dp
 
 
-def backup_before_upgrade(bkdir):
+def backup_before_upgrade(bkdir, distupgrade=False):
     perform.execute("apt-get update", root=True)
     cache = apt.Cache()
-    cache.upgrade()
+    cache.upgrade(distupgrade)
     pkgs = [pkg.name for pkg in cache.get_changes()]
     if pkgs:
         date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())

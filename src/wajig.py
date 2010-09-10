@@ -481,6 +481,11 @@ def select_command(command, args, verbose, teaching):
     elif command == "distupgrade":
         if requires_opt_arg(command, args,
                             "the distribution to upgrade to"):
+            if backup \
+            and requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
+            and requires_package("fakeroot", "/usr/bin/fakeroot"):
+                changes.backup_before_upgrade(backup, distupgrade=True)
+
             cmd = "apt-get -u %s %s " % (yes, noauth)
             if len(args) == 2:
                 cmd += "-t " + args[1] + " "
