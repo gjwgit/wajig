@@ -111,6 +111,18 @@ def requires_package(package, path, test=False):
     return True
 
 
+def package_exists(package, test=False):
+    import apt
+    cache = apt.Cache()
+    if package in cache.keys():
+        pkg = cache[package]
+        return True
+    else:
+        if not test:
+            print package, "not found in the Binary cache. Does it exist?"
+        return False
+
+
 def finishup(code=0):
     global pause
     if pause:

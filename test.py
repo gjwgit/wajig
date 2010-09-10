@@ -98,6 +98,10 @@ class WaJIGTests(unittest.TestCase):
         res = wajig.requires_package("ls", "TEST", test=True)
         self.assertFalse(res)
 
+    def test_wajig_package_exists(self):
+        self.assertTrue(wajig.package_exists("dpkg", test=True))
+        self.assertFalse(wajig.package_exists("pkg_does_not_exist", test=True))
+
     # ----
     # testing bash_completion.py
     #
