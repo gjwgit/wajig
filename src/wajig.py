@@ -1050,9 +1050,7 @@ def select_command(command, args, verbose, teaching):
         and requires_package("fakeroot", "/usr/bin/fakeroot") \
         and requires_no_args(command, args):
             changes.backup_before_upgrade(backup)
-            perform.execute("apt-get %s -u upgrade" % noauth, root=True)
-        else:
-            perform.execute("apt-get %s -u upgrade" % noauth, root=True)
+        perform.execute("apt-get %s -u upgrade" % noauth, root=True)
 
     elif command == "upgradesecurity":
         sources_list = tempfile.mkstemp(".security", "wajig.", "/tmp")[1]
