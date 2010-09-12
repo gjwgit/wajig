@@ -9,7 +9,7 @@ wajig (2.0.49) unstable; urgency=low
   * UPGRADE: Proceed to upgrade after using -b|--backup option.
   * UPGRADE: Remove the option to install listed packages. This helps reduce
     code complexity.
-  * CHANGELOG: Now displays uninstalled entries by default. (Closes: #424668).
+  * CHANGELOG: Now only displays uninstalled entries by default. (Closes: #424668).
   * CHANGELOG: Add -c|--complete option to display the whole thing. This was
     the default option, but suggestion offered in #424668 is more sane.
   * CHANGELOG: Add -l|--latest option, replacing NEWS (which is now removed).
