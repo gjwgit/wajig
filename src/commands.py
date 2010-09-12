@@ -220,7 +220,7 @@ def do_describe(packages):
     package_names = [pkg for pkg in packages if not pkg.endswith(".deb")]
     if package_files:
         for package_file in package_files:
-            perform.execute("dpkg-deb --info {0}".format(package_file))
+            perform.execute("dpkg-deb --info " + package_file)
             print "="*72
             sys.stdout.flush()
 
