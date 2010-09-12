@@ -49,15 +49,6 @@ backup = False
 pager = False  # Use a pager?
 
 
-def finishup(code=0):
-    global pause
-    if pause:
-        print "Press Enter to continue...",
-        sys.stdin.readline()
-    if not interactive:
-        sys.exit(code)
-
-
 def print_help(command, args, verbose=False, exit=False):
     if   command == "doc" or command == "docs" or command == "documentation":
         requires_no_args(command, args)
@@ -122,6 +113,7 @@ def interactive_shell():
     global all_commands
     global interactive
     interactive = True
+    util.interactive = True
     try:
         import readline
         readline.parse_and_bind("tab: complete")
@@ -208,6 +200,7 @@ def main():
             debug = True
         elif o in ["-p", "--pause"]:
             pause = True
+            util.pause = True
         elif o in ["-x", "--pager"]:
             pager = True
             complete = True  # 'pager' implies 'complete'

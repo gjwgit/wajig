@@ -18,9 +18,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#
+
+"Contains miscellaneous utilities."
 
 import os
+import sys
+
+pause = False
+interactive = False
 
 
 def requires_no_args(command, args, test=False):
@@ -84,9 +89,17 @@ def package_exists(package, test=False):
     import apt
     cache = apt.Cache()
     try:
-        pkg = cache[package]
+        cache[package]
         return True
     except KeyError, e:
         if not test:
             print e
             finishup(1)
+
+
+def finishup(code=0):
+    if pause:
+        print "Press Enter to continue...",
+        sys.stdin.readline()
+    if not interactive:
+        sys.exit(code)
