@@ -74,8 +74,7 @@ def requires_args(command, args, required=False):
 def requires_package(package, path, test=False):
     if not os.path.exists(path):
         if not test:
-            print 'The "' + package + '" package does not appear to be installed.'
-            print 'Consider installing it with "wajig install ' + package + '".'
+            print 'This command depends on "' + package + '"  being installed.'
             finishup(1)
         return False
     return True
