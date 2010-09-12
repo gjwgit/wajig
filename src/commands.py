@@ -751,23 +751,10 @@ the repositories."
     return command
 
 
-def remote_changelog(package, pipe_cmd):
-    "Retrieve Debian changelog from 'packages.debian.org'"
-
-    package = map_sources(package)
-    if not package:
-        print "Package not found! Run 'wajig search package'."
-    for pkg in package:
-        command = "wget --timeout=60 --output-document=-"
-        command += " http://packages.debian.org/changelog:" + pkg[1]
-        command += " 2> /dev/null" + pipe_cmd
-    return command
-
-
 def do_changelog(package, pager, latest, complete):
     "Display Debian changelog."
 
-    if pager:
+    if pager:  # also implies "complete=True"
         pipe_cmd = " | /usr/bin/sensible-pager"
     else:
         pipe_cmd = ""
@@ -777,16 +764,17 @@ def do_changelog(package, pager, latest, complete):
 
     # check if the Debian server where changelogs are located can be found
     if ping_host("packages.debian.org"):
+        changelog = apt.Cache()[package].get_changelog()
+        if "The list of changes is not available" == changelog:
+            changelog += ". You are likely running the latest version.\n" \
+                         "To display the changelog regardless, run " \
+                         "'wajig --pager changelog pkgname'."
         if complete:
-            command = remote_changelog(package, pipe_cmd)
+            changelog += local_changelog(package, pipe_cmd)
+            perform.execute(command)
         else:
-            changelog = apt.Cache()[package].get_changelog()
-            if "The list of changes is not available" == changelog:
-                changelog += ". You are likely running the latest version.\n" \
-                             "To display the changelog regardless, run " \
-                             "'wajig --pager changelog pkgname'."
             print changelog
-            return
+        return
 
     # displaying local changelog if Debian server isn't found OR network is off
     else:
