@@ -718,13 +718,11 @@ def local_changelog(package, pipe_cmd):
     changelog = "/usr/share/doc/" + package + "/changelog.Debian.gz"
     changelog_native = "/usr/share/doc/" + package + "/changelog.gz"
     if os.path.exists(changelog):
-        command = "zcat " + changelog + pipe_cmd
+        return "zcat " + changelog + pipe_cmd
     elif os.path.exists(changelog_native):
-        command = "zcat " + changelog_native + pipe_cmd
+        return "zcat " + changelog_native + pipe_cmd
     else:
         print "Package", package, "is not installed."
-        return
-    return command
 
 
 def do_changelog(package, pager, complete):
