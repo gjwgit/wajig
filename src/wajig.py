@@ -108,7 +108,6 @@ def wajig_completer(text, state):
     #
     global match_commands  # List of cached matching commands
     n = len(text)
-    word = None
     if state == 0:
         match_commands = []
         for w in all_commands:
@@ -151,7 +150,7 @@ def interactive_shell():
         elif command in ("doc", "docs", "documentation", "help"):
             print_help(command, cmd)
         elif cmd:
-            select_command(command, cmd, False, False)
+            select_command(command, cmd, False)
 
 #------------------------------------------------------------------------
 #
@@ -281,19 +280,18 @@ def main():
     # Check for sys.exit (SystemExit exceptions) and return code.
     #
     if debug:
-        select_command(command, args, verbose, teaching)
+        select_command(command, args, verbose)
     else:
         try:
-            select_command(command, args, verbose, teaching)
+            select_command(command, args, verbose)
         except SystemExit, e:
             sys.exit(e)
         except:
-            # print "Exiting...."
-            None
+            pass
     finishup(0)
 
 
-def select_command(command, args, verbose, teaching):
+def select_command(command, args, verbose):
     """Select the appropriate command and execute it.
 
     This function was separated out of the main so that I could wrap
