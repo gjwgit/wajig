@@ -369,7 +369,6 @@ def select_command(command, args, verbose):
 
     elif command == "changelog":
         if requires_one_arg(command, args, "package name") \
-           and requires_package("wget", "/usr/bin/wget") \
            and package_exists(args[1]):
             commands.do_changelog(args[1], pager, complete)
 
