@@ -1,8 +1,8 @@
 wajig (2.0.49) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
-  * UPGRADE: Don't automatically do an 'apt-get update' with the backup options
-    because it's non-standard behaviour.
+  * UPGRADE: Don't automatically do an "apt-get update" with the backup option;
+    the behaviour is not standard, and is not so-damn-fast.
   * UPGRADE: Add command line argument for --backup to specify target directory.
     * Used to be "wajig --backup upgrade BKDIR".
     * Now it's "wajig --backup=BKDIR upgrade".

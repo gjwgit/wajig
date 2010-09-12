@@ -3,7 +3,7 @@
 
 """Program to generate bash_completion function for wajig.
 
-It runs 'wajig -v command' and analyzes the output to generate the script.
+It runs 'wajig -v commands' and analyzes the output to generate the script.
 To use the output, place the generated file in /etc/bash_completion.d.
 To test it, source it in your .bashrc.
 
