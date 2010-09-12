@@ -712,29 +712,6 @@ def do_new():
 #
 #------------------------------------------------------------------------
 
-def map_sources(packages):
-    """Return Source package name for each package in PACKAGES.
-
-    Note that the source could include a version number.
-    Only replace with source if package exists (Bug#295455).
-    """
-    tagfile = apt_pkg.TagFile(open("/var/lib/dpkg/available", "r"))
-    sources = []
-    for section in tagfile:
-        # May want to look to terminate as soon as all packages
-        # have been found - to be more efficient
-        if section.get("Package") in packages:
-            if section.get("Source"):
-                pkgname = section.get("Source")
-                # pkgname.split() ensures that we won't have "(1.0)" in
-                # "pkg (1.0)", which is the case for gtk+2.0.
-                # This means that "wajig changelog libgtk2.0-0" now works.
-                sources.append([pkgname.split()[0], section.get("Package")])
-            else:
-                sources += [[section.get("Package"), section.get("Package")]]
-    return sources
-
-
 def local_changelog(package, pipe_cmd):
     "Retrieve Debian changelog from local installation."
 
