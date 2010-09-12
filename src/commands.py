@@ -245,9 +245,7 @@ def do_describe(packages):
     else:
         return
     avail = get_available()
-
-    # Record the descriptions
-    describe_list = {}
+    describe_list = dict()
 
     # Check for information in the Available list
     for section in avail:
@@ -265,10 +263,8 @@ def do_describe(packages):
 #             describe_list[pkgname] = cache[pkgname].description
     # End Bug Fix for Bug#366678
 
-    #
     # Print out the one line descriptions. Should it be sorted?
     # If not sorted it should be same order as on the command line.
-    #
     pkgs = describe_list.keys()
     pkgs.sort()
     #
