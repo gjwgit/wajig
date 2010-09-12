@@ -1012,7 +1012,8 @@ def select_command(command, args, verbose):
 
     elif command in ["whichpkg", "whichpackage"]:
         if requires_one_arg(command, args, "a filename (possibly with a path)") \
-        and requires_package("wget", "/usr/bin/wget"):
+        and requires_package("wget", "/usr/bin/wget") \
+        and requires_package("lynx", "/usr/bin/lynx"):
             commands.do_whichpkg(args[1])
 
     else:
