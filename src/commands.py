@@ -35,6 +35,7 @@ import apt
 # Wajig modules
 import changes
 import perform
+import util
 #
 # When writing to a pipe where there is no reader (e.g., when
 # output is directed to head or to less and the user exists from less
@@ -179,7 +180,7 @@ def do_dependents(package):
 #
 #------------------------------------------------------------------------
 def do_describe(packages):
-    "Display a description of each package."
+    "Display a description of a package(s)."
 
     #
     # From where do we get information about the packages?
@@ -476,7 +477,8 @@ def do_install(packages, noauth=""):
     #
     # Check if a specific web location was specified.
     #
-    if re.match("(http|ftp)://", packages[0]):
+    if re.match("(http|ftp)://", packages[0]) \
+       and util.requires_package("wget", "/usr/bin/wget"):
         if len(packages) > 1:
             print "wajig: Error: install URL allows only one URL, not " +\
                   str(len(packages))

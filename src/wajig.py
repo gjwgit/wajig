@@ -484,7 +484,8 @@ def select_command(command, args, verbose):
             perform.execute("dpkg --search " + args[1])
 
     elif command in ["findpkg", "unofficial"]:
-        if requires_one_arg(command, args, "a package name"):
+        if requires_one_arg(command, args, "a package name") \
+        and requires_package("wget", "/usr/bin/wget"):
             commands.do_findpkg(args[1])
 
     elif command == "fixconfigure":
@@ -1015,8 +1016,8 @@ def select_command(command, args, verbose):
             commands.do_describe(args[1:])
 
     elif command in ["whichpkg", "whichpackage"]:
-        if requires_one_arg(command, args,
-        "a file name (possibly with a path)"):
+        if requires_one_arg(command, args, "a filename (possibly with a path)") \
+        and requires_package("wget", "/usr/bin/wget"):
             commands.do_whichpkg(args[1])
 
     else:
