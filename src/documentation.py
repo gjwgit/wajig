@@ -215,7 +215,6 @@ Command line options:
  -c|--complete   CHANGELOG - Output the entire changelog.
  -d|--debug      Catch exceptions thrown by the program.
  -h|--help       Print usage message.
- -l|--latest     CHANGELOG - Print only the latest changelog entry.
  -n|--noauth     Allow packages from unathenticated archives.
  -p|--pause      Pause before exiting.
  -x|--pager      CHANGELOG - Use a pager for viewing Debian changelog.
@@ -374,7 +373,6 @@ Command line options:
  -d|--debug      Catch exceptions thrown by the program.
  -h|--help       Print this documentation and exit.
  -n|--noauth     Allow packages from unathenticated archives.
- -l|--latest     Print only the latest changelog entry.
  -p|--pause      Pause before exiting.
  -x|--pager      Use a pager for viewing Debian changelog.
  -q|--quiet      Do not show progress of commands.
@@ -580,20 +578,19 @@ The Debian changelog can be retrieved with:
 
   $ wajig changelog <package name>
 
-An attempt is made to read the changelog from packages.debian.org server,
-and on failure (IE, the server isn't found OR the network connection is off)
-the local changelog is displayed instead.
+This command only displays changelog entries for upgradable packages.
+If you want to display the entire changelog, use:
 
-If you specify "--pager" as command-line option, the output will be piped
-through the system's default pager.
+  $ wajig --complete changelog <package name>
 
-IF only the latest changelog entry is desired, use::
+If you want to pipe the entire changelog through the system's pager, use:
 
-  $ wajig --latest changelog <package names>
+  $ wajig --pager changelog <package name>
 
-If the entire changelog is desired, use:
+Either that, or you can run the pipe yourself:
 
-  $ wajig --complete changelog <package names>
+  $ wajig --complete changelog <package name> | pager
+
 
 
 INSTALLING PACKAGES

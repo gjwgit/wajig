@@ -751,41 +751,45 @@ the repositories."
     return command
 
 
-def do_changelog(package, pager, latest, complete):
-    "Display Debian changelog."
+def do_changelog(package, pager, complete):
+    """Display Debian changelog.
+    network on:
+         changelog - if there's newer entries, display them
+      -c changelog - if there's newer entries, display them, and proceed to
+                     display complete local changelog
+      -x changelog - same as "-c changelog", but use a pager
+    network off:
+         changelog - if there's newer entries, mention failure to retrieve
+      -c changelog - if there's newer entries, mention failure to retrieve, and
+                     proceed to display complete local changelog
+      -x changelog - same as "-c changelog", but use a pager
+    """
 
-    if pager:  # also implies "complete=True"
+    if pager:
         pipe_cmd = " | /usr/bin/sensible-pager"
     else:
         pipe_cmd = ""
-        # Print a header.
-        print "{0:=^72}".format(" {0} ".format(package))
+        print "{0:=^72}".format(" {0} ".format(package))  # header
         sys.stdout.flush()
 
-    # check if the Debian server where changelogs are located can be found
-    if ping_host("packages.debian.org"):
-        changelog = apt.Cache()[package].get_changelog()
-        if "The list of changes is not available" == changelog:
+    changelog = apt.Cache()[package].get_changelog()
+    if "Failed to download the list of changes" in changelog:
+        if not complete:
+            changelog += ".\nTo display the local changelog, run " \
+                         "'wajig --pager changelog pkgname'."
+        else:
+            changelog += "="*72
+    elif changelog == "The list of changes is not available":
+        if not complete:
             changelog += ". You are likely running the latest version.\n" \
                          "To display the changelog regardless, run " \
                          "'wajig --pager changelog pkgname'."
-        if complete:
-            changelog += local_changelog(package, pipe_cmd)
-            perform.execute(command)
         else:
-            print changelog
-        return
+            changelog += "="*72
+    print changelog
+    if complete:
+        perform.execute(local_changelog(package, pipe_cmd))
 
-    # displaying local changelog if Debian server isn't found OR network is off
-    else:
-        command = local_changelog(package, pipe_cmd)
-
-    # retrieve only the latest changelog entry
-    if latest:
-        command += "| awk 'NR==1{print;next} /^[^ ]/{exit}{print;next}' "
-        perform.execute(command)
-    elif complete:
-        perform.execute(command)
 
 #------------------------------------------------------------------------
 #

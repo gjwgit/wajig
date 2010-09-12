@@ -40,7 +40,6 @@ import perform
 ########################################################################
 # Global Variables
 #
-latest = False  # print only the latest changelog entry?
 complete = False  # print only the complete changelog?
 pause = False
 interactive = False  # Set to true for interactive command line
@@ -235,7 +234,6 @@ def interactive_shell():
 
 def main():
     global complete
-    global latest
     global pause
     global yes
     global noauth
@@ -250,7 +248,7 @@ def main():
         sys.argv += oldargv[i].split(",")
 
     try:
-        sopts = "bcdhlnpqstvxy"
+        sopts = "bcdhnpqstvxy"
         lopts = ["backup=", "debug", "help", "pause", "quiet", "simulate",
                  "teaching", "verbose=", "version", "yes", "noauth", "pager",
                  "complete"]
@@ -261,7 +259,6 @@ def main():
         finishup(2)
 
     complete = False
-    latest = False
     simulate = False
     teaching = False
     verbose = 0
@@ -287,10 +284,7 @@ def main():
             pause = True
         elif o in ["-x", "--pager"]:
             pager = True
-            complete = True
-        elif o in ["-l", "--latest"]:
-            latest = True
-            complete = True  # hack for commands.do_changelog()
+            complete = True  # 'pager' implies 'complete'
         elif o in ["-q", "--quiet"]:
             perform.set_quiet()
         elif o in ["-s", "--simulate"]:
@@ -452,7 +446,7 @@ def select_command(command, args, verbose, teaching):
         if requires_one_arg(command, args, "package name") \
            and requires_package("wget", "/usr/bin/wget") \
            and package_exists(args[1]):
-            commands.do_changelog(args[1], pager, latest, complete)
+            commands.do_changelog(args[1], pager, complete)
 
     elif command == "clean":
         if requires_no_args(command, args):
