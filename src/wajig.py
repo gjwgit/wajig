@@ -1023,7 +1023,7 @@ def select_command(command, args, verbose):
             print "The command `" + command + "' (entered as `" + args[0] + \
                   "') was not recognised."
         print "Perhaps it is not yet implemented or you misspelt it."
-        print "Try `wajig help' for further information."
+        print "Try 'wajig help' for further information."
 
     changes.finish_log()
 
