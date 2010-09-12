@@ -1050,35 +1050,6 @@ likely that your Packages files are out of date. Doing an UPDATE is optional
 
         exit(1)
 
-#------------------------------------------------------------------------
-#
-# WHATIS
-#
-# No longer used! Use describe instead.
-#
-#------------------------------------------------------------------------
-def do_whatis0(packages):
-    "Look for a one-line description of the given packages."
-
-    command = "fping packages.debian.org 2>&1 >/dev/null"
-    if perform.execute(command) == 0:
-        for i in packages:
-            results = tempfile.mktemp()
-            command = "wget --output-document=" + results +\
-                      " http://packages.debian.org/cgi-bin" +\
-                      "/search_packages.pl\?keywords=" + i +\
-                      "\&searchon=names\&subword=1\&" +\
-                      "version=unstable\&release=all 2> /dev/null"
-            perform.execute(command)
-            command = "cat " + results + " | " +\
-                "egrep '<TD><B><A HREF|<TD COLSPAN=2>' | " +\
-                "perl -p -e 's|<[^>]*>||g;s|^    ||g;" +\
-                "s|^&nbsp; |    |;s|&nbsp;||g;s|&quot;|\"|g;'"
-            perform.execute(command)
-            if os.path.exists(results):
-                os.remove(results)
-    else:
-        print "Perhaps the server is temporarily down."
 
 #------------------------------------------------------------------------
 #
