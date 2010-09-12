@@ -36,7 +36,9 @@ import documentation
 import commands
 import changes
 import perform
-from util import *
+from util import requires_no_args, requires_one_arg, requires_one_arg
+from util import requires_opt_arg, requires_args, requires_package
+from util import package_exists, finishup
 
 ########################################################################
 # Global Variables
