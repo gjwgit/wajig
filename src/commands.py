@@ -745,8 +745,7 @@ def local_changelog(package, pipe_cmd):
     elif os.path.exists(changelog_native):
         command = "zcat " + changelog_native + pipe_cmd
     else:
-        print "Package", package, "is not installed OR is not existent from \
-the repositories."
+        print "Package", package, "is not installed."
         return
     return command
 
@@ -765,28 +764,31 @@ def do_changelog(package, pager, complete):
       -x changelog - same as "-c changelog", but use a pager
     """
 
+    changelog = str()
     if pager:
         pipe_cmd = " | /usr/bin/sensible-pager"
     else:
         pipe_cmd = ""
-        print "{0:=^72}".format(" {0} ".format(package))  # header
-        sys.stdout.flush()
+        changelog += "{0:=^72}\n".format(" {0} ".format(package))  # header
 
-    changelog = apt.Cache()[package].get_changelog()
+    changelog += apt.Cache()[package].get_changelog()
+    help_message = "\nTo display the local changelog, run:\n" \
+                   "wajig --pager changelog " + package
     if "Failed to download the list of changes" in changelog:
         if not complete:
-            changelog += ".\nTo display the local changelog, run " \
-                         "'wajig --pager changelog pkgname'."
+            changelog += help_message
         else:
-            changelog += "="*72
-    elif changelog == "The list of changes is not available":
+            if not pager:
+                changelog += "\n" + "="*72
+    elif changelog.endswith("The list of changes is not available"):
+        changelog += ".\nYou are likely running the latest version."
         if not complete:
-            changelog += ". You are likely running the latest version.\n" \
-                         "To display the changelog regardless, run " \
-                         "'wajig --pager changelog pkgname'."
+            changelog += help_message
         else:
-            changelog += "="*72
+            if not pager:
+                changelog += "\n" + "="*72
     print changelog
+    sys.stdout.flush()
     if complete:
         perform.execute(local_changelog(package, pipe_cmd))
 
