@@ -751,16 +751,16 @@ def do_changelog(package, pager, complete):
         if not complete:
             changelog += help_message
         else:
-            changelog += "" if pager else "\n" + "="*72
+            changelog += "\n{0:=^72}".format(" local changelog ")
     elif changelog.endswith("The list of changes is not available"):
         changelog += ".\nYou are likely running the latest version."
         if not complete:
             changelog += help_message
         else:
-            changelog += "" if pager else "\n" + "="*72
+            changelog += "\n{0:=^72}".format(" local changelog ")
     print changelog
-    sys.stdout.flush()
     if complete:
+        sys.stdout.flush()
         perform.execute(local_changelog(package, pipe_cmd))
 
 
