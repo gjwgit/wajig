@@ -192,6 +192,9 @@ def main():
         elif o == "-b":
             backup = True
         elif o == "--backup":
+            if a in ("upgrade", "distupgrade") and len(sys.argv) < 4:
+                print 'Should be of the form "wajig --backup=BKDIR upgrade"'
+                finishup(1)
             backup = a
         elif o in ["-d", "--debug"]:
             debug = True
@@ -224,7 +227,11 @@ def main():
             verbose += 1
             commands.set_verbosity_level(verbose)
         elif o == "--verbose":
-            verbose = int(a)
+            try:
+                verbose = int(a)
+            except ValueError:
+                print 'Should be of the form "wajig --verbose=1 CMD"'
+                finishup(1)
             commands.set_verbosity_level(verbose)
         elif o == "--version":
             documentation.version()
