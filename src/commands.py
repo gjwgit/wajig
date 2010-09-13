@@ -723,18 +723,18 @@ def local_changelog(package, pipe_cmd):
         print "Package", package, "is not installed."
 
 
-def do_changelog(package, pager, complete):
+def do_changelog(package, pager):
     """Display Debian changelog.
     network on:
          changelog - if there's newer entries, display them
-      -c changelog - if there's newer entries, display them, and proceed to
+      -v changelog - if there's newer entries, display them, and proceed to
                      display complete local changelog
-      -x changelog - same as "-c changelog", but use a pager
+      -x changelog - same as "-v changelog", but use a pager
     network off:
          changelog - if there's newer entries, mention failure to retrieve
-      -c changelog - if there's newer entries, mention failure to retrieve, and
+      -v changelog - if there's newer entries, mention failure to retrieve, and
                      proceed to display complete local changelog
-      -x changelog - same as "-c changelog", but use a pager
+      -x changelog - same as "-v changelog", but use a pager
     """
 
     changelog = str()
@@ -748,18 +748,18 @@ def do_changelog(package, pager, complete):
     help_message = "\nTo display the local changelog, run:\n" \
                    "wajig --pager changelog " + package
     if "Failed to download the list of changes" in changelog:
-        if not complete:
+        if not verbose:
             changelog += help_message
         else:
             changelog += "\n{0:=^72}".format(" local changelog ")
     elif changelog.endswith("The list of changes is not available"):
         changelog += ".\nYou are likely running the latest version."
-        if not complete:
+        if not verbose:
             changelog += help_message
         else:
             changelog += "\n{0:=^72}".format(" local changelog ")
     print changelog
-    if complete:
+    if verbose:
         sys.stdout.flush()
         perform.execute(local_changelog(package, pipe_cmd))
 

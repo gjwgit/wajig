@@ -17,11 +17,11 @@ wajig (2.0.49) unstable; urgency=low
   * CHANGELOG: Now only displays uninstalled entries by default. This makes
     the hacky NEWS command redundant, which is therefore removed. (Closes: #424668).
 
-  * CHANGELOG: Add -c|--complete option to display the whole thing. This was
+  * CHANGELOG: Add -v|--verbose=1 option to display the whole thing. This was
     the default option, but suggestion offered in #424668 is more sane.
 
   * CHANGELOG: Add -x|--pager option to allow scrolling. This also implies
-    -c|--complete (see above).
+    -v|--verbose=1 (see above).
 
   * DIST-UPGRADE: Add -b|--backup=BKDIR option to allow backing up of packages
     before dist-upgrade.

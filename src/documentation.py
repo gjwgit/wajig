@@ -212,12 +212,11 @@ Run 'wajig -v commands' for a complete list of commands.
 Command line options:
 
  -b|--backup=DIR UPGRADE - Backup packages before they are upgraded.
- -c|--complete   CHANGELOG - Output the entire changelog.
  -d|--debug      Catch exceptions thrown by the program.
  -h|--help       Print usage message.
  -n|--noauth     Allow packages from unathenticated archives.
  -p|--pause      Pause before exiting.
- -x|--pager      CHANGELOG - Use a pager for viewing Debian changelog.
+ -x|--pager      CHANGELOG - Use a pager for viewing the entire Debian changelog of a package.
  -q|--quiet      Execute system commands quietly.
  -s|--simulate   Show commands to be executed but don't execute.
  -t|--teaching   Show commands to be executed and then execute them.
@@ -369,12 +368,11 @@ All wajig commands:
 Command line options:
 
  -b|--backup     Backup packages before they are upgraded.
- -c|--complete   CHANGELOG: Output the entire changelog.
  -d|--debug      Catch exceptions thrown by the program.
  -h|--help       Print this documentation and exit.
  -n|--noauth     Allow packages from unathenticated archives.
  -p|--pause      Pause before exiting.
- -x|--pager      Use a pager for viewing Debian changelog.
+ -x|--pager      CHANGELOG - Use a pager for viewing the entire Debian changelog of a package.
  -q|--quiet      Do not show progress of commands.
  -s|--simulate   Show commands to be executed but don't execute.
  -t|--teaching   Show commands to be executed and then execute them.
@@ -581,7 +579,7 @@ The Debian changelog can be retrieved with:
 This command only displays changelog entries for upgradable packages.
 If you want to display the entire changelog, use:
 
-  $ wajig --complete changelog <package name>
+  $ wajig -v changelog <package name>
 
 If you want to pipe the entire changelog through the system's pager, use:
 
@@ -589,7 +587,7 @@ If you want to pipe the entire changelog through the system's pager, use:
 
 Either that, or you can run the pipe yourself:
 
-  $ wajig --complete changelog <package name> | pager
+  $ wajig -v changelog <package name> | pager
 
 
 
