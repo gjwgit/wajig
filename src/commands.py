@@ -710,15 +710,15 @@ def do_new():
 # CHANGELOG
 #
 #------------------------------------------------------------------------
-def local_changelog(package, pipe_cmd):
+def local_changelog(package, tmp):
     "Retrieve Debian changelog from local installation."
 
     changelog = "/usr/share/doc/" + package + "/changelog.Debian.gz"
     changelog_native = "/usr/share/doc/" + package + "/changelog.gz"
     if os.path.exists(changelog):
-        return "zcat " + changelog + pipe_cmd
+        return "zcat {0} >> {1}".format(changelog, tmp)
     elif os.path.exists(changelog_native):
-        return "zcat " + changelog_native + pipe_cmd
+        return "zcat {0} >> {1}".format(changelog_native, tmp)
     else:
         print "Package", package, "is not installed."
 
@@ -737,31 +737,41 @@ def do_changelog(package, pager):
       -x changelog - same as "-v changelog", but use a pager
     """
 
-    changelog = str()
+    changelog = "{0:=^72}\n".format(" {0} ".format(package))  # header
     if pager:
-        pipe_cmd = " | /usr/bin/sensible-pager"
+        pipe_cmd = "/usr/bin/sensible-pager "
     else:
         pipe_cmd = ""
-        changelog += "{0:=^72}\n".format(" {0} ".format(package))  # header
 
-    changelog += apt.Cache()[package].get_changelog()
+    pkg = apt.Cache()[package]
+    changelog += pkg.get_changelog()
     help_message = "\nTo display the local changelog, run:\n" \
                    "wajig --pager changelog " + package
     if "Failed to download the list of changes" in changelog:
         if not verbose:
             changelog += help_message
-        else:
-            changelog += "\n{0:=^72}".format(" local changelog ")
     elif changelog.endswith("The list of changes is not available"):
         changelog += ".\nYou are likely running the latest version."
         if not verbose:
             changelog += help_message
+    if not verbose:
+        print changelog
+    else:
+        tmp = tempfile.mkstemp()[1]
+        with open(tmp, "w") as f:
+            if pkg.is_installed:
+                changelog += "\n{0:=^72}\n".format(" local changelog ")
+            changelog = changelog.encode("utf8")
+            f.write(changelog)
+        if pkg.is_installed:
+            cmd = local_changelog(package, tmp)
+            perform.execute(cmd)
+        if pipe_cmd:
+            perform.execute(pipe_cmd + tmp)
         else:
-            changelog += "\n{0:=^72}".format(" local changelog ")
-    print changelog
-    if verbose:
-        sys.stdout.flush()
-        perform.execute(local_changelog(package, pipe_cmd))
+            with open(tmp) as f:
+                for line in f:
+                    sys.stdout.write(line)
 
 
 #------------------------------------------------------------------------
