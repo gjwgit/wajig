@@ -44,7 +44,6 @@ from util import package_exists, finishup
 ########################################################################
 # Global Variables
 #
-complete = False  # print only the complete changelog?
 pause = False
 interactive = False  # Set to true for interactive command line
 match_commands = []  # For interactive command line completion
@@ -154,7 +153,6 @@ def interactive_shell():
 #------------------------------------------------------------------------
 
 def main():
-    global complete
     global pause
     global yes
     global noauth
@@ -169,17 +167,15 @@ def main():
         sys.argv += oldargv[i].split(",")
 
     try:
-        sopts = "bcdhnpqstvxy"
+        sopts = "bdhnpqstvxy"
         lopts = ["backup=", "debug", "help", "pause", "quiet", "simulate",
-                 "teaching", "verbose=", "version", "yes", "noauth", "pager",
-                 "complete"]
+                 "teaching", "verbose=", "version", "yes", "noauth", "pager"]
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
     except getopt.error, e:
         print e
         documentation.usage()
         finishup(2)
 
-    complete = False
     simulate = False
     teaching = False
     verbose = 0
@@ -197,8 +193,6 @@ def main():
             backup = True
         elif o == "--backup":
             backup = a
-        elif o in ["-c", "--complete"]:
-            complete = True
         elif o in ["-d", "--debug"]:
             debug = True
         elif o in ["-p", "--pause"]:
@@ -206,7 +200,7 @@ def main():
             util.pause = True
         elif o in ["-x", "--pager"]:
             pager = True
-            complete = True  # 'pager' implies 'complete'
+            commands.set_verbosity_level(1)
         elif o in ["-q", "--quiet"]:
             perform.set_quiet()
         elif o in ["-s", "--simulate"]:
@@ -227,7 +221,7 @@ def main():
         elif o in ["-n", "--noauth"]:
             noauth = " --allow-unauthenticated "
         elif o == "-v":
-            verbose = verbose + 1
+            verbose += 1
             commands.set_verbosity_level(verbose)
         elif o == "--verbose":
             verbose = int(a)
