@@ -704,12 +704,12 @@ def do_new():
         print "%-24s %s" % (new_pkgs[i],
             changes.get_available_version(new_pkgs[i]))
 
+
 #------------------------------------------------------------------------
 #
 # CHANGELOG
 #
 #------------------------------------------------------------------------
-
 def local_changelog(package, pipe_cmd):
     "Retrieve Debian changelog from local installation."
 

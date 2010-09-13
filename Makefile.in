@@ -39,8 +39,8 @@ GZIP_ENV = --best
 all: wajig.completion
 	(cd src; ${MAKE} all)
 
-wajig.completion: src/bash_completion.py src/documentation.py
-	python src/bash_completion.py > $@
+wajig.completion: bash_completion.py src/documentation.py
+	python bash_completion.py > $@
 
 install: wajig.completion
 	(cd src; ${MAKE} install)
