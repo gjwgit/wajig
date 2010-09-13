@@ -750,6 +750,8 @@ def do_changelog(package, pager):
     if "Failed to download the list of changes" in changelog:
         if not verbose:
             changelog += help_message
+        else:
+            changelog += "\n"
     elif changelog.endswith("The list of changes is not available"):
         changelog += ".\nYou are likely running the latest version."
         if not verbose:
