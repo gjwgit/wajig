@@ -153,7 +153,7 @@ complete -F _wajig $default wajig""".split("\n")
         import os, difflib
 
         wc = "wajig.completion"
-        os.system("python src/bash_completion.py")
+        os.system("python bash_completion.py")
         bc_gen = list()
 
         with open(wc) as f:
