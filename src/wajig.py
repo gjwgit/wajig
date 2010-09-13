@@ -366,7 +366,7 @@ def select_command(command, args, verbose):
     elif command == "changelog":
         if requires_one_arg(command, args, "package name") \
            and package_exists(args[1]):
-            commands.do_changelog(args[1], pager, complete)
+            commands.do_changelog(args[1], pager)
 
     elif command == "clean":
         if requires_no_args(command, args):
