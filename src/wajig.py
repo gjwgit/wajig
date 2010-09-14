@@ -733,10 +733,8 @@ def select_command(command, args, verbose):
             perform.execute("apt-get remove --purge --auto-remove " + args[1], root=True)
 
     elif command == "purgeorphans":
-        #
         # Deborphans does not require root, but dpkg does.
         # So build up the orphans list first, then apss that to dpkg.
-        #
         if util.requires_no_args(command, args):
             if util.requires_package("deborphan", "/usr/bin/deborphan"):
                 pkgs = ""
