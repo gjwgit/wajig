@@ -166,6 +166,7 @@ Run 'wajig -v commands' for a complete list of commands.
  purge-depend   Purge package and those it depend on and not required by others
  purge-orphans  Purge orphaned libraries (not required by installed packages)
  purge-removed  Purge all packages marked as deinstall
+ rbuilddeps     Display the packages which build-depends on the given package (long form "reverse-build-depends")
  readme         Display the package's README file from /usr/share/doc
  recursive      Download package and any packages it depends on
  reconfigure    Reconfigure the named installed packages or run gkdebconf
@@ -794,7 +795,7 @@ compile a package for your setup specifically) then use instead:
 
   $ wajig build <package names>         (apt-get source -b)
 
-This conveniently installs the needed build-dependecncies for you.
+This conveniently installs the needed build-dependencies for you.
 
 If you need to modify the source in some way and rebuild a package:
 

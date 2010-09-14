@@ -1304,3 +1304,9 @@ def versions(packages):
     for package in packages:
         command += "apt-show-versions " + package + "; "
     perform.execute(command)
+
+
+def rbuilddep(package):
+    cmd = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep " + \
+          package + " /var/lib/apt/lists/*Sources"
+    os.system(cmd)

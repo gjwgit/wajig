@@ -356,14 +356,19 @@ def select_command(command, args, verbose):
                     perform.execute("apt-get source -b " +
                                      perform.concat(args[1:]), root=True)
 
-    elif command == "builddepend":
+    elif command in ("builddepend", "builddep"):
         if util.requires_args(command, args, "a list of package names"):
             perform.execute("apt-get build-dep " + perform.concat(args[1:]),
-                            root=True)
+                             root=True)
+
+    elif command in ("reverse-build-depends", "rbuilddeps"):
+        if util.requires_one_arg(command, args, "one package name") \
+        and util.requires_package("grep-dctrl", "/usr/bin/grep-dctrl"):
+            commands.rbuilddep(args[1])
 
     elif command == "changelog":
-        if util.requires_one_arg(command, args, "package name") \
-           and util.package_exists(args[1]):
+        if util.requires_one_arg(command, args, "one package name") \
+        and util.package_exists(args[1]):
             commands.do_changelog(args[1], pager)
 
     elif command == "clean":
@@ -380,7 +385,7 @@ def select_command(command, args, verbose):
             perform.execute("apt-get --show-upgraded dist-upgrade", root=True)
 
     elif command == "dependents":
-        if util.requires_one_arg(command, args, "package name"):
+        if util.requires_one_arg(command, args, "one package name"):
             commands.do_dependents(args[1])
 
     elif command == "describe":
@@ -461,14 +466,14 @@ def select_command(command, args, verbose):
 
     elif command in ["fileinstall", "installfile"]:
         if util.requires_one_arg(command, args,
-        "a file name containing list of packages"):
+        "a file name containing a list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
             pkgs = str.join(stripped)
             perform.execute("apt-get install " + pkgs, root=True)
 
     elif command in ["fileremove", "removefile"]:
         if util.requires_one_arg(command, args,
-        "a file name containing list of packages"):
+        "a file name containing a list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
             pkgs = str.join(stripped)
             perform.execute("apt-get remove " + pkgs, root=True)
@@ -478,7 +483,7 @@ def select_command(command, args, verbose):
             perform.execute("dpkg --search " + args[1])
 
     elif command in ["findpkg", "unofficial"]:
-        if util.requires_one_arg(command, args, "a package name") \
+        if util.requires_one_arg(command, args, "one package name") \
         and util.requires_package("wget", "/usr/bin/wget"):
             commands.do_findpkg(args[1])
 
@@ -499,7 +504,7 @@ def select_command(command, args, verbose):
             commands.do_force(args[1:])
 
     elif command == "geturl":
-        if util.requires_one_arg(command, args, "a package name"):
+        if util.requires_one_arg(command, args, "one package name"):
             # Not yet quite working
             perform.execute("/usr/lib/apt-move/fetch -t " + args[1], root=True)
 
@@ -509,7 +514,7 @@ def select_command(command, args, verbose):
             # TODO Perhaps I can use map to "execute" over each package
 
     elif command == "info":
-        if util.requires_one_arg(command, args, "a filename"):
+        if util.requires_one_arg(command, args, "one filename"):
             perform.execute("dpkg --info " + args[1])
 
     elif command == "init":

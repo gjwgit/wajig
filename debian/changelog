@@ -2,6 +2,10 @@ wajig (2.0.49) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
 
+  * RBUILDDEPS: New option allowing one to determine which packages
+    build-depends on a particular package. The long form command is
+    "reverse-build-depends", else just use "wajig rbuilddeps pkgname".
+
   * UPGRADE: Don't automatically do an "apt-get update" with the backup option;
     the behaviour is not standard, and is not so-damn-fast.
 

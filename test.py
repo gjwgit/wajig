@@ -137,8 +137,8 @@ _wajig()
             local-dist-upgrade local-upgrade madison \ 
             move new new-upgrades non-free orphans policy \ 
             purge purge-depend purge-orphans purge-removed \ 
-            readme recursive reconfigure reinstall reload \ 
-            remove remove-depend remove-file remove-orphans \ 
+            rbuilddeps readme recursive reconfigure reinstall \ 
+            reload remove remove-depend remove-file remove-orphans \ 
             repackage reset restart rpm rpminstall search \ 
             search-apt setup showdistupgrade showinstall \ 
             showremove showupgrade sizes snapshot source \ 
