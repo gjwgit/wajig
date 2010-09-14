@@ -448,7 +448,7 @@ def select_command(command, args, verbose):
             perform.execute("editor /etc/apt/sources.list", root=True)
 
     elif command == "extract":
-        if requires_two_args(command, args,
+        if util.requires_two_args(command, args,
                              "a filename and directory to extract into"):
             perform.execute("dpkg --extract " + args[1] + " " + args[2])
 
