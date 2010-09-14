@@ -348,7 +348,7 @@ def select_command(command, args, verbose):
 
     elif command == "build":
         if util.requires_args(command, args, "a list of package names"):
-            if util.requires_package("fakeroot", "/usr/bin/fakeroot"):
+            if util.requires_package("sudo", "/usr/bin/sudo"):
                 # First make sure dependencies are met
                 result = perform.execute("apt-get build-dep " +
                                           perform.concat(args[1:]), root=True)
