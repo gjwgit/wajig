@@ -46,19 +46,9 @@ install: build
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/wajig 
         # remove the installation-generated files, will be rebuilt in postinst
 	rm -vf $(CURDIR)/debian/wajig/usr/share/wajig/*.py[oc]
-        # 2.0.4 fixes
-#	rm -vf $(CURDIR)/debian/wajig/usr/share/wajig/*.png
-#	cp -vax src/pixmaps/* $(CURDIR)/debian/wajig/usr/share/wajig
         # 2.0.9 fixes: need to install bash_completion manually
 	cp -vax wajig.completion \
 		$(CURDIR)/debian/wajig/etc/bash_completion.d/wajig
-        # 2.0.11 fix: mode wants to be 755 on #! files
-	#chmod 755 $(CURDIR)/debian/wajig/usr/share/wajig/bash_completion.py
-
-        # From the patch by Martin Krafft, but re-disabled as per discussion
-        # with Mathias Klose, see #276537 logs
-  # fix for FHS and Python policy compliance
-        #mv $(CURDIR)/debian/wajig/usr/share/wajig/*.py $(CURDIR)/debian/wajig/usr/lib/wajig
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -82,10 +72,9 @@ binary-indep: build install
 	dh_link
 	dh_strip 
 	dh_compress
-	dh_fixperms 
-#	dh_python 		/usr/share/wajig
 #	dh_python
 	dh_pysupport
+	dh_fixperms 
 #	dh_perl
 	dh_installdeb
 	dh_gencontrol
