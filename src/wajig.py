@@ -37,9 +37,6 @@ import commands
 import changes
 import perform
 import util
-from util import requires_no_args, requires_one_arg, requires_one_arg
-from util import requires_opt_arg, requires_args, requires_package
-from util import package_exists, finishup
 
 ########################################################################
 # Global Variables
@@ -53,16 +50,16 @@ pager = False  # Use a pager?
 
 def print_help(command, args, verbose=False, exit=False):
     if   command == "doc" or command == "docs" or command == "documentation":
-        requires_no_args(command, args)
+        util.requires_no_args(command, args)
         verbose = 2
         documentation.help(verbose)
         if exit:
-            finishup(0)
+            util.finishup(0)
     elif command == "help":
-        requires_no_args(command, args)
+        util.requires_no_args(command, args)
         documentation.help(verbose)
         if exit:
-            finishup(0)
+            util.finishup(0)
 
 
 #------------------------------------------------------------------------
@@ -174,7 +171,7 @@ def main():
     except getopt.error, e:
         print e
         documentation.usage()
-        finishup(2)
+        util.finishup(2)
 
     simulate = False
     teaching = False
@@ -188,10 +185,13 @@ def main():
     for o, a in opts:
         if o in ["-h", "--help"]:
             documentation.usage()
-            finishup()
+            util.finishup()
         elif o == "-b":
             backup = True
         elif o == "--backup":
+            if a in ("upgrade", "distupgrade") and len(sys.argv) < 4:
+                print 'Should be of the form "wajig --backup=BKDIR upgrade"'
+                util.finishup(1)
             backup = a
         elif o in ["-d", "--debug"]:
             debug = True
@@ -224,11 +224,15 @@ def main():
             verbose += 1
             commands.set_verbosity_level(verbose)
         elif o == "--verbose":
-            verbose = int(a)
+            try:
+                verbose = int(a)
+            except ValueError:
+                print 'Should be of the form "wajig --verbose=1 CMD"'
+                util.finishup(1)
             commands.set_verbosity_level(verbose)
         elif o == "--version":
             documentation.version()
-            finishup()
+            util.finishup()
 
     #
     # NO ARGS => INTERACTIVE COMMAND LINE
@@ -278,7 +282,7 @@ def main():
             sys.exit(e)
         except:
             pass
-    finishup(0)
+    util.finishup(0)
 
 
 def select_command(command, args, verbose):
@@ -290,22 +294,22 @@ def select_command(command, args, verbose):
     result = 0
     changes.start_log()
     if command in ["addcdrom", "cdromadd"]:
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-cdrom add", root=True)
 
     elif command == "addrepo":
-        if requires_one_arg(command, args,
+        if util.requires_one_arg(command, args,
                 "a PPA (Personal Package Archive) repository to add"):
-            if requires_package("add-apt-repository",
+            if util.requires_package("add-apt-repository",
                                 "/usr/bin/add-apt-repository"):
                 perform.execute("add-apt-repository " + args[1], root=True)
 
     elif command in ["autoalts", "autoalternatives"]:
-        if requires_one_arg(command, args, "name alternative to set as auto"):
+        if util.requires_one_arg(command, args, "name alternative to set as auto"):
             perform.execute("update-alternatives --auto " + args[1], root=True)
 
     elif command == "autodownload":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             if verbose > 0:
                 commands.do_update()
                 filter_str = ""
@@ -319,32 +323,32 @@ def select_command(command, args, verbose):
             commands.do_newupgrades()
 
     elif command == "autoclean":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-get autoclean", root=True)
 
     elif command == "autoinstall":
-        if requires_args(command, args, "a list of package names"):
+        if util.requires_args(command, args, "a list of package names"):
             command = "apt-get install --assume-yes " + noauth + " " +\
                       perform.concat(args[1:])
             perform.execute(command, root=True)
 
     elif command == "autoremove":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-get autoremove", root=True)
 
     elif command in ["available", "avail"]:
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-cache policy " + perform.concat(args[1:]))
 
     elif command in ["bug", "bugs", "reportbug"]:
-        if requires_one_arg(command, args, "a single named package"):
-            if requires_package("reportbug", "/usr/bin/reportbug"):
+        if util.requires_one_arg(command, args, "a single named package"):
+            if util.requires_package("reportbug", "/usr/bin/reportbug"):
                 # 090430 Specify bts=debian since ubuntu not working at present
                 perform.execute("reportbug --bts=debian " + args[1])
 
     elif command == "build":
-        if requires_args(command, args, "a list of package names"):
-            if requires_package("fakeroot", "/usr/bin/fakeroot"):
+        if util.requires_args(command, args, "a list of package names"):
+            if util.requires_package("sudo", "/usr/bin/sudo"):
                 # First make sure dependencies are met
                 result = perform.execute("apt-get build-dep " +
                                           perform.concat(args[1:]), root=True)
@@ -352,59 +356,64 @@ def select_command(command, args, verbose):
                     perform.execute("apt-get source -b " +
                                      perform.concat(args[1:]), root=True)
 
-    elif command == "builddepend":
-        if requires_args(command, args, "a list of package names"):
+    elif command in ("builddepend", "builddep"):
+        if util.requires_args(command, args, "a list of package names"):
             perform.execute("apt-get build-dep " + perform.concat(args[1:]),
-                            root=True)
+                             root=True)
+
+    elif command in ("reverse-build-depends", "rbuilddeps"):
+        if util.requires_one_arg(command, args, "one package name") \
+        and util.requires_package("grep-dctrl", "/usr/bin/grep-dctrl"):
+            commands.rbuilddep(args[1])
 
     elif command == "changelog":
-        if requires_one_arg(command, args, "package name") \
-           and package_exists(args[1]):
+        if util.requires_one_arg(command, args, "one package name") \
+        and util.package_exists(args[1]):
             commands.do_changelog(args[1], pager)
 
     elif command == "clean":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-get clean", root=True)
 
     elif command == "contents":
-        if requires_one_arg(command, args, "a filename"):
+        if util.requires_one_arg(command, args, "a filename"):
             perform.execute("dpkg --contents " + args[1])
 
     elif command == "dailyupgrade":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             commands.do_update()
             perform.execute("apt-get --show-upgraded dist-upgrade", root=True)
 
     elif command == "dependents":
-        if requires_one_arg(command, args, "package name"):
+        if util.requires_one_arg(command, args, "one package name"):
             commands.do_dependents(args[1])
 
     elif command == "describe":
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             commands.do_describe(args[1:])
 
     elif command in ["describenew", "newdescribe"]:
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             commands.do_describe_new()
 
     elif command in ["detail", "details", "show"]:
-        if requires_args(command, args, "a list of packages or package file"):
+        if util.requires_args(command, args, "a list of packages or package file"):
             verbose = 2
             commands.set_verbosity_level(verbose)
             commands.do_describe(args[1:])
 
     elif command in ["detailnew", "newdetail"]:
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             verbose = 2
             commands.set_verbosity_level(verbose)
             commands.do_describe_new()
 
     elif command == "distupgrade":
-        if requires_opt_arg(command, args,
+        if util.requires_opt_arg(command, args,
                             "the distribution to upgrade to"):
             if backup \
-            and requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
-            and requires_package("fakeroot", "/usr/bin/fakeroot"):
+            and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
+            and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
                 changes.backup_before_upgrade(backup, distupgrade=True)
 
             cmd = "apt-get -u %s %s " % (yes, noauth)
@@ -414,7 +423,7 @@ def select_command(command, args, verbose):
             perform.execute(cmd, root=True)
 
     elif command == "download":
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             pkgs = args[1:]
             if len(pkgs) == 1 and pkgs[0] == "-":
                 stripped = [x.strip() for x in sys.stdin.readlines()]
@@ -438,103 +447,103 @@ def select_command(command, args, verbose):
                             root=True)
 
     elif command in ["editsources", "setup"]:
-        if requires_no_args(command, args):
-            # if requires_package("base-config", "/usr/sbin/apt-setup"):
+        if util.requires_no_args(command, args):
+            # if util.requires_package("base-config", "/usr/sbin/apt-setup"):
             #    perform.execute("apt-setup", root=True)
             perform.execute("editor /etc/apt/sources.list", root=True)
 
     elif command == "extract":
-        if requires_two_args(command, args,
+        if util.requires_two_args(command, args,
                              "a filename and directory to extract into"):
             perform.execute("dpkg --extract " + args[1] + " " + args[2])
 
     elif command in ["filedownload", "downloadfile"]:
-        if requires_one_arg(command, args,
+        if util.requires_one_arg(command, args,
         "a file name containing list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
             pkgs = str.join(stripped)
             perform.execute("apt-get --download-only install " + pkgs, root=True)
 
     elif command in ["fileinstall", "installfile"]:
-        if requires_one_arg(command, args,
-        "a file name containing list of packages"):
+        if util.requires_one_arg(command, args,
+        "a file name containing a list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
             pkgs = str.join(stripped)
             perform.execute("apt-get install " + pkgs, root=True)
 
     elif command in ["fileremove", "removefile"]:
-        if requires_one_arg(command, args,
-        "a file name containing list of packages"):
+        if util.requires_one_arg(command, args,
+        "a file name containing a list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
             pkgs = str.join(stripped)
             perform.execute("apt-get remove " + pkgs, root=True)
 
     elif command in ["findfile", "locate"]:
-        if requires_one_arg(command, args, "a file name"):
+        if util.requires_one_arg(command, args, "a file name"):
             perform.execute("dpkg --search " + args[1])
 
     elif command in ["findpkg", "unofficial"]:
-        if requires_one_arg(command, args, "a package name") \
-        and requires_package("wget", "/usr/bin/wget"):
+        if util.requires_one_arg(command, args, "one package name") \
+        and util.requires_package("wget", "/usr/bin/wget"):
             commands.do_findpkg(args[1])
 
     elif command == "fixconfigure":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("dpkg --configure -a", root=True)
 
     elif command == "fixinstall":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-get --fix-broken install", root=True)
 
     elif command == "fixmissing":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-get --fix-missing upgrade", root=True)
 
     elif command == "force":
-        if requires_args(command, args, "a package name"):
+        if util.requires_args(command, args, "a package name"):
             commands.do_force(args[1:])
 
     elif command == "geturl":
-        if requires_one_arg(command, args, "a package name"):
+        if util.requires_one_arg(command, args, "one package name"):
             # Not yet quite working
             perform.execute("/usr/lib/apt-move/fetch -t " + args[1], root=True)
 
     elif command == "hold":
-        if requires_args(command, args, "a list of packages to place on hold"):
+        if util.requires_args(command, args, "a list of packages to place on hold"):
             commands.do_hold(args[1:])
             # TODO Perhaps I can use map to "execute" over each package
 
     elif command == "info":
-        if requires_one_arg(command, args, "a filename"):
+        if util.requires_one_arg(command, args, "one filename"):
             perform.execute("dpkg --info " + args[1])
 
     elif command == "init":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             changes.reset_files()
 
     elif command in ["install", "isntall"]:
         #
         # Okay, so I'm sometimes dyslexic :-)
         #
-        if requires_args(command, args,
+        if util.requires_args(command, args,
                          "a list of packages, .deb files, or url"):
             commands.do_install(args[1:], noauth)
 
     elif command in ["installr", "recommended"]:
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             commands.do_install_suggest(args[1:], "Recommends")
 
     elif command == "installrs":
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             commands.do_install_suggest(args[1:], "Both")
 
     elif command in ["installs", "suggested"]:
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             commands.do_install_suggest(args[1:], "Suggests")
 
     elif re.compile(r'install.*').match(command):
         # For example: install/unsable
-        if requires_args(command, args,
+        if util.requires_args(command, args,
                          "a list of packages, .deb files, or url"):
             command = "apt-get --target-release %s install %s" % \
                   (re.compile(r'install').sub("", command),
@@ -542,14 +551,14 @@ def select_command(command, args, verbose):
             perform.execute(command, root=True)
 
     elif command == "integrity":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("debsums -s -a")
 
     elif command == "large":
         commands.do_size(args[1:], 10000)
 
     elif command == "lastupdate":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("/bin/ls -l --full-time " +
                             changes.available_file +
                             " 2>/dev/null |awk '{printf \"Last update was " +
@@ -557,7 +566,7 @@ def select_command(command, args, verbose):
                             ", $6, $7, $8}' | sed 's|\.000000000||'")
 
     elif command in ["list", "listwide"]:
-        if requires_opt_arg(command, args, "string to filter on"):
+        if util.requires_opt_arg(command, args, "string to filter on"):
             cmd = ""
             if command == "listwide":
                 cmd += "COLUMNS=200 "
@@ -569,7 +578,7 @@ def select_command(command, args, verbose):
             perform.execute(cmd)
 
     elif command == "listall":
-        if requires_opt_arg(command, args, "string to filter on"):
+        if util.requires_opt_arg(command, args, "string to filter on"):
             cmd = "apt-cache dumpavail |" +\
                             "egrep \"^(Package|Description): \" |" +\
                             "awk '/^Package: /{pkg=$2} /^Description: /" +\
@@ -581,12 +590,12 @@ def select_command(command, args, verbose):
             perform.execute(cmd)
 
     elif command in ["listalts", "listalternatives"]:
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("ls /etc/alternatives/ | " +\
                             "egrep -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
 
     elif command == "listcache":
-        if requires_opt_arg(command, args, "string to filter on"):
+        if util.requires_opt_arg(command, args, "string to filter on"):
             cmd = "printf 'Found %d files %s in the cache.\n\n'\
             $(ls /var/cache/apt/archives/ | wc -l) \
             $(ls -sh /var/cache/apt/archives/ | head -1 | awk '{print $2}')"
@@ -598,11 +607,11 @@ def select_command(command, args, verbose):
             perform.execute(cmd)
 
     elif command in ["listcommands", "commands"]:
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             documentation.help(verbose)
 
     elif command == "listdaemons":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("printf 'Found %d daemons in /etc/init.d.\n\n'\
             $(ls /etc/init.d/ | \
             egrep -v '(~$|README|-(old|dist)|\.[0-9]*$)' | wc -l)")
@@ -611,7 +620,7 @@ def select_command(command, args, verbose):
             pr --columns=3 --omit-header")
 
     elif command == "listfiles":
-        if requires_one_arg(command, args,
+        if util.requires_one_arg(command, args,
                             "the name of a single Debian package or deb file"):
             if re.match(".*\.deb$", args[1]):
                 perform.execute("dpkg --contents " + args[1])
@@ -619,25 +628,25 @@ def select_command(command, args, verbose):
                 perform.execute("dpkg --listfiles " + args[1])
 
     elif command == "listsection":
-        if requires_one_arg(command, args, "the name of a Debian Section." +
+        if util.requires_one_arg(command, args, "the name of a Debian Section." +
                             "\nUse the LIST-SECTIONS command for a list " +
                             "of Debian Sections."):
             commands.do_listsection(args[1])
 
     elif command == "listsections":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             commands.do_listsections()
 
     elif command == "listhold":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
 
     elif command == "listinstalled":
-        if requires_opt_arg(command, args, "string to filter on"):
+        if util.requires_opt_arg(command, args, "string to filter on"):
             commands.do_listinstalled(args[1:])
 
     elif command == "listlog":
-        if requires_opt_arg(command, args, "string to filter on"):
+        if util.requires_opt_arg(command, args, "string to filter on"):
             cmd = "cat " + changes.log_file + "| sed 's|T| |'"
             if len(args) == 2:
                 cmd = cmd + " | grep '" + args[1] + "'"
@@ -645,15 +654,15 @@ def select_command(command, args, verbose):
 
     elif command == "listnames":
         # pdb.set_trace()
-        if requires_opt_arg(command, args, "at most one argument"):
+        if util.requires_opt_arg(command, args, "at most one argument"):
             result = commands.do_listnames(args[1:])
 
     elif command == "listscripts":
-        if requires_one_arg(command, args, "a package name or deb file"):
+        if util.requires_one_arg(command, args, "a package name or deb file"):
             result = commands.do_listscripts(args[1])
 
     elif command == "liststatus":
-        if requires_opt_arg(command, args, "package name"):
+        if util.requires_opt_arg(command, args, "package name"):
             cmd = "COLUMNS=400 "
             cmd += "dpkg --list '*' | grep -v 'no description avail'"
             cmd += " | awk '{print $1,$2}'"
@@ -662,12 +671,12 @@ def select_command(command, args, verbose):
             perform.execute(cmd)
 
     elif command == "localdistupgrade":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-get --no-download --ignore-missing " +
                             "--show-upgraded dist-upgrade", root=True)
 
     elif command == "localupgrade":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-get --no-download --ignore-missing " \
                             + "--show-upgraded upgrade", root=True)
 
@@ -678,13 +687,13 @@ def select_command(command, args, verbose):
         perform.execute("apt-cache madison " + perform.concat(args[1:]))
 
     elif command == "move":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-move update", root=True)
             # Then clean out the cached archive.
             perform.execute("apt-get clean", root=True)
 
     elif command == "new":
-        if requires_opt_arg(command, args, "whether to INSTALL the new pkgs"):
+        if util.requires_opt_arg(command, args, "whether to INSTALL the new pkgs"):
             if len(args) == 1:
                 commands.do_describe_new()
             elif args[1].lower() == "install":
@@ -692,11 +701,11 @@ def select_command(command, args, verbose):
             else:
                 print "WaJIG Error: NEW only accepts optional " +\
                       "argument INSTALL"
-                finishup(1)
+                util.finishup(1)
                 return False
 
     elif command in ["newupgrades", "newupgrade"]:
-        if requires_opt_arg(command, args, "whether to INSTALL upgraded pkgs"):
+        if util.requires_opt_arg(command, args, "whether to INSTALL upgraded pkgs"):
             if len(args) == 1:
                 commands.do_newupgrades()
             elif args[1].lower() == "install":
@@ -704,37 +713,35 @@ def select_command(command, args, verbose):
             else:
                 print "WaJIG Error: NEWUPGRADES only accepts " +\
                       "optional argument INSTALL"
-                finishup(1)
+                util.finishup(1)
                 return False
 
     elif command == "nonfree":
-        if requires_no_args(command, args):
-            if requires_package("vrms", "/usr/bin/vrms"):
+        if util.requires_no_args(command, args):
+            if util.requires_package("vrms", "/usr/bin/vrms"):
                 perform.execute("vrms")
 
     elif command in ["orphans", "listorphans"]:
-        if requires_no_args(command, args):
-            if requires_package("deborphan", "/usr/bin/deborphan"):
+        if util.requires_no_args(command, args):
+            if util.requires_package("deborphan", "/usr/bin/deborphan"):
                 perform.execute("deborphan")
 
     elif command == "policy":
         perform.execute("apt-cache policy " + perform.concat(args[1:]))
 
     elif command == "purge":
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             perform.execute("dpkg --purge " + perform.concat(args[1:]), root=True)
 
     elif command == "purgedepend":
-        if requires_one_arg(command, args, "a single package"):
+        if util.requires_one_arg(command, args, "a single package"):
             perform.execute("apt-get remove --purge --auto-remove " + args[1], root=True)
 
     elif command == "purgeorphans":
-        #
         # Deborphans does not require root, but dpkg does.
         # So build up the orphans list first, then apss that to dpkg.
-        #
-        if requires_no_args(command, args):
-            if requires_package("deborphan", "/usr/bin/deborphan"):
+        if util.requires_no_args(command, args):
+            if util.requires_package("deborphan", "/usr/bin/deborphan"):
                 pkgs = ""
                 for p in perform.execute("deborphan", pipe=True):
                     pkgs += " " + p.strip()
@@ -742,7 +749,7 @@ def select_command(command, args, verbose):
                     perform.execute("apt-get remove --purge" + pkgs, root=True)
 
     elif command == "purgeremoved":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             pkgs = ""
             cmd = "dpkg-query --show --showformat='${Package}\t${Status}\n' |"\
             + " grep \"deinstall ok config-files\" | cut -f 1 "
@@ -755,7 +762,7 @@ def select_command(command, args, verbose):
                 perform.execute("dpkg --purge" + pkgs, root=True)
 
     elif command == "readme":
-        if requires_one_arg(command, args, "a single package"):
+        if util.requires_one_arg(command, args, "a single package"):
             docpath = "/usr/share/doc/" + args[1] + "/"
             if not os.path.exists(docpath):
                 print "No docs found for '%s'. Is it installed?" % args[1]
@@ -777,7 +784,7 @@ def select_command(command, args, verbose):
                 print "No README found for '%s'" % args[1]
 
     elif command in ["recursive", "recdownload"]:
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             commands.do_recdownload(args[1:])
 
     elif command == "reconfigure":
@@ -790,31 +797,31 @@ def select_command(command, args, verbose):
             perform.execute("gkdebconf", root=True)
 
     elif command == "reinstall":
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get --reinstall install " +\
                              perform.concat(args[1:]), root=True)
 
     elif command == "reload":
-        if requires_one_arg(command, args, "name of service to " + command):
+        if util.requires_one_arg(command, args, "name of service to " + command):
             perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
             # Bug#426969
             # perform.execute("invoke-rc.d " + args[1] + " " + command, root=True)
 
     elif command == "remove":
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get %s remove %s" %
                             (yes, perform.concat(args[1:])), root=True)
 
     elif command == "removedepend":
-        if requires_one_arg(command, args, "a single package"):
+        if util.requires_one_arg(command, args, "a single package"):
             #print changes.get_dependents("libclan2-mikmod")
             # Bug#579419 - this is more efficient than do_removedepend 
             perform.execute("apt-get remove --auto-remove " + args[1], root=True)
             #commands.do_removedepend(args[1])
             
     elif command == "removeorphans":
-        if requires_no_args(command, args):
-            if requires_package("deborphan", "/usr/bin/deborphan"):
+        if util.requires_no_args(command, args):
+            if util.requires_package("deborphan", "/usr/bin/deborphan"):
                 pkgs = ""
                 for p in perform.execute("deborphan", pipe=True):
                     pkgs += " " + p.strip()
@@ -822,68 +829,68 @@ def select_command(command, args, verbose):
                     perform.execute("apt-get remove" + pkgs, root=True)
 
     elif command in ["repackage", "package"]:
-        if requires_one_arg(command, args, "name of an installed package"):
-            if requires_package("dpkg-repack", "/usr/bin/dpkg-repack"):
+        if util.requires_one_arg(command, args, "name of an installed package"):
+            if util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack"):
                 perform.execute("dpkg-repack " + args[1], root=True)
 
     elif command == "reset":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             changes.reset_files()
 
     elif command == "restart":
-        if requires_one_arg(command, args, "name of service to " + command):
+        if util.requires_one_arg(command, args, "name of service to " + command):
             perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
             # Bug#426969
             # perform.execute("invoke-rc.d " + args[1] + " " + command, root=True)
 
     elif command == "rpminstall":
-        if requires_one_arg(command, args,
+        if util.requires_one_arg(command, args,
         "a Red Hat package file name (.rpm)"):
             perform.execute("alien --to-deb --install " + args[1], root=True)
 
     elif command in ["rpmtodeb", "rpm2deb"]:
-        if requires_one_arg(command, args,
+        if util.requires_one_arg(command, args,
         "a Red Hat package file name (.rpm)"):
             perform.execute("alien -d " + args[1], root=True)
 
     elif command == "search":
         # Note that this uses a regular expression, thus libstdc++6
         # finds nothing but libstdc..6 does.
-        if requires_args(command, args, "a list of words to search for"):
+        if util.requires_args(command, args, "a list of words to search for"):
             perform.execute("apt-cache search " + perform.concat(args[1:]))
 
     elif command == "searchapt":
-        if requires_one_arg(command, args, "one of stable|testing|unstable"):
-            requires_package("netselect-apt", "/usr/bin/netselect-apt")
+        if util.requires_one_arg(command, args, "one of stable|testing|unstable"):
+            util.requires_package("netselect-apt", "/usr/bin/netselect-apt")
             perform.execute("netselect-apt " + args[1], root=True)
 
     elif command == "showdistupgrade":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-get -u -s dist-upgrade", root=True)
 
     elif command == "showinstall":
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get -u -s install " +
             perform.concat(args[1:]), root=True)
 
     elif command == "showremove":
-        if requires_args(command, args, "a list of packages"):
+        if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get -u -s remove " + perform.concat(args[1:]),
             root=True)
 
     elif command == "showupgrade":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             perform.execute("apt-get -u -s upgrade", root=True)
 
     elif command in ["size", "sizes"]:
         commands.do_size(args[1:], 0)
 
     elif command == "snapshot":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             commands.do_status([], True)
 
     elif command == "source":
-        if requires_args(command, args, "a list of package names"):
+        if util.requires_args(command, args, "a list of package names"):
             # First make sure dependencies are met
             # John V. Belmonte 04 Nov 2005 requested this not be done
             # Leave it to the user to do wajig builddepend
@@ -893,7 +900,7 @@ def select_command(command, args, verbose):
             perform.execute("apt-get source " + perform.concat(args[1:]))
 
     elif command == "start":
-        if requires_one_arg(command, args, "name of service to " + command):
+        if util.requires_one_arg(command, args, "name of service to " + command):
             perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
             # Bug#426969
             # perform.execute("invoke-rc.d " + args[1] + " " + command, root=True)
@@ -902,7 +909,7 @@ def select_command(command, args, verbose):
         commands.do_status(args[1:])
 
     elif command in ["statusmatch", "statussearch"]:
-        if requires_one_arg(command, args,
+        if util.requires_one_arg(command, args,
         "a search string for the package name"):
             pkgs = map(lambda s: s.strip(),
                    commands.do_listnames(args[1:], pipe=True).readlines())
@@ -921,56 +928,56 @@ def select_command(command, args, verbose):
         #                    + " | xargs wajig status ")
 
     elif command == "stop":
-        if requires_one_arg(command, args, "name of service to " + command):
+        if util.requires_one_arg(command, args, "name of service to " + command):
             perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
             # Bug#426969
             # perform.execute("invoke-rc.d " + args[1] + " " + command, root=True)
 
     elif command == "tasksel":
-        if requires_no_args(command, args):
-            if requires_package("tasksel", "/usr/bin/tasksel"):
+        if util.requires_no_args(command, args):
+            if util.requires_package("tasksel", "/usr/bin/tasksel"):
                 perform.execute("tasksel", root=True)
 
     elif command == "toupgrade":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             commands.do_toupgrade()
 
     # edd 03 Sep 2003  unhold patch based on hold semantics
     elif command == "unhold":
-        if requires_args(command, args,
+        if util.requires_args(command, args,
         "a list of packages to remove from hold"):
             commands.do_unhold(args[1:])
         # TODO Perhaps I can use map to "execute" over each package
 
     elif command == "update":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             commands.do_update()
 
     # For testing only!
     elif command == "updateavailable":
-        if requires_no_args(command, args):
+        if util.requires_no_args(command, args):
             changes.update_available()
 
     elif command in ["updatealts", "updatealternatives", "setalts",
         "setalternatives"]:
-        if requires_one_arg(command, args, "name of alternative to update"):
+        if util.requires_one_arg(command, args, "name of alternative to update"):
             perform.execute("update-alternatives --config " + args[1], root=True)
 
     elif command == "updatepciids":
-        if requires_package("pciutils", "/usr/bin/update-pciids"):
-            if requires_no_args(command, args):
+        if util.requires_package("pciutils", "/usr/bin/update-pciids"):
+            if util.requires_no_args(command, args):
                 perform.execute("update-pciids", root=True)
 
     elif command == "updateusbids":
-        if requires_package("usbutils", "/usr/sbin/update-usbids"):
-            if requires_no_args(command, args):
+        if util.requires_package("usbutils", "/usr/sbin/update-usbids"):
+            if util.requires_no_args(command, args):
                 perform.execute("update-usbids", root=True)
 
     elif command == "upgrade":
         if backup \
-        and requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
-        and requires_package("fakeroot", "/usr/bin/fakeroot") \
-        and requires_no_args(command, args):
+        and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
+        and util.requires_package("fakeroot", "/usr/bin/fakeroot") \
+        and util.requires_no_args(command, args):
             changes.backup_before_upgrade(backup)
         perform.execute("apt-get %s -u upgrade" % noauth, root=True)
 
@@ -991,24 +998,24 @@ def select_command(command, args, verbose):
             os.remove(sources_list)
 
     elif command == "verify":
-        if requires_one_arg(command, args, "a package name"):
+        if util.requires_one_arg(command, args, "a package name"):
             perform.execute("debsums " + args[1])
 
     elif command in ["version", "versions"]:
         if command == "version" and len(args) == 1:
             documentation.version()
-        elif requires_package("apt-show-versions",
+        elif util.requires_package("apt-show-versions",
                               "/usr/bin/apt-show-versions"):
             commands.versions(args[1:])
 
     elif command == "whatis":
-        if requires_args(command, args, "a list of package names"):
+        if util.requires_args(command, args, "a list of package names"):
             commands.do_describe(args[1:])
 
     elif command in ["whichpkg", "whichpackage"]:
-        if requires_one_arg(command, args, "a filename (possibly with a path)") \
-        and requires_package("wget", "/usr/bin/wget") \
-        and requires_package("lynx", "/usr/bin/lynx"):
+        if util.requires_one_arg(command, args, "a filename (possibly with a path)") \
+        and util.requires_package("wget", "/usr/bin/wget") \
+        and util.requires_package("lynx", "/usr/bin/lynx"):
             commands.do_whichpkg(args[1])
 
     else:

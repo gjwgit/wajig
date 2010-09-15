@@ -166,6 +166,7 @@ Run 'wajig -v commands' for a complete list of commands.
  purge-depend   Purge package and those it depend on and not required by others
  purge-orphans  Purge orphaned libraries (not required by installed packages)
  purge-removed  Purge all packages marked as deinstall
+ rbuilddeps     Display the packages which build-depends on the given package (long form "reverse-build-depends")
  readme         Display the package's README file from /usr/share/doc
  recursive      Download package and any packages it depends on
  reconfigure    Reconfigure the named installed packages or run gkdebconf
@@ -452,7 +453,7 @@ available on it using:
   $ wajig add-cd-rom
 
 To add a Launchpad PPA (Personal Package Archive) repository (used by
-Ubuntu) the ADD-REPO command con be used. For example, to add the
+Ubuntu) the ADD-REPO command can be used. For example, to add the
 daily builds of Google's Chromium browser, do the following:
 
   $ wajig addrepo ppa:chromium-daily
@@ -758,7 +759,7 @@ install it into /usr/local/.  This is then outside of the Debian
 package management system, which is just fine.  But there are better
 solutions. One is to tune a specific source package and build a Debian
 package from it. The second is to specify general configuration
-options for your system and then rebuild many packages to with these
+options for your system and then rebuild many packages with these
 options.
 
 
@@ -772,7 +773,7 @@ following:
 
   deb-src http://ftp.debian.org/debian unstable main contrib non-free
 
-Generally you can add the `-src' to copies of pre-existing `deb'
+Generally you can add the '-src' to copies of pre-existing 'deb'
 lines.
 
 To retrieve and unpack a source Debian package use:
@@ -781,9 +782,9 @@ To retrieve and unpack a source Debian package use:
 
 Note that you can list several packages and grab all of their sources.
 
-The source command downloads a .tar.gz file and a dsc file for the
+The source command downloads a .tar.gz file and a .dsc file for the
 package. The .tar.gz file contains the source code and associated
-files. The dsc file contains test information that is used by the
+files. The .dsc file contains test information that is used by the
 packaging system. The source command will also extract the contents of
 the .tar.gz archive into a subdirectory consisting of the package name
 and version.
@@ -794,14 +795,18 @@ compile a package for your setup specifically) then use instead:
 
   $ wajig build <package names>         (apt-get source -b)
 
-But, if you need to modify the source in some way and rebuild a
-package:
+This conveniently installs the needed build-dependencies for you.
+
+If you need to modify the source in some way and rebuild a package:
 
  $ wajig update
  $ wajig build ncftp
  $ dpkg-source -x ncftp_3.0.2-3.dsc
  $ cd ncftp-3.0.2
  $ fakeroot dpkg-buildpackage -b -u
+
+Note that for some packages, you will get permission-related build errors.
+Replace 'fakeroot' with 'sudo' in such cases.
 
 
 BUILD ARCHITECTURE OPTIMISED PACKAGES

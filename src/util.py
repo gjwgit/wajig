@@ -93,7 +93,7 @@ def package_exists(package, test=False):
         return True
     except KeyError, e:
         if not test:
-            print e
+            print e[0]
             finishup(1)
 
 
