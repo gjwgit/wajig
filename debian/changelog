@@ -2,32 +2,35 @@ wajig (2.0.49) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
 
-  * UPGRADE: Don't automatically do an "apt-get update" with the backup option;
-    the behaviour is not standard, and is not so-damn-fast.
+  * UPGRADE: Don't automatically do an "apt-get update" with the backup
+    option; the behaviour is not standard, and is not so-damn-fast.
 
-  * UPGRADE: Add command line argument for --backup to specify target directory.
-    * Used to be "wajig --backup upgrade BKDIR".
-    * Now it's "wajig --backup=BKDIR upgrade".
+  * UPGRADE: Add command line argument for --backup to specify target
+    directory.  * Used to be "wajig --backup upgrade BKDIR".  * Now it's
+    "wajig --backup=BKDIR upgrade".
 
   * UPGRADE: Proceed to upgrade after using -b|--backup option.
 
-  * UPGRADE: Remove the option to install listed packages. This helps reduce
-    code complexity.
+  * UPGRADE: Remove the option to install listed packages. This helps
+    reduce code complexity.
 
-  * CHANGELOG: Now only displays uninstalled entries by default. This makes
-    the hacky NEWS command redundant, which is therefore removed. (Closes: #424668).
+  * CHANGELOG: Now only displays uninstalled entries by default. This
+    makes the hacky NEWS command redundant, which is therefore
+    removed. (Closes: #424668).
 
-  * CHANGELOG: Add -v|--verbose=1 option to display the whole thing. This was
-    the default option, but suggestion offered in #424668 is more sane.
+  * CHANGELOG: Add -v|--verbose=1 option to display the whole thing. This
+    was the default option, but suggestion offered in #424668 is more
+    sane.
 
   * CHANGELOG: Add -x|--pager option to allow scrolling. This also implies
     -v|--verbose=1 (see above).
 
-  * DIST-UPGRADE: Add -b|--backup=BKDIR option to allow backing up of packages
-    before dist-upgrade.
+  * DIST-UPGRADE: Add -b|--backup=BKDIR option to allow backing up of
+    packages before dist-upgrade.
 
   * BUILD: Now uses sudo instead of fakeroot to avoid permission-related.
-    build failures for some packages (EG, fakeroot & cdbs). (Closes: #464003).
+    build failures for some packages (EG, fakeroot & cdbs). (Closes:
+    #464003).
 
   * Fix a parsing bug where "wajig changelog libgtk2.0-0" didn't work.
 
