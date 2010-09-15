@@ -453,6 +453,6 @@ def backup_before_upgrade(bkdir, distupgrade=False):
         for pkg in pkgs:
             command = "fakeroot -u dpkg-repack " + pkg
             perform.execute(command)
-        return True
     else:
         print "JIG: No upgrades."
+        return "quit"

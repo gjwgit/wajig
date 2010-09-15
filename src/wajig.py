@@ -409,6 +409,7 @@ def select_command(command, args, verbose):
             commands.do_describe_new()
 
     elif command == "distupgrade":
+        upgradable = str()
         if util.requires_opt_arg(command, args,
                             "the distribution to upgrade to"):
             if backup \
@@ -416,7 +417,7 @@ def select_command(command, args, verbose):
             and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
                 upgradable = \
                 changes.backup_before_upgrade(backup, distupgrade=True)
-            if upgradable:
+            if upgradable != "quit":
                 cmd = "apt-get -u %s %s " % (yes, noauth)
                 if len(args) == 2:
                     cmd += "-t " + args[1] + " "
@@ -975,12 +976,13 @@ def select_command(command, args, verbose):
                 perform.execute("update-usbids", root=True)
 
     elif command == "upgrade":
+        upgradable = str()
         if backup \
         and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
         and util.requires_package("fakeroot", "/usr/bin/fakeroot") \
         and util.requires_no_args(command, args):
             upgradable = changes.backup_before_upgrade(backup)
-        if upgradable:
+        if upgradable != "quit":
             perform.execute("apt-get %s -u upgrade" % noauth, root=True)
 
     elif command == "upgradesecurity":
