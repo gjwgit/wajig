@@ -85,7 +85,7 @@ binary-indep: build install
 	dh_fixperms 
 #	dh_python 		/usr/share/wajig
 #	dh_python
-	dh_pycentral
+	dh_pysupport
 #	dh_perl
 	dh_installdeb
 	dh_gencontrol

@@ -5,7 +5,7 @@ Maintainer: Graham Williams <Graham.Williams@togaware.com>
 Homepage: http://wajig.togaware.com
 Standards-Version: 3.9.1
 XS-Python-Version: all
-Build-Depends-Indep: python, python-central (>= 0.5.6)
+Build-Depends-Indep: python, python-support
 Build-Depends: debhelper (>= 5.0.38)
 
 Package: wajig
