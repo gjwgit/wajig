@@ -414,13 +414,14 @@ def select_command(command, args, verbose):
             if backup \
             and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
             and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
+                upgradable = \
                 changes.backup_before_upgrade(backup, distupgrade=True)
-
-            cmd = "apt-get -u %s %s " % (yes, noauth)
-            if len(args) == 2:
-                cmd += "-t " + args[1] + " "
-            cmd += "dist-upgrade"
-            perform.execute(cmd, root=True)
+            if upgradable:
+                cmd = "apt-get -u %s %s " % (yes, noauth)
+                if len(args) == 2:
+                    cmd += "-t " + args[1] + " "
+                cmd += "dist-upgrade"
+                perform.execute(cmd, root=True)
 
     elif command == "download":
         if util.requires_args(command, args, "a list of packages"):
@@ -978,8 +979,9 @@ def select_command(command, args, verbose):
         and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
         and util.requires_package("fakeroot", "/usr/bin/fakeroot") \
         and util.requires_no_args(command, args):
-            changes.backup_before_upgrade(backup)
-        perform.execute("apt-get %s -u upgrade" % noauth, root=True)
+            upgradable = changes.backup_before_upgrade(backup)
+        if upgradable:
+            perform.execute("apt-get %s -u upgrade" % noauth, root=True)
 
     elif command == "upgradesecurity":
         sources_list = tempfile.mkstemp(".security", "wajig.", "/tmp")[1]
