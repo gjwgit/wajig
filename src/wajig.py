@@ -859,7 +859,11 @@ def select_command(command, args, verbose):
         # Note that this uses a regular expression, thus libstdc++6
         # finds nothing but libstdc..6 does.
         if util.requires_args(command, args, "a list of words to search for"):
-            perform.execute("apt-cache search " + perform.concat(args[1:]))
+            if verbose > 0:
+                perform.execute("apt-cache search " + perform.concat(args[1:]))
+            else:
+                perform.execute("apt-cache --names-only search " + \
+                                 perform.concat(args[1:]))
 
     elif command == "searchapt":
         if util.requires_one_arg(command, args, "one of stable|testing|unstable"):

@@ -476,8 +476,15 @@ wish, with
 
 FINDING PACKAGES
 
-Once the list of available packages is updated you can see what new
-packages have recently been added to Debian with the command:
+To search for a particular packages, use:
+
+  $ wajig search                        (apt-cache --names-only)
+
+This will only match a particular string with package names. If you want
+a more comprehensive search, one that also searches for package
+descriptions, use the "-v|--verbose" options.
+
+To display the list of newly-available packages (after a cache update), use:
 
   $ wajig new
 

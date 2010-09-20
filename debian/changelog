@@ -41,6 +41,9 @@ wajig (2.0.49) unstable; urgency=low
     "reverse-build-depends", else just use "wajig rbuilddeps pkgname".
     (Closes: #335240).
 
+  * SEARCH: Make apt-cache's "--names-only" default. Use "-v" option to get
+    old behaviour.
+
  -- Graham Williams <Graham.Williams@togaware.com>  Wed, 15 Sep 2010 17:22:16 +1000
 
 wajig (2.0.48) unstable; urgency=low
