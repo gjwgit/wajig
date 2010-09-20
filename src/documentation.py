@@ -166,7 +166,7 @@ Run 'wajig -v commands' for a complete list of commands.
  purge-depend   Purge package and those it depend on and not required by others
  purge-orphans  Purge orphaned libraries (not required by installed packages)
  purge-removed  Purge all packages marked as deinstall
- rbuilddeps     Display the packages which build-depends on the given package (long form "reverse-build-depends")
+ rbuilddeps     Display the packages which build-depends on the given package (long form is "reverse-build-depends")
  readme         Display the package's README file from /usr/share/doc
  recursive      Download package and any packages it depends on
  reconfigure    Reconfigure the named installed packages or run gkdebconf
