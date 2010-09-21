@@ -54,25 +54,25 @@ class WaJIGTests(unittest.TestCase):
     # ----
     # testing util.py
     # ----
-    def test_wajig_requires_args(self):
+    def test_util_requires_args(self):
         res = util.requires_args("", [1])
         self.assertFalse(res)
         res = util.requires_args("", [1, 2])
         self.assertTrue(res)
 
-    def test_wajig_requires_no_args(self):
+    def test_util_requires_no_args(self):
         res = util.requires_no_args("", [1], test=True)
         self.assertTrue(res)
         res = util.requires_no_args("", [1, 2], test=True)
         self.assertFalse(res)
 
-    def test_wajig_requires_opt_arg(self):
+    def test_util_requires_opt_arg(self):
         res = util.requires_opt_arg("", [1, 2])
         self.assertTrue(res)
         res = util.requires_opt_arg("", [1, 2, 3])
         self.assertFalse(res)
 
-    def test_wajig_requires_one_arg(self):
+    def test_util_requires_one_arg(self):
         res = util.requires_one_arg("", [1])
         self.assertFalse(res)
         res = util.requires_one_arg("", [1, 2])
@@ -80,7 +80,7 @@ class WaJIGTests(unittest.TestCase):
         res = util.requires_one_arg("", [1, 2, 3])
         self.assertFalse(res)
 
-    def test_wajig_requires_two_args(self):
+    def test_util_requires_two_args(self):
         res = util.requires_two_args("", [1, 2])
         self.assertFalse(res)
         res = util.requires_two_args("", [1, 2, 3])
@@ -88,13 +88,13 @@ class WaJIGTests(unittest.TestCase):
         res = util.requires_two_args("", [1, 2, 3, 4])
         self.assertFalse(res)
 
-    def test_wajig_requires_package(self):
+    def test_util_requires_package(self):
         res = util.requires_package("ls", "/bin/ls", test=True)
         self.assertTrue(res)
         res = util.requires_package("ls", "TEST", test=True)
         self.assertFalse(res)
 
-    def test_wajig_package_exists(self):
+    def test_util_package_exists(self):
         self.assertTrue(util.package_exists("dpkg", test=True))
         self.assertFalse(util.package_exists("pkg_does_not_exist", test=True))
 
