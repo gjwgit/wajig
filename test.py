@@ -47,12 +47,6 @@ class WaJIGTests(unittest.TestCase):
         self.assertEqual(res, "set -o noglob; TEST> /dev/null")
         perform.set_quiet(False)
 
-    def test_perform_concat(self):
-        res = perform.concat(["TEST1"])
-        self.assertEqual(res, "'TEST1' ")
-        res = perform.concat(["TEST1", "TEST2"])
-        self.assertEqual(res, "'TEST1' 'TEST2' ")
-
     # ----
     # testing util.py
     # ----
@@ -103,6 +97,14 @@ class WaJIGTests(unittest.TestCase):
     def test_util_upgradable(self):
         # needs root access to APT cache, so ignoring
         pass
+
+    def test_util_concat(self):
+        res = util.concat([])
+        self.assertEqual(res, "")
+        res = util.concat(["TEST1"])
+        self.assertEqual(res, "'TEST1' ")
+        res = util.concat(["TEST1", "TEST2"])
+        self.assertEqual(res, "'TEST1' 'TEST2' ")
 
     # ----
     # testing bash_completion.py

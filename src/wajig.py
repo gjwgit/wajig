@@ -329,7 +329,7 @@ def select_command(command, args, verbose):
     elif command == "autoinstall":
         if util.requires_args(command, args, "a list of package names"):
             command = "apt-get install --assume-yes " + noauth + " " +\
-                      perform.concat(args[1:])
+                      util.concat(args[1:])
             perform.execute(command, root=True)
 
     elif command == "autoremove":
@@ -338,7 +338,7 @@ def select_command(command, args, verbose):
 
     elif command in ["available", "avail"]:
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-cache policy " + perform.concat(args[1:]))
+            perform.execute("apt-cache policy " + util.concat(args[1:]))
 
     elif command in ["bug", "bugs", "reportbug"]:
         if util.requires_one_arg(command, args, "a single named package"):
@@ -351,14 +351,14 @@ def select_command(command, args, verbose):
             if util.requires_package("sudo", "/usr/bin/sudo"):
                 # First make sure dependencies are met
                 result = perform.execute("apt-get build-dep " +
-                                          perform.concat(args[1:]), root=True)
+                                          util.concat(args[1:]), root=True)
                 if not result:
                     perform.execute("apt-get source -b " +
-                                     perform.concat(args[1:]), root=True)
+                                     util.concat(args[1:]), root=True)
 
     elif command in ("builddepend", "builddep"):
         if util.requires_args(command, args, "a list of package names"):
-            perform.execute("apt-get build-dep " + perform.concat(args[1:]),
+            perform.execute("apt-get build-dep " + util.concat(args[1:]),
                              root=True)
 
     elif command in ("reverse-build-depends", "rbuilddeps"):
@@ -445,7 +445,7 @@ def select_command(command, args, verbose):
             #
             perform.execute("apt-get --quiet=2 --reinstall " +
                             "--download-only install " +
-                            perform.concat(pkgs),
+                            util.concat(pkgs),
                             root=True)
 
     elif command in ["editsources", "setup"]:
@@ -549,7 +549,7 @@ def select_command(command, args, verbose):
                          "a list of packages, .deb files, or url"):
             command = "apt-get --target-release %s install %s" % \
                   (re.compile(r'install').sub("", command),
-                   perform.concat(args[1:]))
+                   util.concat(args[1:]))
             perform.execute(command, root=True)
 
     elif command == "integrity":
@@ -686,7 +686,7 @@ def select_command(command, args, verbose):
         perform.execute("apt-get moo")
 
     elif command == "madison":
-        perform.execute("apt-cache madison " + perform.concat(args[1:]))
+        perform.execute("apt-cache madison " + util.concat(args[1:]))
 
     elif command == "move":
         if util.requires_no_args(command, args):
@@ -729,11 +729,11 @@ def select_command(command, args, verbose):
                 perform.execute("deborphan")
 
     elif command == "policy":
-        perform.execute("apt-cache policy " + perform.concat(args[1:]))
+        perform.execute("apt-cache policy " + util.concat(args[1:]))
 
     elif command == "purge":
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("dpkg --purge " + perform.concat(args[1:]), root=True)
+            perform.execute("dpkg --purge " + util.concat(args[1:]), root=True)
 
     elif command == "purgedepend":
         if util.requires_one_arg(command, args, "a single package"):
@@ -793,7 +793,7 @@ def select_command(command, args, verbose):
         # With no args this will run gkdebconf
         if len(args) > 1:
             perform.execute("dpkg-reconfigure " +\
-                            perform.concat(args[1:]),
+                            util.concat(args[1:]),
                             root=True)
         else:
             perform.execute("gkdebconf", root=True)
@@ -801,7 +801,7 @@ def select_command(command, args, verbose):
     elif command == "reinstall":
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get --reinstall install " +\
-                             perform.concat(args[1:]), root=True)
+                             util.concat(args[1:]), root=True)
 
     elif command == "reload":
         if util.requires_one_arg(command, args, "name of service to " + command):
@@ -812,7 +812,7 @@ def select_command(command, args, verbose):
     elif command == "remove":
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get %s remove %s" %
-                            (yes, perform.concat(args[1:])), root=True)
+                            (yes, util.concat(args[1:])), root=True)
 
     elif command == "removedepend":
         if util.requires_one_arg(command, args, "a single package"):
@@ -860,10 +860,10 @@ def select_command(command, args, verbose):
         # finds nothing but libstdc..6 does.
         if util.requires_args(command, args, "a list of words to search for"):
             if verbose > 0:
-                perform.execute("apt-cache search " + perform.concat(args[1:]))
+                perform.execute("apt-cache search " + util.concat(args[1:]))
             else:
                 perform.execute("apt-cache --names-only search " + \
-                                 perform.concat(args[1:]))
+                                 util.concat(args[1:]))
 
     elif command == "searchapt":
         if util.requires_one_arg(command, args, "one of stable|testing|unstable"):
@@ -877,11 +877,11 @@ def select_command(command, args, verbose):
     elif command == "showinstall":
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get -u -s install " +
-            perform.concat(args[1:]), root=True)
+            util.concat(args[1:]), root=True)
 
     elif command == "showremove":
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get -u -s remove " + perform.concat(args[1:]),
+            perform.execute("apt-get -u -s remove " + util.concat(args[1:]),
             root=True)
 
     elif command == "showupgrade":
@@ -901,9 +901,9 @@ def select_command(command, args, verbose):
             # John V. Belmonte 04 Nov 2005 requested this not be done
             # Leave it to the user to do wajig builddepend
             # It is not always necessary
-            #perform.execute("apt-get build-dep " + perform.concat(args[1:]),
+            #perform.execute("apt-get build-dep " + util.concat(args[1:]),
             #                root=True)
-            perform.execute("apt-get source " + perform.concat(args[1:]))
+            perform.execute("apt-get source " + util.concat(args[1:]))
 
     elif command == "start":
         if util.requires_one_arg(command, args, "name of service to " + command):
@@ -929,7 +929,7 @@ def select_command(command, args, verbose):
         #
         # This was too slow and was not stopping when killed!
         #perform.execute("apt-cache search " \
-        #                    + perform.concat(args[1:]) \
+        #                    + util.concat(args[1:]) \
         #                    + " | awk '{print $1}' " \
         #                    + " | xargs wajig status ")
 

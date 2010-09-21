@@ -82,13 +82,6 @@ def set_simulate(new_level):
     simulate = new_level
 
 
-def concat(args):
-    result = ""
-    for a in args:
-        result = "{0}'{1}' ".format(result, a)
-    return result
-
-
 def execute(command, root=False, noquiet=False, display=True, pipe=False,
             langC=False, test=False):
     """Ask the operating system to perform a command.

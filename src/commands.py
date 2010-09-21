@@ -312,7 +312,7 @@ def do_describe(packages):
         # Otherwise "apt-cache show" seems okay if a little slower.
         #
 # Comment out for fix for Bug#366678
-        package_names = perform.concat(packages)
+        package_names = util.concat(packages)
         command = "apt-cache show " + package_names
         perform.execute(command)
 # Bug#366678 fix from mvo - part 3 - not working yet???
@@ -354,7 +354,7 @@ def do_describe_new(install=False):
 def do_download(packages):
     "Download packages without installing them."
 
-    command = "apt-get --download-only install " + perform.concat(packages)
+    command = "apt-get --download-only install " + util.concat(packages)
     perform.execute(command, root=1)
 
 #------------------------------------------------------------------------
@@ -529,10 +529,10 @@ def do_install(packages, noauth=""):
 #         print "HI"
 #         (packages[0], release) = re.compile(r'/\+').split(packages[0])
 #       command = "apt-get --target-release %s install %s" %\
-#                   (release, perform.concat(packages))
+#                   (release, util.concat(packages))
 #       perform.execute(command, root=1)
     else:
-        command = "apt-get %s install " % noauth + perform.concat(packages)
+        command = "apt-get %s install " % noauth + util.concat(packages)
         perform.execute(command, root=1)
 
 #------------------------------------------------------------------------
@@ -600,10 +600,10 @@ def do_install_suggest(packages, type, noauth=""):
 
     if type == "Recommends":
         command = "aptitude %s -r --show-deps --show-versions install " % \
-            noauth + perform.concat(packages) + suggest_list
+            noauth + util.concat(packages) + suggest_list
     else:
         command = "apt-get %s --show-upgraded install " % noauth \
-            + perform.concat(packages) + suggest_list
+            + util.concat(packages) + suggest_list
     perform.execute(command, root=1)
 
 #-----------------------------------------------------------------------
@@ -1292,7 +1292,7 @@ def do_recdownload(packages):
     print "\n"
 
     command = "apt-get --download-only --reinstall -u install " \
-    + perform.concat(packageNames)
+    + util.concat(packageNames)
     perform.execute(command, root=1)
 
 
