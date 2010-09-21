@@ -98,6 +98,10 @@ class WaJIGTests(unittest.TestCase):
         self.assertTrue(util.package_exists("dpkg", test=True))
         self.assertFalse(util.package_exists("pkg_does_not_exist", test=True))
 
+    def test_util_upgradable(self):
+        # needs root access to APT cache, so ignoring
+        pass
+
     # ----
     # testing bash_completion.py
     #

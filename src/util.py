@@ -24,6 +24,8 @@
 import os
 import sys
 
+import apt
+
 pause = False
 interactive = False
 
@@ -86,7 +88,6 @@ def requires_package(package, path, test=False):
 
 
 def package_exists(package, test=False):
-    import apt
     cache = apt.Cache()
     try:
         cache[package]
@@ -96,6 +97,13 @@ def package_exists(package, test=False):
             print e[0]
             finishup(1)
 
+
+def upgradable(distupgrade=False):
+    "Checks if the system is upgradable."
+    cache = apt.Cache()
+    cache.upgrade(distupgrade)
+    if cache.get_changes():
+        return True
 
 def finishup(code=0):
     if pause:
