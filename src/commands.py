@@ -533,7 +533,7 @@ def do_install(packages, noauth=""):
 # INSTALL SUGGEST
 #
 #------------------------------------------------------------------------
-def do_install_suggest(packages, type, noauth=""):
+def do_install_suggest(packages, deptype, noauth=""):
     "Install packages suggested by the listed packages."
 
     # If reading from standard input, generate the list of packages.
@@ -550,15 +550,15 @@ def do_install_suggest(packages, type, noauth=""):
 
     # Check for information in the Available list
     for section in avail:
-        if (section.get("Package") in packages):
+        if section.get("Package") in packages:
             sug = section.get("Suggests")
             rec = section.get("Recommends")
-            if type == "Suggests" or type == "Both":
+            if deptype in ("Suggests", "Both"):
                 if sug:
-                    suggest_list = suggest_list+" "+sug
-            if type == "Recommends" or type == "Both":
+                    suggest_list = suggest_list, sug
+            if deptype in ("Recommends", "Both"):
                 if rec:
-                    suggest_list = suggest_list+" "+rec
+                    suggest_list = suggest_list, rec
 
     # Remove version information
     suggest_list = re.sub('\([^)]*\)', '', suggest_list)
@@ -575,7 +575,7 @@ def do_install_suggest(packages, type, noauth=""):
     suggest_list = suggest_list + " "
     for i in suggest_list.split():
         suggest_list = i + " " + re.sub(" " + i + " ", ' ', suggest_list)
-    #
+
     # For the list of supplied packages and the list of suggested packages
     # do an install
     #
@@ -591,7 +591,7 @@ def do_install_suggest(packages, type, noauth=""):
     # 100224 Bug #402598 Use aptitude -r to get the recursive
     # recommends installed, rather than going just one level.
 
-    if type == "Recommends":
+    if deptype == "Recommends":
         command = "aptitude %s -r --show-deps --show-versions install " % \
             noauth + util.concat(packages) + suggest_list
     else:
