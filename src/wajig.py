@@ -987,7 +987,8 @@ def select_command(command, args, verbose):
             os.remove(sources_list)
 
     elif command == "verify":
-        if util.requires_one_arg(command, args, "a package name"):
+        if util.requires_one_arg(command, args, "a package name") \
+        and util.requires_package("debsums", "/usr/bin/debsums"):
             perform.execute("debsums " + args[1])
 
     elif command in ["version", "versions"]:

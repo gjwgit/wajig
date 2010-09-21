@@ -1,8 +1,8 @@
 wajig (2.0.50) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
-
-  *
+  * VERIFY: Add a check for debsums before running the command, and add
+    a Suggests on it.
 
  -- Graham Williams <Graham.Williams@togaware.com>  Wed, 16 Sep 2010 17:22:16 +1000
 
