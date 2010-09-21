@@ -48,8 +48,10 @@ class WaJIGTests(unittest.TestCase):
         perform.set_quiet(False)
 
     def test_perform_concat(self):
+        res = perform.concat(["TEST1"])
+        self.assertEqual(res, "'TEST1' ")
         res = perform.concat(["TEST1", "TEST2"])
-        self.assertEqual(res, "'TEST1' 'TEST2' ")  # me not happy wit' this
+        self.assertEqual(res, "'TEST1' 'TEST2' ")
 
     # ----
     # testing util.py
