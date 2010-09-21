@@ -127,7 +127,7 @@ Run 'wajig -v commands' for a complete list of commands.
  hold           Place listed packages on hold so they are not upgraded
  init           Initialise or reset the JIG archive files
  info           List the information contained in a package file
- install        Install (or upgrade) one or more packages or .deb files
+ install        Install one or more packages or .deb files
  install-file   Install those packages that are listed in a file
  installr       Install package and associated recommended packages
  installrs      Install package and recommended and suggested packages
@@ -202,7 +202,7 @@ Run 'wajig -v commands' for a complete list of commands.
  update-alts    Update default alternative for things like x-window-manager
  update-pci-ids Updates the local list of PCI ids from the internet master list
  update-usb-ids Updates the local list of USB ids from the internet master list
- upgrade        Upgrade all of the installed packages or just those listed
+ upgrade        Upgrade all of the installed packages
  verify         Check the md5sums of a package.
  version        Show the current version of wajig.
  versions       List version and distribution of (all) packages.
@@ -652,7 +652,7 @@ OR
 
   $ wajig --backup=DIR upgrade pkgname
   
-DIR is directory where backups will end up. For both options, the the
+DIR is directory where backups will end up. For both options, the
 location of the backups will be displayed.
 
 And you can upgrade all installed packages, remove those packages that
@@ -678,6 +678,9 @@ To upgrade to a specific distribution (e.g., experimental) you can use:
 
 Note that the mentioned distribution must also be mentioned in your
 /etc/apt/sources.list file.
+
+Note that the -b|--backup option is also available for dist-upgrade.
+
 
 A neat trick with wajig is the ability to upgrade a collection of
 packages all with the same version number to another common version
