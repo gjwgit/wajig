@@ -409,7 +409,9 @@ def select_command(command, args, verbose):
             commands.do_describe_new()
 
     elif command == "distupgrade":
-        if util.upgradable(distupgrade=True):
+        if not util.upgradable(distupgrade=True) and len(args) < 2:
+            print 'No upgrades. Did you run "wajig update" beforehand?'
+        else:
             if util.requires_opt_arg(command, args,
                                 "the distribution to upgrade to"):
                 if backup \
@@ -421,8 +423,6 @@ def select_command(command, args, verbose):
                     cmd += "-t " + args[1] + " "
                 cmd += "dist-upgrade"
                 perform.execute(cmd, root=True)
-        else:
-            print 'No upgrades. Did you run "wajig update" beforehand?'
 
     elif command == "download":
         if util.requires_args(command, args, "a list of packages"):
