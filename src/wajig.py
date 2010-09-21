@@ -749,18 +749,18 @@ def select_command(command, args, verbose):
 
     elif command == "purgedepend":
         if util.requires_one_arg(command, args, "a single package"):
-            perform.execute("apt-get remove --purge --auto-remove " + args[1], root=True)
+            perform.execute("apt-get purge --auto-remove " + args[1], root=True)
 
     elif command == "purgeorphans":
-        # Deborphans does not require root, but dpkg does.
-        # So build up the orphans list first, then apss that to dpkg.
-        if util.requires_no_args(command, args):
-            if util.requires_package("deborphan", "/usr/bin/deborphan"):
-                pkgs = ""
-                for p in perform.execute("deborphan", pipe=True):
-                    pkgs += " " + p.strip()
-                if pkgs:
-                    perform.execute("apt-get remove --purge" + pkgs, root=True)
+        # Deborphans does not require root, but dpkg does,
+        # so build up the orphans list first, then pass that to dpkg.
+        if util.requires_no_args(command, args) \
+        and util.requires_package("deborphan", "/usr/bin/deborphan"):
+            pkgs = str()
+            for pkg in perform.execute("deborphan", pipe=True):
+                pkgs += " " + pkg.strip()
+            if pkgs:
+                perform.execute("apt-get purge" + pkgs, root=True)
 
     elif command == "purgeremoved":
         if util.requires_no_args(command, args):
