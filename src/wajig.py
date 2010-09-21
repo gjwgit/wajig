@@ -803,7 +803,7 @@ def select_command(command, args, verbose):
             perform.execute("apt-get --reinstall install " +\
                              util.concat(args[1:]), root=True)
 
-    elif command == "reload":
+    elif command in ("reload", "restart", "start", "stop"):
         if util.requires_one_arg(command, args, "name of service to " + command):
             perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
             # Bug#426969
@@ -838,12 +838,6 @@ def select_command(command, args, verbose):
     elif command == "reset":
         if util.requires_no_args(command, args):
             changes.reset_files()
-
-    elif command == "restart":
-        if util.requires_one_arg(command, args, "name of service to " + command):
-            perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
-            # Bug#426969
-            # perform.execute("invoke-rc.d " + args[1] + " " + command, root=True)
 
     elif command == "rpminstall":
         if util.requires_one_arg(command, args,
@@ -905,12 +899,6 @@ def select_command(command, args, verbose):
             #                root=True)
             perform.execute("apt-get source " + util.concat(args[1:]))
 
-    elif command == "start":
-        if util.requires_one_arg(command, args, "name of service to " + command):
-            perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
-            # Bug#426969
-            # perform.execute("invoke-rc.d " + args[1] + " " + command, root=True)
-
     elif command == "status":
         commands.do_status(args[1:])
 
@@ -932,12 +920,6 @@ def select_command(command, args, verbose):
         #                    + util.concat(args[1:]) \
         #                    + " | awk '{print $1}' " \
         #                    + " | xargs wajig status ")
-
-    elif command == "stop":
-        if util.requires_one_arg(command, args, "name of service to " + command):
-            perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
-            # Bug#426969
-            # perform.execute("invoke-rc.d " + args[1] + " " + command, root=True)
 
     elif command == "tasksel":
         if util.requires_no_args(command, args):
