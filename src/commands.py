@@ -460,23 +460,19 @@ def do_install(packages, noauth=""):
     # Currently only a single URL is allowed. Should this be generalised?
     #
 
-    #
-    # If reading from standard input generate the list of packages.
-    #
+    # reading packages from stdin
     if len(packages) == 1 and packages[0] == "-":
         stripped = [x.strip() for x in sys.stdin.readlines()]
         joined = str.join(stripped)
         packages = joined.split()
-    #
-    # If reading packages from file generate list of packages.
-    #
+
+    # rading packages from a file
     elif len(packages) == 2 and packages[0] == "-f":
         stripped = [x.strip() for x in open(packages[1]).readlines()]
         joined = str.join(stripped)
         packages = str.split(joined)
-    #
-    # Check if a specific web location was specified.
-    #
+
+    # check if a specific web location was specified
     if re.match("(http|ftp)://", packages[0]) \
        and util.requires_package("wget", "/usr/bin/wget"):
         if len(packages) > 1:
@@ -493,10 +489,8 @@ def do_install(packages, noauth=""):
         else:
             print "Wajig: The location " + packages[0] +\
                   " was not found. Check and try again."
-            return
-    #
-    # Check if a specific .DEB file was specified
-    #
+
+    # check if a specific .DEB file was specified
     elif re.match(".*\.deb$", packages[0]):
         command = "dpkg -i"
         for pkg in packages:
