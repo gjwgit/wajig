@@ -432,9 +432,13 @@ def get_dependencies(pkg):
 
 
 def backup_before_upgrade(bkdir, pkgs, distupgrade=False):
-    "Optional functionality to backup packages before a (dist)upgrade for \
-     later recovery in case of trouble caused by the newly installed."
-    date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+    """Backup packages before a (dist)upgrade.
+
+     This optional functionality helps recovery in case of trouble caused
+     by the newly-installed packages. The packages are by default stored
+     in a directory named like  ~/.wajig/hostname/backups/2010-09-21_09h21."""
+
+    date = time.strftime("%Y-%m-%d_%Hh%M", time.localtime())
     if isinstance(bkdir, str):
         target = os.path.abspath(bkdir + "/" + date)
         try:
@@ -443,7 +447,10 @@ def backup_before_upgrade(bkdir, pkgs, distupgrade=False):
             print "Quitting:", e
     else:
         target = init_dir + "/backups/" + date
-        os.makedirs(target)
+        try:
+            os.makedirs(target)
+        except Exception, e:
+            pass  # ignore the 'file already exists' exception and proceed
     os.chdir(target)
     print "JIG: The packages will saved in", target
     for pkg in pkgs:
