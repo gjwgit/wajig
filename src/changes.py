@@ -357,7 +357,7 @@ def get_new_available():
 
 
 def get_new_upgrades():
-    "Obtain newly-upgraded packages"
+    "Obtain newly-upgraded packages."
     load_dictionaries()
     upgraded_list = []
     apt_pkg.init_system()  # Not sure why!
@@ -449,7 +449,7 @@ def backup_before_upgrade(bkdir, pkgs, distupgrade=False):
         target = init_dir + "/backups/" + date
         try:
             os.makedirs(target)
-        except Exception, e:
+        except Exception:
             pass  # ignore the 'file already exists' exception and proceed
     os.chdir(target)
     print "JIG: The packages will saved in", target

@@ -136,9 +136,8 @@ def do_dependents(package):
     for pkg in packages:
         pkgs.append(pkg.strip())
     avail = get_available()
-    #
+
     # Check for information in the Available list
-    #
     for section in avail:
         nam = section.get("Package")
         if (nam in pkgs):
