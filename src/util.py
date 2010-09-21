@@ -102,8 +102,8 @@ def upgradable(distupgrade=False):
     "Checks if the system is upgradable."
     cache = apt.Cache()
     cache.upgrade(distupgrade)
-    if cache.get_changes():
-        return True
+    pkgs = [pkg.name for pkg in cache.get_changes()]
+    return pkgs
 
 
 def concat(args):

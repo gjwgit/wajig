@@ -431,25 +431,21 @@ def get_dependencies(pkg):
     return dp
 
 
-def backup_before_upgrade(bkdir, distupgrade=False):
+def backup_before_upgrade(bkdir, pkgs, distupgrade=False):
     "Optional functionality to backup packages before a (dist)upgrade for \
      later recovery in case of trouble caused by the newly installed."
-    cache = apt.Cache()
-    cache.upgrade(distupgrade)
-    pkgs = [pkg.name for pkg in cache.get_changes()]
-    if pkgs:
-        date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
-        if isinstance(bkdir, str):
-            target = os.path.abspath(bkdir + "/" + date)
-            try:
-                os.makedirs(target)
-            except Exception, e:
-                print "Quitting:", e
-        else:
-            target = init_dir + "/backups/" + date
+    date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+    if isinstance(bkdir, str):
+        target = os.path.abspath(bkdir + "/" + date)
+        try:
             os.makedirs(target)
-        os.chdir(target)
-        print "JIG: The packages will saved in", target
-        for pkg in pkgs:
-            command = "fakeroot -u dpkg-repack " + pkg
-            perform.execute(command)
+        except Exception, e:
+            print "Quitting:", e
+    else:
+        target = init_dir + "/backups/" + date
+        os.makedirs(target)
+    os.chdir(target)
+    print "JIG: The packages will saved in", target
+    for pkg in pkgs:
+        command = "fakeroot -u dpkg-repack " + pkg
+        perform.execute(command)
