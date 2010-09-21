@@ -576,21 +576,8 @@ def do_install_suggest(packages, deptype, noauth=""):
     for i in suggest_list.split():
         suggest_list = i + " " + re.sub(" " + i + " ", ' ', suggest_list)
 
-    # For the list of supplied packages and the list of suggested packages
-    # do an install
-    #
-    # I used to ask but get apt-get to do the asking.
-    #
-    #if len(string.strip(suggest_list)) > 0:
-    #  print "Installing: " + suggest_list
-    #  cont = raw_input('Continue (Y/n)? ')
-    #else:
-    #    cont = ""
-    #if cont == "" or cont == "Y" or cont == "y" or cont == "yes":
-
-    # 100224 Bug #402598 Use aptitude -r to get the recursive
-    # recommends installed, rather than going just one level.
-
+    # Use aptitude -r to get the recursive recommends installed, rather
+    # than going just one level - #402598.
     if deptype == "Recommends":
         command = "aptitude %s -r --show-deps --show-versions install " % \
             noauth + util.concat(packages) + suggest_list
