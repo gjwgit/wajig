@@ -745,7 +745,7 @@ def select_command(command, args, verbose):
 
     elif command == "purge":
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("dpkg --purge " + util.concat(args[1:]), root=True)
+            perform.execute("apt-get purge " + util.concat(args[1:]), root=True)
 
     elif command == "purgedepend":
         if util.requires_one_arg(command, args, "a single package"):
@@ -764,16 +764,13 @@ def select_command(command, args, verbose):
 
     elif command == "purgeremoved":
         if util.requires_no_args(command, args):
-            pkgs = ""
+            pkgs = str()
             cmd = "dpkg-query --show --showformat='${Package}\t${Status}\n' |"\
             + " grep \"deinstall ok config-files\" | cut -f 1 "
-            for p in perform.execute(cmd, pipe=True):
-                pkgs += " " + p.strip()
-            # 090430 Use dpkg --purge instead - like wajig purge....
-            # Was there any reason to use apt-get instead?
-            # if pkgs: perform.execute("apt-get remove --purge" + pkgs, root=True)
+            for pkg in perform.execute(cmd, pipe=True):
+                pkgs += " " + pkg.strip()
             if pkgs:
-                perform.execute("dpkg --purge" + pkgs, root=True)
+                perform.execute("apt-get purge " + pkgs, root=True)
 
     elif command == "readme":
         if util.requires_one_arg(command, args, "a single package"):
