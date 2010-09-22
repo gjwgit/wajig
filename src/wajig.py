@@ -749,7 +749,7 @@ def select_command(command, args, verbose):
             for pkg in perform.execute(cmd, pipe=True):
                 pkgs += " " + pkg.strip()
             if pkgs:
-                perform.execute("apt-get purge " + pkgs, root=True)
+                perform.execute("apt-get purge" + pkgs, root=True)
 
     elif command == "readme":
         if util.requires_one_arg(command, args, "a single package"):
@@ -778,11 +778,9 @@ def select_command(command, args, verbose):
             commands.do_recdownload(args[1:])
 
     elif command == "reconfigure":
-        # With no args this will run gkdebconf
         if len(args) > 1:
-            perform.execute("dpkg-reconfigure " +\
-                            util.concat(args[1:]),
-                            root=True)
+            perform.execute("dpkg-reconfigure " + util.concat(args[1:]),
+                             root=True)
         else:
             perform.execute("gkdebconf", root=True)
 
@@ -794,8 +792,6 @@ def select_command(command, args, verbose):
     elif command in ("reload", "restart", "start", "stop"):
         if util.requires_one_arg(command, args, "name of service to " + command):
             perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
-            # Bug#426969
-            # perform.execute("invoke-rc.d " + args[1] + " " + command, root=True)
 
     elif command == "remove":
         if util.requires_args(command, args, "a list of packages"):
@@ -804,19 +800,16 @@ def select_command(command, args, verbose):
 
     elif command == "removedepend":
         if util.requires_one_arg(command, args, "a single package"):
-            #print changes.get_dependents("libclan2-mikmod")
-            # Bug#579419 - this is more efficient than do_removedepend 
             perform.execute("apt-get remove --auto-remove " + args[1], root=True)
-            #commands.do_removedepend(args[1])
             
     elif command == "removeorphans":
-        if util.requires_no_args(command, args):
-            if util.requires_package("deborphan", "/usr/bin/deborphan"):
-                pkgs = ""
-                for p in perform.execute("deborphan", pipe=True):
-                    pkgs += " " + p.strip()
-                if pkgs:
-                    perform.execute("apt-get remove" + pkgs, root=True)
+        if util.requires_no_args(command, args) \
+        and util.requires_package("deborphan", "/usr/bin/deborphan"):
+            pkgs = str()
+            for pkg in perform.execute("deborphan", pipe=True):
+                pkgs += " " + pkg.strip()
+            if pkgs:
+                perform.execute("apt-get remove" + pkgs, root=True)
 
     elif command in ["repackage", "package"]:
         if util.requires_one_arg(command, args, "name of an installed package"):
