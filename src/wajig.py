@@ -42,10 +42,12 @@ import util
 # Global Variables
 #
 pause = False
-interactive = False  # Set to true for interactive command line
-match_commands = []  # For interactive command line completion
+interactive = False  # set to true for interactive command line
+match_commands = list()  # for interactive command line completion
 backup = False
-pager = False  # Use a pager?
+pager = False  # use a pager?
+yes = str()
+noauth = str()
 
 
 def print_help(command, args, verbose=False, exit_=False):
@@ -176,11 +178,8 @@ def main():
     teaching = False
     verbose = 0
     debug = False
-    yes = ""
-    noauth = ""
-    #
-    # Action the command line options
-    #
+
+    # action the command line options
     for o, a in opts:
         if o in ["-h", "--help"]:
             documentation.usage()
