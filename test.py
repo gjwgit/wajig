@@ -127,9 +127,9 @@ _wajig()
            COMPREPLY=($( compgen -W "$(apt-cache pkgnames "$cur")" -- $cur ) )
         elif [[ "$cur" == -* ]]; then
             COMPREPLY=($( compgen -W '-b --backup -h --help -n --noauth  \ 
-                                  -p --pause -x --pager -q --quiet  \ 
-                                  -s --simulate -t --teaching -y  \ 
-                                  --yes -v --verbose' -- $cur ) )
+                                  -x --pager -p --pause -q --quiet  \ 
+                                  -s --simulate -t --teaching -v  \ 
+                                  --verbose -y --yes' -- $cur ) )
         else
             COMPREPLY=($( compgen -W '
             addcdrom addrepo auto-alts auto-clean auto-download \ 

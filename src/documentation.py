@@ -215,13 +215,13 @@ Command line options:
  -b|--backup=DIR UPGRADE - Backup packages before they are upgraded.
  -h|--help       Print usage message.
  -n|--noauth     Allow packages from unathenticated archives.
- -p|--pause      Pause before exiting.
  -x|--pager      CHANGELOG - Use a pager for viewing the entire Debian changelog of a package.
+ -p|--pause      Pause before exiting.
  -q|--quiet      Execute system commands quietly.
  -s|--simulate   Show commands to be executed but don't execute.
  -t|--teaching   Show commands to be executed and then execute them.
- -y|--yes        Assume yes for any questions asked.
  -v|--verbose=n  Increase (or set) the level of verbosity (to n).
+ -y|--yes        Assume yes for any questions asked.
 
 Fuller documentation can be found at http://www.togaware.com/wajig.
 """
@@ -367,11 +367,11 @@ All wajig commands:
 
 Command line options:
 
- -b|--backup     Backup packages before they are upgraded.
+ -b|--backup=DIR UPGRADE - Backup packages before they are upgraded.
  -h|--help       Print this documentation and exit.
  -n|--noauth     Allow packages from unathenticated archives.
- -p|--pause      Pause before exiting.
  -x|--pager      CHANGELOG - Use a pager for viewing the entire Debian changelog of a package.
+ -p|--pause      Pause before exiting.
  -q|--quiet      Do not show progress of commands.
  -s|--simulate   Show commands to be executed but don't execute.
  -t|--teaching   Show commands to be executed and then execute them.
