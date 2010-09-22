@@ -199,7 +199,7 @@ def main():
         elif o in ["-s", "--simulate"]:
             perform.set_simulate(True)
         elif o in ["-t", "--teaching"]:
-            perform.set_teaching_level(True)
+            perform.set_teaching()
         elif o in ["-y", "--yes"]:
             yes = " --yes "
         # The --force-yes is a dangerous option that will cause apt to

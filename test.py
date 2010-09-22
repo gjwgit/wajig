@@ -39,10 +39,9 @@ class WaJIGTests(unittest.TestCase):
         perform.set_simulate(False)
 
     def test_perform_teaching(self):
-        perform.set_teaching_level(True)
+        perform.set_teaching()
         res = perform.execute("TEST", test=True)
         self.assertEqual(res, "Performing: TEST")
-        perform.set_teaching_level(False)
 
     def test_perform_quiet(self):
         perform.set_quiet()

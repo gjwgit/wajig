@@ -72,9 +72,9 @@ def set_quiet(check=True):
         quiet = ""
 
 
-def set_teaching_level(new_level):
+def set_teaching():
     global teaching
-    teaching = new_level
+    teaching = True
 
 
 def set_simulate(new_level):
