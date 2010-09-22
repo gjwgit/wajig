@@ -173,7 +173,6 @@ def main():
         documentation.usage()
         util.finishup(2)
 
-    simulate = False
     teaching = False
     verbose = 0
     debug = False
@@ -204,8 +203,7 @@ def main():
         elif o in ["-q", "--quiet"]:
             perform.set_quiet()
         elif o in ["-s", "--simulate"]:
-            simulate = True
-            perform.set_simulate(simulate)
+            perform.set_simulate(True)
         elif o in ["-t", "--teaching"]:
             teaching = True
             perform.set_teaching_level(teaching)
