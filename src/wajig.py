@@ -264,7 +264,7 @@ def main():
 
     # Provide help up front - don't need to initialise the system to give help
 
-    print_help(command, args, verbose, exit=True)
+    print_help(command, args, verbose, exit_=True)
     #
     # Before we do any other command make sure the right files exist.
     #
