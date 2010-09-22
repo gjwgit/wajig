@@ -8,6 +8,9 @@ TODO:
 """
 
 import unittest
+import os
+import difflib
+
 from src import perform
 from src import util
 
@@ -157,8 +160,6 @@ _wajig()
         fi
 }
 complete -F _wajig $default wajig""".split("\n")
-
-        import os, difflib
 
         wc = "wajig.completion"
         os.system("python bash_completion.py")
