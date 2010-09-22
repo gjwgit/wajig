@@ -291,7 +291,7 @@ def select_command(command, args, verbose):
     This function was separated out of the main so that I could wrap
     it up with exception handling.
     """
-    result = 0
+
     changes.start_log()
     if command in ["addcdrom", "cdromadd"]:
         if util.requires_no_args(command, args):
@@ -669,11 +669,11 @@ def select_command(command, args, verbose):
     elif command == "listnames":
         # pdb.set_trace()
         if util.requires_opt_arg(command, args, "at most one argument"):
-            result = commands.do_listnames(args[1:])
+            commands.do_listnames(args[1:])
 
     elif command == "listscripts":
         if util.requires_one_arg(command, args, "a package name or deb file"):
-            result = commands.do_listscripts(args[1])
+            commands.do_listscripts(args[1])
 
     elif command == "liststatus":
         if util.requires_opt_arg(command, args, "package name"):
