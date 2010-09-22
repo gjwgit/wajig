@@ -175,7 +175,6 @@ def main():
         documentation.usage()
         util.finishup(2)
 
-    teaching = False
     verbose = 0
     debug = False
 
@@ -204,8 +203,7 @@ def main():
         elif o in ["-s", "--simulate"]:
             perform.set_simulate(True)
         elif o in ["-t", "--teaching"]:
-            teaching = True
-            perform.set_teaching_level(teaching)
+            perform.set_teaching_level(True)
         elif o in ["-y", "--yes"]:
             yes = " --yes "
         # The --force-yes is a dangerous option that will cause apt to
