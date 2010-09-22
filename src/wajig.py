@@ -269,11 +269,7 @@ def main():
 
 
 def select_command(command, args, verbose):
-    """Select the appropriate command and execute it.
-
-    This function was separated out of the main so that I could wrap
-    it up with exception handling.
-    """
+    "Select the appropriate command and execute it."
 
     changes.start_log()
     if command in ["addcdrom", "cdromadd"]:
