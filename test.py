@@ -110,7 +110,7 @@ class WaJIGTests(unittest.TestCase):
 
     # ----
     # testing bash_completion.py
-    #
+    # ----
     def test_bash_completion(self):
         bc_ref = """\
 have wajig &&
