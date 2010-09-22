@@ -267,11 +267,14 @@ def do_describe(packages):
     # If not sorted it should be same order as on the command line.
     pkgs = describe_list.keys()
     pkgs.sort()
-    #
-    # Print the description depending on level of detail requested
-    # through the value of "verbose"
-    #
-    if len(pkgs) == 0:
+
+    # hack - ensures that we reach aptitude's 'virtual pkg' message
+    cache = apt.Cache()
+    if cache.get_providing_packages("motho"):
+        pkgs = [1]
+
+    # Print the description, depending on level of detail (verbose).
+    if len(pkgs) == 0 and verbose < 2:  # 'verbose < 2' is part of above hack
         print "No packages found from those known to be available/installed."
     elif verbose == 0:
         print "{0:24} {1}".format("Package", "Description")
@@ -306,13 +309,12 @@ def do_describe(packages):
         for pkg in pkgs:
             print pkg + ": " + describe_list[pkg].capitalize() + "\n"
     else:
-        #
         # TODO is there a way of doing this using apt_pkg easily?
-        # Otherwise "apt-cache show" seems okay if a little slower.
+        # Use "aptitude show" for now.
         #
 # Comment out for fix for Bug#366678
         package_names = util.concat(packages)
-        command = "apt-cache show " + package_names
+        command = "aptitude show " + package_names
         perform.execute(command)
 # Bug#366678 fix from mvo - part 3 - not working yet???
 #   for pkgname in filter(lambda pkgname: cache.has_key(pkgname), packages):
