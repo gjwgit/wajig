@@ -166,8 +166,8 @@ def main():
         sys.argv += oldargv[i].split(",")
 
     try:
-        sopts = "bdhnpqstvxy"
-        lopts = ["backup=", "debug", "help", "pause", "quiet", "simulate",
+        sopts = "bhnpqstvxy"
+        lopts = ["backup=", "help", "pause", "quiet", "simulate",
                  "teaching", "verbose=", "version", "yes", "noauth", "pager"]
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
     except getopt.error, e:
@@ -176,7 +176,6 @@ def main():
         util.finishup(2)
 
     verbose = 0
-    debug = False
 
     # action the command line options
     for o, a in opts:
@@ -268,15 +267,7 @@ def main():
     # Catch exceptions and ignore them, for end users.
     # Check for sys.exit (SystemExit exceptions) and return code.
     #
-    if debug:
-        select_command(command, args, verbose)
-    else:
-        try:
-            select_command(command, args, verbose)
-        except SystemExit, e:
-            sys.exit(e)
-        except:
-            pass
+    select_command(command, args, verbose)
     util.finishup(0)
 
 
