@@ -157,9 +157,10 @@ def main():
     global noauth
     global backup
     global pager
-    #
-    # Remove commas and insert the arguments appropriately.
-    #
+
+    verbose = 0
+
+    # remove commas and insert the arguments appropriately
     oldargv = sys.argv
     sys.argv = oldargv[0:2]
     for i in range(2, len(oldargv)):
@@ -175,8 +176,6 @@ def main():
         documentation.usage()
         util.finishup(2)
 
-    verbose = 0
-
     # action the command line options
     for o, a in opts:
         if o in ["-h", "--help"]:
@@ -189,8 +188,6 @@ def main():
                 print 'Should be of the form "wajig --backup=BKDIR upgrade"'
                 util.finishup(1)
             backup = a
-        elif o in ["-d", "--debug"]:
-            debug = True
         elif o in ["-p", "--pause"]:
             pause = True
             util.pause = True
