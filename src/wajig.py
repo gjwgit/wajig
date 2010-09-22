@@ -49,7 +49,7 @@ pager = False  # Use a pager?
 
 
 def print_help(command, args, verbose=False, exit=False):
-    if   command == "doc" or command == "docs" or command == "documentation":
+    if command in ("doc", "docs", "documentation"):
         util.requires_no_args(command, args)
         verbose = 2
         documentation.help(verbose)
