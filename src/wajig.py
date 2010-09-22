@@ -48,17 +48,17 @@ backup = False
 pager = False  # Use a pager?
 
 
-def print_help(command, args, verbose=False, exit=False):
+def print_help(command, args, verbose=False, exit_=False):
     if command in ("doc", "docs", "documentation"):
         util.requires_no_args(command, args)
         verbose = 2
         documentation.help(verbose)
-        if exit:
+        if exit_:
             util.finishup(0)
     elif command == "help":
         util.requires_no_args(command, args)
         documentation.help(verbose)
-        if exit:
+        if exit_:
             util.finishup(0)
 
 
