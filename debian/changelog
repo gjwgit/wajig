@@ -12,6 +12,8 @@ wajig (2.0.50) unstable; urgency=low
     - better virtual package handling; it displays real packages that provide
       the functionality implied by that virtual package, instead of just
       vomiting "package not found!"
+    - only displays info on the installed version; else, the latest available;
+      apt-get showed all available versions
     - the trade-off is that the command is a bit slower, but what's the rush :)
   * LIST-RECOMMENDED: new command that displays packages which are
     auto-installed via Recommends, and are without installed dependencies.
