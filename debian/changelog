@@ -1,21 +1,19 @@
 wajig (2.0.50) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
+
   * VERIFY: Add a check for debsums before running the command, and add
     a Suggests on it.
-
   * PURGE: use apt-get instead of dpkg, in order to get a yes/no prompt.
-
   * Remove supression of error messages; Not a good idea.
-
   * Add dependency on aptitude; It is used some place in the code.
-
   * SHOW: use aptitude instead of apt-cache
     - the output is prettier
     - better virtual package handling; it displays real packages that provide
       the functionality implied by that virtual package, instead of just
       vomiting "package not found!"
     - the trade-off is that the command is a bit slower, but what's the rush :)
+
 
  -- Graham Williams <Graham.Williams@togaware.com>  Wed, 16 Sep 2010 17:22:16 +1000
 
