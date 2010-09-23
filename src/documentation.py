@@ -168,6 +168,7 @@ Run 'wajig -v commands' for a complete list of commands.
  purge-removed  Purge all packages marked as deinstall
  rbuilddeps     Display the packages which build-depends on the given package (long form is "reverse-build-depends")
  readme         Display the package's README file from /usr/share/doc
+ list-recommended Display packages that were installed via Recommends and have no dependents
  recursive      Download package and any packages it depends on
  reconfigure    Reconfigure the named installed packages or run gkdebconf
  reinstall      Reinstall each of the named packages

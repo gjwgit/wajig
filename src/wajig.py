@@ -773,6 +773,12 @@ def select_command(command, args, verbose):
             if not found:
                 print "No README found for '%s'" % args[1]
 
+    elif command in "listrecommended":
+        command = "aptitude search '" + \
+                  "?and( ?automatic(?reverse-recommends(?installed)), "+ \
+                  "?not(?automatic(?reverse-depends(?installed))) )'"
+        perform.execute(command)
+
     elif command in ["recursive", "recdownload"]:
         if util.requires_args(command, args, "a list of packages"):
             commands.do_recdownload(args[1:])
