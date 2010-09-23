@@ -79,7 +79,7 @@ wajig (2.0.48) unstable; urgency=low
     module. (Tshepang Lekhonkhobe)
 
   * Tidy up the list of commands from the "list-commands"
-    command. (Tshepang Lekhonkhobe) (Closes: #582252).
+    command. (Closes: #582252).
 
   * Show downgraded packages in 'wajig list-log'. (Tshepang Lekhonkhobe)
     (Closes: #366796).
