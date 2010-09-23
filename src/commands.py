@@ -20,9 +20,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
-#
-# Standard python modules
-#
 import os
 import re
 import sys
@@ -32,28 +29,20 @@ import signal
 import apt_pkg
 import apt
 
-# Wajig modules
+# wajig modules
 import changes
 import perform
 import util
-#
+
 # When writing to a pipe where there is no reader (e.g., when
 # output is directed to head or to less and the user exists from less
 # before reading all output) the SIGPIPE signal is generated. Capture
 # the signal and hadle it with the default handler.
-#
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
-#
-# Global Variables
-#
+verbose = 0
 available_file = changes.get_available_filename()
 previous_file  = changes.get_previous_filename()
-
-#
-# Interface Variables
-#
-verbose = 0
 
 
 def set_verbosity_level(new_level):
@@ -80,7 +69,6 @@ def ping_host(hostname):
                        display=False) != 0:
         print "JIG Warning: fping was not found. " +\
               "Consider installing the package fping.\n"
-        return False
 
     # Check if we can talk to the HOST
     elif perform.execute("fping " + hostname + " 2>/dev/null >/dev/null",
@@ -89,8 +77,8 @@ def ping_host(hostname):
         + """
              Perhaps it is down or you are not connected to the network.
              JIG will continue to try to get the information required."""
-        return False
-    return True  # host found
+    else:
+        return True  # host found
 
 
 def get_available(command="dumpavail"):
@@ -113,13 +101,9 @@ def get_available(command="dumpavail"):
     # append /var/lib/dpkg/status to be more comprehensive? Would
     # repeats be an issue? Closes Bug#432266
 
-    tmpcache = tempfile.mktemp()
-    command = "apt-cache dumpavail > " + tmpcache
-    perform.execute(command)
-    # 090501 Begin
-    command = "cat /var/lib/dpkg/status >> " + tmpcache
-    perform.execute(command)
-    # 090501 End
+    tmpcache = tempfile.mkstemp()[1]
+    perform.execute("apt-cache dumpavail > " + tmpcache)
+    perform.execute("cat /var/lib/dpkg/status >> " + tmpcache)  # 090501 fix
     avail = apt_pkg.TagFile(file(tmpcache))
     if os.path.exists(tmpcache):
         os.remove(tmpcache)
