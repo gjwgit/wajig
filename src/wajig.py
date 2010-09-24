@@ -797,7 +797,7 @@ def select_command(command, args, verbose):
 
     elif command in ("reload", "restart", "start", "stop"):
         if util.requires_one_arg(command, args, "name of service to " + command):
-            perform.execute("/etc/init.d/" + args[1] + " " + command, root=True)
+            perform.execute("service {0} {1}".format(args[1], command), root=True)
 
     elif command == "remove":
         if util.requires_args(command, args, "a list of packages"):
