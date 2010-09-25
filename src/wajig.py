@@ -817,10 +817,11 @@ def select_command(command, args, verbose):
             if pkgs:
                 perform.execute("apt-get remove" + pkgs, root=True)
 
-    elif command in ["repackage", "package"]:
-        if util.requires_one_arg(command, args, "name of an installed package"):
-            if util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack"):
-                perform.execute("dpkg-repack " + args[1], root=True)
+    elif command in ("repackage", "package"):
+        if util.requires_one_arg(command, args, "name of an installed package") \
+        and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
+        and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
+            perform.execute("fakeroot -u dpkg-repack " + args[1], root=False)
 
     elif command == "reset":
         if util.requires_no_args(command, args):
