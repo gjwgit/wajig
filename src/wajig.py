@@ -260,10 +260,7 @@ def main():
     # Before we do any other command make sure the right files exist.
     #
     changes.ensure_initialised()
-    #
-    # Catch exceptions and ignore them, for end users.
-    # Check for sys.exit (SystemExit exceptions) and return code.
-    #
+
     select_command(command, args, verbose)
     util.finishup(0)
 
