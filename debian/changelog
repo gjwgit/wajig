@@ -6,7 +6,7 @@ wajig (2.0.50) unstable; urgency=low
     a Suggests on it.
   * PURGE: use apt-get instead of dpkg, in order to get a yes/no prompt.
   * Remove supression of error messages; Not a good idea.
-  * Add dependency on aptitude; It is used some place in the code.
+  * Add dependency on aptitude; It must have been forgotten.
   * SHOW: use aptitude instead of apt-cache
     - the output is prettier
     - better virtual package handling; it displays real packages that provide
