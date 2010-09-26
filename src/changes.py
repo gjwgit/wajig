@@ -207,7 +207,7 @@ def update_available(noreport=False):
 old_log = tempfile.mktemp()
 
 def start_log():
-    # Write list of installed to tmp file
+    "Write a list of installed packages to a tmp file."
     perform.execute(gen_installed_command_str() + " > " + old_log,
                     noquiet=True, langC=True)
 
