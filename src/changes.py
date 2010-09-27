@@ -225,10 +225,10 @@ def finish_log():
         n = new_iter.next().strip().split(" ")
         while o[0] != n[0]:
             if o[0] < n[0]:
-                lf.write("%s %s %s %s\n" % (ts, "remove", o[0], o[1]))
+                lf.write("{0} {1} {2} {3}\n".format(ts, "remove", o[0], o[1]))
                 o = old_iter.next().strip().split(" ")
             elif o[0] > n[0]:
-                lf.write("%s %s %s %s\n" % (ts, "install", n[0], n[1]))
+                lf.write("{0} {1} {2} {3}\n".format(ts, "install", n[0], n[1]))
                 n = new_iter.next().strip().split(" ")
 
         if o[1] != n[1]:
