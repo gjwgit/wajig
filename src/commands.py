@@ -41,8 +41,8 @@ import util
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
 verbose = 0
-available_file = changes.get_available_filename()
-previous_file  = changes.get_previous_filename()
+available_file = changes.available_file
+previous_file  = changes.previous_file
 
 
 def set_verbosity_level(new_level):

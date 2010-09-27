@@ -94,15 +94,6 @@ log_file       = init_dir + "/Log"
 tempfile.tempdir = init_dir
 
 
-def get_available_filename():
-    "Obtain the name of the file containing list of available packages."
-    return available_file
-
-
-def get_previous_filename():
-    "Obtain the name of the file containing list of previous packages."
-    return previous_file
-
 #------------------------------------------------------------------------
 #
 # UPDATE AVAILABLE
