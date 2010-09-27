@@ -161,7 +161,7 @@ def update_available(noreport=False):
         f = open(available_file, "w")
         f.close()
 
-    temporary_file = tempfile.mktemp()
+    temporary_file = tempfile.mkstemp()[1]
 
     os.rename(available_file, temporary_file)
     command = "apt-cache dumpavail " +\
@@ -204,7 +204,7 @@ def update_available(noreport=False):
 # Call start_log before any actions, then finish_log when actions are
 # finished. This will write a summary of changes to the log file.
 #
-old_log = tempfile.mktemp()
+old_log = tempfile.mkstemp()[1]
 
 def start_log():
     "Write a list of installed packages to a tmp file."
@@ -259,7 +259,7 @@ def gen_installed_command_str():
 
 def count_upgrades():
     "Return as a string the number of new upgrades since last update."
-    ifile = tempfile.mktemp()
+    ifile = tempfile.mkstemp()[1]
     # Use langC in the following since it uses a grep.
     perform.execute(gen_installed_command_str() + " > " + ifile,
                     langC=True, noquiet=True)

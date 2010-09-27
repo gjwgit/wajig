@@ -464,7 +464,7 @@ def do_install(packages, noauth=""):
             print "wajig: Error: install URL allows only one URL, not " +\
                   str(len(packages))
             sys.exit(1)
-        tmpdeb = tempfile.mktemp() + ".deb"
+        tmpdeb = tempfile.mkstemp()[1] + ".deb"
         command = "wget --output-document=" + tmpdeb + " " + packages[0]
         if not perform.execute(command):
             command = "dpkg --install " + tmpdeb
@@ -843,7 +843,7 @@ def do_status(packages, snapshot=False):
     #
     # Generate a temporary file of installed packages.
     #
-    ifile = tempfile.mktemp()
+    ifile = tempfile.mkstemp()[1]
     #
     # Using langC=TRUE here makes it work for other LANG, e.g.,
     # LANG=ru_RU.koi8r. Seems that the sorting is the key problem. To
@@ -1073,7 +1073,7 @@ def do_whichpkg(filename):
     #
     print "-"*77
     print "AVAILABLE"
-    results = tempfile.mktemp()
+    results = tempfile.mkstemp()[1]
     filename = filename.replace('+', '%2B')
 
     # 100117 Bug#565666 Update to newer search syntax. TODO We should
@@ -1165,25 +1165,21 @@ def do_findpkg(pkg):
     "Look for a particular pkg at apt-get.org."
 
     ping_host("www.apt-get.org")
-    #
+
     # Print out a suitable heading
-    #
-    print "Lines suitable for /etc/apt/sources.list"
-    print ""
+    print "Lines suitable for /etc/apt/sources.list\n"
     sys.stdout.flush()
-    #
+
     # Obtain the information from the Apt-Get server
-    #
-    results = tempfile.mktemp()
+    results = tempfile.mkstemp()[1]
     command = "wget --timeout=60 --output-document=" + results +\
               " http://www.apt-get.org/" +\
               "search.php\?query=" + pkg +\
               "\&submit=\&arch%5B%5D=i386\&arch%5B%5D=all " +\
               "2> /dev/null"
     perform.execute(command)
-    #
+
     # A single page of output
-    #
     command = "cat " + results + " | " +\
               "egrep '(^deb|sites and .*packages)' | " +\
               "perl -p -e 's|<[^>]*>||g;s|<[^>]*$||g;s|^[^<]*>||g;'" +\
