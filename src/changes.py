@@ -104,11 +104,6 @@ os.system("rm -f " + init_dir + "/tmp*")
 available_file = init_dir + "/Available"
 previous_file  = init_dir + "/Available.prv"
 log_file       = init_dir + "/Log"
-#
-# No longer using the Installed file so remove it. 23 Aug 2003
-#
-if os.path.exists(init_dir + "/Installed"):
-    os.remove(init_dir + "/Installed")
 
 # Set the temporary directory to the init_dir.
 # Large files are not generally written there so should be okay.
