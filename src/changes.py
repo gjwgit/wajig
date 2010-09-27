@@ -109,28 +109,7 @@ log_file       = init_dir + "/Log"
 #
 if os.path.exists(init_dir + "/Installed"):
     os.remove(init_dir + "/Installed")
-#
-# Packages cache
-#
-# This was added when some /var/lib/dpkg/available stopped being
-# updated for some reason - perhaps new version of dpkg or apt
-# (Jun/Jul 03). File can be big, but hope that's okay.
-#
-# BUT no it is not okay! For large installations, this creates
-# additional 11MB per host per user of wajig :-(
-# Generateion of the file is quick (0.5s) so just build it
-# as needed in /tmp. 23 Aug 2003
-#
-#packages_file  = init_dir + "/Packages"
-#
-# Remove the large cache file - this should only be needed
-# for a little while as 0.3.26 replaced 0.3.25 pretty quickly.
-# 23 Aug 2003
-#
-if os.path.exists(init_dir + "/Packages"):
-    os.remove(init_dir + "/Packages")
 
-#
 # Set the temporary directory to the init_dir.
 # Large files are not generally written there so should be okay.
 #
