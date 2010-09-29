@@ -88,9 +88,13 @@ available_file = init_dir + "/Available"
 previous_file  = init_dir + "/Available.prv"
 log_file       = init_dir + "/Log"
 
+# removes a no-longer-used log
+# this code should go away after several months (2012?)
+if os.path.exists(log_file):
+    os.remove(log_file)
+
 # Set the temporary directory to the init_dir.
 # Large files are not generally written there so should be okay.
-#
 tempfile.tempdir = init_dir
 
 
@@ -145,49 +149,6 @@ def update_available(noreport=False):
         else:
             print "packages."
 
-########################################################################
-#
-# UPDATE LOG
-#
-# Call start_log before any actions, then finish_log when actions are
-# finished. This will write a summary of changes to the log file.
-#
-old_log = tempfile.mkstemp()[1]
-
-def start_log():
-    "Write a list of installed packages to a tmp file."
-    perform.execute(gen_installed_command_str() + " > " + old_log,
-                    noquiet=True, langC=True)
-
-
-def finish_log():
-    ts = datetime.datetime.today().isoformat()
-    ts = ts[:-10]  # Don't put seconds - it implies too much accuracy
-    # Generate new list of installed and compare to old
-    lf = file(log_file, "a")
-    new_iter = perform.execute(gen_installed_command_str(),
-                               noquiet=True, langC=True, pipe=True)
-    old_iter = file(old_log)
-    for o in old_iter:
-        o = o.strip().split(" ")
-        n = new_iter.next().strip().split(" ")
-        while o[0] != n[0]:
-            if o[0] < n[0]:
-                lf.write("{0} {1} {2} {3}\n".format(ts, "remove", o[0], o[1]))
-                o = old_iter.next().strip().split(" ")
-            elif o[0] > n[0]:
-                lf.write("{0} {1} {2} {3}\n".format(ts, "install", n[0], n[1]))
-                n = new_iter.next().strip().split(" ")
-
-        if o[1] != n[1]:
-            old_version = o[1].split(".")  # for a more accurate comparison
-            new_version = n[1].split(".")  # same
-            if old_version > new_version:
-                lf.write("{0} {1} {2} {3}\n".format(ts, "downgrade", n[0], n[1]))
-            else:
-                lf.write("{0} {1} {2} {3}\n".format(ts, "upgrade", n[0], n[1]))
-
-    os.remove(old_log)
 
 #------------------------------------------------------------------------
 #

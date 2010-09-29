@@ -5,8 +5,14 @@ wajig (2.0.50) unstable; urgency=low
   * VERIFY: Add a check for debsums before running the command, and add
     a Suggests on it.
   * PURGE: use apt-get instead of dpkg, in order to get a yes/no prompt.
-  * Remove supression of error messages; Not a good idea.
-  * Add dependency on aptitude; It must have been forgotten.
+  * LIST-LOG: Remove custom logging implementation
+    - was fragile: sometimes info was lost during a run
+    - was expensive: checked system cache both before and after the
+      operation to determine what happened; it also did this for commands
+      which didn't even change the system cache
+    - did not log cache changes when they were done by other tools
+      (apt, aptitude, & synaptic)
+    - APT log looks much better
   * SHOW: use aptitude instead of apt-cache
     - the output is prettier
     - better virtual package handling; it displays real packages that provide
@@ -18,6 +24,8 @@ wajig (2.0.50) unstable; urgency=low
   * LIST-RECOMMENDED: new command that displays packages which are
     auto-installed via Recommends, and are without installed dependencies.
     (Closes: #482147)
+  * Remove supression of error messages; Not a good idea.
+  * Add dependency on aptitude; It must have been forgotten.
 
 
  -- Graham Williams <Graham.Williams@togaware.com>  Wed, 16 Sep 2010 17:22:16 +1000

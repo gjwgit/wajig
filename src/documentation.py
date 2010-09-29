@@ -102,7 +102,7 @@ Run 'wajig -v commands' for a complete list of commands.
  bug            Check reported bugs in package using the Debian Bug Tracker
  build          Retrieve/unpack sources and build .deb for the named packages
  build-depend   Retrieve packages required to build listed packages
- changelog      Display Debian changelog for the package
+ changelog      Display Debian changelog for a given package
  clean          Remove all deb files from the download cache
  contents       List the contents of a package file
  daily-upgrade  Perform an update then a dist-upgrade
@@ -145,7 +145,7 @@ Run 'wajig -v commands' for a complete list of commands.
  list-files     List the files that are supplied by the named package
  list-hold      List those packages on hold
  list-installed List packages (with optional argument substring) installed
- list-log       List the contents of the install/remove log file (filtered)
+ list-log       Display APT log file
  list-names     List all known packages or those containing supplied string
  list-orphans   List libraries not required by any installed package
  list-scripts   List the control scripts of the package of deb file
@@ -705,16 +705,14 @@ To get rid of the configuation files as well use:
   $ wajig purge <package name>          (apt-get --purge remove)
 
 
-LOGGING THE INSTALLATION
+DISPLAYING APT LOG
 
-Whenever a package is installed, upgraded, or removed, a log is
-kept. Yo list the whole log:
+Whenever a package is installed, removed, upgraded, or downgraded
+with either apt, aptitude, or synaptic, a log found at
+/var/log/apt/history.log is updated. To display it, run:
 
-  $ wajig list-log
+  $ wajig list-log                      (cat /var/log/apt/history.log)
 
-or to list just those entries with a specifi string in their name:
-
-  $ wajig list-log biff
 
 
 CHECKING WHAT'S CHANGED BEFORE INSTALLING
@@ -722,7 +720,7 @@ CHECKING WHAT'S CHANGED BEFORE INSTALLING
 When you install an updated package it is sometimes useful to know
 what's changed.  The apt-listchanges package provides a mechanism
 whereby when updating packages you will be given a chance to review
-the change log of the package and then decide whether to continue with
+the changelog of the package and then decide whether to continue with
 the upgrade. Simply install the apt-listchanges package to turn this
 feature on.
 

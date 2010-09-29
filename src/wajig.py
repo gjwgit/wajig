@@ -268,7 +268,6 @@ def main():
 def select_command(command, args, verbose):
     "Select the appropriate command and execute it."
 
-    changes.start_log()
     if command in ["addcdrom", "cdromadd"]:
         if util.requires_no_args(command, args):
             perform.execute("apt-cdrom add", root=True)
@@ -636,11 +635,7 @@ def select_command(command, args, verbose):
             commands.do_listinstalled(args[1:])
 
     elif command == "listlog":
-        if util.requires_opt_arg(command, args, "string to filter on"):
-            cmd = "cat " + changes.log_file + "| sed 's|T| |'"
-            if len(args) == 2:
-                cmd = cmd + " | grep '" + args[1] + "'"
-            perform.execute(cmd)
+        perform.execute("cat /var/log/apt/history.log")
 
     elif command == "listnames":
         # pdb.set_trace()
@@ -993,7 +988,6 @@ def select_command(command, args, verbose):
         print "Perhaps it is not yet implemented or you misspelt it."
         print "Try 'wajig help' for further information."
 
-    changes.finish_log()
 
 #------------------------------------------------------------------------
 #
