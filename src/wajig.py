@@ -743,27 +743,30 @@ def select_command(command, args, verbose):
             if pkgs:
                 perform.execute("apt-get purge" + pkgs, root=True)
 
-    elif command == "readme":
+    elif command in ("readme", "news"):
         if util.requires_one_arg(command, args, "a single package"):
             docpath = "/usr/share/doc/" + args[1] + "/"
             if not os.path.exists(docpath):
                 print "No docs found for '%s'. Is it installed?" % args[1]
                 return
-            readmes = ["README", "README.Debian", "USAGE"]
+            if command == "news":
+                li = ("NEWS.Debian", "NEWS")
+            else:
+                li = ("README", "README.Debian", "USAGE")
             found = False
-            for r in readmes:
-                readme = docpath + r
+            for x in li:
+                path = docpath + x
                 cat = "cat"
-                if not os.path.exists(readme):
-                    readme = readme + ".gz"
+                if not os.path.exists(path):
+                    path += ".gz"
                     cat = "zcat"
-                if os.path.exists(readme):
+                if os.path.exists(path):
                     found = True
-                    print "{0:=^72}".format(" {0} ".format(r))
+                    print "{0:=^72}".format(" {0} ".format(x))
                     sys.stdout.flush()
-                    perform.execute(cat + " " + readme)
+                    perform.execute(cat + " " + path)
             if not found:
-                print "No README found for '%s'" % args[1]
+                print "No {0} file found for {1}.".format(command.upper(), args[1])
 
     elif command in "listrecommended":
         command = "aptitude search '" + \

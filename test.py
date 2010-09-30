@@ -142,7 +142,7 @@ _wajig()
             list-cache list-commands list-daemons list-files list-hold \ 
             list-installed list-log list-names list-orphans list-scripts \ 
             list-section list-sections list-status list-wide local-dist-upgrade \ 
-            local-upgrade madison move new new-upgrades non-free \ 
+            local-upgrade madison move new news new-upgrades non-free \ 
             orphans policy purge purge-depend purge-orphans purge-removed \ 
             rbuilddeps readme list-recommended recursive reconfigure \ 
             reinstall reload remove remove-depend remove-file remove-orphans \ 

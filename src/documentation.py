@@ -158,6 +158,7 @@ Run 'wajig -v commands' for a complete list of commands.
  madison        Runs the madison command of apt-cache.
  move           Move packages in the download cache to a local Debian mirror
  new            List packages that became available since last update
+ news           Display package NEWS file(s).
  new-upgrades   List packages newly available for upgrading
  non-free       List installed packages that do not meet the DFSG
  orphans        List libraries not required by any installed package
