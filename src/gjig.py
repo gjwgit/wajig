@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/python
 #
 # Gnome JIG - GNOME interface to wajig sys admin tools
 #

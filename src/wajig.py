@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 #
 # WAJIG - Debian Command Line System Administrator
 #
