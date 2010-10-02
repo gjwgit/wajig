@@ -686,7 +686,7 @@ def local_changelog(package, tmp):
     elif os.path.exists(changelog_native):
         return "zcat {0} >> {1}".format(changelog_native, tmp)
     else:
-        print "Package", package, "is not installed."
+        print "Package", package, "is likely broken (changelog not found)!"
 
 
 def do_changelog(package, pager):
@@ -733,6 +733,8 @@ def do_changelog(package, pager):
             f.write(changelog)
         if pkg.is_installed:
             cmd = local_changelog(package, tmp)
+            if not cmd:
+                return
             perform.execute(cmd)
         if pipe_cmd:
             perform.execute(pipe_cmd + tmp)
