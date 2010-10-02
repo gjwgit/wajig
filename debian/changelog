@@ -28,6 +28,7 @@ wajig (2.0.50) unstable; urgency=low
   * Remove supression of error messages; Not a good idea.
   * Add dependency on aptitude; It must have been forgotten.
   * Cleanse packaging, drastically :-)
+  * Stop using python-support; There was no need for it.
 
 
  -- Graham Williams <Graham.Williams@togaware.com>  Wed, 16 Sep 2010 17:22:16 +1000
