@@ -5,11 +5,11 @@ Maintainer: Graham Williams <Graham.Williams@togaware.com>
 Homepage: http://wajig.togaware.com
 Standards-Version: 3.9.1
 Build-Depends-Indep: python
-Build-Depends: debhelper (>= 5.0.38)
+Build-Depends: debhelper (>= 7)
 
 Package: wajig
 Architecture: all
-Depends: apt, python-apt, dselect, aptitude
+Depends: ${misc:Depends}, apt, python-apt, dselect, aptitude
 Suggests: wget, fping, debconf, reportbug, apt-move, dpkg-repack, alien, fakeroot, gkdebconf, lynx, python-gtk2, python-glade2, python-gnome2, gnome-terminal, locales, deborphan, vrms, sudo, apt-show-versions, dctrl-tools, debsums
 Description: simple and unified package management for Debian
  Wajig is a single commandline wrapper around apt, apt-cache, dpkg,

@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-# 2010.10.02 this is from a modified version found at:
+# 2010.10.02 this is modified from a version found at:
 # savetheions.com/2010/01/20/packaging-python-applicationsmodules-for-debian/
 
 configure: configure-stamp
