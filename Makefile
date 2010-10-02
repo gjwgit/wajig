@@ -12,8 +12,7 @@ clean:
 install:
 	mkdir -p $(LIBDIR) $(MANDIR)
 	cp src/* $(LIBDIR)/
-	cp wajig.1  $(MANDIR)/
-	cp gjig.1   $(MANDIR)/
+	cp manpages/*  $(MANDIR)/
 	cp wajig.sh $(BINDIR)/wajig
 	cp gjig.sh  $(BINDIR)/gjig
 	./bash_completion.py
