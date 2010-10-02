@@ -21,14 +21,16 @@ clean:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_prep
 	dh_installdirs
 	$(MAKE) DESTDIR=$(CURDIR)/debian/wajig install
+binary-arch: build install
+	# emptyness
 binary-indep: build install
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs
 	dh_installdocs
+	dh_compress
 	dh_pysupport
 	dh_link
 	dh_fixperms
