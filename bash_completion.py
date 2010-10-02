@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- python -*-
+#!/usr/bin/python
 
 """Program to generate bash_completion function for wajig.
 

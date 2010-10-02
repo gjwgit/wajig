@@ -1,14 +1,12 @@
 JIG has evolved over several years of using and maintaining Debian
-systems.  It attempts to capture in a single command line tool and
-simple companion GOME GUI various things I commonly do that relate to
+systems.  It attempts to capture in a single command line tool (and a
+simple companion GNOME GUI) various things I commonly do that relate to
 managing the system. Many of the commands supported by wajig have been
-gleemed from hints and gossip on the mailing lists and sometimes
+gleemed from hints and gossip on the mailing lists, and sometimes
 nuggets of useful information from the documentation.
 
 For a brief summary of only the most common commands try "wajig help".
-The verbose version of this (wajig -v help) lists all commands.  Full
-documentation is available with "wajig doc" which is q synonym for
-"wajig -vv help". Online documentation is available at
+Online documentation is available at
 http://www.togaware.com/linux/survivor/wajig.shtml.
 
 If you experience trouble with the display, or see what would appear
@@ -18,28 +16,19 @@ command to see if that fixes the problem.
 Dirk Eddelbuettel <edd@debian.org> has also been incredibly helpful in
 sponsoring wajig for inclusion in Debian and in suggesting new
 commands. Also, many thanks to other users of wajig who have made
-suggestions over the years.  I hope all have been appropriately
-captured in the NEWS file.
+suggestions over the years.
 
-JIG, wajig and gjig are Copyright 2004-2006 (c) Graham.Williams@togaware.com
+--> words by Graham Williams & updated/fixed by Tshepang Lekhonkhobe
 
 
 -------
 HACKING
 -------
-$ hg clone https://wajig.googlecode.com/hg
+* get latest version ($ hg clone https://wajig.googlecode.com/hg)
+* build a deb file ($ dpkg-buildpackage -b -uc)
 * follow PEP-8 where it makes sense ($ pep8 src/wajig.py)
 * run pylint on the changed files ($ pylint src/wajig.py)
-* write unit tests, found in "test.py", if your code is easily testable
-* please ensure the unit tests pass before any commits
+* add unit tests (to "test.py") if your code is easily testable
+* ensure the unit tests pass before any commits
 * ensure that new features and changes are documented in "src/documentation.py"
-
-
------------------------
-How to build a deb file
------------------------
-$ autoconf configure.in > configure
-$ chmod 755 configure
-$ ./configure
-$ python src/bash_completion.py
-$ dpkg-buildpackage -b -uc
+* ensure that user-visible changes are mentioned in "debian/changelog"
