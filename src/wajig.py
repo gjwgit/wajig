@@ -496,11 +496,6 @@ def select_command(command, args, verbose):
         if util.requires_args(command, args, "a package name"):
             commands.do_force(args[1:])
 
-    elif command == "geturl":
-        if util.requires_one_arg(command, args, "one package name"):
-            # Not yet quite working
-            perform.execute("/usr/lib/apt-move/fetch -t " + args[1], root=True)
-
     elif command == "hold":
         if util.requires_args(command, args, "a list of packages to place on hold"):
             commands.do_hold(args[1:])
