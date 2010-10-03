@@ -94,7 +94,7 @@ Run 'wajig -v commands' for a complete list of commands.
  addcdrom       Add a CD-ROM to the list of available sources of packages
  addrepo        Add a Launchpad PPA (Personal Package Archive) repository
  auto-alts      Mark the alternative to be auto set (using set priorities)
- auto-clean     Remove superseded .deb files from the download cache
+ auto-clean     Remove superceded .deb files from the download cache
  auto-download  Do an update followed by a download of all updated packages
  auto-install   Perform an install without asking questions (non-interactive)
  auto-remove    Remove packages installed automatically as dependencies
