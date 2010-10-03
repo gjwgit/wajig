@@ -489,7 +489,8 @@ def select_command(command, args, verbose):
 
     elif command == "fixmissing":
         if util.requires_no_args(command, args):
-            perform.execute("apt-get --fix-missing upgrade", root=True)
+            perform.execute("apt-get --fix-missing {0} upgrade".format(noauth),
+                             root=True)
 
     elif command == "force":
         if util.requires_args(command, args, "a package name"):

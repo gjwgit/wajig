@@ -26,6 +26,7 @@ wajig (2.0.50) unstable; urgency=low
     (Closes: #482147)
   * NEWS: new command that displays package NEWS file(s).
   * FIX-INSTALL: accept -n|--noauth option.
+  * FIX-MISSING: accept -n|--noauth option.
   * Remove supression of error messages; Not a good idea.
   * Add dependency on aptitude; It must have been forgotten.
   * Cleanse packaging, drastically :-)
