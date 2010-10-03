@@ -122,6 +122,7 @@ def finishup(code=0):
 
 
 def help_cmd(cmd):
+    "Handles commands of the form 'wajig help install'."
     filename = "/usr/share/wajig/help/" + cmd
     try:
         with open(filename) as f:
