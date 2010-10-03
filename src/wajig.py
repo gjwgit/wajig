@@ -484,7 +484,8 @@ def select_command(command, args, verbose):
 
     elif command == "fixinstall":
         if util.requires_no_args(command, args):
-            perform.execute("apt-get --fix-broken install", root=True)
+            perform.execute("apt-get --fix-broken {0} install".format(noauth),
+                             root=True)
 
     elif command == "fixmissing":
         if util.requires_no_args(command, args):
