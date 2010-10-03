@@ -58,8 +58,10 @@ def print_help(command, args, verbose=False, exit_=False):
         if exit_:
             util.finishup(0)
     elif command == "help":
-        util.requires_no_args(command, args)
-        documentation.help(verbose)
+        if len(args) == 2:
+            util.help_cmd(args[1])
+        elif len(args) == 1:
+            documentation.help(verbose)
         if exit_:
             util.finishup(0)
 

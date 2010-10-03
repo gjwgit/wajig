@@ -119,3 +119,13 @@ def finishup(code=0):
         sys.stdin.readline()
     if not interactive:
         sys.exit(code)
+
+
+def help_cmd(cmd):
+    filename = "/usr/share/wajig/help/" + cmd
+    try:
+        with open(filename) as f:
+            for line in f:
+                print line[:-1]
+    except:
+        print "Command", cmd.upper(), "does not exist."
