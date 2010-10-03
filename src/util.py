@@ -125,7 +125,9 @@ def help_cmd(cmd):
     filename = "/usr/share/wajig/help/" + cmd
     try:
         with open(filename) as f:
+            print
             for line in f:
-                print line[:-1]
+                print "    " + line[:-1]
+            print
     except:
         print "Command", cmd.upper(), "does not exist."
