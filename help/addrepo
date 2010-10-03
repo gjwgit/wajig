@@ -1,0 +1,4 @@
+Add a Launchpad PPA (Personal Package Archive) repository.
+Here's an example that shows how to add the daily builds of
+Google's Chromium browser:
+$ wajig addrepo ppa:chromium-daily      (add-apt-repository)
