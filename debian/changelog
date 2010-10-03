@@ -25,6 +25,7 @@ wajig (2.0.50) unstable; urgency=low
     auto-installed via Recommends, and are without installed dependencies.
     (Closes: #482147)
   * NEWS: new command that displays package NEWS file(s).
+  * UPGRADE: accept -y|--yes option, an alias for apt-get's --assume-yes.
   * FIX-INSTALL: accept -n|--noauth option.
   * FIX-MISSING: accept -n|--noauth option.
   * Remove supression of error messages; Not a good idea.

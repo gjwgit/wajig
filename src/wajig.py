@@ -393,7 +393,8 @@ def select_command(command, args, verbose):
             and util.requires_package("fakeroot", "/usr/bin/fakeroot") \
             and util.requires_no_args(command, args):
                 changes.backup_before_upgrade(backup, pkgs)
-            perform.execute("apt-get %s -u upgrade" % noauth, root=True)
+            perform.execute("apt-get {0} {1} -u upgrade".format(yes, noauth),
+                             root=True)
         else:
             print 'No upgrades. Did you run "wajig update" beforehand?'
 
