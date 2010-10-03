@@ -230,7 +230,6 @@ Fuller documentation can be found at http://www.togaware.com/wajig.
 
 #
 # FULL DOCUMENTATION
-# TODO: no entry for 'addrepo'
 #
     else:
         print """Welcome to JIG, bringing the pieces of system
