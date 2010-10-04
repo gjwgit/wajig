@@ -402,7 +402,7 @@ def select_command(command, args, verbose):
             and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
             and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
                 changes.backup_before_upgrade(backup, pkgs, distupgrade=True)
-            cmd = "apt-get -u %s %s " % (yes, noauth)
+            cmd = "apt-get -u {0} {1} ".format(yes, noauth)
             if len(args) == 2:
                 cmd += "-t " + args[1] + " "
             cmd += "dist-upgrade"
@@ -529,7 +529,7 @@ def select_command(command, args, verbose):
         # For example: install/unsable
         if util.requires_args(command, args,
                          "a list of packages, .deb files, or url"):
-            command = "apt-get --target-release %s install %s" % \
+            command = "apt-get --target-release {0} install {1}".format\
                   (re.compile(r'install').sub("", command),
                    util.concat(args[1:]))
             perform.execute(command, root=True)
@@ -742,7 +742,7 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args, "a single package"):
             docpath = "/usr/share/doc/" + args[1] + "/"
             if not os.path.exists(docpath):
-                print "No docs found for '%s'. Is it installed?" % args[1]
+                print "No docs found for '{0}'. Is it installed?".format(args[1])
                 return
             if command == "news":
                 li = ("NEWS.Debian", "NEWS")
@@ -791,8 +791,8 @@ def select_command(command, args, verbose):
 
     elif command == "remove":
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get %s remove %s" %
-                            (yes, util.concat(args[1:])), root=True)
+            perform.execute("apt-get {0} remove {1}".format(yes,
+                             util.concat(args[1:])), root=True)
 
     elif command == "removedepend":
         if util.requires_one_arg(command, args, "a single package"):
@@ -888,7 +888,7 @@ def select_command(command, args, verbose):
             if len(pkgs) > 0:
                 commands.do_status(pkgs)
             else:
-                print "No packages found matching '%s'" % args[1]
+                print "No packages found matching '{0}'".format(args[1])
         #
         # Simplest thing to do is call wajig again.  Not the right way
         # but works for now.
