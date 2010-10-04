@@ -428,7 +428,7 @@ def do_hold(packages):
 # INSTALL
 #
 #------------------------------------------------------------------------
-def do_install(packages, noauth=""):
+def do_install(packages, yes=False, noauth=False):
     "Install packages."
 
     #
@@ -511,8 +511,8 @@ def do_install(packages, noauth=""):
 #                   (release, util.concat(packages))
 #       perform.execute(command, root=1)
     else:
-        command = "apt-get %s install " % noauth + util.concat(packages)
-        perform.execute(command, root=1)
+        perform.execute("apt-get {0} {1} install {2}".format(yes, noauth,
+                         util.concat(packages)), root=True)
 
 #------------------------------------------------------------------------
 #

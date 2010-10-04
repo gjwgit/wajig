@@ -56,7 +56,7 @@ with subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout as f:
             if mo == None:
                 continue
             cmd = mo.group(1)
-            if len(c_str[c_i]) > 50:
+            if len(c_str[c_i]) > 60:
                 c_str[c_i] = "{0} {1}".format(c_str[c_i], '\\ \n')
                 c_str.append('')
                 c_i += 1
@@ -66,24 +66,24 @@ part1 = '''\
 have wajig &&
 _wajig()
 {
-        local cur prev opt
+    local cur prev opt
 
-        COMPREPLY=()
-        cur=${COMP_WORDS[COMP_CWORD]}
-        prev=${COMP_WORDS[COMP_CWORD-1]}
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
 
-        if [ "$COMP_CWORD" -ge "2" ]; then
-           COMPREPLY=($( compgen -W "$(apt-cache pkgnames "$cur")" -- $cur ) )
-        elif [[ "$cur" == -* ]]; then
-            COMPREPLY=($( compgen -W \''''
+    if [ "$COMP_CWORD" -ge "2" ]; then
+        COMPREPLY=($( compgen -W "$(apt-cache pkgnames "$cur")" -- $cur ) )
+    elif [[ "$cur" == -* ]]; then
+        COMPREPLY=($( compgen -W \''''
 
 part2 = ''' -- $cur ) )
-        else
-            COMPREPLY=($( compgen -W \'
-            '''
+    else
+        COMPREPLY=($( compgen -W \'
+        '''
 
 part3 = ''' -- $cur ) )
-        fi
+    fi
 }
 complete -F _wajig $default wajig
 '''
@@ -91,13 +91,13 @@ complete -F _wajig $default wajig
 #add the options.
 wajig = "{0}{1}".format(part1, o_str[0].lstrip())
 for i in range(1, len(o_str)):
-    wajig = "{0}                                 {1}".format(wajig, o_str[i])
+    wajig = "{0}                             {1}".format(wajig, o_str[i])
 wajig = "{0}'{1}".format(wajig, part2)
 
 #add the commands.
 wajig += c_str[0].lstrip()
 for i in range(1, len(c_str)):
-    wajig = "{0}           {1}".format(wajig, c_str[i])
+    wajig = "{0}       {1}".format(wajig, c_str[i])
 wajig = "{0}'{1}".format(wajig, part3)
 
 with open("wajig.completion", "w") as f:

@@ -116,43 +116,40 @@ class WaJIGTests(unittest.TestCase):
 have wajig &&
 _wajig()
 {
-        local cur prev opt
+    local cur prev opt
 
-        COMPREPLY=()
-        cur=${COMP_WORDS[COMP_CWORD]}
-        prev=${COMP_WORDS[COMP_CWORD-1]}
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
 
-        if [ "$COMP_CWORD" -ge "2" ]; then
-           COMPREPLY=($( compgen -W "$(apt-cache pkgnames "$cur")" -- $cur ) )
-        elif [[ "$cur" == -* ]]; then
-            COMPREPLY=($( compgen -W '-b --backup -h --help -n --noauth  \ 
-                                  -x --pager -p --pause -q --quiet  \ 
-                                  -s --simulate -t --teaching -v  \ 
-                                  --verbose -y --yes' -- $cur ) )
-        else
-            COMPREPLY=($( compgen -W '
-            addcdrom addrepo auto-alts auto-clean auto-download \ 
-            auto-install auto-remove available bug build build-depend \ 
-            changelog clean contents daily-upgrade dependents describe \ 
-            describe-new detail detail-new dist-upgrade docs download \ 
-            download-file editsources extract find-file find-pkg \ 
-            fix-configure fix-install fix-missing force help hold \ 
-            init info install install-file installr installrs installs \ 
-            integrity large last-update list list-all list-alts \ 
-            list-cache list-commands list-daemons list-files list-hold \ 
-            list-installed list-log list-names list-orphans list-scripts \ 
-            list-section list-sections list-status list-wide local-dist-upgrade \ 
-            local-upgrade madison move new news new-upgrades non-free \ 
-            orphans policy purge purge-depend purge-orphans purge-removed \ 
-            rbuilddeps readme list-recommended recursive reconfigure \ 
-            reinstall reload remove remove-depend remove-file remove-orphans \ 
-            repackage reset restart rpm rpminstall search search-apt \ 
-            setup showdistupgrade showinstall showremove showupgrade \ 
-            sizes snapshot source start status status-search stop \ 
-            tasksel toupgrade unhold update update-alts update-pci-ids \ 
-            update-usb-ids upgrade verify version versions whatis \ 
-            whichpkg' -- $cur ) )
-        fi
+    if [ "$COMP_CWORD" -ge "2" ]; then
+        COMPREPLY=($( compgen -W "$(apt-cache pkgnames "$cur")" -- $cur ) )
+    elif [[ "$cur" == -* ]]; then
+        COMPREPLY=($( compgen -W '-b --backup -h --help -n --noauth  \ 
+                              -x --pager -p --pause -q --quiet  \ 
+                              -s --simulate -t --teaching -v  \ 
+                              --verbose -y --yes' -- $cur ) )
+    else
+        COMPREPLY=($( compgen -W '
+        addcdrom addrepo auto-alts auto-clean auto-download auto-remove \ 
+        available bug build build-depend changelog clean contents daily-upgrade \ 
+        dependents describe describe-new detail detail-new dist-upgrade \ 
+        docs download download-file editsources extract find-file find-pkg \ 
+        fix-configure fix-install fix-missing force help hold init info \ 
+        install install-file installr installrs installs integrity large \ 
+        last-update list list-all list-alts list-cache list-commands \ 
+        list-daemons list-files list-hold list-installed list-log list-names \ 
+        list-orphans list-scripts list-section list-sections list-status \ 
+        list-wide local-dist-upgrade local-upgrade madison move new news \ 
+        new-upgrades non-free orphans policy purge purge-depend purge-orphans \ 
+        purge-removed rbuilddeps readme list-recommended recursive reconfigure \ 
+        reinstall reload remove remove-depend remove-file remove-orphans \ 
+        repackage reset restart rpm rpminstall search search-apt setup \ 
+        showdistupgrade showinstall showremove showupgrade sizes snapshot \ 
+        source start status status-search stop tasksel toupgrade unhold \ 
+        update update-alts update-pci-ids update-usb-ids upgrade verify \ 
+        version versions whatis whichpkg' -- $cur ) )
+    fi
 }
 complete -F _wajig $default wajig""".split("\n")
 

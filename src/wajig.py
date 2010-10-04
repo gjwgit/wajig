@@ -303,12 +303,6 @@ def select_command(command, args, verbose):
         if util.requires_no_args(command, args):
             perform.execute("apt-get autoclean", root=True)
 
-    elif command == "autoinstall":
-        if util.requires_args(command, args, "a list of package names"):
-            command = "apt-get install --assume-yes " + noauth + " " +\
-                      util.concat(args[1:])
-            perform.execute(command, root=True)
-
     elif command == "autoremove":
         if util.requires_no_args(command, args):
             perform.execute("apt-get autoremove", root=True)
@@ -510,13 +504,14 @@ def select_command(command, args, verbose):
         if util.requires_no_args(command, args):
             changes.reset_files()
 
-    elif command in ["install", "isntall"]:
-        #
+    elif command in ("install", "isntall", "autoinstall"):
         # Okay, so I'm sometimes dyslexic :-)
-        #
-        if util.requires_args(command, args,
-                         "a list of packages, .deb files, or url"):
-            commands.do_install(args[1:], noauth)
+        if util.requires_args(command, args, "packages, .deb files, or a url"):
+            # kept so as not to break anyone's setup; consider it deprecated;
+            # it's not even advertised no more (removed from docs)
+            if command == "autoinstall":
+                yes = "--yes"
+            commands.do_install(args[1:], yes, noauth)
 
     elif command in ["installr", "recommended"]:
         if util.requires_args(command, args, "a list of packages"):
