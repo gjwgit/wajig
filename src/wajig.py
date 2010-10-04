@@ -270,6 +270,8 @@ def main():
 def select_command(command, args, verbose):
     "Select the appropriate command and execute it."
 
+    global yes
+
     if command in ["addcdrom", "cdromadd"]:
         if util.requires_no_args(command, args):
             perform.execute("apt-cdrom add", root=True)
