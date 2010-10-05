@@ -305,10 +305,6 @@ def select_command(command, args, verbose):
         if util.requires_no_args(command, args):
             perform.execute("apt-get autoclean", root=True)
 
-    elif command in ["available", "avail"]:
-        if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-cache policy " + util.concat(args[1:]))
-
     elif command in ["bug", "bugs", "reportbug"]:
         if util.requires_one_arg(command, args, "a single named package"):
             if util.requires_package("reportbug", "/usr/bin/reportbug"):

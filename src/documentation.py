@@ -96,7 +96,6 @@ Run 'wajig -v commands' for a complete list of commands.
  auto-alts      Mark the alternative to be auto set (using set priorities)
  auto-clean     Remove superceded .deb files from the download cache
  auto-download  Do an update followed by a download of all updated packages
- available      List versions of packages available for installation
  bug            Check reported bugs in package using the Debian Bug Tracker
  build          Retrieve/unpack sources and build .deb for the named packages
  build-depend   Retrieve packages required to build listed packages

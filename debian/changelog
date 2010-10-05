@@ -31,6 +31,8 @@ wajig (2.0.50) unstable; urgency=low
   * AUTO-REMOVE: Made reduntant by above REMOVE change, so removed.
   * AUTO-INSTALL: Deprecated in favour of "--yes INSTALL", so removed from docs.
   * NEWS: 'new' command that displays package NEWS file(s).
+  * AVAILABLE: AVAILABLE: removed a badly-named and redundant command; POLICY
+    command does the same thing.
   * INSTALL: accept -y|--yes option, an alias for apt-get's --assume-yes.
   * UPGRADE: accept -y|--yes option, too.
   * FIX-INSTALL: accept -n|--noauth option.
