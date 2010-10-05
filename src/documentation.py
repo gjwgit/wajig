@@ -96,7 +96,7 @@ Run 'wajig -v commands' for a complete list of commands.
  auto-alts      Mark the alternative to be auto set (using set priorities)
  auto-clean     Remove superceded .deb files from the download cache
  auto-download  Do an update followed by a download of all updated packages
- bug            Check reported bugs in package using the Debian Bug Tracker
+ bug            Report a bug in a package using Debian BTS (Bug Tracking System).
  build          Retrieve/unpack sources and build .deb for the named packages
  build-depend   Retrieve packages required to build listed packages
  changelog      Display Debian changelog for a given package
@@ -922,10 +922,12 @@ The information is maintained in the directory /etc/alternatives/.
 
 BUGS
 
-If you find a problem with your system and think it might be a bug,
-use the reportbug package to check it out.  This package will allow
-you to view bugs recorded against packages and also allow you to add a
-new bug report to the Debian bug reporting system.
+If you find a problem with your system and think it might be a bug, use:
+
+  $ wajig bug                           (reportbug)
+
+This will allow you to view bugs recorded against packages and also
+allow you to add a new bug report to the Debian bug reporting system.
 
 Otherwise visit the Debian email lists at http://lists.debian.org/ and
 search for the problem there.  The advice one gets here is generally

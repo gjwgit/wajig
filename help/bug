@@ -1,0 +1,2 @@
+Report a bug in a package using Debian BTS (Bug Tracking System).
+$ wajig bug PKG                         (reportbug)
