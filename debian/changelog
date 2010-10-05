@@ -24,7 +24,13 @@ wajig (2.0.50) unstable; urgency=low
   * LIST-RECOMMENDED: new command that displays packages which are
     auto-installed via Recommends, and are without installed dependencies.
     (Closes: #482147)
-  * NEWS: new command that displays package NEWS file(s).
+  * PURGE: also purge packages that were installed via a Recommends and have
+    nothing depending on them; this makes PURGE-DEPEND reduntant.
+  * REMOVE: also remove packages that were installed via a Recommends and have
+    nothing depending on them; this makes REMOVE-DEPEND reduntant.
+  * AUTO-REMOVE: Made reduntant by above REMOVE change, so removed.
+  * AUTO-INSTALL: Deprecated in favour of "--yes INSTALL", so removed from docs.
+  * NEWS: 'new' command that displays package NEWS file(s).
   * INSTALL: accept -y|--yes option, an alias for apt-get's --assume-yes.
   * UPGRADE: accept -y|--yes option, too.
   * FIX-INSTALL: accept -n|--noauth option.

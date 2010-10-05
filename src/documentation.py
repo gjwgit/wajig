@@ -96,7 +96,6 @@ Run 'wajig -v commands' for a complete list of commands.
  auto-alts      Mark the alternative to be auto set (using set priorities)
  auto-clean     Remove superceded .deb files from the download cache
  auto-download  Do an update followed by a download of all updated packages
- auto-remove    Remove packages installed automatically as dependencies
  available      List versions of packages available for installation
  bug            Check reported bugs in package using the Debian Bug Tracker
  build          Retrieve/unpack sources and build .deb for the named packages
@@ -162,8 +161,7 @@ Run 'wajig -v commands' for a complete list of commands.
  non-free       List installed packages that do not meet the DFSG
  orphans        List libraries not required by any installed package
  policy         From preferences file show priorities/policy (available)
- purge          Remove one or more packages and configuration files
- purge-depend   Purge package and those it depend on and not required by others
+ purge          Remove one or more packages and their configuration files
  purge-orphans  Purge orphaned libraries (not required by installed packages)
  purge-removed  Purge all packages marked as deinstall
  rbuilddeps     Display the packages which build-depends on the given package (long form is "reverse-build-depends")
@@ -174,7 +172,6 @@ Run 'wajig -v commands' for a complete list of commands.
  reinstall      Reinstall each of the named packages
  reload         Reload daemon configs, e.g., gdm, apache (see list-daemons)
  remove         Remove one or more packages (see also purge)
- remove-depend  Remove package and its dependents not required by others
  remove-file    Remove those packages that are listed in a file
  remove-orphans Remove orphaned libraries (not required by installed packages)
  repackage      Generate a .deb file for an installed package

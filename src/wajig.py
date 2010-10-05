@@ -305,10 +305,6 @@ def select_command(command, args, verbose):
         if util.requires_no_args(command, args):
             perform.execute("apt-get autoclean", root=True)
 
-    elif command == "autoremove":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get autoremove", root=True)
-
     elif command in ["available", "avail"]:
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-cache policy " + util.concat(args[1:]))
@@ -711,13 +707,10 @@ def select_command(command, args, verbose):
     elif command == "policy":
         perform.execute("apt-cache policy " + util.concat(args[1:]))
 
-    elif command == "purge":
+    elif command in ("purge", "purgedepend"):
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get purge " + util.concat(args[1:]), root=True)
-
-    elif command == "purgedepend":
-        if util.requires_one_arg(command, args, "a single package"):
-            perform.execute("apt-get purge --auto-remove " + args[1], root=True)
+            perform.execute("apt-get {0} --auto-remove purge {1}".format(yes,
+                             util.concat(args[1:])), root=True)
 
     elif command == "purgeorphans":
         # Deborphans does not require root, but dpkg does,
@@ -791,15 +784,11 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args, "name of service to " + command):
             perform.execute("service {0} {1}".format(args[1], command), root=True)
 
-    elif command == "remove":
+    elif command in ("remove", "removedepend"):
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get {0} remove {1}".format(yes,
+            perform.execute("apt-get {0} --auto-remove remove {1}".format(yes,
                              util.concat(args[1:])), root=True)
 
-    elif command == "removedepend":
-        if util.requires_one_arg(command, args, "a single package"):
-            perform.execute("apt-get remove --auto-remove " + args[1], root=True)
-            
     elif command == "removeorphans":
         if util.requires_no_args(command, args) \
         and util.requires_package("deborphan", "/usr/bin/deborphan"):
