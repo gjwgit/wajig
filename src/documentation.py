@@ -931,9 +931,6 @@ Otherwise visit the Debian email lists at http://lists.debian.org/ and
 search for the problem there.  The advice one gets here is generally
 of high quality.
 
-In the following sections I identify a number of problems or issues that
-I've not yet resolved for some of my installations.
-
 
 MANAGING DAEMONS OR SERVICES
 
