@@ -1,0 +1,2 @@
+Retrieve packages required to build listed packages.
+$ wajig builddep                        (apt-get build-dep)

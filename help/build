@@ -1,0 +1,3 @@
+Retrieve sources, unpack, and build .deb for the named package(s). It
+conveniently installs the needed build-dependencies for you.
+$ wajig buld                  (apt-get build-dep && apt-get source --build)
