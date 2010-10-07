@@ -1,0 +1,2 @@
+Remove all deb files from the download cache.
+$ wajig clean                           (apt-get clean)

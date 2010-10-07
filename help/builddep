@@ -1,2 +1,3 @@
-Retrieve packages required to build listed packages.
-$ wajig builddep                        (apt-get build-dep)
+Install build-dependencies for given packages.
+$ wajig builddep PKG                        (apt-get build-dep)
+long form command: reverse-build-depends

@@ -1,0 +1,2 @@
+Display the packages which build-depend on the given package.
+$ wajig rbuilddeps PKG
