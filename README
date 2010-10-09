@@ -21,11 +21,18 @@ suggestions over the years.
 --> words by Graham Williams & updated/fixed by Tshepang Lekhonkhobe
 
 
--------
-HACKING
--------
-* get latest version ($ hg clone https://wajig.googlecode.com/hg)
-* build a deb file ($ dpkg-buildpackage -b -uc)
+setup:
+$ hg clone https://wajig.googlecode.com/hg
+$ cd wajig
+$ wajig install devscripts
+
+
+building + install:
+$ debuild -us -uc -b
+$ sudo debi
+
+
+hacking:
 * follow PEP-8 where it makes sense ($ pep8 src/wajig.py)
 * run pylint on the changed files ($ pylint src/wajig.py)
 * add unit tests (to "test.py") if your code is easily testable
