@@ -967,10 +967,10 @@ def select_command(command, args, verbose):
 
     else:
         if command == args[0]:
-            print "The command `" + command + "' was not recognised."
+            print "The command {0} was not recognised.".format(command.upper())
         else:
-            print "The command `" + command + "' (entered as `" + args[0] + \
-                  "') was not recognised."
+            print "The command {0} (entered as {1}) was not recognised.".\
+                   format(command.upper(), argd[0])
         print "Perhaps it is not yet implemented or you misspelt it."
         print "Try 'wajig help' for further information."
 
