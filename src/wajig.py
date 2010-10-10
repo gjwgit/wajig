@@ -808,12 +808,12 @@ def select_command(command, args, verbose):
     elif command == "rpminstall":
         if util.requires_one_arg(command, args,
         "a Red Hat package file name (.rpm)"):
-            perform.execute("alien --to-deb --install " + args[1], root=True)
+            perform.execute("alien --install " + args[1], root=True)
 
     elif command in ["rpmtodeb", "rpm2deb"]:
         if util.requires_one_arg(command, args,
         "a Red Hat package file name (.rpm)"):
-            perform.execute("alien -d " + args[1], root=True)
+            perform.execute("alien " + args[1], root=True)
 
     elif command == "search":
         # Note that this uses a regular expression, thus libstdc++6
