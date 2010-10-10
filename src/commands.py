@@ -541,10 +541,10 @@ def do_install_suggest(packages, deptype, noauth=""):
             rec = section.get("Recommends")
             if deptype in ("Suggests", "Both"):
                 if sug:
-                    suggest_list = suggest_list, sug
+                    suggest_list = "{0} {1}".format(suggest_list, sug)
             if deptype in ("Recommends", "Both"):
                 if rec:
-                    suggest_list = suggest_list, rec
+                    suggest_list = "{0} {1}".format(suggest_list, rec)
 
     # Remove version information
     suggest_list = re.sub('\([^)]*\)', '', suggest_list)
