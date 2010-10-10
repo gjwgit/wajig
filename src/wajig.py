@@ -275,18 +275,21 @@ def select_command(command, args, verbose):
 
     if command in ["addcdrom", "cdromadd"]:
         if util.requires_no_args(command, args):
-            perform.execute("apt-cdrom add", root=True)
+            perform.execute("apt-cdrom add",
+                             root=True)
 
     elif command == "addrepo":
         if util.requires_one_arg(command, args,
                 "a PPA (Personal Package Archive) repository to add"):
             if util.requires_package("add-apt-repository",
                                 "/usr/bin/add-apt-repository"):
-                perform.execute("add-apt-repository " + args[1], root=True)
+                perform.execute("add-apt-repository " + args[1],
+                                 root=True)
 
     elif command in ["autoalts", "autoalternatives"]:
         if util.requires_one_arg(command, args, "name alternative to set as auto"):
-            perform.execute("update-alternatives --auto " + args[1], root=True)
+            perform.execute("update-alternatives --auto " + args[1],
+                             root=True)
 
     elif command == "autodownload":
         if util.requires_no_args(command, args):
@@ -304,7 +307,8 @@ def select_command(command, args, verbose):
 
     elif command == "autoclean":
         if util.requires_no_args(command, args):
-            perform.execute("apt-get autoclean", root=True)
+            perform.execute("apt-get autoclean",
+                             root=True)
 
     elif command in ["bug", "bugs", "reportbug"]:
         if util.requires_one_arg(command, args, "a single named package"):
@@ -313,14 +317,16 @@ def select_command(command, args, verbose):
                 perform.execute("reportbug --bts=debian " + args[1])
 
     elif command == "build":
-        if util.requires_args(command, args, "a list of package names"):
-            if util.requires_package("sudo", "/usr/bin/sudo"):
-                # First make sure dependencies are met
-                result = perform.execute("apt-get build-dep " +
-                                          util.concat(args[1:]), root=True)
-                if not result:
-                    perform.execute("apt-get source -b " +
-                                     util.concat(args[1:]), root=True)
+        if util.requires_args(command, args, "a list of package names") \
+        and util.requires_package("sudo", "/usr/bin/sudo"):
+            # First make sure dependencies are met
+            result = perform.execute("apt-get build-dep " +
+                                      util.concat(args[1:]),
+                                      root=True)
+            if not result:
+                perform.execute("apt-get source -b " +
+                                 util.concat(args[1:]),
+                                 root=True)
 
     elif command in ("builddepend", "builddep"):
         if util.requires_args(command, args, "a list of package names"):
@@ -339,7 +345,8 @@ def select_command(command, args, verbose):
 
     elif command == "clean":
         if util.requires_no_args(command, args):
-            perform.execute("apt-get clean", root=True)
+            perform.execute("apt-get clean",
+                             root=True)
 
     elif command == "contents":
         if util.requires_one_arg(command, args, "a filename"):
@@ -348,7 +355,8 @@ def select_command(command, args, verbose):
     elif command == "dailyupgrade":
         if util.requires_no_args(command, args):
             commands.do_update()
-            perform.execute("apt-get --show-upgraded dist-upgrade", root=True)
+            perform.execute("apt-get --show-upgraded dist-upgrade",
+                             root=True)
 
     elif command == "dependents":
         if util.requires_one_arg(command, args, "one package name"):
@@ -424,40 +432,44 @@ def select_command(command, args, verbose):
             #
             perform.execute("apt-get --quiet=2 --reinstall " +
                             "--download-only install " +
-                            util.concat(pkgs),
-                            root=True)
+                             util.concat(pkgs),
+                             root=True)
 
     elif command in ["editsources", "setup"]:
         if util.requires_no_args(command, args):
             # if util.requires_package("base-config", "/usr/sbin/apt-setup"):
             #    perform.execute("apt-setup", root=True)
-            perform.execute("editor /etc/apt/sources.list", root=True)
+            perform.execute("editor /etc/apt/sources.list",
+                             root=True)
 
     elif command == "extract":
         if util.requires_two_args(command, args,
                              "a filename and directory to extract into"):
-            perform.execute("dpkg --extract " + args[1] + " " + args[2])
+            perform.execute("dpkg --extract {0} {1}".format(args[1], args[2]))
 
     elif command in ["filedownload", "downloadfile"]:
         if util.requires_one_arg(command, args,
         "a file name containing list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
             pkgs = str.join(stripped)
-            perform.execute("apt-get --download-only install " + pkgs, root=True)
+            perform.execute("apt-get --download-only install " + pkgs,
+                             root=True)
 
     elif command in ["fileinstall", "installfile"]:
         if util.requires_one_arg(command, args,
         "a file name containing a list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
             pkgs = str.join(stripped)
-            perform.execute("apt-get install " + pkgs, root=True)
+            perform.execute("apt-get install " + pkgs,
+                             root=True)
 
     elif command in ["fileremove", "removefile"]:
         if util.requires_one_arg(command, args,
         "a file name containing a list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
             pkgs = str.join(stripped)
-            perform.execute("apt-get remove " + pkgs, root=True)
+            perform.execute("apt-get remove " + pkgs,
+                             root=True)
 
     elif command in ["findfile", "locate"]:
         if util.requires_one_arg(command, args, "a file name"):
@@ -470,7 +482,8 @@ def select_command(command, args, verbose):
 
     elif command == "fixconfigure":
         if util.requires_no_args(command, args):
-            perform.execute("dpkg --configure -a", root=True)
+            perform.execute("dpkg --configure -a",
+                             root=True)
 
     elif command == "fixinstall":
         if util.requires_no_args(command, args):
@@ -524,10 +537,10 @@ def select_command(command, args, verbose):
         # For example: install/unsable
         if util.requires_args(command, args,
                          "a list of packages, .deb files, or url"):
-            command = "apt-get --target-release {0} install {1}".format\
-                  (re.compile(r'install').sub("", command),
-                   util.concat(args[1:]))
-            perform.execute(command, root=True)
+            perform.execute("apt-get --target-release {0} install {1}".\
+                             format(re.compile(r'install').sub("", command),
+                             util.concat(args[1:])),
+                             root=True)
 
     elif command == "integrity":
         if util.requires_no_args(command, args):
@@ -648,12 +661,14 @@ def select_command(command, args, verbose):
     elif command == "localdistupgrade":
         if util.requires_no_args(command, args):
             perform.execute("apt-get --no-download --ignore-missing " +
-                            "--show-upgraded dist-upgrade", root=True)
+                            "--show-upgraded dist-upgrade",
+                             root=True)
 
     elif command == "localupgrade":
         if util.requires_no_args(command, args):
-            perform.execute("apt-get --no-download --ignore-missing " \
-                            + "--show-upgraded upgrade", root=True)
+            perform.execute("apt-get --no-download --ignore-missing " + \
+                            "--show-upgraded upgrade",
+                             root=True)
 
     elif command == "moo":
         perform.execute("apt-get moo")
@@ -663,9 +678,11 @@ def select_command(command, args, verbose):
 
     elif command == "move":
         if util.requires_no_args(command, args):
-            perform.execute("apt-move update", root=True)
+            perform.execute("apt-move update",
+                             root=True)
             # Then clean out the cached archive.
-            perform.execute("apt-get clean", root=True)
+            perform.execute("apt-get clean",
+                             root=True)
 
     elif command == "new":
         if util.requires_opt_arg(command, args, "whether to INSTALL the new pkgs"):
@@ -677,7 +694,6 @@ def select_command(command, args, verbose):
                 print "WaJIG Error: NEW only accepts optional " +\
                       "argument INSTALL"
                 util.finishup(1)
-                return False
 
     elif command in ["newupgrades", "newupgrade"]:
         if util.requires_opt_arg(command, args, "whether to INSTALL upgraded pkgs"):
@@ -689,7 +705,6 @@ def select_command(command, args, verbose):
                 print "WaJIG Error: NEWUPGRADES only accepts " +\
                       "optional argument INSTALL"
                 util.finishup(1)
-                return False
 
     elif command == "nonfree":
         if util.requires_no_args(command, args):
@@ -707,7 +722,8 @@ def select_command(command, args, verbose):
     elif command in ("purge", "purgedepend"):
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get {0} --auto-remove purge {1}".format(yes,
-                             util.concat(args[1:])), root=True)
+                             util.concat(args[1:])),
+                             root=True)
 
     elif command == "purgeorphans":
         # Deborphans does not require root, but dpkg does,
@@ -718,7 +734,8 @@ def select_command(command, args, verbose):
             for pkg in perform.execute("deborphan", pipe=True):
                 pkgs += " " + pkg.strip()
             if pkgs:
-                perform.execute("apt-get purge" + pkgs, root=True)
+                perform.execute("apt-get purge" + pkgs,
+                                 root=True)
 
     elif command == "purgeremoved":
         if util.requires_no_args(command, args):
@@ -728,7 +745,8 @@ def select_command(command, args, verbose):
             for pkg in perform.execute(cmd, pipe=True):
                 pkgs += " " + pkg.strip()
             if pkgs:
-                perform.execute("apt-get purge" + pkgs, root=True)
+                perform.execute("apt-get purge" + pkgs,
+                                 root=True)
 
     elif command in ("readme", "news"):
         if util.requires_one_arg(command, args, "a single package"):
@@ -770,7 +788,8 @@ def select_command(command, args, verbose):
             perform.execute("dpkg-reconfigure " + util.concat(args[1:]),
                              root=True)
         else:
-            perform.execute("gkdebconf", root=True)
+            perform.execute("gkdebconf",
+                             root=True)
 
     elif command == "reinstall":
         if util.requires_args(command, args, "a list of packages"):
@@ -780,12 +799,14 @@ def select_command(command, args, verbose):
 
     elif command in ("reload", "restart", "start", "stop"):
         if util.requires_one_arg(command, args, "name of service to " + command):
-            perform.execute("service {0} {1}".format(args[1], command), root=True)
+            perform.execute("service {0} {1}".format(args[1], command),
+                             root=True)
 
     elif command in ("remove", "removedepend"):
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get {0} --auto-remove remove {1}".format(yes,
-                             util.concat(args[1:])), root=True)
+                             util.concat(args[1:])),
+                             root=True)
 
     elif command == "removeorphans":
         if util.requires_no_args(command, args) \
@@ -800,17 +821,20 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args, "name of an installed package") \
         and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
         and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
-            perform.execute("fakeroot -u dpkg-repack " + args[1], root=False)
+            perform.execute("fakeroot -u dpkg-repack " + args[1],
+                             root=False)
 
     elif command == "rpminstall":
         if util.requires_one_arg(command, args,
         "a Red Hat package file name (.rpm)"):
-            perform.execute("alien --install " + args[1], root=True)
+            perform.execute("alien --install " + args[1],
+                             root=True)
 
     elif command in ["rpmtodeb", "rpm2deb"]:
         if util.requires_one_arg(command, args,
         "a Red Hat package file name (.rpm)"):
-            perform.execute("alien " + args[1], root=True)
+            perform.execute("alien " + args[1],
+                             root=True)
 
     elif command == "search":
         # Note that this uses a regular expression, thus libstdc++6
@@ -825,32 +849,37 @@ def select_command(command, args, verbose):
     elif command == "searchapt":
         if util.requires_one_arg(command, args, "one of stable|testing|unstable"):
             util.requires_package("netselect-apt", "/usr/bin/netselect-apt")
-            perform.execute("netselect-apt " + args[1], root=True)
+            perform.execute("netselect-apt " + args[1],
+                             root=True)
 
     elif command == "showdistupgrade":
         if util.requires_no_args(command, args):
-            perform.execute("apt-get -u -s dist-upgrade", root=True)
+            perform.execute("apt-get --show-upgraded --simulate dist-upgrade",
+                             root=True)
 
     elif command == "showinstall":
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get -u -s install " +
-            util.concat(args[1:]), root=True)
+            perform.execute("apt-get --show-upgraded --simulate install " + \
+                             util.concat(args[1:]),
+                             root=True)
 
     elif command == "showremove":
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get -u -s remove " + util.concat(args[1:]),
-            root=True)
+            perform.execute("apt-get --show-upgraded --simulate remove " + \
+                             util.concat(args[1:]),
+                             root=True)
 
     elif command == "showupgrade":
         if util.requires_no_args(command, args):
-            perform.execute("apt-get -u -s upgrade", root=True)
+            perform.execute("apt-get --show-upgraded --simulate upgrade",
+                             root=True)
 
     elif command in ["size", "sizes"]:
-        commands.do_size(args[1:], 0)
+        commands.do_size(args[1:])
 
     elif command == "snapshot":
         if util.requires_no_args(command, args):
-            commands.do_status([], True)
+            commands.do_status([], snapshot=True)
 
     elif command == "source":
         if util.requires_args(command, args, "a list of package names"):
@@ -887,7 +916,8 @@ def select_command(command, args, verbose):
     elif command == "tasksel":
         if util.requires_no_args(command, args):
             if util.requires_package("tasksel", "/usr/bin/tasksel"):
-                perform.execute("tasksel", root=True)
+                perform.execute("tasksel",
+                                 root=True)
 
     elif command == "toupgrade":
         if util.requires_no_args(command, args):
@@ -917,12 +947,14 @@ def select_command(command, args, verbose):
     elif command == "updatepciids":
         if util.requires_package("pciutils", "/usr/bin/update-pciids"):
             if util.requires_no_args(command, args):
-                perform.execute("update-pciids", root=True)
+                perform.execute("update-pciids",
+                                 root=True)
 
     elif command == "updateusbids":
         if util.requires_package("usbutils", "/usr/sbin/update-usbids"):
             if util.requires_no_args(command, args):
-                perform.execute("update-usbids", root=True)
+                perform.execute("update-usbids",
+                                 root=True)
 
     elif command == "upgradesecurity":
         sources_list = tempfile.mkstemp(".security", "wajig.", "/tmp")[1]
@@ -931,12 +963,12 @@ def select_command(command, args, verbose):
         sources_file.write("deb http://security.debian.org/ " +\
                            "testing/updates main contrib non-free\n")
         sources_file.close()
-        command = "apt-get --no-list-cleanup -o Dir::Etc::SourceList=" +\
-                  sources_list + " update"
-        perform.execute(command, root=True)
-        command = "apt-get -o Dir::Etc::SourceList=" +\
-                  sources_list + " upgrade"
-        perform.execute(command, root=True)
+        perform.execute("apt-get --no-list-cleanup -o Dir::Etc::SourceList=" +\
+                        "{0} update".format(sources_list),
+                        root=True)
+        perform.execute("apt-get -o Dir::Etc::SourceList={0} upgrade".\
+                         format(sources_list),
+                         root=True)
         if os.path.exists(sources_list):
             os.remove(sources_list)
 

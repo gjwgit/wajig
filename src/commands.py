@@ -774,7 +774,7 @@ def do_newupgrades(install=False):
 ########################################################################
 # SIZE
 #
-def do_size(packages, size):
+def do_size(packages, size=0):
     "Print sizes for pkg in list PACAKAGES with size greater than SIZE."
     #
     # Work with the list of installed packages
