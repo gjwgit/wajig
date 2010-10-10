@@ -1,2 +1,2 @@
-Display the package's README file from /usr/share/doc.
+Display the package's README file(s) from /usr/share/doc.
 $ wajig readme PKG                  (zcat /usr/share/doc/PKG/README.Debian.gz)
