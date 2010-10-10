@@ -1,0 +1,128 @@
+COMMANDS:
+ addcdrom       Add a CD-ROM to the list of available sources of packages
+ addrepo        Add a Launchpad PPA (Personal Package Archive) repository
+ auto-alts      Mark the alternative to be auto set (using set priorities)
+ auto-clean     Remove superceded .deb files from the download cache
+ auto-download  Do an update followed by a download of all updated packages
+ bug            Report a bug in a package using Debian BTS (Bug Tracking System).
+ build          Retrieve/unpack sources and build .deb for the named packages
+ build-depend   Retrieve packages required to build listed packages
+ changelog      Display Debian changelog for a given package
+ clean          Remove all deb files from the download cache
+ commands       Display all the JIG commands and one short descriptions for each
+ contents       List the contents of a package file
+ daily-upgrade  Perform an update then a dist-upgrade
+ dependents     List of packages which depend/recommend/suggest the package
+ describe       One line description of packages (-v and -vv for more detail)
+ describe-new   One line description of new packages
+ detail         Provide a detailed description of package (describe -vv)
+ detail-new     Provide a detailed description of new packages (describe -vv)
+ dist-upgrade   Upgrade to new distribution (installed and new rqd packages)
+ docs           Equivalent to help with -verbose=2
+ download       Download package files ready for an install
+ download-file  Download packages listed in file ready for an install
+ editsources    Edit list of archives which locates Debian package sources
+ extract        Extract the files from a package file to a directory
+ find-file      Search for a file within installed packages
+ find-pkg       Search for an unofficial Debian package at apt-get.org
+ fix-configure  Perform dpkg --configure -a (to fix interrupted configure)
+ fix-install    Perform apt-get -f install (to fix broken dependencies)
+ fix-missing    Perform apt-get --fix-missing upgrade
+ force          Install packages and ignore file overwrites and depends
+ help           Print documentation (detail depends on --verbose)
+ hold           Place listed packages on hold so they are not upgraded
+ init           Initialise or reset the JIG archive files
+ info           List the information contained in a package file
+ install        Install one or more packages or .deb files
+ install-file   Install those packages that are listed in a file
+ installr       Install package and associated recommended packages
+ installrs      Install package and recommended and suggested packages
+ installs       Install package and associated suggested packages
+ install/dist   Install packages from specified dist (must be in sources.list)
+ integrity      Check the integrity of installed packages (through checksums)
+ large          List size of all large (>10MB) installed packages
+ last-update    Identify when an update was last performed
+ list           List the status and description of installed packages
+ list-all       List a one line description of given or all packages
+ list-alts      List the objects that can have alternatives configured
+ list-cache     List the contents of the download cache
+ list-commands  List all the JIG commands and one line descriptions for each
+ list-daemons   List the daemons that JIG can start/stop/restart
+ list-files     List the files that are supplied by the named package
+ list-hold      List those packages on hold
+ list-installed List packages (with optional argument substring) installed
+ list-log       Display APT log file
+ list-names     List all known packages or those containing supplied string
+ list-orphans   List libraries not required by any installed package
+ list-scripts   List the control scripts of the package of deb file
+ list-section   List packages that belong to a specific section
+ list-sections  List the sections that are available
+ list-status    Same as list but only prints first two columns, not truncated
+ list-wide      Same as list but avoids truncating package names
+ local-dist-upgrade Dist-upgrade using packages already downloaded
+ local-upgrade  Upgrade using packages already downloaded, but not any others
+ madison        Runs the madison command of apt-cache.
+ move           Move packages in the download cache to a local Debian mirror
+ new            List packages that became available since last update
+ news           Display package NEWS file(s).
+ new-upgrades   List packages newly available for upgrading
+ non-free       List installed packages that do not meet the DFSG
+ orphans        List libraries not required by any installed package
+ policy         From preferences file show priorities/policy (available)
+ purge          Remove one or more packages and their configuration files
+ purge-orphans  Purge orphaned libraries (not required by installed packages)
+ purge-removed  Purge all packages marked as deinstall
+ rbuilddeps     Display the packages which build-depends on the given package (long form is "reverse-build-depends")
+ readme         Display the package's README file from /usr/share/doc
+ list-recommended Display packages that were installed via Recommends and have no dependents
+ recursive      Download package and any packages it depends on
+ reconfigure    Reconfigure the named installed packages or run gkdebconf
+ reinstall      Reinstall each of the named packages
+ reload         Reload daemon configs, e.g., gdm, apache (see list-daemons)
+ remove         Remove one or more packages (see also purge)
+ remove-file    Remove those packages that are listed in a file
+ remove-orphans Remove orphaned libraries (not required by installed packages)
+ repackage      Generate a .deb file for an installed package
+ reset          Initialise or reset the JIG archive files
+ restart        Stop then start a daemon, e.g., gdm, apache (see list-daemons)
+ rpm2deb        Convert a RedHat .rpm file to a Debian .deb file
+ rpminstall     Install a RedHat .rpm package
+ search         Search for packages containing listed words
+ search-apt     Find local Debian archives suitable for sources.list
+ setup          Alias for editsources
+ showdistupgrade Trace the steps that a dist-upgrade would perform
+ showinstall    Trace the steps that an install would perform
+ showremove     Trace the steps that a remove would perform
+ showupgrade    Trace the steps that an upgrade would perform
+ sizes          Print out the size (in K) of all, or listed, installed packages
+ snapshot       Generates list of package=version for all installed packages
+ source         Retrieve and unpack sources for the named packages
+ start          Start a daemon, e.g., gdm, apache (see list-daemons)
+ status         Show the version and available version of packages
+ status-search  Show the version and available version of matching packages
+ stop           Stop a daemon, e.g., gdm, apache (see list-daemons)
+ tasksel        Run the task selector to install groups of packages
+ toupgrade      List packages with newer versions available for upgrading
+ unhold         Remove listed packages from hold so they are again upgraded
+ update         Update the list of downloadable packages
+ update-alts    Update default alternative for things like x-window-manager
+ update-pci-ids Updates the local list of PCI ids from the internet master list
+ update-usb-ids Updates the local list of USB ids from the internet master list
+ upgrade        Upgrade all of the installed packages
+ verify         Check the md5sums of a package.
+ version        Show the current version of wajig.
+ versions       List version and distribution of (all) packages.
+ whatis         A synonym for describe
+ whichpkg       Find the package that supplies the given command or file
+
+OPTIONS:
+ -b|--backup=DIR UPGRADE - Backup packages before they are upgraded.
+ -h|--help       Print usage message.
+ -n|--noauth     Allow packages from unathenticated archives.
+ -x|--pager      CHANGELOG - Use a pager for viewing the entire Debian changelog of a package.
+ -p|--pause      Pause before exiting.
+ -q|--quiet      Execute system commands quietly.
+ -s|--simulate   Show commands to be executed but don't execute.
+ -t|--teaching   Show commands to be executed and then execute them.
+ -v|--verbose=n  Increase (or set) the level of verbosity (to n).
+ -y|--yes        Assume yes for any questions asked.

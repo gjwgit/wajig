@@ -28,9 +28,7 @@ o_i = 0
 c_str = ['']
 c_i = 0
 
-# Run wajig command
-cmd = "python src/wajig.py -v commands"
-with subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout as f:
+with open("help/COMMANDS") as f:
     for line in f:
         line = line.strip()
         if not line or (":" in line) or ("/dist" in line):

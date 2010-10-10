@@ -585,9 +585,9 @@ def select_command(command, args, verbose):
             cmd += "; echo"
             perform.execute(cmd)
 
-    elif command in ["listcommands", "commands"]:
+    elif command in ("listcommands", "commands"):
         if util.requires_no_args(command, args):
-            documentation.help(verbose)
+            documentation.help(verbose=1)
 
     elif command == "listdaemons":
         if util.requires_no_args(command, args):
