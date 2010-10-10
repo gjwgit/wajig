@@ -774,8 +774,9 @@ def select_command(command, args, verbose):
 
     elif command == "reinstall":
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get --reinstall install " +\
-                             util.concat(args[1:]), root=True)
+            perform.execute("apt-get install --reinstall {0} {1} {2}".\
+                             format(noauth, yes, util.concat(args[1:])),
+                             root=True)
 
     elif command in ("reload", "restart", "start", "stop"):
         if util.requires_one_arg(command, args, "name of service to " + command):

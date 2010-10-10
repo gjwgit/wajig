@@ -1,2 +1,5 @@
 Reinstall each of the named packages.
 $ wajig reinstall PKG                   (apt-get reinstall)
+options:
+  -n --noauth   reinstall even if package is untrusted
+  -y --yes      install without (yes/no) prompts

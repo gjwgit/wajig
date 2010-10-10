@@ -2,3 +2,6 @@ Install one or more packages or .deb files, or via a url.
 $ wajig install PKG
 $ wajig install PKG.deb
 $ wajig install http://example.com/PKG.deb
+options:
+  -n --noauth   install even if package is untrusted
+  -y --yes      install without (yes/no) prompts; use with care!
