@@ -1,2 +1,2 @@
 Start a daemon, e.g., gdm, apache (see list-daemons).
-$ wajig start
+$ wajig start                           (/etc/init.d/DAEMON start)

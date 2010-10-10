@@ -1,2 +1,2 @@
 Reload daemon configs, e.g., gdm, apache (see list-daemons).
-$ wajig reload
+$ wajig reload DAEMON                   (/etc/init.d/DAEMON reload)

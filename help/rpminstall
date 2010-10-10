@@ -1,2 +1,2 @@
 Install a RedHat .rpm package.
-$ wajig rpminstall
+$ wajig rpminstall                      (alien --install)

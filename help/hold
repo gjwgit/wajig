@@ -1,2 +1,2 @@
 Place listed packages on hold so they are not upgraded.
-$ wajig hold
+$ wajig hold PKG

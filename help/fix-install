@@ -1,2 +1,2 @@
-Perform apt-get -f install (to fix broken dependencies).
-$ wajig fix-install
+Fix an install interrupted by broken dependencies.
+$ wajig fix-install                     (apt-get --fix-broken install)

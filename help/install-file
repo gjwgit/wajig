@@ -1,2 +1,2 @@
 Install those packages that are listed in a file.
-$ wajig install-file
+$ wajig install-file FILE

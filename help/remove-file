@@ -1,2 +1,2 @@
 Remove those packages that are listed in a file.
-$ wajig remove-file
+$ wajig remove-file FILE

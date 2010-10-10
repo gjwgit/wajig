@@ -1,2 +1,2 @@
 Edit list of archives which locates Debian package sources.
-$ wajig editsources
+$ wajig editsources                     (editor /etc/apt/sources.list)

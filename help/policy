@@ -1,2 +1,2 @@
 From preferences file show priorities/policy (available).
-$ wajig policy
+$ wajig policy PKG

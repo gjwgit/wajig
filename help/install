@@ -1,2 +1,4 @@
-Install one or more packages or .deb files.
-$ wajig install
+Install one or more packages or .deb files, or via a url.
+$ wajig install PKG
+$ wajig install PKG.deb
+$ wajig install http://example.com/PKG.deb

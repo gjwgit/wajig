@@ -354,7 +354,7 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args, "one package name"):
             commands.do_dependents(args[1])
 
-    elif command == "describe":
+    elif command in ("describe", "whatis"):
         if util.requires_args(command, args, "a list of packages"):
             commands.do_describe(args[1:])
 
@@ -495,7 +495,7 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args, "one filename"):
             perform.execute("dpkg --info " + args[1])
 
-    elif command == "init":
+    elif command in ("init", "reset"):
         if util.requires_no_args(command, args):
             changes.reset_files()
 
@@ -531,7 +531,7 @@ def select_command(command, args, verbose):
 
     elif command == "integrity":
         if util.requires_no_args(command, args):
-            perform.execute("debsums -s -a")
+            perform.execute("debsums --all --silent")
 
     elif command == "large":
         commands.do_size(args[1:], 10000)
@@ -801,10 +801,6 @@ def select_command(command, args, verbose):
         and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
             perform.execute("fakeroot -u dpkg-repack " + args[1], root=False)
 
-    elif command == "reset":
-        if util.requires_no_args(command, args):
-            changes.reset_files()
-
     elif command == "rpminstall":
         if util.requires_one_arg(command, args,
         "a Red Hat package file name (.rpm)"):
@@ -954,10 +950,6 @@ def select_command(command, args, verbose):
         elif util.requires_package("apt-show-versions",
                               "/usr/bin/apt-show-versions"):
             commands.versions(args[1:])
-
-    elif command == "whatis":
-        if util.requires_args(command, args, "a list of package names"):
-            commands.do_describe(args[1:])
 
     elif command in ["whichpkg", "whichpackage"]:
         if util.requires_one_arg(command, args, "a filename (possibly with a path)") \

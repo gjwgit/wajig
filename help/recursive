@@ -1,2 +1,2 @@
 Download package and any packages it depends on.
-$ wajig recursive
+$ wajig recursive PKG

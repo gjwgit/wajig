@@ -1,2 +1,2 @@
 List the daemons that JIG can start/stop/restart.
-$ wajig list-daemons
+$ wajig list-daemons                    (ls /etc/init.d/)

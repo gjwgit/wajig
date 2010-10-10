@@ -1,2 +1,2 @@
 Reinstall each of the named packages.
-$ wajig reinstall
+$ wajig reinstall PKG                   (apt-get reinstall)

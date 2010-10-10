@@ -1,2 +1,2 @@
 Retrieve and unpack sources for the named packages.
-$ wajig source
+$ wajig source                          (apt-get source)

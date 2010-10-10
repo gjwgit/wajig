@@ -1,2 +1,2 @@
-Perform dpkg --configure -a (to fix interrupted configure).
-$ wajig fix-configure
+Fix an interrupted install.
+$ wajig fix-configure                   (dpkg --configure --pending)

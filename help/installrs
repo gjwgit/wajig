@@ -1,2 +1,2 @@
 Install package and recommended and suggested packages.
-$ wajig installrs
+$ wajig installrs PKG

@@ -1,2 +1,2 @@
-Perform apt-get --fix-missing upgrade.
-$ wajig fix-missing
+Fix an install even though there are missing dependencies.
+$ wajig fix-missing                     (apt-get --ignore-missing)
