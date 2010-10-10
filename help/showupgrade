@@ -1,0 +1,2 @@
+Trace the steps that an upgrade would perform.
+$ wajig showupgrade

@@ -1,0 +1,2 @@
+Move packages in the download cache to a local Debian mirror.
+$ wajig move

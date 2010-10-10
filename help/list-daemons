@@ -1,0 +1,2 @@
+List the daemons that JIG can start/stop/restart.
+$ wajig list-daemons

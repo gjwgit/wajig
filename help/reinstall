@@ -1,0 +1,2 @@
+Reinstall each of the named packages.
+$ wajig reinstall

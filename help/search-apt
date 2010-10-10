@@ -1,0 +1,2 @@
+Find local Debian archives suitable for sources.list.
+$ wajig search-apt

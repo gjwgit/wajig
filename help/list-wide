@@ -1,0 +1,2 @@
+Same as list but avoids truncating package names.
+$ wajig list-wide

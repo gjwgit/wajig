@@ -1,0 +1,2 @@
+Run the task selector to install groups of packages.
+$ wajig tasksel

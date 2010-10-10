@@ -1,0 +1,2 @@
+List packages with newer versions available for upgrading.
+$ wajig toupgrade

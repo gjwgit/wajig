@@ -1,0 +1,2 @@
+Reload daemon configs, e.g., gdm, apache (see list-daemons).
+$ wajig reload

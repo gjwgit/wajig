@@ -1,0 +1,2 @@
+List the status and description of installed packages.
+$ wajig list

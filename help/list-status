@@ -1,0 +1,2 @@
+Same as list but only prints first two columns, not truncated.
+$ wajig list-status

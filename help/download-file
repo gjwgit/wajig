@@ -1,0 +1,2 @@
+Download packages listed in file ready for an install.
+$ wajig download-file

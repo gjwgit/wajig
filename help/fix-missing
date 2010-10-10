@@ -1,0 +1,2 @@
+Perform apt-get --fix-missing upgrade.
+$ wajig fix-missing

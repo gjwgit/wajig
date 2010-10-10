@@ -1,0 +1,2 @@
+List the control scripts of the package of deb file.
+$ wajig list-scripts

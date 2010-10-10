@@ -1,0 +1,2 @@
+List installed packages that do not meet the DFSG.
+$ wajig non-free

@@ -1,0 +1,2 @@
+List size of all large (>10MB) installed packages.
+$ wajig large

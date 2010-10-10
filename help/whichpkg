@@ -1,0 +1,2 @@
+Find the package that supplies the given command or file.
+$ wajig whichpkg

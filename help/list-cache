@@ -1,0 +1,2 @@
+List the contents of the download cache.
+$ wajig list-cache

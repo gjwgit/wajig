@@ -1,0 +1,2 @@
+Upgrade to new distribution (installed and new rqd packages).
+$ wajig dist-upgrade

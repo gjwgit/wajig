@@ -1,0 +1,2 @@
+Remove one or more packages and their configuration files.
+$ wajig purge

@@ -1,0 +1,2 @@
+Install a RedHat .rpm package.
+$ wajig rpminstall

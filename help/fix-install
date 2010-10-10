@@ -1,0 +1,2 @@
+Perform apt-get -f install (to fix broken dependencies).
+$ wajig fix-install

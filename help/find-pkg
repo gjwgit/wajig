@@ -1,0 +1,2 @@
+Search for an unofficial Debian package at apt-get.org.
+$ wajig find-pkg

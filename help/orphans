@@ -1,0 +1,2 @@
+List libraries not required by any installed package.
+$ wajig orphans

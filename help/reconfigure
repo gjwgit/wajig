@@ -1,0 +1,2 @@
+Reconfigure the named installed packages or run gkdebconf.
+$ wajig reconfigure

@@ -1,0 +1,2 @@
+Purge all packages marked as deinstall.
+$ wajig purge-removed

@@ -1,0 +1,2 @@
+Print out the size (in K) of all, or listed, installed packages.
+$ wajig sizes

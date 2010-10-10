@@ -1,0 +1,2 @@
+Start a daemon, e.g., gdm, apache (see list-daemons).
+$ wajig start

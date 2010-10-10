@@ -1,0 +1,2 @@
+Identify when an update was last performed.
+$ wajig last-update

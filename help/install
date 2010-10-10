@@ -1,0 +1,2 @@
+Install one or more packages or .deb files.
+$ wajig install

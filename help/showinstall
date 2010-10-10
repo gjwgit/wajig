@@ -1,0 +1,2 @@
+Trace the steps that an install would perform.
+$ wajig showinstall
