@@ -1,3 +1,9 @@
+wajig (2.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 12 Oct 2010 18:43:54 +0200
+
 wajig (2.0.50) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
@@ -31,7 +37,7 @@ wajig (2.0.50) unstable; urgency=low
   * AUTO-REMOVE: Made reduntant by above REMOVE change, so removed.
   * AUTO-INSTALL: Deprecated in favour of "--yes INSTALL", so removed from docs.
   * NEWS: 'new' command that displays package NEWS file(s).
-  * AVAILABLE: AVAILABLE: removed a badly-named and redundant command; POLICY
+  * AVAILABLE: removed a badly-named and redundant command; POLICY
     command does the same thing.
   * INSTALL: accept -y|--yes option, an alias for apt-get's --assume-yes.
   * UPGRADE: accept -y|--yes option, too.
@@ -43,7 +49,6 @@ wajig (2.0.50) unstable; urgency=low
   * Add dependency on aptitude; It must have been forgotten.
   * Cleanse packaging, drastically :-)
   * Stop using python-support; There was no need for it.
-
 
  -- Graham Williams <Graham.Williams@togaware.com>  Wed, 16 Sep 2010 17:22:16 +1000
 
