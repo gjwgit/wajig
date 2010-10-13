@@ -1,8 +1,9 @@
-wajig (2.0.51.1) unstable; urgency=low
+wajig (2.0.50.1) unstable; urgency=low
 
   * Fix (an embarassing) exception exposed by LIST-COMMANDS, DOCUMENTATION, ...
+  * 
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 13 Oct 2010 16:08:15 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 13 Oct 2010 16:14:44 +0200
 
 wajig (2.0.50) unstable; urgency=low
 
