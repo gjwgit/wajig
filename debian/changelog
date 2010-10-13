@@ -1,8 +1,8 @@
-wajig (2.1) unstable; urgency=low
+wajig (2.0.51.1) unstable; urgency=low
 
-  * Non-maintainer upload.
+  * Fix (an embarassing) exception exposed by LIST-COMMANDS, DOCUMENTATION, ...
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 12 Oct 2010 18:43:54 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 13 Oct 2010 16:08:15 +0200
 
 wajig (2.0.50) unstable; urgency=low
 

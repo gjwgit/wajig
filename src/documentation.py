@@ -80,13 +80,13 @@ Run 'wajig COMMANDS' for a complete list of commands.
 
 # ALL COMMANDS AND OPTIONS
     elif verbose == 1:
-        with open("help/COMMANDS") as f:
+        with open("/usr/share/wajig/help/COMMANDS") as f:
             print
             for line in f:
                 print line,
             print
 # TUTORIAL
     else:
-        with open("help/TUTORIAL") as f:
+        with open("/usr/share/wajig/help/TUTORIAL") as f:
             for line in f:
                 print line,
