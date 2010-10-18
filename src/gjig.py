@@ -227,8 +227,6 @@ class JIG(GnomeApp):
         "force" : ("Force", SOMEARGS, True, "a list of packages"),
         "hold" : ("Hold", SOMEARGS, False, "a list of packages"),
         "install" : ("Install", SOMEARGS, True, "a list of packages/.deb/url"),
-        "installr" : ("Install+R",SOMEARGS,True,"a list of packages/.deb/url"),
-        "installrs":("Install+RS",SOMEARGS,True,"a list of packages/.deb/url"),
         "installs" : ("Install+S",SOMEARGS,True,"a list of packages/.deb/url"),
         "large" : ("Large", NOARGS, False, ""),
         "last_update" : ("Last Update", NOARGS, False, ""),

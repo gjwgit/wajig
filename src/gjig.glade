@@ -299,25 +299,6 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="installr_button">
-                    <property name="label" translatable="yes">Install+R</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">Install package and associated recommened packages.</property>
-                    <property name="use_underline">True</property>
-                    <signal name="clicked" handler="on_installr_button_clicked"/>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
                   <widget class="GtkButton" id="installs_button">
                     <property name="label" translatable="yes">Install+S</property>
                     <property name="visible">True</property>
@@ -330,25 +311,6 @@
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="right_attach">3</property>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="installrs_button">
-                    <property name="label" translatable="yes">Install+RS</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">Install package and recommended and suggested packages.</property>
-                    <property name="use_underline">True</property>
-                    <signal name="clicked" handler="on_installrs_button_clicked"/>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">3</property>
-                    <property name="right_attach">4</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
                     <property name="x_options">GTK_FILL</property>
