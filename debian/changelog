@@ -1,3 +1,10 @@
+wajig (2.1) unstable; urgency=low
+
+  * INSTALLR, INSTALLRS: 'apt-get install' now installs Recommends by default,
+    making these options redundant.
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 18 Oct 2010 15:55:09 +0200
+
 wajig (2.0.50.1) unstable; urgency=low
 
   * Fix (an embarassing) exception exposed by LIST-COMMANDS, DOCUMENTATION, ...

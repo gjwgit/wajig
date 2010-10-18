@@ -519,7 +519,7 @@ def do_install(packages, yes=False, noauth=False):
 # INSTALL SUGGEST
 #
 #------------------------------------------------------------------------
-def do_install_suggest(packages, deptype, noauth=""):
+def do_install_suggest(packages, noauth=""):
     "Install packages suggested by the listed packages."
 
     # If reading from standard input, generate the list of packages.
@@ -538,13 +538,8 @@ def do_install_suggest(packages, deptype, noauth=""):
     for section in avail:
         if section.get("Package") in packages:
             sug = section.get("Suggests")
-            rec = section.get("Recommends")
-            if deptype in ("Suggests", "Both"):
-                if sug:
-                    suggest_list = "{0} {1}".format(suggest_list, sug)
-            if deptype in ("Recommends", "Both"):
-                if rec:
-                    suggest_list = "{0} {1}".format(suggest_list, rec)
+            if sug:
+                suggest_list = "{0} {1}".format(suggest_list, sug)
 
     # Remove version information
     suggest_list = re.sub('\([^)]*\)', '', suggest_list)
@@ -562,14 +557,8 @@ def do_install_suggest(packages, deptype, noauth=""):
     for i in suggest_list.split():
         suggest_list = i + " " + re.sub(" " + i + " ", ' ', suggest_list)
 
-    # Use aptitude -r to get the recursive recommends installed, rather
-    # than going just one level - #402598.
-    if deptype == "Recommends":
-        command = "aptitude %s -r --show-deps --show-versions install " % \
-            noauth + util.concat(packages) + suggest_list
-    else:
-        command = "apt-get %s --show-upgraded install " % noauth \
-            + util.concat(packages) + suggest_list
+    command = "apt-get {0} --show-upgraded install ".format(noauth + \
+               util.concat(packages) + suggest_list)
     perform.execute(command, root=1)
 
 #-----------------------------------------------------------------------

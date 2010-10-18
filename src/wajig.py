@@ -521,14 +521,6 @@ def select_command(command, args, verbose):
                 yes = "--yes"
             commands.do_install(args[1:], yes, noauth)
 
-    elif command in ["installr", "recommended"]:
-        if util.requires_args(command, args, "a list of packages"):
-            commands.do_install_suggest(args[1:], "Recommends")
-
-    elif command == "installrs":
-        if util.requires_args(command, args, "a list of packages"):
-            commands.do_install_suggest(args[1:], "Both")
-
     elif command in ["installs", "suggested"]:
         if util.requires_args(command, args, "a list of packages"):
             commands.do_install_suggest(args[1:], "Suggests")

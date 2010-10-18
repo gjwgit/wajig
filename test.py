@@ -136,18 +136,18 @@ _wajig()
         dependents describe describe-new detail detail-new dist-upgrade \ 
         docs download download-file editsources extract find-file find-pkg \ 
         fix-configure fix-install fix-missing force help hold init info \ 
-        install install-file installr installrs installs integrity large \ 
-        last-update list list-all list-alts list-cache list-commands \ 
-        list-daemons list-files list-hold list-installed list-log list-names \ 
-        list-orphans list-scripts list-section list-sections list-status \ 
-        list-wide local-dist-upgrade local-upgrade madison move new news \ 
-        new-upgrades non-free orphans policy purge purge-orphans purge-removed \ 
-        rbuilddeps readme list-recommended recursive reconfigure reinstall \ 
-        reload remove remove-file remove-orphans repackage reset restart \ 
-        rpm rpminstall search search-apt setup showdistupgrade showinstall \ 
-        showremove showupgrade sizes snapshot source start status status-search \ 
-        stop tasksel toupgrade unhold update update-alts update-pci-ids \ 
-        update-usb-ids upgrade verify version versions whatis whichpkg' -- $cur ) )
+        install install-file installs integrity large last-update list \ 
+        list-all list-alts list-cache list-commands list-daemons list-files \ 
+        list-hold list-installed list-log list-names list-orphans list-scripts \ 
+        list-section list-sections list-status list-wide local-dist-upgrade \ 
+        local-upgrade madison move new news new-upgrades non-free orphans \ 
+        policy purge purge-orphans purge-removed rbuilddeps readme list-recommended \ 
+        recursive reconfigure reinstall reload remove remove-file remove-orphans \ 
+        repackage reset restart rpm rpminstall search search-apt setup \ 
+        showdistupgrade showinstall showremove showupgrade sizes snapshot \ 
+        source start status status-search stop tasksel toupgrade unhold \ 
+        update update-alts update-pci-ids update-usb-ids upgrade verify \ 
+        version versions whatis whichpkg' -- $cur ) )
     fi
 }
 complete -F _wajig $default wajig""".split("\n")

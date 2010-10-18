@@ -35,8 +35,6 @@ COMMANDS:
  info           List the information contained in a package file
  install        Install one or more packages or .deb files
  install-file   Install those packages that are listed in a file
- installr       Install package and associated recommended packages
- installrs      Install package and recommended and suggested packages
  installs       Install package and associated suggested packages
  install/dist   Install packages from specified dist (must be in sources.list)
  integrity      Check the integrity of installed packages (through checksums)
