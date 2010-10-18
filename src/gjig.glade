@@ -88,33 +88,8 @@
                             </child>
                           </widget>
                         </child>
-                        <child>
-                          <widget class="GtkImageMenuItem" id="properties1">
-                            <property name="visible">True</property>
-                            <property name="stock_item">GNOMEUIINFO_MENU_PROPERTIES_ITEM</property>
-                            <signal name="activate" handler="on_not_implemented" last_modification_time="Wed, 28 Jan 2004 09:03:44 GMT"/>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkMenuItem" id="separator5">
-                            <property name="visible">True</property>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkImageMenuItem" id="preferences1">
-                            <property name="visible">True</property>
-                            <property name="stock_item">GNOMEUIINFO_MENU_PREFERENCES_ITEM</property>
-                            <signal name="activate" handler="on_not_implemented" last_modification_time="Wed, 28 Jan 2004 09:04:45 GMT"/>
-                          </widget>
-                        </child>
                       </widget>
                     </child>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkMenuItem" id="view2">
-                    <property name="visible">True</property>
-                    <property name="stock_item">GNOMEUIINFO_MENU_VIEW_TREE</property>
                   </widget>
                 </child>
                 <child>
