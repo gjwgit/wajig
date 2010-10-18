@@ -688,15 +688,15 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkButton" id="available_button">
+		<widget class="GtkButton" id="policy_button">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">List versions of packages available for installation.</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Available</property>
+		  <property name="label" translatable="yes">Policy</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
-		  <signal name="clicked" handler="on_available_button_clicked" last_modification_time="Tue, 20 Jan 2004 18:57:04 GMT"/>
+		  <signal name="clicked" handler="on_policy_button_clicked" last_modification_time="Tue, 20 Jan 2004 18:57:04 GMT"/>
 		</widget>
 		<packing>
 		  <property name="left_attach">5</property>

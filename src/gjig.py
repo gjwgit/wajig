@@ -212,7 +212,7 @@ class JIG(GnomeApp):
     clicked = {
         "auto_clean" : ("Auto Clean", NOARGS, True, ""),
         "auto_download" : ("Auto Download", NOARGS, True, ""),
-        "available" : ("Available", SOMEARGS, False, "a list of packages"),
+        "policy" : ("Available", SOMEARGS, False, "a list of packages"),
         "bug" : ("Bug", ONLYONE, True, "a single named package"),
         "changelog" : ("Change Log", SOMEARGS, False, "a list of packages"),
         "clean" : ("Clean", NOARGS, True, ""),
