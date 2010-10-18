@@ -170,9 +170,10 @@ def main():
         sys.argv += oldargv[i].split(",")
 
     try:
-        sopts = "bhnpqstvxy"
-        lopts = ["backup=", "help", "pause", "quiet", "simulate",
-                 "teaching", "verbose=", "version", "yes", "noauth", "pager"]
+        sopts = "bhnpqrRstvxy"
+        lopts = ("backup=", "help", "pause", "quiet", "recommends",
+                 "norecommends", "simulate", "teaching", "verbose=", "version",
+                 "yes", "noauth", "pager")
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
     except getopt.error, e:
         print e
@@ -199,6 +200,10 @@ def main():
             commands.set_verbosity_level(1)
         elif o in ["-q", "--quiet"]:
             perform.set_quiet()
+        elif o in ["-r", "--recommends"]:
+            util.recommends_flag = True
+        elif o in ["-R", "--norecommends"]:
+            util.recommends_flag = False
         elif o in ["-s", "--simulate"]:
             perform.set_simulate(True)
         elif o in ["-t", "--teaching"]:
@@ -523,7 +528,7 @@ def select_command(command, args, verbose):
 
     elif command in ["installs", "suggested"]:
         if util.requires_args(command, args, "a list of packages"):
-            commands.do_install_suggest(args[1:], "Suggests")
+            commands.do_install_suggest(args[1:], yes, noauth)
 
     elif re.compile(r'install.*').match(command):
         # For example: install/unsable

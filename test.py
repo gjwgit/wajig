@@ -52,6 +52,13 @@ class WaJIGTests(unittest.TestCase):
     # ----
     # testing util.py
     # ----
+    def test_util_recommends(self):
+        self.assertEqual(util.recommends(), "")
+        util.recommends_flag = True
+        self.assertEqual(util.recommends(), "--install-recommends")
+        util.recommends_flag = False
+        self.assertEqual(util.recommends(), "--no-install-recommends")
+
     def test_util_requires_args(self):
         res = util.requires_args("", [1])
         self.assertFalse(res)
@@ -128,7 +135,8 @@ _wajig()
         COMPREPLY=($( compgen -W '-b --backup -h --help -n --noauth  \ 
                               -x --pager -p --pause -q --quiet  \ 
                               -s --simulate -t --teaching -v  \ 
-                              --verbose -y --yes' -- $cur ) )
+                              --verbose -r --recommends -R --norecommends  \ 
+                              -y --yes' -- $cur ) )
     else
         COMPREPLY=($( compgen -W '
         addcdrom addrepo auto-alts auto-clean auto-download bug build \ 

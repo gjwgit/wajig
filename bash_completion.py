@@ -16,7 +16,7 @@ import subprocess
 
 pp = pprint.PrettyPrinter()
 
-option_patt = r'^(-[a-z])\|(--[a-z]*)'
+option_patt = r'^(-[a-zA-Z])\|(--[a-z]*)'
 option_patt_r = re.compile(option_patt)
 
 command_patt = r'^([a-z-]*)'

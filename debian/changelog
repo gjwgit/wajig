@@ -2,8 +2,10 @@ wajig (2.1) unstable; urgency=low
 
   * INSTALLR, INSTALLRS: 'apt-get install' now installs Recommends by default,
     making these options redundant.
+  * INSTALL, INSTALLS: add -r|--recommends and -R|--norecommends options.
+  * INSTALLS: add -n|--noauth and -y|--yes options.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 18 Oct 2010 15:55:09 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 18 Oct 2010 18:56:21 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 

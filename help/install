@@ -3,5 +3,7 @@ $ wajig install PKG
 $ wajig install PKG.deb
 $ wajig install http://example.com/PKG.deb
 options:
-  -n --noauth   install even if package is untrusted
-  -y --yes      install without (yes/no) prompts; use with care!
+  -n --noauth       install even if package is untrusted
+  -y --yes          install without yes/no prompts; use with care!
+  -r|--recommends   install Recommends (this is Debian default).
+  -R|--norecommends do NOT install Recommends.

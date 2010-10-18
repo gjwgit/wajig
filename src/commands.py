@@ -428,7 +428,7 @@ def do_hold(packages):
 # INSTALL
 #
 #------------------------------------------------------------------------
-def do_install(packages, yes=False, noauth=False):
+def do_install(packages, yes="", noauth=""):
     "Install packages."
 
     #
@@ -511,15 +511,16 @@ def do_install(packages, yes=False, noauth=False):
 #                   (release, util.concat(packages))
 #       perform.execute(command, root=1)
     else:
-        perform.execute("apt-get {0} {1} install {2}".format(yes, noauth,
-                         util.concat(packages)), root=True)
+        perform.execute("apt-get {0} {1} {2} install {3}".format(yes, noauth,
+                         util.recommends(), util.concat(packages)),
+                         root=True)
 
 #------------------------------------------------------------------------
 #
 # INSTALL SUGGEST
 #
 #------------------------------------------------------------------------
-def do_install_suggest(packages, noauth=""):
+def do_install_suggest(packages, yes, noauth):
     "Install packages suggested by the listed packages."
 
     # If reading from standard input, generate the list of packages.
@@ -557,9 +558,10 @@ def do_install_suggest(packages, noauth=""):
     for i in suggest_list.split():
         suggest_list = i + " " + re.sub(" " + i + " ", ' ', suggest_list)
 
-    command = "apt-get {0} --show-upgraded install ".format(noauth + \
-               util.concat(packages) + suggest_list)
-    perform.execute(command, root=1)
+    perform.execute("apt-get {0} {1} {2} --show-upgraded install {3} {4}".\
+                     format(util.recommends(), yes, noauth, \
+                     util.concat(packages), suggest_list),
+                     root=True)
 
 #-----------------------------------------------------------------------
 #

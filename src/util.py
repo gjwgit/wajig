@@ -28,7 +28,16 @@ import apt
 
 pause = False
 interactive = False
+recommends_flag = None
 
+
+def recommends():
+    if recommends_flag is None:
+        return ""
+    elif recommends_flag is True:
+        return "--install-recommends"
+    else:
+        return "--no-install-recommends"
 
 def requires_no_args(command, args, test=False):
     if len(args) > 1:
