@@ -309,8 +309,8 @@
                     <signal name="clicked" handler="on_installs_button_clicked"/>
                   </widget>
                   <packing>
-                    <property name="left_attach">2</property>
-                    <property name="right_attach">3</property>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
                     <property name="x_options">GTK_FILL</property>
@@ -421,8 +421,8 @@
                     <signal name="clicked" handler="on_force_button_clicked"/>
                   </widget>
                   <packing>
-                    <property name="left_attach">4</property>
-                    <property name="right_attach">5</property>
+                    <property name="left_attach">2</property>
+                    <property name="right_attach">3</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
                     <property name="x_options">GTK_FILL</property>
@@ -440,8 +440,8 @@
                     <signal name="clicked" handler="on_fix_install_button_clicked"/>
                   </widget>
                   <packing>
-                    <property name="left_attach">5</property>
-                    <property name="right_attach">6</property>
+                    <property name="left_attach">3</property>
+                    <property name="right_attach">4</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
                     <property name="x_options">GTK_FILL</property>
