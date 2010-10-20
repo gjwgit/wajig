@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <glade-interface>
   <requires lib="gnome"/>
-  <!-- interface-requires gnome 2279.20048 -->
-  <!-- interface-requires gtk+ 2.6 -->
   <requires lib="bonobo"/>
-  <!-- interface-requires bonobo 2279.20048 -->
-  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GnomeAbout" id="about">
     <property name="visible">True</property>
     <property name="border_width">5</property>
@@ -150,32 +146,25 @@
                 <property name="visible">True</property>
                 <property name="n_rows">10</property>
                 <property name="n_columns">6</property>
+                <property name="border-width">5</property>
                 <property name="homogeneous">True</property>
                 <child>
                   <widget class="GtkButton" id="update_button">
                     <property name="label" translatable="yes">Update</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Update the list of packages that are available from the Debian archives. This command will go to each of the known archives (as listed in /etc/apt/sources.list and modified with the Edit-&gt;Sources menu item) and retrieve information about all of the packages available from that archive. Most other commands then rely on this information. For the Stable archives an Update will not find much new information, but for the Testing and Unstable archives, an Update will generally find many new updates.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_update_button_clicked"/>
                   </widget>
                   <packing>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="new_button">
                     <property name="label" translatable="yes">New</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List packages that became available since last Update. This command will list each of the packages that were not previously available on Debian, at least since the last time an Update was performed.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_new_button_clicked"/>
                   </widget>
                   <packing>
@@ -183,18 +172,13 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="new_upgrades_button">
                     <property name="label" translatable="yes">New Upgrades</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List packages that are newly available for upgrading since the last update.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_new_upgrades_button_clicked"/>
                   </widget>
                   <packing>
@@ -202,19 +186,13 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="to_upgrade_button">
                     <property name="label" translatable="yes">To Upgrade</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="has_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List packages with newer version available for upgrading.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_to_upgrade_button_clicked"/>
                   </widget>
                   <packing>
@@ -222,18 +200,13 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="dist_upgrade_button">
                     <property name="label" translatable="yes">Dist Upgrade</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Upgrade a current system to a newer distribution. Essentially, all packages will be upgraded to any newer available version, and any packages that have become a required part of a new distribution will also be installed.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_dist_upgrade_button_clicked"/>
                   </widget>
                   <packing>
@@ -241,18 +214,13 @@
                     <property name="right_attach">5</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="upgrade_button">
                     <property name="label" translatable="yes">Upgrade</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Upgrade installed packages or just those listed. An upgrade, unlike a dist-upgrade, will not upgrade any package whose dependencies have changed (by becoming dependent on an uninstalled package) and are not currently met.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_upgrade_button_clicked"/>
                   </widget>
                   <packing>
@@ -260,52 +228,37 @@
                     <property name="right_attach">6</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="describe_button">
                     <property name="label" translatable="yes">Describe</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Show a one line description for each of the specified packages.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_describe_button_clicked"/>
                   </widget>
                   <packing>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="install_button">
                     <property name="label" translatable="yes">Install</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Install (or upgrade) one or more packages or .deb files or a specific URL.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_install_button_clicked"/>
                   </widget>
                   <packing>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="installs_button">
                     <property name="label" translatable="yes">Install+S</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Install package and associated suggested packages.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_installs_button_clicked"/>
                   </widget>
                   <packing>
@@ -313,18 +266,13 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="detail_button">
                     <property name="label" translatable="yes">Detail</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Provide a detailed description of package.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_detail_button_clicked"/>
                   </widget>
                   <packing>
@@ -332,18 +280,13 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="news_button">
                     <property name="label" translatable="yes">News</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Obtain the latest news about the package.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_news_button_clicked"/>
                   </widget>
                   <packing>
@@ -351,18 +294,13 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="changelog_button">
                     <property name="label" translatable="yes">Change Log</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Retrieve latest changelog for the package.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_changelog_button_clicked"/>
                   </widget>
                   <packing>
@@ -370,8 +308,6 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -394,8 +330,6 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">5</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -406,18 +340,13 @@
                   <packing>
                     <property name="left_attach">5</property>
                     <property name="right_attach">6</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="force_button">
                     <property name="label" translatable="yes">Force Install</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Force the installation of a package or two.  Use with care. This will install packages and ignore file overwrites and dependency problems. It is useful when packages are in transition, and sometimes sharing a file, but you still want to install both packages. Normally you will not be allowed to install a package if it overwrites a file in another package already installed.  This command will allow you to do so. Generally it is quite safe to do so, but only if you are sure the files are the same.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_force_button_clicked"/>
                   </widget>
                   <packing>
@@ -425,18 +354,13 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="fix_install_button">
                     <property name="label" translatable="yes">Fix Install</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Perform apt-get -f install (to fix broken dependencies).</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_fix_install_button_clicked"/>
                   </widget>
                   <packing>
@@ -444,18 +368,13 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="status_button">
                     <property name="label" translatable="yes">Status</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Show the installed version, previously available version, and currently available version of the listed packages.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_status_button_clicked"/>
                   </widget>
                   <packing>
@@ -463,18 +382,13 @@
                     <property name="right_attach">5</property>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="policy_button">
                     <property name="label" translatable="yes">Policy</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List versions of packages available for installation.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_policy_button_clicked"/>
                   </widget>
                   <packing>
@@ -482,35 +396,25 @@
                     <property name="right_attach">6</property>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="remove_button">
                     <property name="label" translatable="yes">Remove</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Remove one or more packages. A Remove will not delete the package configuration files, thus any carefully tuned configurations will be kept for later, for example, if you reinstall the package.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_remove_button_clicked"/>
                   </widget>
                   <packing>
                     <property name="top_attach">4</property>
                     <property name="bottom_attach">5</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="purge_button">
                     <property name="label" translatable="yes">Purge</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Purge one or more packages. This both removes the package and also deletes any configuration files associated with the package. To only remove a package and keep the configuration files for future reference or a future reinstall, then use Remove.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_purge_button_clicked"/>
                   </widget>
                   <packing>
@@ -518,18 +422,13 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">4</property>
                     <property name="bottom_attach">5</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="list_names_button">
                     <property name="label" translatable="yes">List Names</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List either all of the known packages or else just those whose name contains the supplied string.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_list_names_button_clicked"/>
                   </widget>
                   <packing>
@@ -537,35 +436,25 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">5</property>
                     <property name="bottom_attach">6</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="list_button">
                     <property name="label" translatable="yes">List</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Generate a list of one line descriptions for all installed packages (or those matching the argument supplied), giving the installed version number and a brief description.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_list_button_clicked"/>
                   </widget>
                   <packing>
                     <property name="top_attach">5</property>
                     <property name="bottom_attach">6</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="auto_clean_button">
                     <property name="label" translatable="yes">Auto Clean</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Remove superseded deb files from the download cache. For packages with multiple versions in the cache (/var/cache/apt/archives), all but the latest version. To remove all deb files use Clean.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_auto_clean_button_clicked"/>
                   </widget>
                   <packing>
@@ -573,18 +462,13 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">4</property>
                     <property name="bottom_attach">5</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="clean_button">
                     <property name="label" translatable="yes">Clean</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Remove all deb files from the download cache (/var/cache/apt/archives). To remove all but the latest version of the deb files use the Auto Clean command.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_clean_button_clicked"/>
                   </widget>
                   <packing>
@@ -592,18 +476,13 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">4</property>
                     <property name="bottom_attach">5</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="whichpkg_button">
                     <property name="label" translatable="yes">Which Pkg</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Find the package that supplies the given command or file as listed in the Packages text box below.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_whichpkg_button_clicked"/>
                   </widget>
                   <packing>
@@ -611,18 +490,13 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">5</property>
                     <property name="bottom_attach">6</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="list_files_button">
                     <property name="label" translatable="yes">List Files</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List the names and location of all files that are supplied by the named package. This is useful for checking what documentation might have been provided with the package, where the configuration files live, and what executables were supplied.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_list_files_button_clicked"/>
                   </widget>
                   <packing>
@@ -630,18 +504,13 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">5</property>
                     <property name="bottom_attach">6</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="unofficial_button">
                     <property name="label" translatable="yes">Unofficial Apt</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Search for an unofficial Debian package at apt-get.org. These are generally packages either waiting to get into the actual Debian archives, or else alternative versions of packages. Enter a package name or substring to search for in the Package text box below.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_unofficial_button_clicked"/>
                   </widget>
                   <packing>
@@ -649,18 +518,13 @@
                     <property name="right_attach">5</property>
                     <property name="top_attach">5</property>
                     <property name="bottom_attach">6</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="fix_configure_button">
                     <property name="label" translatable="yes">Fix Configure</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Perform dpkg --configure -a (to fix interrupted configure).</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_fix_configure_button_clicked"/>
                   </widget>
                   <packing>
@@ -668,18 +532,13 @@
                     <property name="right_attach">5</property>
                     <property name="top_attach">4</property>
                     <property name="bottom_attach">5</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="fix_missing_button">
                     <property name="label" translatable="yes">Fix Missing</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Perform apt-get --fix-missing upgrade.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_fix_missing_button_clicked"/>
                   </widget>
                   <packing>
@@ -687,18 +546,13 @@
                     <property name="right_attach">6</property>
                     <property name="top_attach">4</property>
                     <property name="bottom_attach">5</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="last_update_button">
                     <property name="label" translatable="yes">Last Update</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Identify when an update was last performed.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_last_update_button_clicked"/>
                   </widget>
                   <packing>
@@ -706,35 +560,25 @@
                     <property name="right_attach">5</property>
                     <property name="top_attach">9</property>
                     <property name="bottom_attach">10</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="bug_button">
                     <property name="label" translatable="yes">Bugs</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Check for reported bugs in the listed package using the Debian Bug Tacking system.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_bug_button_clicked"/>
                   </widget>
                   <packing>
                     <property name="top_attach">9</property>
                     <property name="bottom_attach">10</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="nonfree_button">
                     <property name="label" translatable="yes">Non Free</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List installed packages that do not meet the DFSG.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_nonfree_button_clicked"/>
                   </widget>
                   <packing>
@@ -742,18 +586,13 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">9</property>
                     <property name="bottom_attach">10</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="sizes_button">
                     <property name="label" translatable="yes">Sizes</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Print out the size (in K) of all, or listed, installed packages.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_sizes_button_clicked"/>
                   </widget>
                   <packing>
@@ -761,18 +600,13 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">9</property>
                     <property name="bottom_attach">10</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="large_button">
                     <property name="label" translatable="yes">Large</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List size of all large (&gt;10MB) installed packages.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_large_button_clicked"/>
                   </widget>
                   <packing>
@@ -780,8 +614,6 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">9</property>
                     <property name="bottom_attach">10</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -789,8 +621,6 @@
                     <property name="label">gtk-quit</property>
                     <property name="height_request">27</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="use_stock">True</property>
                     <signal name="clicked" handler="on_quit_button_clicked"/>
                   </widget>
@@ -799,52 +629,37 @@
                     <property name="right_attach">6</property>
                     <property name="top_attach">9</property>
                     <property name="bottom_attach">10</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="hold_button">
                     <property name="label" translatable="yes">Hold</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Place packages on hold. Once a package is on hold it will not be upgraded. This is useful when an upgrade of the package causes some problem - for example, when the newer package has bugs that the earlier package does not. A package on hold will not be upgraded with an Upgrade or Dist-Upgrade, but will be upgraded if it is explicitly Installed.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_hold_button_clicked"/>
                   </widget>
                   <packing>
                     <property name="top_attach">6</property>
                     <property name="bottom_attach">7</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="rec_download_button">
                     <property name="label" translatable="yes">Rec Download</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Recursively download a package and all of the packages it depends on. This is convenient for collecting together packages required to install some other specific package. The collection of packages thus dowmloaded can be copied from /var/cache/apt/archives to CD or a USB Memory Stick so that the specific package (and its dependencies) can be installed on another machine.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_rec_download_button_clicked"/>
                   </widget>
                   <packing>
                     <property name="top_attach">7</property>
                     <property name="bottom_attach">8</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="unhold_button">
                     <property name="label" translatable="yes">UnHold</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Remove packages from being on hold so that once again they can be upgraded with an Upgrade or Dist-Upgrade.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_unhold_button_clicked"/>
                   </widget>
                   <packing>
@@ -852,18 +667,13 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">6</property>
                     <property name="bottom_attach">7</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="auto_download_button">
                     <property name="label" translatable="yes">Auto Download</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Do an update followed by a download of all updated pacakges.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_auto_download_button_clicked"/>
                   </widget>
                   <packing>
@@ -871,18 +681,13 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">7</property>
                     <property name="bottom_attach">8</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="list_hold_button">
                     <property name="label" translatable="yes">List Hold</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List all packages that are currently on hold.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_list_hold_button_clicked"/>
                   </widget>
                   <packing>
@@ -890,18 +695,13 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">6</property>
                     <property name="bottom_attach">7</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="local_upgrade_button">
                     <property name="label" translatable="yes">Local Upgrade</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Upgrade the system using only those packages that are available in /var/cache/apt/archives, and no others. This is useful when you've downloaded some but not all packages that have been upgraded, but want to go ahead and install those that have been downloaded rather than waiting to get the lot. Also useful when downloading packages on another system, and then copying the packages across to this system.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_local_upgrade_button_clicked"/>
                   </widget>
                   <packing>
@@ -909,18 +709,13 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">7</property>
                     <property name="bottom_attach">8</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="dependents_button">
                     <property name="label" translatable="yes">Dependents</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List of packages which depend on the specified package.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_dependents_button_clicked"/>
                   </widget>
                   <packing>
@@ -928,18 +723,13 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">6</property>
                     <property name="bottom_attach">7</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="show_upgrade_button">
                     <property name="label" translatable="yes">Show Upgrade</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Trace the steps that a dist-upgrade would perform.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_show_upgrade_button_clicked"/>
                   </widget>
                   <packing>
@@ -947,18 +737,13 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">7</property>
                     <property name="bottom_attach">8</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="repackage_button">
                     <property name="label" translatable="yes">Repackage</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Generate a .deb file for an installed package. This can be useful if you want to install the package on another local machine but don't have access to a Debian archive.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_repackage_button_clicked"/>
                   </widget>
                   <packing>
@@ -966,18 +751,13 @@
                     <property name="right_attach">5</property>
                     <property name="top_attach">6</property>
                     <property name="bottom_attach">7</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="show_install_button">
                     <property name="label" translatable="yes">Show Install</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Trace the steps that an install would perform.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_show_install_button_clicked"/>
                   </widget>
                   <packing>
@@ -985,18 +765,13 @@
                     <property name="right_attach">5</property>
                     <property name="top_attach">7</property>
                     <property name="bottom_attach">8</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="orphans_button">
                     <property name="label" translatable="yes">Orphans</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List libraries not required by any installed package.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_orphans_button_clicked"/>
                   </widget>
                   <packing>
@@ -1004,18 +779,13 @@
                     <property name="right_attach">6</property>
                     <property name="top_attach">5</property>
                     <property name="bottom_attach">6</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="show_remove_button">
                     <property name="label" translatable="yes">Show Remove</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Trace the steps that a remove would perform.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_show_remove_button_clicked"/>
                   </widget>
                   <packing>
@@ -1023,18 +793,13 @@
                     <property name="right_attach">6</property>
                     <property name="top_attach">7</property>
                     <property name="bottom_attach">8</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="purge_orphans_button">
                     <property name="label" translatable="yes">Purge Orphans</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Purge orphaned libraries (not required by installed packages).</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_purge_orphans_button_clicked"/>
                   </widget>
                   <packing>
@@ -1042,35 +807,25 @@
                     <property name="right_attach">6</property>
                     <property name="top_attach">6</property>
                     <property name="bottom_attach">7</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="list_daemons_button">
                     <property name="label" translatable="yes">List Daemons</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List the daemons that JIG can start/stop/restart.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_list_daemons_button_clicked"/>
                   </widget>
                   <packing>
                     <property name="top_attach">8</property>
                     <property name="bottom_attach">9</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="start_button">
                     <property name="label" translatable="yes">Start Daemon</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Start a daemon, e.g., gdm, apache (see list-daemons).</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_start_button_clicked"/>
                   </widget>
                   <packing>
@@ -1078,18 +833,13 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">8</property>
                     <property name="bottom_attach">9</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="stop_button">
                     <property name="label" translatable="yes">Stop Daemon</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Stop a daemon, e.g., gdm, apache (see list-daemons).</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_stop_button_clicked"/>
                   </widget>
                   <packing>
@@ -1097,18 +847,13 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">8</property>
                     <property name="bottom_attach">9</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="reconfigure_button">
                     <property name="label" translatable="yes">Reconfigure</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Reconfigure the named installed packages or run gkdebconf if no package is specified.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_reconfigure_button_clicked"/>
                   </widget>
                   <packing>
@@ -1116,18 +861,13 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">8</property>
                     <property name="bottom_attach">9</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="list_alts_button">
                     <property name="label" translatable="yes">List Alts</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">List the objects that can have alternatives configured.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_list_alts_button_clicked"/>
                   </widget>
                   <packing>
@@ -1135,18 +875,13 @@
                     <property name="right_attach">5</property>
                     <property name="top_attach">8</property>
                     <property name="bottom_attach">9</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="update_alts_button">
                     <property name="label" translatable="yes">Update Alts</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Update default alternative for things like editor.</property>
-                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_update_alts_button_clicked"/>
                   </widget>
                   <packing>
@@ -1154,8 +889,6 @@
                     <property name="right_attach">6</property>
                     <property name="top_attach">8</property>
                     <property name="bottom_attach">9</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
               </widget>
@@ -1176,10 +909,6 @@
                     <property name="xpad">5</property>
                     <property name="label" translatable="yes">Package(s):</property>
                   </widget>
-                  <packing>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
                 </child>
                 <child>
                   <widget class="GtkLabel" id="label1">
@@ -1189,8 +918,6 @@
                   <packing>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -1213,7 +940,6 @@
                     <property name="right_attach">2</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -1233,15 +959,11 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="clear_button">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                     <property name="tooltip" translatable="yes">Clear the current text in the Packages text box.</property>
                     <signal name="clicked" handler="on_clear_button_clicked"/>
                     <child>
@@ -1268,8 +990,7 @@
                               <widget class="GtkLabel" id="label8">
                                 <property name="visible">True</property>
                                 <property name="label" translatable="yes">Clear</property>
-                                <property name="use_underline">True</property>
-                              </widget>
+                                          </widget>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -1284,8 +1005,6 @@
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="right_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -1304,7 +1023,6 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="y_options"></property>
                   </packing>
                 </child>
               </widget>
@@ -1353,8 +1071,8 @@
                 <property name="width_request">80</property>
                 <property name="height_request">40</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
                 <property name="editable">False</property>
+                <property name="cursor-visible">False</property>
               </widget>
             </child>
           </widget>
