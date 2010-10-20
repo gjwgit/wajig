@@ -4,8 +4,10 @@ wajig (2.1) unstable; urgency=low
     making these options redundant.
   * INSTALL, INSTALLS: add -r|--recommends and -R|--norecommends options.
   * INSTALLS: add -n|--noauth and -y|--yes options.
+  * Add meself to Uploaders field in debian/control.
+  * Change versioning from 3 digits to 2. There wasn't much meaning there.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 18 Oct 2010 18:56:21 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 20 Oct 2010 21:24:49 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 

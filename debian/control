@@ -2,6 +2,7 @@ Source: wajig
 Section: admin
 Priority: optional
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
+Uploaders: Tshepang Lekhonkhobe <tshepang@gmail.com>
 Homepage: http://wajig.togaware.com
 Standards-Version: 3.9.1
 Build-Depends-Indep: python
