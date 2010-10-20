@@ -195,10 +195,6 @@ class JIG(GnomeApp):
     def on_quit_activate(self, *extra):
         self.cleanup()
         self.quit()
-    def on_preferences_activate(self, *extra):
-        print "Gjig: Preferences not yet implemented."
-    def on_properties_activate(self, *extra):
-        print "Gjig: Properties not yet implemented."
     #
     # Build a dictionary of the commands
     #
