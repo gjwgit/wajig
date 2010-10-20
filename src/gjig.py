@@ -278,8 +278,6 @@ class JIG(GnomeApp):
         self.execute_command("help", "Introduction", interact=False)
     def on_commands_activate(self, *extra):
         self.execute_command("listcommands", "List Commands", interact=False)
-    def on_not_implemented(self, *extra):
-        WarningDialog(self, "This function is not yet implemented.")
     def on_clear_button_clicked(self, *extra):
         self.arguments_entry.set_text("")
     #

@@ -68,26 +68,6 @@
                   </widget>
                 </child>
                 <child>
-                  <widget class="GtkMenuItem" id="settings1">
-                    <property name="visible">True</property>
-                    <property name="stock_item">GNOMEUIINFO_MENU_SETTINGS_TREE</property>
-                    <signal name="activate" handler="on_settings1_activate"/>
-                    <child>
-                      <widget class="GtkMenu" id="settings1_menu">
-                        <child>
-                          <widget class="GtkCheckMenuItem" id="warnings_menu">
-                            <property name="visible">True</property>
-                            <property name="tooltip" translatable="yes">Turn this on to be warned about supplying arguments to commands that don't take arguments.</property>
-                            <property name="label" translatable="yes">_Warnings</property>
-                            <property name="use_underline">True</property>
-                            <signal name="activate" handler="on_warnings_activate"/>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                  </widget>
-                </child>
-                <child>
                   <widget class="GtkMenuItem" id="help2">
                     <property name="visible">True</property>
                     <property name="stock_item">GNOMEUIINFO_MENU_HELP_TREE</property>
