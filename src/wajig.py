@@ -715,7 +715,7 @@ def select_command(command, args, verbose):
             if util.requires_package("deborphan", "/usr/bin/deborphan"):
                 perform.execute("deborphan")
 
-    elif command == "policy":
+    elif command in ("policy", "available"):
         perform.execute("apt-cache policy " + util.concat(args[1:]))
 
     elif command in ("purge", "purgedepend"):

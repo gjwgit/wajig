@@ -7,8 +7,10 @@ wajig (2.01) unstable; urgency=low
   * INSTALLS: add -n|--noauth and -y|--yes options.
   * Add meself to Uploaders field in debian/control.
   * CHANGELOG: change -x to -P; it's more meaningful shorter option to --pager
+  * POLICY: more than one person has complained about removal of the alias of
+    this command, AVAILABLE; I put it back.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 03 Nov 2010 21:27:15 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 03 Nov 2010 21:30:04 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 
