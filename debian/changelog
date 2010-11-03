@@ -8,7 +8,7 @@ wajig (2.01) unstable; urgency=low
   * Add meself to Uploaders field in debian/control.
   * CHANGELOG: change -x to -P; it's more meaningful shorter option to --pager
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 03 Nov 2010 21:19:26 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 03 Nov 2010 21:27:15 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 
@@ -38,7 +38,7 @@ wajig (2.0.50) unstable; urgency=low
       vomiting "package not found!"
     - only displays info on the installed version; else, the latest available;
       apt-get showed all available versions
-    - the trade-off is that the command is a bit slower, but what's the rush :)
+    - the trade-off is that the command is slower, but what's the rush :)
   * LIST-RECOMMENDED: new command that displays packages which are
     auto-installed via Recommends, and are without installed dependencies.
     (Closes: #482147)
