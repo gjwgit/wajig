@@ -117,7 +117,7 @@ OPTIONS:
  -b|--backup=DIR UPGRADE - Backup packages before they are upgraded.
  -h|--help       Print usage message.
  -n|--noauth     Allow packages from unathenticated archives.
- -x|--pager      CHANGELOG - Use a pager for viewing the entire Debian changelog of a package.
+ -P|--pager      CHANGELOG - Use a pager for viewing the entire Debian changelog of a package.
  -p|--pause      Pause before exiting.
  -q|--quiet      Execute system commands quietly.
  -s|--simulate   Show commands to be executed but don't execute.

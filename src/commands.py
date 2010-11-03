@@ -163,7 +163,7 @@ def do_dependents(package):
 #
 #------------------------------------------------------------------------
 def do_describe(packages):
-    "Display a description of a package(s)."
+    """Display package description(s)."""
 
     #
     # From where do we get information about the packages?
@@ -682,16 +682,18 @@ def local_changelog(package, tmp):
 
 def do_changelog(package, pager):
     """Display Debian changelog.
+
     network on:
          changelog - if there's newer entries, display them
       -v changelog - if there's newer entries, display them, and proceed to
                      display complete local changelog
-      -x changelog - same as "-v changelog", but use a pager
+      -P changelog - same as "-v changelog", but use a pager
+
     network off:
          changelog - if there's newer entries, mention failure to retrieve
       -v changelog - if there's newer entries, mention failure to retrieve, and
                      proceed to display complete local changelog
-      -x changelog - same as "-v changelog", but use a pager
+      -P changelog - same as "-v changelog", but use a pager
     """
 
     changelog = "{0:=^72}\n".format(" {0} ".format(package))  # header

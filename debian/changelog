@@ -1,13 +1,14 @@
 wajig (2.01) unstable; urgency=low
 
+  * Change versioning from 3 digits to 2. There wasn't much meaning there.
   * INSTALLR, INSTALLRS: 'apt-get install' now installs Recommends by default,
     making these options redundant.
   * INSTALL, INSTALLS: add -r|--recommends and -R|--norecommends options.
   * INSTALLS: add -n|--noauth and -y|--yes options.
   * Add meself to Uploaders field in debian/control.
-  * Change versioning from 3 digits to 2. There wasn't much meaning there.
+  * CHANGELOG: change -x to -P; it's more meaningful shorter option to --pager
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 20 Oct 2010 22:28:53 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 03 Nov 2010 21:19:26 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 

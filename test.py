@@ -133,7 +133,7 @@ _wajig()
         COMPREPLY=($( compgen -W "$(apt-cache pkgnames "$cur")" -- $cur ) )
     elif [[ "$cur" == -* ]]; then
         COMPREPLY=($( compgen -W '-b --backup -h --help -n --noauth  \ 
-                              -x --pager -p --pause -q --quiet  \ 
+                              -P --pager -p --pause -q --quiet  \ 
                               -s --simulate -t --teaching -v  \ 
                               --verbose -r --recommends -R --norecommends  \ 
                               -y --yes' -- $cur ) )

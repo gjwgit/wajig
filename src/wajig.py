@@ -170,7 +170,7 @@ def main():
         sys.argv += oldargv[i].split(",")
 
     try:
-        sopts = "bhnpqrRstvxy"
+        sopts = "bhnPpqrRstvy"
         lopts = ("backup=", "help", "pause", "quiet", "recommends",
                  "norecommends", "simulate", "teaching", "verbose=", "version",
                  "yes", "noauth", "pager")
@@ -195,7 +195,7 @@ def main():
         elif o in ["-p", "--pause"]:
             pause = True
             util.pause = True
-        elif o in ["-x", "--pager"]:
+        elif o in ["-P", "--pager"]:
             pager = True
             commands.set_verbosity_level(1)
         elif o in ["-q", "--quiet"]:
