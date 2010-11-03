@@ -252,13 +252,8 @@ def do_describe(packages):
     pkgs = describe_list.keys()
     pkgs.sort()
 
-    # hack - ensures that we reach aptitude's 'virtual pkg' message
-    cache = apt.Cache()
-    if cache.get_providing_packages("motho"):
-        pkgs = [1]
-
     # Print the description, depending on level of detail (verbose).
-    if len(pkgs) == 0 and verbose < 2:  # 'verbose < 2' is part of above hack
+    if len(pkgs) == 0 and verbose < 2:  # 'verbose' is for handling virtual pkgs
         print "No packages found from those known to be available/installed."
     elif verbose == 0:
         print "{0:24} {1}".format("Package", "Description")
