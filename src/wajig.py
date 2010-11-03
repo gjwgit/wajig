@@ -377,14 +377,12 @@ def select_command(command, args, verbose):
 
     elif command in ["detail", "details", "show"]:
         if util.requires_args(command, args, "a list of packages or package file"):
-            verbose = 2
-            commands.set_verbosity_level(verbose)
+            commands.set_verbosity_level(2)
             commands.do_describe(args[1:])
 
     elif command in ["detailnew", "newdetail"]:
         if util.requires_no_args(command, args):
-            verbose = 2
-            commands.set_verbosity_level(verbose)
+            commands.set_verbosity_level(2)
             commands.do_describe_new()
 
     elif command == "upgrade":
