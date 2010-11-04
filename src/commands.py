@@ -293,8 +293,8 @@ def do_describe(packages):
         #
 # Comment out for fix for Bug#366678
         package_names = util.concat(packages)
-        command = "aptitude show " + package_names
-        perform.execute(command)
+        cmd = "apt-cache" if util.fast else "aptitude"
+        perform.execute(cmd + " show " + package_names)
 # Bug#366678 fix from mvo - part 3 - not working yet???
 #   for pkgname in filter(lambda pkgname: cache.has_key(pkgname), packages):
 #       pkg = cache[pkgname]
@@ -1025,7 +1025,7 @@ likely that your Packages files are out of date. Doing an UPDATE is optional
 def do_whichpkg(filename):
     """Search for a particular file or pattern in a Debian package.
 
-    Search the Debian package archive (local installed packages and
+    Search the Debian package archive (locally-installed packages and
     from the Debian package archive on packages.debian.org) for any
     packages containing a file with FILENAME in its name. The results
     are printed to standard output.
@@ -1036,31 +1036,27 @@ def do_whichpkg(filename):
 
     packages_host = "packages.debian.org"
     ping_host(packages_host)
-    #
-    # Print out a suitable heading
-    #
+
+    # display a suitable heading
     print "%-59s %-17s" % ("File Path", "Package")
     print "="*59 + "-" + "="*17
     print "INSTALLED"
     sys.stdout.flush()
 
-    #
     # Get the local information first.
     #
     # Could ensure that we don't repeat information but for now let's
     # just get the information out!
     #
     # Also need to check for diversions (like when mutt and mutt-utf8 are
-    # both installed.
-    #
+    # both installed).
     command = "dpkg -S " + filename + " 2>/dev/null " +\
               "| sed 's|: *|:|' " +\
               "| grep -v '^diversion by ' " +\
               "| awk -F: '{printf(\"%-59s %-17s\\n\", $2, $1)}'"
     perform.execute(command)
-    #
+
     # Now obtain the information from the Debian server
-    #
     print "-"*77
     print "AVAILABLE"
     results = tempfile.mkstemp()[1]
@@ -1085,12 +1081,10 @@ def do_whichpkg(filename):
               "\&arch=any 2> /dev/null"
 
     perform.execute(command)
-    #
+
     # Test for multiple page output and handle appropriately
-    #
     command = "grep page= " + results + " 2>&1 > /dev/null"
     if perform.execute(command) == 0:
-        #
         # Multiple pages of output
         #
         # 071104 gjw - It appears we don't get multiple pages
@@ -1104,9 +1098,8 @@ def do_whichpkg(filename):
                   # "egrep -v 'page=' | " +\
                   # "perl -p -e 's|<[^>]*>||g;s|<[^>]*$||g;s|^[^<]*>||g;'"
         perform.execute(command)
-        #
+
         # Loop over the other pages
-        #
         command = "for i in $(grep page= " + results +\
                   " | perl -p -e 's|.*page=||; s|&.*>||' | sort -u -k 1b,1" +\
                   " | grep -v 1); " +\
@@ -1126,9 +1119,7 @@ def do_whichpkg(filename):
                   "done"
         perform.execute(command)
     else:
-        #
         # A single page of output
-        #
         command = "cat " + results + " | " +\
                   "awk 'BEGIN { RS = \"</tr>\" } " +\
                   "/\"keyword\"/ { print $0 }' | " +\

@@ -170,8 +170,8 @@ def main():
         sys.argv += oldargv[i].split(",")
 
     try:
-        sopts = "bhnPpqrRstvy"
-        lopts = ("backup=", "help", "pause", "quiet", "recommends",
+        sopts = "bfhnPpqrRstvy"
+        lopts = ("backup=", "fast", "help", "pause", "quiet", "recommends",
                  "norecommends", "simulate", "teaching", "verbose=", "version",
                  "yes", "noauth", "pager")
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
@@ -192,6 +192,8 @@ def main():
                 print 'Should be of the form "wajig --backup=BKDIR upgrade"'
                 util.finishup(1)
             backup = a
+        elif o in ["-f", "--fast"]:
+            util.fast = True
         elif o in ["-p", "--pause"]:
             pause = True
             util.pause = True

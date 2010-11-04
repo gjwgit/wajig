@@ -29,7 +29,9 @@ import apt
 pause = False
 interactive = False
 recommends_flag = None
-
+fast = False  # Used for choosing 'apt-cache show' instead of the slower
+              # 'aptitude show'; see debian/changelog for 2.0.50 why aptitude
+              # was chosen as default.
 
 def recommends():
     if recommends_flag is None:
