@@ -1241,12 +1241,10 @@ def do_recdownload(packages):
 
 def versions(packages):
     if len(packages) == 0:
-        command = "apt-show-versions"
+        perform.execute("apt-show-versions")
     else:
-        command = ""
-    for package in packages:
-        command += "apt-show-versions " + package + "; "
-    perform.execute(command)
+        for package in packages:
+            perform.execute("apt-show-versions " + package)
 
 
 def rbuilddep(package):
