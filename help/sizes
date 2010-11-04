@@ -1,3 +1,5 @@
-Print out the size (in K) of all, or listed, installed packages.
-$ wajig sizes PKG
-note: skipping PKG implies ALL packages
+Display sizes of given packages.
+$ wajig sizes PKG(s)
+
+Display sizes of all packages.
+$ wajig sizes

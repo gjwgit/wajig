@@ -642,7 +642,6 @@ def select_command(command, args, verbose):
         perform.execute("cat /var/log/apt/history.log")
 
     elif command == "listnames":
-        # pdb.set_trace()
         if util.requires_opt_arg(command, args, "at most one argument"):
             commands.do_listnames(args[1:])
 
@@ -848,10 +847,10 @@ def select_command(command, args, verbose):
                                  util.concat(args[1:]))
 
     elif command == "searchapt":
-        if util.requires_one_arg(command, args, "one of stable|testing|unstable"):
-            util.requires_package("netselect-apt", "/usr/bin/netselect-apt")
-            perform.execute("netselect-apt " + args[1],
-                             root=True)
+        util.requires_one_arg(command, args, "one of stable|testing|unstable")
+        util.requires_package("netselect-apt", "/usr/bin/netselect-apt")
+        perform.execute("netselect-apt " + args[1],
+                         root=True)
 
     elif command == "showdistupgrade":
         if util.requires_no_args(command, args):
@@ -952,10 +951,10 @@ def select_command(command, args, verbose):
                                  root=True)
 
     elif command == "updateusbids":
-        if util.requires_package("usbutils", "/usr/sbin/update-usbids"):
-            if util.requires_no_args(command, args):
-                perform.execute("update-usbids",
-                                 root=True)
+        if util.requires_package("usbutils", "/usr/sbin/update-usbids") \
+        and util.requires_no_args(command, args):
+            perform.execute("update-usbids",
+                             root=True)
 
     elif command == "upgradesecurity":
         sources_list = tempfile.mkstemp(".security", "wajig.", "/tmp")[1]

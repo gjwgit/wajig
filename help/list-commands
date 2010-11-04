@@ -1,2 +1,3 @@
 List all the JIG commands and one line descriptions for each.
 $ wajig list-commands
+$ wajig commands

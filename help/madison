@@ -1,2 +1,2 @@
-Runs the madison command of apt-cache..
+Runs the madison command of apt-cache.
 $ wajig madison

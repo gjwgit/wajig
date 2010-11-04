@@ -1,2 +1,4 @@
-Search for packages containing listed words.
-$ wajig search
+Search for package names containing the given string.
+$ wajig search MATCH
+options:
+  -v --verbose=1|2  also search package descriptions

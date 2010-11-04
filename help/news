@@ -1,2 +1,2 @@
-Display package NEWS file(s)..
+Display package NEWS file(s).
 $ wajig news PKG

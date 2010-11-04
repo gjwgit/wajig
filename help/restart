@@ -1,2 +1,2 @@
-Stop then start a daemon, e.g., gdm, apache (see list-daemons).
-$ wajig restart DAEMON                  (/etc/init.d/DAEMON restart)
+Stop then start a daemon, e.g., gdm, apache; see LIST-DAEMONS.
+$ wajig restart DAEMON                  (service restart DAEMON)

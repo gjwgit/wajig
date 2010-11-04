@@ -798,7 +798,7 @@ def do_size(packages, size=0):
     if len(pkgs) == 0:
         print "No packages found from those known to be available or installed"
     else:
-        print "%-30s %s       %s" % ("Package", "Size", "Status")
+        print "%-30s %s       %s" % ("Package", "Size (kb)", "Status")
         print "="*30 + "-" + "="*10 + "-" + "="*35
         for pkg in pkgs:
             print "%-30s %10s     %-20s" \

@@ -1,2 +1,2 @@
-Stop a daemon, e.g., gdm, apache (see list-daemons).
-$ wajig stop                            (/etc/init.d/DAEMON stop)
+Stop a daemon, e.g., gdm, apache; see LIST-DAEMONS.
+$ wajig stop                            (service stop DAEMON)

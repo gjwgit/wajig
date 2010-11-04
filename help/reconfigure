@@ -1,2 +1,5 @@
-Reconfigure the named installed packages or run gkdebconf.
-$ wajig reconfigure PKG                 (dpkg-reconfigure)
+Reconfigure the given installed packages.
+$ wajig reconfigure PKGs                (dpkg-reconfigure)
+
+Reconfigure the given installed package.
+$ wajig reconfigure PKG                 (gkdebconf)

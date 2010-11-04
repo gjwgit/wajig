@@ -1,6 +1,6 @@
 Upgrade all of the installed packages.
 $ wajig upgrade
 options:
-  -b            backup packages about to be upgrade onto some default directory
-  --backup=DIR  backup packages about to be upgrade onto a given directory
-  -n --noauth   skip the authentication verification before the upgrade
+  -b            backup packages about to be upgraded onto some default directory
+  --backup=DIR  backup packages about to be upgraded onto a given directory
+  -n --noauth   skip the authentication verification prompt before the upgrade
