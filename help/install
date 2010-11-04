@@ -7,3 +7,6 @@ options:
   -y --yes          install without yes/no prompts; use with care!
   -r|--recommends   install Recommends (this is Debian default).
   -R|--norecommends do NOT install Recommends.
+
+Also, you can install from Experimental repository using:
+$ wajig install/experimental PKG        (apt-get -t experimental install)
