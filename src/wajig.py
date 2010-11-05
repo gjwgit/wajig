@@ -534,14 +534,14 @@ def select_command(command, args, verbose):
         if util.requires_args(command, args, "a list of packages"):
             commands.do_install_suggest(args[1:], yes, noauth)
 
-    elif re.compile(r'install.*').match(command):
+    elif args[0].startswith('install') and "/" in args[0]:
         # For example: install/unsable
-        if util.requires_args(command, args,
-                         "a list of packages, .deb files, or url"):
-            perform.execute("apt-get --target-release {0} install {1}".\
-                             format(re.compile(r'install').sub("", command),
-                             util.concat(args[1:])),
-                             root=True)
+        util.requires_args(args[0], args,
+                          "a list of packages, .deb files, or url")
+        dist = args[0].split("/")[1]
+        perform.execute("apt-get --target-release {0} install {1}".\
+                         format(dist, util.concat(args[1:])),
+                         root=True)
 
     elif command == "integrity":
         if util.requires_no_args(command, args):
