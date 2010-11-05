@@ -691,8 +691,7 @@ def select_command(command, args, verbose):
             elif args[1].lower() == "install":
                 commands.do_describe_new(install=True)
             else:
-                print "WaJIG Error: NEW only accepts optional " +\
-                      "argument INSTALL"
+                print "WaJIG Error: NEW only accepts optional argument INSTALL"
                 util.finishup(1)
 
     elif command in ["newupgrades", "newupgrade"]:
