@@ -11,7 +11,7 @@ wajig (2.01) unstable; urgency=low
     this command, AVAILABLE; I put it back.
   * SHOW: add -f|--fast to offer apt-cache's much faster implementation
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 03 Nov 2010 22:17:37 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 05 Nov 2010 10:12:46 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 
@@ -73,43 +73,32 @@ wajig (2.0.49) unstable; urgency=low
 
   * UPGRADE: Don't automatically do an "apt-get update" with the backup
     option; the behaviour is not standard, and is not so-damn-fast.
-
   * UPGRADE: Add command line argument for --backup to specify target
-    directory.  * Used to be "wajig --backup upgrade BKDIR".  * Now it's
-    "wajig --backup=BKDIR upgrade".
-
+    directory.
+    * Was "wajig --backup upgrade BKDIR".
+    * Now is  "wajig --backup=BKDIR upgrade".
   * UPGRADE: Proceed to upgrade after using -b|--backup option.
-
   * UPGRADE: Remove the option to install listed packages. This helps
     reduce code complexity.
-
   * CHANGELOG: Now only displays uninstalled entries by default. This
     makes the hacky NEWS command redundant, which is therefore
     removed. (Closes: #424668).
-
   * CHANGELOG: Add -v|--verbose=1 option to display the whole thing. This
     was the default option, but suggestion offered in #424668 is more
     sane.
-
   * CHANGELOG: Add -x|--pager option to allow scrolling. This also implies
     -v|--verbose=1 (see above).
-
   * DIST-UPGRADE: Add -b|--backup=BKDIR option to allow backing up of
     packages before dist-upgrade.
-
   * BUILD: Now uses sudo instead of fakeroot to avoid permission-related.
     build failures for some packages (EG, fakeroot & cdbs). (Closes:
     #464003).
-
   * Fix a parsing bug where "wajig changelog libgtk2.0-0" didn't work.
-
   * Switch to dpkg-source 3.0 (native) format
-
   * RBUILDDEPS: New option allowing one to determine which packages
     build-depends on a particular package. The long form command is
     "reverse-build-depends", else just use "wajig rbuilddeps pkgname".
     (Closes: #335240).
-
   * SEARCH: Make apt-cache's "--names-only" default. Use "-v" option to get
     old behaviour.
 
@@ -117,25 +106,20 @@ wajig (2.0.49) unstable; urgency=low
 
 wajig (2.0.48) unstable; urgency=low
 
-  * Add new command ADDREPO to add a Launchpad PPA. Uses
-    add-apt-repository. (Tshepang Lekhonkhobe)
-  
-  * Add -b (backup) option to UPGRADE command so it is easier to revert to
-    a previous state if a problem arises. Uses dpkg-repack. (Tshepang
-    Lekhonkhobe)
-  
-  * Cleanup debian meta data and add unit testing and cleanup various
-    python code and improve readability and upgrade deprecated string
-    module. (Tshepang Lekhonkhobe)
+  [ Tshepang Lekhonkhobe ]
 
+  * ADDREPO: new command USED to add a Launchpad PPA. Uses add-apt-repository.
+  * UPGRADE: Add -b (backup) option so it is easier to revert to a previous state
+    if problemS arises. Uses dpkg-repack.
+  * Cleanups: debian meta data, code, remove deprecated usage of 'string' module,
+    and improve readability.
+  * Add unit-testing.
+  * Show downgraded packages in 'wajig list-log'. (Closes: #366796).
+  * Remove the unavailable gnome-tasksel from Suggested. (Closes: #549574).
+
+  [ Graham Williams ]
   * Tidy up the list of commands from the "list-commands"
     command. (Closes: #582252).
-
-  * Show downgraded packages in 'wajig list-log'. (Tshepang Lekhonkhobe)
-    (Closes: #366796).
-
-  * Remove the unavailable gnome-tasksel from Suggested. (Tshepang
-    Lekhonkhobe) (Closes: #549574).
 
  -- Graham Williams <gjw@nyx.togaware.com>  Tue, 24 Aug 2010 20:53:48 +1000
 
