@@ -701,7 +701,7 @@ def select_command(command, args, verbose):
             elif args[1].lower() == "install":
                 commands.do_newupgrades(install=True)
             else:
-                print "WaJIG Error: NEWUPGRADES only accepts " +\
+                print "WaJIG Error: NEWUPGRADES only accepts " + \
                       "optional argument INSTALL"
                 util.finishup(1)
 
@@ -994,7 +994,7 @@ def select_command(command, args, verbose):
             print "The command {0} was not recognised.".format(command.upper())
         else:
             print "The command {0} (entered as {1}) was not recognised.".\
-                   format(command.upper(), argd[0])
+                   format(command.upper(), args[0])
         print "Perhaps it is not yet implemented or you misspelt it."
         print "Try 'wajig help' for further information."
 
