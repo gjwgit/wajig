@@ -913,10 +913,9 @@ def select_command(command, args, verbose):
         #                    + " | xargs wajig status ")
 
     elif command == "tasksel":
-        if util.requires_no_args(command, args):
-            if util.requires_package("tasksel", "/usr/bin/tasksel"):
-                perform.execute("tasksel",
-                                 root=True)
+        util.requires_no_args(command, args)
+        util.requires_package("tasksel", "/usr/bin/tasksel")
+        perform.execute("tasksel", root=True)
 
     elif command == "toupgrade":
         if util.requires_no_args(command, args):
