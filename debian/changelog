@@ -11,8 +11,10 @@ wajig (2.01) unstable; urgency=low
     this command, AVAILABLE; I put it back.
   * SHOW: add -f|--fast to offer apt-cache's much faster implementation
   * INSTALL/DIST: fix brokenness, fixes LP: #540740.
+  * SOURCE: don't run the command unless 'dpkg-dev' is installed,
+    fixes LP: #662018
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 05 Nov 2010 16:30:41 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 10 Nov 2010 01:52:04 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 

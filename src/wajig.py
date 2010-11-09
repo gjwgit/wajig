@@ -881,14 +881,9 @@ def select_command(command, args, verbose):
             commands.do_status([], snapshot=True)
 
     elif command == "source":
-        if util.requires_args(command, args, "a list of package names"):
-            # First make sure dependencies are met
-            # John V. Belmonte 04 Nov 2005 requested this not be done
-            # Leave it to the user to do wajig builddepend
-            # It is not always necessary
-            #perform.execute("apt-get build-dep " + util.concat(args[1:]),
-            #                root=True)
-            perform.execute("apt-get source " + util.concat(args[1:]))
+        util.requires_args(command, args, "a list of package names")
+        util.requires_package("dpkg-source", "/usr/bin/dpkg-source")
+        perform.execute("apt-get source " + util.concat(args[1:]))
 
     elif command == "status":
         commands.do_status(args[1:])
