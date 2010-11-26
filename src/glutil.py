@@ -18,9 +18,8 @@
 #
 # Authors: Graham Williams borrowing from gnomeglade.py in meld.
 
-"""Utility classes for working with glade files.
+"""Utility classes for working with glade files."""
 
-"""
 import os
 import sys
 try:
@@ -76,8 +75,7 @@ class Base:
         self.widget.connect("destroy", self.quit)
 
     def __getattr__(self, key):
-        """Allow glade widgets to be accessed as self.widgetname.
-        """
+        """Allow glade widgets to be accessed as self.widgetname."""
         widget = self.xml.get_widget(key)
         if widget:  # cache lookups
             setattr(self, key, widget)
@@ -85,8 +83,7 @@ class Base:
         raise AttributeError(key)
 
     def flushevents(self):
-        """Handle all the events currently in the main queue and return.
-        """
+        """Handle all the events currently in the main queue and return."""
         while gtk.events_pending():
             gtk.main_iteration()
 
@@ -115,8 +112,7 @@ class Base:
 # GnomeGladeComponent
 #
 class Component(gtk.Widget, Base):
-    """A convenience base class for widgets which use glade.
-    """
+    """A convenience base class for widgets which use glade."""
 
     def __init__(self, file, root):
         """Create from node 'root' in a specified file"""
@@ -128,8 +124,7 @@ class Component(gtk.Widget, Base):
 # GnomeGladeApp
 #
 class GnomeApp(gnome.ui.App, Base):
-    """A convenience base class for apps created in glade.
-    """
+    """A convenience base class for apps created in glade."""
 
     def __init__(self, name, title, version, file, root=None):
         self.program = gnome.program_init(name, version)
@@ -211,8 +206,7 @@ class QuestionDialog:
 
 
 def load_pixbuf(fname, size=0):
-    """Load an image from a file as a pixbuf, with optional resizing.
-    """
+    """Load an image from a file as a pixbuf, with optional resizing."""
     image = gtk.Image()
     image.set_from_file(fname)
     image = image.get_pixbuf()
