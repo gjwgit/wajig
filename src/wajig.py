@@ -327,17 +327,18 @@ def select_command(command, args, verbose):
         if util.requires_args(command, args, "a list of package names") \
         and util.requires_package("sudo", "/usr/bin/sudo"):
             # First make sure dependencies are met
-            result = perform.execute("apt-get build-dep " +
-                                      util.concat(args[1:]),
+            result = perform.execute("apt-get {0} {1} build-dep {2}".format(\
+                                      yes, noauth, util.concat(args[1:])),
                                       root=True)
             if not result:
-                perform.execute("apt-get source --build " +
-                                 util.concat(args[1:]),
+                perform.execute("apt-get {0} source --build {1}".format(\
+                                 noauth, util.concat(args[1:])),
                                  root=True)
 
     elif command in ("builddepend", "builddep"):
         if util.requires_args(command, args, "a list of package names"):
-            perform.execute("apt-get build-dep " + util.concat(args[1:]),
+            perform.execute("apt-get {0} {1} build-dep {2}".format(yes, noauth,
+                             util.concat(args[1:])),
                              root=True)
 
     elif command in ("reverse-build-depends", "rbuilddeps"):

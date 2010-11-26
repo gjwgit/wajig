@@ -1,3 +1,6 @@
 Retrieve source packages, unpack them, and build binary (.deb) packages
 from them. This also installs the needed build-dependencies if needed.
 $ wajig buld PKG                        (apt-get build-dep && apt-get source --build)
+options:
+  -n --noauth       install and build even if package(s) is untrusted
+  -y --yes          install/download without yes/no prompts; use with care!

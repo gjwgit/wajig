@@ -13,8 +13,9 @@ wajig (2.01) unstable; urgency=low
   * INSTALL/DIST: fix brokenness, fixes LP: #540740.
   * SOURCE: don't run the command unless 'dpkg-dev' is installed,
     fixes LP: #662018
+  * BUILD, BUILDDEP: add -y|--yes and -n|--noauth options.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 10 Nov 2010 01:52:04 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 26 Nov 2010 21:06:07 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 
@@ -113,7 +114,7 @@ wajig (2.0.48) unstable; urgency=low
 
   * ADDREPO: new command USED to add a Launchpad PPA. Uses add-apt-repository.
   * UPGRADE: Add -b (backup) option so it is easier to revert to a previous state
-    if problemS arises. Uses dpkg-repack.
+    if problems arises. Uses dpkg-repack.
   * Cleanups: debian meta data, code, remove deprecated usage of 'string' module,
     and improve readability.
   * Add unit-testing.
