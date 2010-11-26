@@ -331,7 +331,7 @@ def select_command(command, args, verbose):
                                       util.concat(args[1:]),
                                       root=True)
             if not result:
-                perform.execute("apt-get source -b " +
+                perform.execute("apt-get source --build " +
                                  util.concat(args[1:]),
                                  root=True)
 
@@ -396,7 +396,7 @@ def select_command(command, args, verbose):
             and util.requires_no_args(command, args):
                 changes.backup_before_upgrade(backup, pkgs)
             if sys.argv[-1].lower() == "upgrade":
-                perform.execute("apt-get {0} {1} -u upgrade".format(yes, noauth),
+                perform.execute("apt-get {0} {1} --show-upgraded upgrade".format(yes, noauth),
                                  root=True)
             else:
                 print "To upgrade individual packages, use INSTALL command:"
@@ -414,7 +414,7 @@ def select_command(command, args, verbose):
             and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
             and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
                 changes.backup_before_upgrade(backup, pkgs, distupgrade=True)
-            cmd = "apt-get -u {0} {1} ".format(yes, noauth)
+            cmd = "apt-get --show-upgraded {0} {1} ".format(yes, noauth)
             if len(args) == 2:
                 cmd += "-t " + args[1] + " "
             cmd += "dist-upgrade"
@@ -491,7 +491,7 @@ def select_command(command, args, verbose):
 
     elif command == "fixconfigure":
         if util.requires_no_args(command, args):
-            perform.execute("dpkg --configure -a",
+            perform.execute("dpkg --configure --pending",
                              root=True)
 
     elif command == "fixinstall":
@@ -820,7 +820,7 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args, "name of an installed package") \
         and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
         and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
-            perform.execute("fakeroot -u dpkg-repack " + args[1],
+            perform.execute("fakeroot --unknown-is-real dpkg-repack " + args[1],
                              root=False)
 
     elif command == "rpminstall":
@@ -956,10 +956,10 @@ def select_command(command, args, verbose):
         sources_file.write("deb http://security.debian.org/ " +\
                            "testing/updates main contrib non-free\n")
         sources_file.close()
-        perform.execute("apt-get --no-list-cleanup -o Dir::Etc::SourceList=" +\
+        perform.execute("apt-get --no-list-cleanup --option Dir::Etc::SourceList=" +\
                         "{0} update".format(sources_list),
                         root=True)
-        perform.execute("apt-get -o Dir::Etc::SourceList={0} upgrade".\
+        perform.execute("apt-get --option Dir::Etc::SourceList={0} upgrade".\
                          format(sources_list),
                          root=True)
         if os.path.exists(sources_list):
