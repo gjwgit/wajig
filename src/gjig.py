@@ -189,7 +189,9 @@ class JIG(GnomeApp):
     #
     def on_about_activate(self, *extra):
         about = gtk.AboutDialog()
-        logo = gtk.gdk.pixbuf_new_from_file("/usr/share/wajig/jigsaw-logo.png")
+        dirname = os.path.dirname(__file__)
+        path = os.path.join(dirname, "jigsaw-logo.png")
+        logo = gtk.gdk.pixbuf_new_from_file(path)
 
         info = {
             "program-name" : "GNOME JIG",
