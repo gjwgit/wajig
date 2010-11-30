@@ -2,17 +2,6 @@
 <glade-interface>
   <requires lib="gnome"/>
   <requires lib="bonobo"/>
-  <widget class="GnomeAbout" id="about">
-    <property name="visible">True</property>
-    <property name="border_width">5</property>
-    <property name="type_hint">dialog</property>
-    <property name="copyright" translatable="yes">Copyright (C) 2004 Graham J. Williams</property>
-    <property name="comments" translatable="yes">Gnome JIG: Interface for Debain Administration</property>
-    <property name="authors">Graham J. Williams &lt;Graham@togaware.com&gt;
-</property>
-    <property name="translator_credits">en Graham J Williams &lt;Graham@togaware.com&gt;</property>
-    <property name="logo">jigsaw-logo.png</property>
-  </widget>
   <widget class="GnomeApp" id="gjig_app">
     <property name="visible">True</property>
     <property name="title" translatable="yes">Gjig</property>

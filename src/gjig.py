@@ -1,4 +1,5 @@
 #! /usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Gnome JIG - GNOME interface to wajig sys admin tools
 #
@@ -187,11 +188,26 @@ class JIG(GnomeApp):
     # Menu Items
     #
     def on_about_activate(self, *extra):
-        aboutxml = gtk.glade.XML(appdir("gjig.glade"), "about")
-        about = aboutxml.get_widget("about")
-        about.set_property("name", "Gnome JIG")
-        about.set_property("version", const.version)
-        about.show()
+        about = gtk.AboutDialog()
+        logo = gtk.gdk.pixbuf_new_from_file("/usr/share/wajig/jigsaw-logo.png")
+
+        info = {
+            "program-name" : "GNOME JIG",
+            "version" : const.version,
+            "comments" : "GUI Interface for Debian administration",
+            "website" : "http://code.google.com/p/wajig",
+            "website-label" : "JIG website",
+            "authors" : ["Graham J. Williams <graham@togaware.com>",
+                         "Tshepang Lekhonkhobe <tshepang@gmail.com>"],
+            "copyright" : "Copyright © 2004-2010 JIG authors",
+            "logo" : logo
+        }
+
+        for prop, val in info.items():
+            about.set_property(prop, val)
+        about.run()
+        about.destroy()
+
     def on_quit_activate(self, *extra):
         self.cleanup()
         self.quit()
