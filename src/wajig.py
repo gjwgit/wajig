@@ -317,6 +317,10 @@ def select_command(command, args, verbose):
             perform.execute("apt-get autoclean",
                              root=True)
 
+    elif command == "autoremove":
+        if util.requires_no_args(command, args):
+            perform.execute("apt-get autoremove", root=True)
+
     elif command in ["bug", "bugs", "reportbug"]:
         if util.requires_one_arg(command, args, "a single named package"):
             if util.requires_package("reportbug", "/usr/bin/reportbug"):

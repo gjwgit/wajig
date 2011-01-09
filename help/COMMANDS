@@ -4,6 +4,7 @@ COMMANDS:
  auto-alts      Mark the alternative to be auto set (using set priorities)
  auto-clean     Remove superceded .deb files from the download cache
  auto-download  Do an update followed by a download of all updated packages
+ autoremove     Remove packages installed automatically as dependencies.
  bug            Report a bug in a package using Debian BTS (Bug Tracking System).
  build          Retrieve/unpack sources and build .deb for the named packages
  build-depend   Retrieve packages required to build listed packages

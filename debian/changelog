@@ -14,8 +14,9 @@ wajig (2.01) unstable; urgency=low
   * SOURCE: don't run the command unless 'dpkg-dev' is installed,
     fixes LP: #662018
   * BUILD, BUILDDEP: add -y|--yes and -n|--noauth options.
+  * AUTOREMOVE: add back after more than one request. (Closes: #590089)
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 26 Nov 2010 21:06:07 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 09 Jan 2011 04:26:32 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 

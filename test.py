@@ -139,8 +139,8 @@ _wajig()
                               --norecommends -y --yes' -- $cur ) )
     else
         COMPREPLY=($( compgen -W '
-        addcdrom addrepo auto-alts auto-clean auto-download bug build \ 
-        build-depend changelog clean commands contents daily-upgrade \ 
+        addcdrom addrepo auto-alts auto-clean auto-download autoremove \ 
+        bug build build-depend changelog clean commands contents daily-upgrade \ 
         dependents describe describe-new detail detail-new dist-upgrade \ 
         docs download download-file editsources extract find-file find-pkg \ 
         fix-configure fix-install fix-missing force help hold init info \ 
