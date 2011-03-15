@@ -117,66 +117,6 @@ class WaJIGTests(unittest.TestCase):
         res = util.concat(["TEST1", "TEST2"])
         self.assertEqual(res, "'TEST1' 'TEST2' ")
 
-    # ----
-    # testing bash_completion.py
-    # ----
-    def test_bash_completion(self):
-        bc_ref = """\
-have wajig &&
-_wajig()
-{
-    local cur prev opt
-
-    COMPREPLY=()
-    cur=${COMP_WORDS[COMP_CWORD]}
-    prev=${COMP_WORDS[COMP_CWORD-1]}
-
-    if [ "$COMP_CWORD" -ge "2" ]; then
-        COMPREPLY=($( compgen -W "$(apt-cache pkgnames "$cur")" -- $cur ) )
-    elif [[ "$cur" == -* ]]; then
-        COMPREPLY=($( compgen -W '-b --backup -f --fast -h --help  \ 
-                              -n --noauth -P --pager -p --pause  \ 
-                              -q --quiet -s --simulate -t --teaching  \ 
-                              -v --verbose -r --recommends -R  \ 
-                              --norecommends -y --yes' -- $cur ) )
-    else
-        COMPREPLY=($( compgen -W '
-        addcdrom addrepo auto-alts auto-clean auto-download autoremove \ 
-        bug build build-depend changelog clean commands contents daily-upgrade \ 
-        dependents describe describe-new detail detail-new dist-upgrade \ 
-        docs download download-file editsources extract find-file find-pkg \ 
-        fix-configure fix-install fix-missing force help hold init info \ 
-        install install-file installs integrity large last-update list \ 
-        list-all list-alts list-cache list-commands list-daemons list-files \ 
-        list-hold list-installed list-log list-names list-orphans list-scripts \ 
-        list-section list-sections list-status list-wide local-dist-upgrade \ 
-        local-upgrade madison move new news new-upgrades non-free orphans \ 
-        policy purge purge-orphans purge-removed rbuilddeps readme list-recommended \ 
-        recursive reconfigure reinstall reload remove remove-file remove-orphans \ 
-        repackage reset restart rpm rpminstall search search-apt setup \ 
-        showdistupgrade showinstall showremove showupgrade sizes snapshot \ 
-        source start status status-search stop tasksel toupgrade unhold \ 
-        update update-alts update-pci-ids update-usb-ids upgrade verify \ 
-        version versions whatis whichpkg' -- $cur ) )
-    fi
-}
-complete -F _wajig $default wajig""".split("\n")
-
-        wc = "wajig.completion"
-        bc_gen = list()
-
-        with open(wc) as f:
-            for line in f:
-                bc_gen.append(line[:-1])  # remove trailing "\n" char
-
-        if (bc_ref != bc_gen):
-            diff = difflib.unified_diff(bc_ref, bc_gen, fromfile="reference", \
-                                        tofile="generated", lineterm="")
-            for line in diff:
-                print line
-
-        self.assertEqual(bc_ref, bc_gen, "Check diff above.")
-
 
 if __name__ == '__main__':
     unittest.main()
