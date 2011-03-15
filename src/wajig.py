@@ -171,9 +171,9 @@ def main():
 
     try:
         sopts = "bfhnPpqrRstvy"
-        lopts = ("backup=", "fast", "help", "pause", "quiet", "recommends",
-                 "norecommends", "simulate", "teaching", "verbose=", "version",
-                 "yes", "noauth", "pager")
+        lopts = ("backup=", "dist=", "fast", "help", "pause", "quiet",
+                 "recommends", "norecommends", "simulate", "teaching",
+                 "verbose=", "version", "yes", "noauth", "pager")
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
     except getopt.error, e:
         print e
@@ -192,6 +192,8 @@ def main():
                 print 'Should be of the form "wajig --backup=BKDIR upgrade"'
                 util.finishup(1)
             backup = a
+        elif o == "--dist":
+            util.dist = a
         elif o in ["-f", "--fast"]:
             util.fast = True
         elif o in ["-p", "--pause"]:
@@ -533,7 +535,7 @@ def select_command(command, args, verbose):
             # it's not even advertised no more (removed from docs)
             if command == "autoinstall":
                 yes = "--yes"
-            commands.do_install(args[1:], yes, noauth)
+            commands.do_install(args[1:], yes, noauth, util.dist)
 
     elif command in ["installs", "suggested"]:
         if util.requires_args(command, args, "a list of packages"):

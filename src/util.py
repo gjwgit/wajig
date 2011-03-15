@@ -26,6 +26,7 @@ import sys
 
 import apt
 
+dist = str()  # stable, testing, unstable, ...
 pause = False
 interactive = False
 recommends_flag = None

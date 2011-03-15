@@ -15,6 +15,7 @@ wajig (2.01) unstable; urgency=low
     fixes LP: #662018
   * BUILD, BUILDDEP: add -y|--yes and -n|--noauth options.
   * AUTOREMOVE: add back after more than one request. (Closes: #590089)
+  * Add --dist, an alias for apt-get -t|--target-release.
   * Slightly simplify the build: getting rid of dynamic bash completion
     generator.
 
