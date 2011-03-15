@@ -11,7 +11,6 @@ TODO:
 """
 
 import unittest
-import os
 import difflib
 
 from src import perform
@@ -164,7 +163,6 @@ _wajig()
 complete -F _wajig $default wajig""".split("\n")
 
         wc = "wajig.completion"
-        os.system("python bash_completion.py")
         bc_gen = list()
 
         with open(wc) as f:
@@ -178,8 +176,6 @@ complete -F _wajig $default wajig""".split("\n")
                 print line
 
         self.assertEqual(bc_ref, bc_gen, "Check diff above.")
-        if os.path.exists(wc):
-            os.unlink(wc)
 
 
 if __name__ == '__main__':

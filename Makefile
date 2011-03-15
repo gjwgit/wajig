@@ -8,7 +8,7 @@ MANDIR = $(DESTDIR)/usr/share/man/man1
 BCNDIR = $(DESTDIR)/etc/bash_completion.d
 
 clean:
-	rm -f *.py[co] */*.py[co] wajig.completion
+	rm -f *.py[co] */*.py[co]
 
 install:
 	mkdir -p  $(LIBDIR) $(HLPDIR) $(MANDIR)
@@ -17,7 +17,6 @@ install:
 	cp manpages/*  $(MANDIR)/
 	cp wajig.sh $(BINDIR)/wajig
 	cp gjig.sh  $(BINDIR)/gjig
-	./bash_completion.py
 	cp wajig.completion $(BCNDIR)/wajig
 
 uninstall:
