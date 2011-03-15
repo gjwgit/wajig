@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 """
 Test some of WaJIG functionality.
 
