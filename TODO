@@ -24,8 +24,6 @@ to implement
 to consider
 -----------
 
-* use /var/log/dpkg.log for the log instead of our own
-
 * rewrite: the code has evolved to a state where it would be best to
   redesign it properly, object-oriented
 
