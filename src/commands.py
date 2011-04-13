@@ -446,7 +446,7 @@ def do_install(packages, yes="", noauth="", dist=""):
         joined = str.join(stripped)
         packages = joined.split()
 
-    # rading packages from a file
+    # reading packages from a file
     elif len(packages) == 2 and packages[0] == "-f":
         stripped = [x.strip() for x in open(packages[1]).readlines()]
         joined = str.join(stripped)
