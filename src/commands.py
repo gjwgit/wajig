@@ -701,7 +701,16 @@ def do_changelog(package, pager):
         pipe_cmd = ""
 
     pkg = apt.Cache()[package]
-    changelog += pkg.get_changelog()
+    try:
+        changelog += pkg.get_changelog()
+    except AttributeError as e:
+        # This is caught so as to avoid an ugly python-apt trace; it's a bug
+        # that surfaces when:
+        # 1. The package is not available in the default Debian suite
+        # 2. The suite the package belongs to is set to a pin < 0
+        print "If this package is not on your default Debian suite, " \
+              "ensure that it's APT pinning isn't less than 0."
+        return
     help_message = "\nTo display the local changelog, run:\n" \
                    "wajig --pager changelog " + package
     if "Failed to download the list of changes" in changelog:
