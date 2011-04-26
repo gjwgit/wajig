@@ -1,7 +1,7 @@
 #
 # JIG - Debian Administration Manager
 #
-# Documentation for jig (wajig and gjig)
+# Documentation for wajig
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -50,7 +50,6 @@ Usage:
  A more complete turorial is available with "wajig doc | pager".
  Full documentation is at http://www.togaware.com/wajig.
 
-Gnome-jig (gjig) provides a Gnome interface to JIG.
 """
 
 

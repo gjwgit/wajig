@@ -4,13 +4,8 @@ administration together - a tool for Debian GNU/Linux.
 JIG is Copyright (c) Graham.Williams@togaware.com
 Available as GPL Open Source from any Debian archive.
 
-JIG consists of two interfaces: WAJIG is a command line interface and
-GJIG is a Gnome interface.
-
 WAJIG commands are entered as the first argument to WAJIG. For
-example: "wajig install gnome". GJIG has buttons for many of the
-commands, but also allows commands to be typed directly. GJIG is also
-self documenting, providing extensive documentation as tooltips.
+example: "wajig install gnome".
 
 The word JIG has a couple of meanings, as WordNet and Webster's 1913
 Dictionary will confirm. It is a small machine or handy tool used to
@@ -807,7 +802,7 @@ list run:
 
   $ wajig edit-sources
 
-(else choose Edit->Sources in gjig) to add the following line:
+to add the following line:
 
   deb http://snapshot.debian.net/archive pool sed
 

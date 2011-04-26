@@ -14,15 +14,12 @@ install:
 	mkdir -p  $(LIBDIR) $(HLPDIR) $(MANDIR)
 	cp src/*  $(LIBDIR)/
 	cp help/* $(HLPDIR)/
-	cp manpages/*  $(MANDIR)/
+	cp wajig.1  $(MANDIR)/
 	cp wajig.sh $(BINDIR)/wajig
-	cp gjig.sh  $(BINDIR)/gjig
 	cp wajig.completion $(BCNDIR)/wajig
 
 uninstall:
 	rm -rf $(LIBDIR)
 	rm -f $(MANDIR)/wajig.1
-	rm -f $(MANDIR)/gjig.1
 	rm -f $(BINDIR)/wajig
-	rm -f $(BINDIR)/gjig
 	rm -f $(BCNDIR)/wajig

@@ -1,6 +1,12 @@
 wajig (2.01) unstable; urgency=low
 
+  [ Tshepang Lekhonkhobe ]
   * Change versioning from 3 digits to 2. There wasn't much meaning there.
+  * Remove gjig; it was more an experiment than a serious app, and:
+    - more complete alternatives exist (e.g. synaptic and software-center)
+    - UI is cranky and weird
+  * Remove deps that were needed by gjig:
+    - python-gtk2, python-glade2, python-gnome2, and gnome-terminal
   * INSTALLR, INSTALLRS: 'apt-get install' now installs Recommends by default,
     making these options redundant.
   * INSTALL, INSTALLS: add -r|--recommends and -R|--norecommends options.
@@ -19,7 +25,7 @@ wajig (2.01) unstable; urgency=low
   * Slightly simplify the build: getting rid of dynamic bash completion
     generator.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 15 Mar 2011 05:11:42 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 26 Apr 2011 15:16:13 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 

@@ -10,8 +10,6 @@ to implement
   level to that of the second version.
   $ wajig upgrade-version 4.3.0.dfsg.1-6 4.3.0.dfsg.1-8
 
-* Add GJIG to GNOME menu, under System->Administration
-
 * If command expects arguments then instead of error, give a text box
   to enter the arguments, then add it to the Packages text box.
 
