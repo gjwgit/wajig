@@ -1,12 +1,19 @@
 Install one or more packages or .deb files, or via a url.
-$ wajig install PKG
-$ wajig install PKG.deb
-$ wajig install http://example.com/PKG.deb
+$ wajig install <package name>
+$ wajig install <deb filename>.deb
+$ wajig install http://example.com/<deb filename>.deb
 options:
   -n --noauth       install even if package is untrusted
   -y --yes          install without yes/no prompts; use with care!
-  -r|--recommends   install Recommends (this is Debian default).
-  -R|--norecommends do NOT install Recommends.
+  -r|--recommends   install Recommends (this is Debian default)
+  -R|--norecommends do NOT install Recommends
+     --dist         select which Debian suite to regard as default
 
-Also, you can install from Experimental repository using:
-$ wajig install/experimental PKG        (apt-get -t experimental install)
+Example:
+$ wajig --noauth --yes --norecommends --dist experimental <package names>
+
+The above command install the <package name> version from Experimental suite,
+if available. It also disregard the situation where the package can't be
+authenticated (e.g. the package cache is not updated or the keyring isn't
+installed).  At the same don't prompt for confirmation, and also, don't install
+packages Recommended by <package names>.
