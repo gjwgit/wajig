@@ -1,3 +1,9 @@
+wajig (2.2) unstable; urgency=low
+
+  * AVAILABLE: add back to bash auto completion.
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 27 Apr 2011 18:43:01 +0200
+
 wajig (2.1) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
