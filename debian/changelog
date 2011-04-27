@@ -1,4 +1,4 @@
-wajig (2.01) unstable; urgency=low
+wajig (2.1) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
   * Change versioning from 3 digits to 2. There wasn't much meaning there.
@@ -26,7 +26,7 @@ wajig (2.01) unstable; urgency=low
     generator.
   * Fix a Lintian complaint (add dependency on python).
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 27 Apr 2011 10:39:32 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 27 Apr 2011 12:13:21 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 
