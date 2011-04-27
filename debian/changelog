@@ -12,7 +12,7 @@ wajig (2.01) unstable; urgency=low
   * INSTALL, INSTALLS: add -r|--recommends and -R|--norecommends options.
   * INSTALLS: add -n|--noauth and -y|--yes options.
   * Add meself to Uploaders field in debian/control.
-  * CHANGELOG: change -x to -P; it's more meaningful shorter option to --pager
+  * CHANGELOG: change -x to -P; it's a more meaningful short option for --pager
   * POLICY: more than one person has complained about removal of the alias of
     this command, AVAILABLE; I put it back.
   * SHOW: add -f|--fast to offer apt-cache's much faster implementation
@@ -24,8 +24,9 @@ wajig (2.01) unstable; urgency=low
   * Add --dist, an alias for apt-get -t|--target-release.
   * Slightly simplify the build: getting rid of dynamic bash completion
     generator.
+  * Fix a Lintian complaint (add dependency on python).
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 26 Apr 2011 15:16:13 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 27 Apr 2011 10:39:32 +0200
 
 wajig (2.0.50.1) unstable; urgency=low
 
