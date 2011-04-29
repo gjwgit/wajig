@@ -1,31 +1,6 @@
-------------
-to implement
-------------
+near-future
+* port to Python 3
 
-* RESTORE: This will purge all packages currently installed but not listed
-  in the named snapshot, and perhaps it also installs any packages
-  listed in the snapshot but not currently installed
-
-* UPGRADE-VERSION: this would upgrade every package at the first version
-  level to that of the second version.
-  $ wajig upgrade-version 4.3.0.dfsg.1-6 4.3.0.dfsg.1-8
-
-* If command expects arguments then instead of error, give a text box
-  to enter the arguments, then add it to the Packages text box.
-
-* TOUPGRADE: should show all packages that are newer in unstable, even if
-  a pin is set
-
-
-
------------
-to consider
------------
-
-* rewrite: the code has evolved to a state where it would be best to
-  redesign it properly, object-oriented
-
-* start using grep-dctrl more
-
-* have an option where netselect-apt directly places the
-  results into /etc/apt/sources.list?
+future
+* 'wajig INSTALL <DEBFILE>' should only autocomplete filenames
+* 'wajig RECONFIGURE <SCRIPTNAME>' should only autocomplete /etc/init.d/*

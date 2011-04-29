@@ -1,8 +1,10 @@
 wajig (2.2) unstable; urgency=low
 
   * AVAILABLE: add back to bash auto completion.
+  * rm TODO items that no one will likely implement, and add ones that
+    I intend to
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 27 Apr 2011 18:43:01 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 29 Apr 2011 08:58:10 +0200
 
 wajig (2.1) unstable; urgency=low
 
