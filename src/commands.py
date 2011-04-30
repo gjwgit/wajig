@@ -1000,11 +1000,6 @@ likely that your Packages files are out of date. Doing an UPDATE is optional
         exit(1)
 
 
-#------------------------------------------------------------------------
-#
-# WHICHPKG
-#
-#------------------------------------------------------------------------
 def do_whichpkg(filename):
     """Search for a particular file or pattern in a Debian package.
 
@@ -1045,17 +1040,6 @@ def do_whichpkg(filename):
     results = tempfile.mkstemp()[1]
     filename = filename.replace('+', '%2B')
 
-    # 100117 Bug#565666 Update to newer search syntax. TODO We should
-    # really also determine the version and arch and pop the correct
-    # ones in, rather than hard coding unstable and amd64.
-
-    # command = "wget --timeout=60 --output-document=" + results +\
-    #           " http://" + packages_host + "/cgi-bin" +\
-    #           "/search_contents.pl\?word=" + filename +\
-    #           "\&searchmode=searchfilesanddirs" +\
-    #           "\&case=insensitive\&version=unstable" +\
-    #           "\&arch=i386 2> /dev/null"
-
     command = "wget --timeout=60 --output-document=" + results +\
               " http://" + packages_host +\
               "/search\?searchon=contents\&keywords=" + filename +\
@@ -1074,12 +1058,7 @@ def do_whichpkg(filename):
         # with the new HTML format, so maybe I don't need
         # to fix this one up. Just do a cat so that if we do
         # then someone is bound to notice!!!!
-        command = "cat " + results   # + " | " # +\
-                  # HTML FORMAT CHANGED Oct 2007
-                  # "egrep -v " +\
-                  # "'^ *<|^$|^Packages search page|^package |//W3C//' | " +\
-                  # "egrep -v 'page=' | " +\
-                  # "perl -p -e 's|<[^>]*>||g;s|<[^>]*$||g;s|^[^<]*>||g;'"
+        command = "cat " + results
         perform.execute(command)
 
         # Loop over the other pages
@@ -1110,21 +1089,13 @@ def do_whichpkg(filename):
                   "egrep -v '^$' | " +\
                   "sed 's|, |,|' | " +\
                   "awk '{printf(\"%-59s %-17s\\n\", $1, $2\" \"$3\" \"$4)}'"
-                  # 071104 gjw HTML FORMAT CHANGED
-                  # "egrep -v " +\
-                  # "'^ *<|^$|^Packages search page|^package |//W3C//' | " +\
-                  # "perl -p -e 's|<[^>]*>||g;s|<[^>]*$||g;s|^[^<]*>||g;'"
         perform.execute(command)
     print("-"*77)
 
     if os.path.exists(results):
         os.remove(results)
 
-#------------------------------------------------------------------------
-#
-# FINDPKG
-#
-#------------------------------------------------------------------------
+
 def do_findpkg(pkg):
     "Look for a particular pkg at apt-get.org."
 
