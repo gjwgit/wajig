@@ -249,8 +249,7 @@ def do_describe(packages):
 
     # Print out the one line descriptions. Should it be sorted?
     # If not sorted it should be same order as on the command line.
-    pkgs = list(describe_list.keys())
-    pkgs.sort()
+    pkgs = sorted(describe_list)
 
     # Print the description, depending on level of detail (verbose).
     if len(pkgs) == 0 and verbose < 2:  # 'verbose' is for handling virtual pkgs
@@ -801,7 +800,7 @@ def do_size(packages, size=0):
     #
     # Print out the one line descriptions.
     #
-    pkgs = list(size_list.keys())
+    pkgs = list(size_list)
     # pkgs.sort()
     pkgs.sort(key=lambda x: int(size_list[x]))
     #
