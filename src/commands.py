@@ -770,24 +770,16 @@ def do_newupgrades(install=False):
             do_install(new_upgrades)
 
 
-########################################################################
-# SIZE
-#
 def do_size(packages, size=0):
-    "Print sizes for pkg in list PACAKAGES with size greater than SIZE."
-    #
+    "Print sizes for pkg in list PACKAGES with size greater than SIZE."
+
     # Work with the list of installed packages
     # (I think status has more than installed?)
-    #
     status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"))
-    #
-    # Initialise the sizes dictionary.
-    #
-    size_list = {}
-    status_list = {}
-    #
+    size_list = dict()
+    status_list = dict()
+
     # Check for information in the Status list
-    #
     for section in status:
         if not packages or section.get("Package") in packages:
             package_name   = section.get("Package")
@@ -797,15 +789,10 @@ def do_size(packages, size=0):
                 if package_name not in size_list:
                     size_list[package_name] = package_size
                     status_list[package_name] = package_status
-    #
-    # Print out the one line descriptions.
-    #
+
     pkgs = list(size_list)
-    # pkgs.sort()
     pkgs.sort(key=lambda x: int(size_list[x]))
-    #
-    # Output
-    #
+
     if len(pkgs) == 0:
         print("No packages found from those known to be available or installed")
     else:
@@ -815,11 +802,7 @@ def do_size(packages, size=0):
             print("%-30s %10s     %-20s" \
                   % (pkg, commify(size_list[pkg]), status_list[pkg]))
 
-#------------------------------------------------------------------------
-#
-# STATUS
-#
-#------------------------------------------------------------------------
+
 def do_status(packages, snapshot=False):
     """List status of the packages identified.
 
