@@ -256,7 +256,7 @@ def get_new_available():
     "Obtain the packages available now but not previously."
     load_dictionaries()
     new_list = []
-    for pkg in list(available_list.keys()):
+    for pkg in available_list.keys():
         if not pkg in previous_list:
             new_list.append(pkg)
     return new_list
@@ -267,7 +267,7 @@ def get_new_upgrades():
     load_dictionaries()
     upgraded_list = []
     apt_pkg.init_system()  # Not sure why!
-    for pkg in list(installed_list.keys()):
+    for pkg in installed_list.keys():
         if pkg in available_list and pkg in previous_list \
         and apt_pkg.version_compare(available_list[pkg],
         previous_list[pkg]) > 0:
@@ -280,7 +280,7 @@ def get_to_upgrade():
     load_dictionaries()
     upgraded_list = []
     apt_pkg.init_system()  # Not sure why!
-    for pkg in list(installed_list.keys()):
+    for pkg in installed_list.keys():
         if pkg in available_list \
         and apt_pkg.version_compare(available_list[pkg],
         installed_list[pkg]) > 0:
