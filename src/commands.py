@@ -104,7 +104,7 @@ def get_available(command="dumpavail"):
     tmpcache = tempfile.mkstemp()[1]
     perform.execute("apt-cache dumpavail > " + tmpcache)
     perform.execute("cat /var/lib/dpkg/status >> " + tmpcache)  # 090501 fix
-    avail = apt_pkg.TagFile(file(tmpcache))
+    avail = apt_pkg.TagFile(open(tmpcache))
     if os.path.exists(tmpcache):
         os.remove(tmpcache)
     return avail
