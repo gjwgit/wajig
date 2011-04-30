@@ -803,7 +803,7 @@ def do_size(packages, size=0):
     #
     pkgs = list(size_list.keys())
     # pkgs.sort()
-    pkgs.sort(lambda x, y: cmp(int(size_list[x]), int(size_list[y])))
+    pkgs.sort(key=lambda x: int(size_list[x]))
     #
     # Output
     #
