@@ -105,11 +105,11 @@ def execute(command, root=False, noquiet=False, display=True, pipe=False,
     if teaching:
         if test:
             return "Performing: " + command
-        print "Performing: " + command
+        print("Performing: " + command)
     elif simulate and display:
         if test:
             return command
-        print command
+        print(command)
     if root:
         if setroot == "/usr/bin/sudo":
             #
@@ -146,10 +146,10 @@ def execute(command, root=False, noquiet=False, display=True, pipe=False,
             # intermediate results in temporary files.
         else:
             if quiet == "" and user != "root" and not test:
-                print """
+                print("""
 Using `su' and requiring root password. Install `sudo' to support user
 passwords. See wajig documentation (wajig doc) for details.
-"""
+""")
             command = setroot + " -c '" + command + "'"
     if not noquiet:
         command = command + quiet

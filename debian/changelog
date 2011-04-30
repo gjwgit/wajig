@@ -1,10 +1,11 @@
 wajig (2.2) unstable; urgency=low
 
-  * AVAILABLE: add back to bash auto completion.
+  * AVAILABLE: add back to bash auto completion
   * rm TODO items that no one will likely implement, and add ones that
     I intend to
+  * port to Python 3
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 29 Apr 2011 08:58:10 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 30 Apr 2011 05:50:20 +0200
 
 wajig (2.1) unstable; urgency=low
 

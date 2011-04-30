@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #
 # WAJIG - Debian Command Line System Administrator
 #
@@ -46,7 +45,7 @@ def requires_no_args(command, args, test=False):
     if len(args) > 1:
         if not test:
             message = "no further arguments"
-            print "WaJIG Error: " + command.upper() + " requires " + message
+            print("WaJIG Error: " + command.upper() + " requires " + message)
             finishup(1)
         return False
     return True
@@ -55,7 +54,7 @@ def requires_no_args(command, args, test=False):
 def requires_one_arg(command, args, message=False):
     if len(args) != 2:
         if message:  # checks if this is a unit test
-            print "WaJIG Error: " + command.upper() + " requires " + message
+            print("WaJIG Error: " + command.upper() + " requires " + message)
             finishup(1)
         return False
     return True
@@ -64,7 +63,7 @@ def requires_one_arg(command, args, message=False):
 def requires_two_args(command, args, message=False):
     if len(args) != 3:
         if message:  # checks if this is a unit test
-            print "WaJIG Error: " + command.upper() + " requires " + message
+            print("WaJIG Error: " + command.upper() + " requires " + message)
             finishup(1)
         return False
     return True
@@ -73,8 +72,8 @@ def requires_two_args(command, args, message=False):
 def requires_opt_arg(command, args, message=False):
     if len(args) > 2:
         if message:  # checks if this is a unit test
-            print "WaJIG Error: " + command.upper() +\
-                  " has one optional arg: " + message
+            print("WaJIG Error: " + command.upper() +\
+                  " has one optional arg: " + message)
             finishup(1)
         return False
     return True
@@ -83,8 +82,8 @@ def requires_opt_arg(command, args, message=False):
 def requires_args(command, args, required=False):
     if len(args) == 1:
         if required:  # checks if this is a unit test
-            print "WaJIG Error: {0} requires {1}".\
-                   format(command.upper(), required)
+            print("WaJIG Error: {0} requires {1}".\
+                   format(command.upper(), required))
             finishup(1)
         return False
     return True
@@ -93,7 +92,7 @@ def requires_args(command, args, required=False):
 def requires_package(package, path, test=False):
     if not os.path.exists(path):
         if not test:
-            print 'This command depends on "' + package + '" being installed.'
+            print('This command depends on "' + package + '" being installed.')
             finishup(1)
         return False
     return True
@@ -104,9 +103,9 @@ def package_exists(package, test=False):
     try:
         cache[package]
         return True
-    except KeyError, e:
+    except KeyError as e:
         if not test:
-            print e[0]
+            print(e[0])
             finishup(1)
 
 
@@ -127,7 +126,7 @@ def concat(args):
 
 def finishup(code=0):
     if pause:
-        print "Press Enter to continue...",
+        print("Press Enter to continue...", end=' ')
         sys.stdin.readline()
     if not interactive:
         sys.exit(code)
@@ -138,9 +137,9 @@ def help_cmd(cmd):
     filename = "/usr/share/wajig/help/" + cmd
     try:
         with open(filename) as f:
-            print
+            print()
             for line in f:
-                print "    " + line[:-1]
-            print
+                print("    " + line[:-1])
+            print()
     except:
-        print "Command", cmd.upper(), "does not exist."
+        print("Command", cmd.upper(), "does not exist.")

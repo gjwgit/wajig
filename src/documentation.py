@@ -24,7 +24,7 @@ import const
 
 
 def version():
-    print "\nJIG " + const.version + \
+    print("\nJIG " + const.version + \
     """ - Command-line system admin for Debian GNU/Linux
 
     Copyright (c) Graham.Williams@togaware.com
@@ -35,11 +35,11 @@ def version():
     (at your option) any later version.
 
     On Debian systems, it may be found in /usr/share/common-licenses/GPL.
-    """
+    """)
 
 
 def usage():
-    print """
+    print("""
 Usage:
  wajig [options] [command] [packages|files] ...
 
@@ -50,13 +50,13 @@ Usage:
  A more complete turorial is available with "wajig doc | pager".
  Full documentation is at http://www.togaware.com/wajig.
 
-"""
+""")
 
 
 def help(verbose):
 
     if verbose == 0:
-        print """
+        print("""
  A mini-tutorial:
 
  update         Update the list of downloadable packages
@@ -75,17 +75,17 @@ def help(verbose):
  whichpkg       Find the package that supplies the given command or file
 
 Run 'wajig COMMANDS' for a complete list of commands.
-"""
+""")
 
 # ALL COMMANDS AND OPTIONS
     elif verbose == 1:
         with open("/usr/share/wajig/help/COMMANDS") as f:
-            print
+            print()
             for line in f:
-                print line,
-            print
+                print(line, end=' ')
+            print()
 # TUTORIAL
     else:
         with open("/usr/share/wajig/help/TUTORIAL") as f:
             for line in f:
-                print line,
+                print(line, end=' ')

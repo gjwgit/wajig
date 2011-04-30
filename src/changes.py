@@ -139,12 +139,12 @@ def update_available(noreport=False):
             direction = "the same as"
         else:
             direction = str(diff) + " up on"
-        print "This is " + direction + " the previous count",
-        print "with " + newest + " new",
+        print("This is " + direction + " the previous count", end=' ')
+        print("with " + newest + " new", end=' ')
         if newest == "1":
-            print "package."
+            print("package.")
         else:
-            print "packages."
+            print("packages.")
 
 
 #------------------------------------------------------------------------
@@ -256,7 +256,7 @@ def get_new_available():
     "Obtain the packages available now but not previously."
     load_dictionaries()
     new_list = []
-    for pkg in available_list.keys():
+    for pkg in list(available_list.keys()):
         if not pkg in previous_list:
             new_list.append(pkg)
     return new_list
@@ -267,7 +267,7 @@ def get_new_upgrades():
     load_dictionaries()
     upgraded_list = []
     apt_pkg.init_system()  # Not sure why!
-    for pkg in installed_list.keys():
+    for pkg in list(installed_list.keys()):
         if pkg in available_list and pkg in previous_list \
         and apt_pkg.version_compare(available_list[pkg],
         previous_list[pkg]) > 0:
@@ -280,7 +280,7 @@ def get_to_upgrade():
     load_dictionaries()
     upgraded_list = []
     apt_pkg.init_system()  # Not sure why!
-    for pkg in installed_list.keys():
+    for pkg in list(installed_list.keys()):
         if pkg in available_list \
         and apt_pkg.version_compare(available_list[pkg],
         installed_list[pkg]) > 0:
@@ -301,9 +301,9 @@ def get_dependees(pkg):
     dp = []
     # Watch for changes to apt-cache output.
     if pkginfo.next().strip() != pkg:
-        print "wajig: unexpected result from apt-cache - submit a bug report"
+        print("wajig: unexpected result from apt-cache - submit a bug report")
     if pkginfo.next().strip() != "Reverse Depends:":
-        print "wajig: unexpected result from apt-cache - submit a bug report"
+        print("wajig: unexpected result from apt-cache - submit a bug report")
     for l in pkginfo:
         pn = l.strip().split(',')[0].replace('|', '')
         dp.append(pn)
@@ -329,7 +329,7 @@ def get_dependencies(pkg):
     dp = []
     # Watch for changes to apt-cache output.
     if pkginfo.next().strip() != pkg:
-        print "wajig: unexpected result from apt-cache - submit a bug report"
+        print("wajig: unexpected result from apt-cache - submit a bug report")
     # Find package names. Ignore "<name>" as these are not installed.
     for l in pkginfo:
         if l.find(":") >= 0 and l.find("<") < 0:
@@ -349,8 +349,8 @@ def backup_before_upgrade(bkdir, pkgs, distupgrade=False):
         target = os.path.abspath(bkdir + "/" + date)
         try:
             os.makedirs(target)
-        except Exception, e:
-            print "Quitting:", e
+        except Exception as e:
+            print("Quitting:", e)
     else:
         target = init_dir + "/backups/" + date
         try:
@@ -358,7 +358,7 @@ def backup_before_upgrade(bkdir, pkgs, distupgrade=False):
         except:
             pass  # ignore the 'file already exists' exception and proceed
     os.chdir(target)
-    print "JIG: The packages will saved in", target
+    print("JIG: The packages will saved in", target)
     for pkg in pkgs:
         command = "fakeroot -u dpkg-repack " + pkg
         perform.execute(command)

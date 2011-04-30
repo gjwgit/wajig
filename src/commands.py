@@ -67,16 +67,16 @@ def ping_host(hostname):
     # Check if fping is installed.
     if perform.execute("fping localhost 2>/dev/null >/dev/null",
                        display=False) != 0:
-        print "JIG Warning: fping was not found. " +\
-              "Consider installing the package fping.\n"
+        print("JIG Warning: fping was not found. " +\
+              "Consider installing the package fping.\n")
 
     # Check if we can talk to the HOST
     elif perform.execute("fping " + hostname + " 2>/dev/null >/dev/null",
                          display=False) != 0:
-        print "JIG Warning: Could not contact the Debian server at " + hostname\
+        print("JIG Warning: Could not contact the Debian server at " + hostname\
         + """
              Perhaps it is down or you are not connected to the network.
-             JIG will continue to try to get the information required."""
+             JIG will continue to try to get the information required.""")
     else:
         return True  # host found
 
@@ -136,17 +136,17 @@ def do_dependents(package):
             if not con: con = ""
             if not rep: rep = ""
             if package in dep:
-                print "d", nam  # depends
+                print("d", nam)  # depends
             elif package in sug:
-                print "s", nam  # suggests
+                print("s", nam)  # suggests
             elif package in rec:
-                print "r", nam  # recommends
+                print("r", nam)  # recommends
             elif package in con:
-                print "c", nam  # conflicts
+                print("c", nam)  # conflicts
             elif package in rep:
-                print "p", nam  # replaces
+                print("p", nam)  # replaces
             else:
-                print "o", nam  # other
+                print("o", nam)  # other
 
 #------------------------------------------------------------------------
 #
@@ -205,7 +205,7 @@ def do_describe(packages):
     if package_files:
         for package_file in package_files:
             perform.execute("dpkg-deb --info " + package_file)
-            print "="*72
+            print("="*72)
             sys.stdout.flush()
 
     # 090409 Bug #432266 From Reuben Thomas <rrt@sc3d.org> 9 Apr 2009
@@ -249,15 +249,15 @@ def do_describe(packages):
 
     # Print out the one line descriptions. Should it be sorted?
     # If not sorted it should be same order as on the command line.
-    pkgs = describe_list.keys()
+    pkgs = list(describe_list.keys())
     pkgs.sort()
 
     # Print the description, depending on level of detail (verbose).
     if len(pkgs) == 0 and verbose < 2:  # 'verbose' is for handling virtual pkgs
-        print "No packages found from those known to be available/installed."
+        print("No packages found from those known to be available/installed.")
     elif verbose == 0:
-        print "{0:24} {1}".format("Package", "Description")
-        print "="*24 + "-" + "="*51
+        print("{0:24} {1}".format("Package", "Description"))
+        print("="*24 + "-" + "="*51)
 
 #
 # We could start using the grep-dctrl package to get the information.
@@ -283,10 +283,10 @@ def do_describe(packages):
             if describe_list[pkg]:
                 line_end = describe_list[pkg].find("\n")
                 package_short_description = describe_list[pkg][0:line_end]
-            print "%-24s %s" % (pkg, package_short_description.capitalize())
+            print("%-24s %s" % (pkg, package_short_description.capitalize()))
     elif verbose == 1:
         for pkg in pkgs:
-            print pkg + ": " + describe_list[pkg].capitalize() + "\n"
+            print(pkg + ": " + describe_list[pkg].capitalize() + "\n")
     else:
         # TODO is there a way of doing this using apt_pkg easily?
         # Use "aptitude show" for now.
@@ -319,11 +319,11 @@ def do_describe_new(install=False):
     #
     new_pkgs = changes.get_new_available()
     if len(new_pkgs) == 0:
-        print "No new packages"
+        print("No new packages")
     else:
         do_describe(new_pkgs)
         if install:
-            print "="*76
+            print("="*76)
             do_install(new_pkgs)
 
 #------------------------------------------------------------------------
@@ -364,9 +364,9 @@ def do_force(packages):
             elif os.path.exists(archives + pkg):
                 command += "'" + archives + pkg + "' "
             else:
-                print """Wajig: Error: File `%s' not found.
+                print("""Wajig: Error: File `%s' not found.
               Searched current directory and %s.
-              Please confirm the location and try again.""" % (pkg, archives)
+              Please confirm the location and try again.""" % (pkg, archives))
                 return()
     else:
         #
@@ -414,7 +414,7 @@ def do_hold(packages):
         # Do all of it as root then!
         command = "echo \"" + p + " hold\" | dpkg --set-selections"
         perform.execute(command, root=1)
-    print "The following packages are on hold:"
+    print("The following packages are on hold:")
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
 
 
@@ -456,8 +456,8 @@ def do_install(packages, yes="", noauth="", dist=""):
     if re.match("(http|ftp)://", packages[0]) \
        and util.requires_package("wget", "/usr/bin/wget"):
         if len(packages) > 1:
-            print "wajig: Error: install URL allows only one URL, not " +\
-                  str(len(packages))
+            print("wajig: Error: install URL allows only one URL, not " +\
+                  str(len(packages)))
             sys.exit(1)
         tmpdeb = tempfile.mkstemp()[1] + ".deb"
         command = "wget --output-document=" + tmpdeb + " " + packages[0]
@@ -467,8 +467,8 @@ def do_install(packages, yes="", noauth="", dist=""):
             if os.path.exists(tmpdeb):
                 os.remove(tmpdeb)
         else:
-            print "Wajig: The location " + packages[0] +\
-                  " was not found. Check and try again."
+            print("Wajig: The location " + packages[0] +\
+                  " was not found. Check and try again.")
 
     # check if a specific .DEB file was specified
     elif re.match(".*\.deb$", packages[0]):
@@ -479,11 +479,11 @@ def do_install(packages, yes="", noauth="", dist=""):
             elif os.path.exists("/var/cache/apt/archives/" + pkg):
                 command = "{0} '/var/cache/apt/archives/{1}' ".format(command, pkg)
             else:
-                print "Wajig: The file " + pkg +\
+                print("Wajig: The file " + pkg +\
                       " not found in either the" +\
                       " current directory\n" +\
                       "       nor in /var/cache/apt/archives/\n" +\
-                      "       Please confirm location and try again."
+                      "       Please confirm location and try again.")
                 return
         perform.execute(command, root=1)
     #
@@ -573,14 +573,14 @@ def do_listsections():
         s = section.get("Section")
         if s not in sections:
             sections.append(s)
-    print "\n".join(sections)
+    print("\n".join(sections))
 
 
 def do_listsection(pattern):
     avail = get_available()
     for section in avail:
         if (pattern == section.get("Section")):
-            print section.get("Package")
+            print(section.get("Package"))
 
 #------------------------------------------------------------------------
 #
@@ -626,7 +626,7 @@ def do_listscripts(pkg):
         for script in scripts:
             if "./" + script in "".join(pkgScripts):
                 nlen = (72 - len(script)) / 2
-                print ">"*nlen, script, "<"*nlen
+                print(">"*nlen, script, "<"*nlen)
                 command = "ar p " + pkg + " control.tar.gz |" +\
                           "tar zxvf - -O ./" + script +\
                           " 2>/dev/null"
@@ -637,7 +637,7 @@ def do_listscripts(pkg):
             fname = root + pkg + "." + script
             if os.path.exists(fname):
                 nlen = (72 - len(script))/2
-                print ">"*nlen, script, "<"*nlen
+                print(">"*nlen, script, "<"*nlen)
                 perform.execute("cat " + fname)
 
 #------------------------------------------------------------------------
@@ -648,16 +648,16 @@ def do_listscripts(pkg):
 def do_new():
     "Report on packages that are newly available."
 
-    print "%-24s %s" % ("Package", "Available")
-    print "="*24 + "-" + "="*16
+    print("%-24s %s" % ("Package", "Available"))
+    print("="*24 + "-" + "="*16)
     #
     # List each package and it's version
     #
     new_pkgs = changes.get_new_available()
     new_pkgs.sort()
     for i in range(0, len(new_pkgs)):
-        print "%-24s %s" % (new_pkgs[i],
-            changes.get_available_version(new_pkgs[i]))
+        print("%-24s %s" % (new_pkgs[i],
+            changes.get_available_version(new_pkgs[i])))
 
 
 #------------------------------------------------------------------------
@@ -675,7 +675,7 @@ def local_changelog(package, tmp):
     elif os.path.exists(changelog_native):
         return "zcat {0} >> {1}".format(changelog_native, tmp)
     else:
-        print "Package", package, "is likely broken (changelog not found)!"
+        print("Package", package, "is likely broken (changelog not found)!")
 
 
 def do_changelog(package, pager):
@@ -708,8 +708,8 @@ def do_changelog(package, pager):
         # that surfaces when:
         # 1. The package is not available in the default Debian suite
         # 2. The suite the package belongs to is set to a pin < 0
-        print "If this package is not on your default Debian suite; " \
-              "ensure that it's APT pinning isn't less than 0."
+        print("If this package is not on your default Debian suite; " \
+              "ensure that it's APT pinning isn't less than 0.")
         return
     help_message = "\nTo display the local changelog, run:\n" \
                    "wajig --pager changelog " + package
@@ -723,7 +723,7 @@ def do_changelog(package, pager):
         if not verbose:
             changelog += help_message
     if not verbose:
-        print changelog
+        print(changelog)
     else:
         tmp = tempfile.mkstemp()[1]
         with open(tmp, "w") as f:
@@ -757,17 +757,17 @@ def do_newupgrades(install=False):
     #
     new_upgrades = changes.get_new_upgrades()
     if len(new_upgrades) == 0:
-        print "No new upgrades"
+        print("No new upgrades")
     else:
-        print "%-24s %-24s %s" % ("Package", "Available", "Installed")
-        print "="*24 + "-" + "="*24 + "-" + "="*24
+        print("%-24s %-24s %s" % ("Package", "Available", "Installed"))
+        print("="*24 + "-" + "="*24 + "-" + "="*24)
         new_upgrades.sort()
         for i in range(0, len(new_upgrades)):
-            print "%-24s %-24s %-24s" % (new_upgrades[i], \
+            print("%-24s %-24s %-24s" % (new_upgrades[i], \
                             changes.get_available_version(new_upgrades[i]), \
-                            changes.get_installed_version(new_upgrades[i]))
+                            changes.get_installed_version(new_upgrades[i])))
         if install:
-            print "="*74
+            print("="*74)
             do_install(new_upgrades)
 
 
@@ -801,20 +801,20 @@ def do_size(packages, size=0):
     #
     # Print out the one line descriptions.
     #
-    pkgs = size_list.keys()
+    pkgs = list(size_list.keys())
     # pkgs.sort()
     pkgs.sort(lambda x, y: cmp(int(size_list[x]), int(size_list[y])))
     #
     # Output
     #
     if len(pkgs) == 0:
-        print "No packages found from those known to be available or installed"
+        print("No packages found from those known to be available or installed")
     else:
-        print "%-30s %s       %s" % ("Package", "Size (kb)", "Status")
-        print "="*30 + "-" + "="*10 + "-" + "="*35
+        print("%-30s %s       %s" % ("Package", "Size (kb)", "Status"))
+        print("="*30 + "-" + "="*10 + "-" + "="*35)
         for pkg in pkgs:
-            print "%-30s %10s     %-20s" \
-                  % (pkg, commify(size_list[pkg]), status_list[pkg])
+            print("%-30s %10s     %-20s" \
+                  % (pkg, commify(size_list[pkg]), status_list[pkg]))
 
 #------------------------------------------------------------------------
 #
@@ -830,9 +830,9 @@ def do_status(packages, snapshot=False):
     """
 
     if not snapshot:
-        print "%-23s %-15s %-15s %-15s %s" % \
-              ("Package", "Installed", "Previous", "Now", "State")
-        print "="*23 + "-" + "="*15 + "-" + "="*15 + "-" + "="*15 + "-" + "="*5
+        print("%-23s %-15s %-15s %-15s %s" % \
+              ("Package", "Installed", "Previous", "Now", "State"))
+        print("="*23 + "-" + "="*15 + "-" + "="*15 + "-" + "="*15 + "-" + "="*5)
         sys.stdout.flush()
     #
     # Get status.  Previously used dpkg --list but this truncates package
@@ -886,7 +886,7 @@ def do_status(packages, snapshot=False):
     if snapshot:
         fobj = perform.execute(command, pipe=True)
         for l in fobj:
-            print "=".join(l.split()[0:2])
+            print("=".join(l.split()[0:2]))
     else:
         perform.execute(command, langC=True)
     #
@@ -928,17 +928,17 @@ def do_toupgrade():
     # So now also add in a call to "dpkg --compare-versions" which slows
     # things down quite a bit!
     #
-    print "%-24s %-24s %s" % ("Package", "Available", "Installed")
-    print "="*24 + "-" + "="*24 + "-" + "="*24
+    print("%-24s %-24s %s" % ("Package", "Available", "Installed"))
+    print("="*24 + "-" + "="*24 + "-" + "="*24)
     #
     # List each upgraded pacakge and it's version.
     #
     to_upgrade = changes.get_to_upgrade()
     to_upgrade.sort()
     for i in range(0, len(to_upgrade)):
-        print "%-24s %-24s %-24s" % (to_upgrade[i], \
+        print("%-24s %-24s %-24s" % (to_upgrade[i], \
                             changes.get_available_version(to_upgrade[i]), \
-                            changes.get_installed_version(to_upgrade[i]))
+                            changes.get_installed_version(to_upgrade[i])))
 
 #------------------------------------------------------------------------
 #
@@ -954,7 +954,7 @@ def do_unhold(packages):
         # Do all of it as root then.
         command = "echo \"" + package + " install\" | dpkg --set-selections"
         perform.execute(command, root=1)
-    print "The following packages are still on hold:"
+    print("The following packages are still on hold:")
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
 
 #------------------------------------------------------------------------
@@ -966,23 +966,23 @@ def do_update(query=0, quiet=False):
     "Perform an update of the available packages."
 
     if verbose > 0:
-        print "The Packages files listing the available packages is being \
-               updated."
+        print("The Packages files listing the available packages is being \
+               updated.")
     if query > 0:  # ask user whether this should be done.
         versionfile = open("/etc/debian_version")
         debian_version = versionfile.read().split()[0]
         if debian_version == "testing/unstable":
-            print """
+            print("""
 You appear to be running the `unstable' or `testing' distribution of
 Debian. It is very likely that your Packages files are out of date.
 Doing an UPDATE is recommended.
-"""
+""")
         else:
-            print """
+            print("""
 You appear to be running the `stable' distribution of Debian. It is not
 likely that your Packages files are out of date. Doing an UPDATE is optional
-"""
-        doit = raw_input("Update? [Y/n] ")
+""")
+        doit = input("Update? [Y/n] ")
         if not re.match("^(y|Y|yes|Yes|YES)$", doit):
             return
     #
@@ -1019,12 +1019,12 @@ likely that your Packages files are out of date. Doing an UPDATE is optional
         #
         # How many new upgrades are there?
         #
-        print "There are " + changes.count_upgrades() + " new upgrades"
+        print("There are " + changes.count_upgrades() + " new upgrades")
     else:
-        print "Wajig: The update failed for some reason."
-        print "       Have you configured dselect lately?"
-        print "       It may need updating to use apt."
-        print "       Or perhaps you purposely interrupted me."
+        print("Wajig: The update failed for some reason.")
+        print("       Have you configured dselect lately?")
+        print("       It may need updating to use apt.")
+        print("       Or perhaps you purposely interrupted me.")
 
         exit(1)
 
@@ -1050,9 +1050,9 @@ def do_whichpkg(filename):
     ping_host(packages_host)
 
     # display a suitable heading
-    print "%-59s %-17s" % ("File Path", "Package")
-    print "="*59 + "-" + "="*17
-    print "INSTALLED"
+    print("%-59s %-17s" % ("File Path", "Package"))
+    print("="*59 + "-" + "="*17)
+    print("INSTALLED")
     sys.stdout.flush()
 
     # Get the local information first.
@@ -1069,8 +1069,8 @@ def do_whichpkg(filename):
     perform.execute(command)
 
     # Now obtain the information from the Debian server
-    print "-"*77
-    print "AVAILABLE"
+    print("-"*77)
+    print("AVAILABLE")
     results = tempfile.mkstemp()[1]
     filename = filename.replace('+', '%2B')
 
@@ -1144,7 +1144,7 @@ def do_whichpkg(filename):
                   # "'^ *<|^$|^Packages search page|^package |//W3C//' | " +\
                   # "perl -p -e 's|<[^>]*>||g;s|<[^>]*$||g;s|^[^<]*>||g;'"
         perform.execute(command)
-    print "-"*77
+    print("-"*77)
 
     if os.path.exists(results):
         os.remove(results)
@@ -1160,7 +1160,7 @@ def do_findpkg(pkg):
     ping_host("www.apt-get.org")
 
     # Print out a suitable heading
-    print "Lines suitable for /etc/apt/sources.list\n"
+    print("Lines suitable for /etc/apt/sources.list\n")
     sys.stdout.flush()
 
     # Obtain the information from the Apt-Get server
@@ -1229,7 +1229,7 @@ def do_recdownload(packages):
             packages.remove(package)
             continue
 
-    print "Calculating all dependencies..."
+    print("Calculating all dependencies...")
     for i in packages:
         tmp = get_deps_recursively(i, [])
         for i in tmp:
@@ -1239,12 +1239,12 @@ def do_recdownload(packages):
                 continue
             if i not in packageNames:
                 packageNames.append(i)
-    print "Packages to download to /var/cache/apt/archives:"
+    print("Packages to download to /var/cache/apt/archives:")
     for i in packageNames:
         # We do this because apt-get install dont list the packages to
         # reinstall if they don't need to be upgraded
-        print i,
-    print "\n"
+        print(i, end=' ')
+    print("\n")
 
     command = "apt-get --download-only --reinstall -u install " \
     + util.concat(packageNames)

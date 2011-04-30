@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # WAJIG - Debian Command Line System Administrator
 #
@@ -132,9 +132,9 @@ def interactive_shell():
     prompt = "JIG> "
     while True:
         try:
-            cmdline = raw_input(prompt)
+            cmdline = input(prompt)
         except:
-            print ""
+            print("")
             return
         cmd = cmdline.split()
         if cmd:
@@ -175,8 +175,8 @@ def main():
                  "recommends", "norecommends", "simulate", "teaching",
                  "verbose=", "version", "yes", "noauth", "pager")
         opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
-    except getopt.error, e:
-        print e
+    except getopt.error as e:
+        print(e)
         documentation.usage()
         util.finishup(2)
 
@@ -189,7 +189,7 @@ def main():
             backup = True
         elif o == "--backup":
             if a in ("upgrade", "distupgrade") and len(sys.argv) < 4:
-                print 'Should be of the form "wajig --backup=BKDIR upgrade"'
+                print('Should be of the form "wajig --backup=BKDIR upgrade"')
                 util.finishup(1)
             backup = a
         elif o == "--dist":
@@ -230,7 +230,7 @@ def main():
             try:
                 verbose = int(a)
             except ValueError:
-                print 'Should be of the form "wajig --verbose=1 CMD"'
+                print('Should be of the form "wajig --verbose=1 CMD"')
                 util.finishup(1)
             commands.set_verbosity_level(verbose)
         elif o == "--version":
@@ -263,7 +263,7 @@ def main():
     # 081222 remove any commas - this makes it easier to copy and
     # paste from the security status email, for example.
 
-    args = filter(lambda x: x != "", args)
+    args = [x for x in args if x != ""]
 
     # Provide help up front - don't need to initialise the system to give help
 
@@ -406,15 +406,15 @@ def select_command(command, args, verbose):
                 perform.execute("apt-get {0} {1} --show-upgraded upgrade".format(yes, noauth),
                                  root=True)
             else:
-                print "To upgrade individual packages, use INSTALL command:"
-                print "$ wajig INSTALL " + sys.argv[-1].lower()
+                print("To upgrade individual packages, use INSTALL command:")
+                print("$ wajig INSTALL " + sys.argv[-1].lower())
         else:
-            print 'No upgrades. Did you run "wajig update" beforehand?'
+            print('No upgrades. Did you run "wajig update" beforehand?')
 
     elif command == "distupgrade":
         pkgs = util.upgradable(distupgrade=True)
         if not pkgs and len(args) < 2:
-            print 'No upgrades. Did you run "wajig update" beforehand?'
+            print('No upgrades. Did you run "wajig update" beforehand?')
         elif util.requires_opt_arg(command, args,
                                   "the distribution to upgrade to"):
             if backup \
@@ -441,7 +441,7 @@ def select_command(command, args, verbose):
             #
             # Print message here since no messages are printed for the command.
             #
-            print "Packages being downloaded to /var/cache/apt/archives..."
+            print("Packages being downloaded to /var/cache/apt/archives...")
             #
             # Do the download, non-interactively (--quiet),
             # and force download for already installed packages (--reinstall)
@@ -698,7 +698,7 @@ def select_command(command, args, verbose):
             elif args[1].lower() == "install":
                 commands.do_describe_new(install=True)
             else:
-                print "WaJIG Error: NEW only accepts optional argument INSTALL"
+                print("WaJIG Error: NEW only accepts optional argument INSTALL")
                 util.finishup(1)
 
     elif command in ["newupgrades", "newupgrade"]:
@@ -708,8 +708,8 @@ def select_command(command, args, verbose):
             elif args[1].lower() == "install":
                 commands.do_newupgrades(install=True)
             else:
-                print "WaJIG Error: NEWUPGRADES only accepts " + \
-                      "optional argument INSTALL"
+                print("WaJIG Error: NEWUPGRADES only accepts " + \
+                      "optional argument INSTALL")
                 util.finishup(1)
 
     elif command == "nonfree":
@@ -758,7 +758,7 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args, "a single package"):
             docpath = "/usr/share/doc/" + args[1] + "/"
             if not os.path.exists(docpath):
-                print "No docs found for '{0}'. Is it installed?".format(args[1])
+                print("No docs found for '{0}'. Is it installed?".format(args[1]))
                 return
             if command == "news":
                 li = ("NEWS.Debian", "NEWS")
@@ -773,11 +773,11 @@ def select_command(command, args, verbose):
                     cat = "zcat"
                 if os.path.exists(path):
                     found = True
-                    print "{0:=^72}".format(" {0} ".format(x))
+                    print("{0:=^72}".format(" {0} ".format(x)))
                     sys.stdout.flush()
                     perform.execute(cat + " " + path)
             if not found:
-                print "No {0} file found for {1}.".format(command.upper(), args[1])
+                print("No {0} file found for {1}.".format(command.upper(), args[1]))
 
     elif command in "listrecommended":
         command = "aptitude search '" + \
@@ -898,12 +898,11 @@ def select_command(command, args, verbose):
     elif command in ["statusmatch", "statussearch"]:
         if util.requires_one_arg(command, args,
         "a search string for the package name"):
-            pkgs = map(lambda s: s.strip(),
-                   commands.do_listnames(args[1:], pipe=True).readlines())
+            pkgs = [s.strip() for s in commands.do_listnames(args[1:], pipe=True).readlines()]
             if len(pkgs) > 0:
                 commands.do_status(pkgs)
             else:
-                print "No packages found matching '{0}'".format(args[1])
+                print("No packages found matching '{0}'".format(args[1]))
         #
         # Simplest thing to do is call wajig again.  Not the right way
         # but works for now.
@@ -992,12 +991,12 @@ def select_command(command, args, verbose):
 
     else:
         if command == args[0]:
-            print "The command {0} was not recognised.".format(command.upper())
+            print("The command {0} was not recognised.".format(command.upper()))
         else:
-            print "The command {0} (entered as {1}) was not recognised.".\
-                   format(command.upper(), args[0])
-        print "Perhaps it is not yet implemented or you misspelt it."
-        print "Try 'wajig help' for further information."
+            print("The command {0} (entered as {1}) was not recognised.".\
+                   format(command.upper(), args[0]))
+        print("Perhaps it is not yet implemented or you misspelt it.")
+        print("Try 'wajig help' for further information.")
 
 
 #------------------------------------------------------------------------
