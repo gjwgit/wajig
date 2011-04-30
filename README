@@ -22,12 +22,12 @@ suggestions over the years.
 
 
 setup:
+$ wajig install devscripts
 $ hg clone https://wajig.googlecode.com/hg
 $ cd wajig
-$ wajig install devscripts
 
 
-building + install:
+build + install:
 $ debuild -us -uc -b
 $ sudo debi
 
