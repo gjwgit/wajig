@@ -865,9 +865,7 @@ def do_status(packages, snapshot=False):
     #
     for i in packages:
         if os.system("egrep '^" + i + " ' " + ifile + " >/dev/null"):
-            #
             # Package is not installed.
-            #
             command = \
               "join -a 2 " + previous_file + " " + available_file + " | " +\
               "awk 'NF==2 {print $1, \"N/A\", $2; next}{print}' | " +\
@@ -876,17 +874,12 @@ def do_status(packages, snapshot=False):
               " | awk '{printf(\"%-20s\\t%-15s\\t%-15s\\t%-15s\\n\", " +\
               "$1, \"N/A\", $2, $3)}'"
             perform.execute(command, langC=True)
-    #
+
     # Tidy up - remove the "installed file"
-    #
     if os.path.exists(ifile):
         os.remove(ifile)
 
-#------------------------------------------------------------------------
-#
-# TOUPGRADE
-#
-#------------------------------------------------------------------------
+
 def do_toupgrade():
     "List packages with Available version more recent than Installed."
 
@@ -897,12 +890,10 @@ def do_toupgrade():
     # you've installed a more recent version than in the distribution).
     # So now also add in a call to "dpkg --compare-versions" which slows
     # things down quite a bit!
-    #
     print("%-24s %-24s %s" % ("Package", "Available", "Installed"))
     print("="*24 + "-" + "="*24 + "-" + "="*24)
-    #
+
     # List each upgraded pacakge and it's version.
-    #
     to_upgrade = changes.get_to_upgrade()
     to_upgrade.sort()
     for i in range(0, len(to_upgrade)):
