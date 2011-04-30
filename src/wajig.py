@@ -25,6 +25,7 @@
 #
 import getopt
 import os
+import subprocess
 import sys
 import re
 import tempfile
@@ -984,10 +985,13 @@ def select_command(command, args, verbose):
             commands.versions(args[1:])
 
     elif command in ["whichpkg", "whichpackage"]:
-        if util.requires_one_arg(command, args, "a filename (possibly with a path)") \
-        and util.requires_package("wget", "/usr/bin/wget") \
-        and util.requires_package("lynx", "/usr/bin/lynx"):
-            commands.do_whichpkg(args[1])
+        util.requires_one_arg(command, args, "a filename (or a path)")
+        out = subprocess.getstatusoutput("dpkg --search " + args[1])
+        if out[0]:  # didn't find matching package, so use the slower apt-file
+            util.requires_package("apt-file", "/usr/bin/apt-file")
+            perform.execute("apt-file search " + args[1])
+        else:
+            print(out[1])
 
     else:
         if command == args[0]:

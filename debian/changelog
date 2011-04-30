@@ -1,11 +1,17 @@
 wajig (2.2) unstable; urgency=low
 
+  * port to Python 3
   * AVAILABLE: add back to bash auto completion
   * rm TODO items that no one will likely implement, and add ones that
     I intend to
-  * port to Python 3
+  * WHICHPACKAGE: use apt-file and dpkg instead of custom implementation
+    to search for package content
+    * local implementation could not use path as search term if package
+      is not installed
+    * it could also not work offline if the package is not installed
+    Closes: #422500, LP: #141520
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 30 Apr 2011 05:50:20 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 01 May 2011 01:15:25 +0200
 
 wajig (2.1) unstable; urgency=low
 
