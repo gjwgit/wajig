@@ -50,17 +50,6 @@ def set_verbosity_level(new_level):
     verbose = new_level
 
 
-def commify(strnum):
-    strnum = str(strnum)
-    if len(strnum) <= 3:
-        return strnum
-    else:
-        pre = strnum[:-3]
-        post = strnum[-3:]
-        pre = commify(pre)
-        return pre + "," + post
-
-
 def ping_host(hostname):
     "Check if host is reachable."
 
@@ -791,16 +780,16 @@ def do_size(packages, size=0):
                     status_list[package_name] = package_status
 
     pkgs = list(size_list)
-    pkgs.sort(key=lambda x: int(size_list[x]))
+    pkgs.sort(key=lambda x: int(size_list[x]))  # sort by size
 
     if len(pkgs) == 0:
         print("No packages found from those known to be available or installed")
     else:
-        print("%-30s %s       %s" % ("Package", "Size (kb)", "Status"))
-        print("="*30 + "-" + "="*10 + "-" + "="*35)
+        print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
+        print("{}-{}-{}".format("="*33, "="*10, "="*12))
         for pkg in pkgs:
-            print("%-30s %10s     %-20s" \
-                  % (pkg, commify(size_list[pkg]), status_list[pkg]))
+            print("{:<33} {:^10} {:>12}".format(pkg,
+                    format(int(size_list[pkg]), ',d'), status_list[pkg]))
 
 
 def do_status(packages, snapshot=False):
