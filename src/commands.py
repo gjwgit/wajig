@@ -717,7 +717,6 @@ def do_changelog(package, pager):
         with open(tmp, "w") as f:
             if pkg.is_installed:
                 changelog += "\n{0:=^72}\n".format(" local changelog ")
-            changelog = changelog.encode("utf8")
             f.write(changelog)
         if pkg.is_installed:
             cmd = local_changelog(package, tmp)
