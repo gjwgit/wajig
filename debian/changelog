@@ -1,6 +1,6 @@
 wajig (2.2) unstable; urgency=low
 
-  * port to Python 3
+  * port to Python 3 (Closes: #600059, by making it irrelevant)
   * AVAILABLE: add back to bash auto completion
   * rm TODO items that no one will likely implement, and add ones that
     I intend to
@@ -11,7 +11,7 @@ wajig (2.2) unstable; urgency=low
     * it could also not work offline if the package is not installed
     Closes: #422500, LP: #141520
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 01 May 2011 01:15:25 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 01 May 2011 02:23:24 +0200
 
 wajig (2.1) unstable; urgency=low
 
