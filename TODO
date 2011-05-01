@@ -4,3 +4,4 @@ gradual
 future
 * 'wajig install DEBFILE' should only autocomplete filenames
 * 'wajig reconfigure SCRIPTNAME' should only autocomplete /etc/init.d/*
+* add auto completion for wajig shell
