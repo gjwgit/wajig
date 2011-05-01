@@ -1,3 +1,6 @@
-shouldn't take too long
+gradual
+* use suprocess module instead of older os.system() and os.popen()
+
+future
 * 'wajig install DEBFILE' should only autocomplete filenames
 * 'wajig reconfigure SCRIPTNAME' should only autocomplete /etc/init.d/*
