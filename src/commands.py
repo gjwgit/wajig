@@ -460,19 +460,13 @@ def do_install(packages, yes="", noauth="", dist=""):
 
     # check if a specific .DEB file was specified
     elif re.match(".*\.deb$", packages[0]):
-        command = "dpkg -i"
-        for pkg in packages:
-            if os.path.exists(pkg):
-                command = "{0} '{1}' ".format(command, pkg)
-            elif os.path.exists("/var/cache/apt/archives/" + pkg):
-                command = "{0} '/var/cache/apt/archives/{1}' ".format(command, pkg)
-            else:
-                print("Wajig: The file " + pkg +\
-                      " not found in either the" +\
-                      " current directory\n" +\
-                      "       nor in /var/cache/apt/archives/\n" +\
-                      "       Please confirm location and try again.")
-                return
+        packages = " ".join(packages)
+        curdir = os.path.dirname(__file__)
+        script = os.path.join(curdir, "debfile.py")
+        command = "/usr/bin/sudo {} {} {}"
+        if not os.path.exists("/usr/bin/sudo"):
+            command = "/bin/su --command {} '{} {}'"
+        command = command.format(sys.executable, script, packages)
         perform.execute(command, root=1)
     #
     # Check if a "/+" is in a package name then use the following distribution

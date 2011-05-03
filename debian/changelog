@@ -10,8 +10,9 @@ wajig (2.2) unstable; urgency=low
       is not installed
     * it could also not work offline if the package is not installed
     Closes: #422500, LP: #141520
+  * INSTALL: when installing a DEB file, install its dependencies too
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 01 May 2011 02:23:24 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 May 2011 01:43:49 +0200
 
 wajig (2.1) unstable; urgency=low
 
