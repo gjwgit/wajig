@@ -917,71 +917,10 @@ def do_unhold(packages):
 # UPDATE
 #
 #------------------------------------------------------------------------
-def do_update(query=0, quiet=False):
-    "Perform an update of the available packages."
-
-    if verbose > 0:
-        print("The Packages files listing the available packages is being \
-               updated.")
-    if query > 0:  # ask user whether this should be done.
-        versionfile = open("/etc/debian_version")
-        debian_version = versionfile.read().split()[0]
-        if debian_version == "testing/unstable":
-            print("""
-You appear to be running the `unstable' or `testing' distribution of
-Debian. It is very likely that your Packages files are out of date.
-Doing an UPDATE is recommended.
-""")
-        else:
-            print("""
-You appear to be running the `stable' distribution of Debian. It is not
-likely that your Packages files are out of date. Doing an UPDATE is optional
-""")
-        doit = input("Update? [Y/n] ")
-        if not re.match("^(y|Y|yes|Yes|YES)$", doit):
-            return
-    #
-    # Note that we do a "dselect update" rather than an
-    # "apt-get update" since the
-    # latter does not update dpkg's idea of what's available!
-    #
-    # if perform.execute("dselect update", root=1) == 0:
-    #
-    # 02/03/10 Go back to apt-get for a while.  Note that the available
-    # list is now obtained from apt cache, not dpkg lib, for the DESCRIBE
-    # command. I've also started using my own mirror and getting a syntax
-    # error when dpkg grabs apt's availables file.
-    #
-    # 02/03/26 Go back to dselect - The apt available file is not updated
-    # by apt-get so new was not finding the package descriptions.
-    #
-    if quiet:
-        #
-        # The quotes carefully chosen below are important. swapping "
-        # and ' when root is running and /bin/sh is used
-        # (rather than sudo) results in a syntax error due to too many
-        # ' being used.
-        #
-        quietopt = '| egrep -v "(http|ftp)"'
-    else:
-        quietopt = ""
-    if perform.execute("dselect update " + quietopt, root=1) == 0:
-    # if perform.execute("apt-get update", root=1) == 0:
-        #
-        # Only update the available list if the UPDATE succeeded
-        #
+def do_update():
+    if not perform.execute("apt-get update", root=1):
         changes.update_available()
-        #
-        # How many new upgrades are there?
-        #
         print("There are " + changes.count_upgrades() + " new upgrades")
-    else:
-        print("Wajig: The update failed for some reason.")
-        print("       Have you configured dselect lately?")
-        print("       It may need updating to use apt.")
-        print("       Or perhaps you purposely interrupted me.")
-
-        exit(1)
 
 
 def do_findpkg(pkg):

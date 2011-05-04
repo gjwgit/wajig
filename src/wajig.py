@@ -931,8 +931,8 @@ def select_command(command, args, verbose):
         # TODO Perhaps I can use map to "execute" over each package
 
     elif command == "update":
-        if util.requires_no_args(command, args):
-            commands.do_update()
+        util.requires_no_args(command, args)
+        commands.do_update()
 
     # For testing only!
     elif command == "updateavailable":
