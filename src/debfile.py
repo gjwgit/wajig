@@ -1,20 +1,17 @@
 #!/usr/bin/python3
+
 # This file is part of wajig.  The copyright file is at debian/copyright.
 
 """
 Primitive (no error handling) script to install a DEB file and its
-dependencies. It can be called via waig or directly:
+dependencies. It can be called via wajig or directly:
 
 $ wajig install <DEB file>
-OR
 $ python3 /path/to/debfile.py <DEB file>
-
 """
 
 import os
 import sys
-import shlex
-import subprocess
 
 import apt
 from apt.debfile import DebPackage
