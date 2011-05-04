@@ -1,7 +1,9 @@
 Install one or more packages or .deb files, or via a url.
+
 $ wajig install <package name>
-$ wajig install <deb filename>.deb
-$ wajig install http://example.com/<deb filename>.deb
+$ wajig install <deb filename>
+$ wajig install http://example.com/<deb filename>
+
 options:
   -n --noauth       install even if package is untrusted
   -y --yes          install without yes/no prompts; use with care!
@@ -17,3 +19,6 @@ if available. It also disregard the situation where the package can't be
 authenticated (e.g. the package cache is not updated or the keyring isn't
 installed).  At the same don't prompt for confirmation, and also, don't install
 packages Recommended by <package names>.
+
+Note that unlike using 'dpkg -i', installing a deb file will also install
+its dependencies.
