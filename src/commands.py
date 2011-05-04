@@ -676,7 +676,7 @@ def do_changelog(package, pager):
       -P changelog - same as "-v changelog", but use a pager
     """
 
-    changelog = "{0:=^72}\n".format(" {0} ".format(package))  # header
+    changelog = "{:=^79}\n".format(" {} ".format(package))  # header
     if pager:
         pipe_cmd = "/usr/bin/sensible-pager "
     else:
@@ -710,7 +710,7 @@ def do_changelog(package, pager):
         tmp = tempfile.mkstemp()[1]
         with open(tmp, "w") as f:
             if pkg.is_installed:
-                changelog += "\n{0:=^72}\n".format(" local changelog ")
+                changelog += "\n{:=^79}\n".format(" local changelog ")
             f.write(changelog)
         if pkg.is_installed:
             cmd = local_changelog(package, tmp)
