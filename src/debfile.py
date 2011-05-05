@@ -20,23 +20,27 @@ from apt.debfile import DebPackage
 def show_dependencies(deb):
 
     install, remove, unauthenticated = deb.required_changes
+    prefix = "In order to allow installation of"
 
     if unauthenticated:
-        print ("The following package(s) are UNAUTHENTICATED: ", end="")
+        # me not know what should happen here
+        print ("The following are UNAUTHENTICATED: ", end="")
         for pkgname in unauthenticated:
-            print(pkgname + " ", end=' ')
+            print(pkgname + " ", end=" ")
         print()
 
     if remove:
-        print ("The following packages are to be REMOVED: ", end="")
+        print ("{} {}, the following are to be REMOVED: ".format(
+                prefix, deb.pkgname), end="")
         for pkgname in remove:
-            print(pkgname + " ", end=' ')
+            print(pkgname + " ", end=" ")
         print()
 
     if install:
-        print ("The following packages are to be INSTALLED: ", end="")
+        print ("{} {}, the following are to be INSTALLED: ".format(
+                prefix, deb.pkgname), end="")
         for pkgname in install:
-            print(pkgname, end=' ')
+            print(pkgname, end=" ")
         print()
 
 if __name__ == "__main__":
