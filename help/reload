@@ -1,2 +1,2 @@
 Reload daemon configs, e.g., gdm, apache; see LIST-DAEMONS.
-$ wajig reload DAEMON                   (service reload DAEMON)
+$ wajig reload DAEMON                   (service DAEMON reload)
