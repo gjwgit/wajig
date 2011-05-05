@@ -50,11 +50,13 @@ if __name__ == "__main__":
             break
         cache = apt.Cache()
         deb = DebPackage(package, cache=cache)
-        deb.check()
-        show_dependencies(deb)
-        choice = input("Do you want to continue [Y/n]? ")
-        if "y" == choice.lower() or not choice:
-            cache.commit(apt.progress.text.AcquireProgress())
-            deb.install()
+        if deb.check():
+            show_dependencies(deb)
+            choice = input("Do you want to continue [Y/n]? ")
+            if "y" == choice.lower() or not choice:
+                cache.commit(apt.progress.text.AcquireProgress())
+                deb.install()
+            else:
+                print("Abort.")
         else:
-            print("Abort.")
+            print(deb.pkgname + " is not satisfiable")
