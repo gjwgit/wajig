@@ -8,7 +8,7 @@ MANDIR = $(DESTDIR)/usr/share/man/man1
 BCNDIR = $(DESTDIR)/etc/bash_completion.d
 
 clean:
-	rm -f *.py[co] */*.py[co]
+	rm -rf src/__pycache__
 
 install:
 	mkdir -p  $(LIBDIR) $(HLPDIR) $(MANDIR)
