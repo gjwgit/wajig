@@ -77,14 +77,14 @@ def help(verbose):
 Run 'wajig COMMANDS' for a complete list of commands.
 """)
 
-# ALL COMMANDS AND OPTIONS
+    # ALL COMMANDS AND OPTIONS
     elif verbose == 1:
         with open("/usr/share/wajig/help/COMMANDS") as f:
             print()
             for line in f:
                 print(line, end=' ')
             print()
-# TUTORIAL
+    # TUTORIAL
     else:
         with open("/usr/share/wajig/help/TUTORIAL") as f:
             for line in f:

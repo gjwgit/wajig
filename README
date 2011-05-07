@@ -21,22 +21,24 @@ suggestions over the years.
 --> words by Graham Williams & updated/fixed by Tshepang Lekhonkhobe
 
 
+
+HACKING
+
 setup:
 $ wajig install devscripts
 $ hg clone https://wajig.googlecode.com/hg
 $ cd wajig
 
-
 build + install:
 $ debuild -us -uc -b
 $ sudo debi
 
-
-hacking:
+guidelines:
 * follow PEP-8 where it makes sense ($ pep8 src/wajig.py)
 * run pylint on the changed files ($ pylint src/wajig.py)
 * add unit tests (to "test.py") if your code is easily testable
 * ensure the unit tests pass before any commits
-* ensure that new features and changes are documented in "src/documentation.py"
+* ensure that new features and changes are documented
+  (look in "src/documentation.py" and "help/")
 * ensure that user-visible changes are mentioned in "debian/changelog"; use
   debchange from within the project root directory and do your changes there
