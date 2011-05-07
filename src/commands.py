@@ -33,6 +33,7 @@ import apt
 import changes
 import perform
 import util
+import debfile
 
 # When writing to a pipe where there is no reader (e.g., when
 # output is directed to head or to less and the user exists from less
@@ -458,16 +459,9 @@ def do_install(packages, yes="", noauth="", dist=""):
             print("Wajig: The location " + packages[0] +\
                   " was not found. Check and try again.")
 
-    # check if a specific .DEB file was specified
+    # check if DEB files were specified
     elif re.match(".*\.deb$", packages[0]):
-        packages = " ".join(packages)
-        curdir = os.path.dirname(__file__)
-        script = os.path.join(curdir, "debfile.py")
-        command = "/usr/bin/sudo {} {} {}"
-        if not os.path.exists("/usr/bin/sudo"):
-            command = "/bin/su --command {} '{} {}'"
-        command = command.format(sys.executable, script, packages)
-        perform.execute(command, root=1)
+        debfile.install(set(packages))
     #
     # Check if a "/+" is in a package name then use the following distribution
     # for all packages! We might not want this previsely if there are multiple

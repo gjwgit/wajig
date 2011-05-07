@@ -12,51 +12,43 @@ $ python3 /path/to/debfile.py <DEB file>
 
 import os
 import sys
+import subprocess
+import shlex
 
-import apt
-from apt.debfile import DebPackage
 
+def install(package_list):
+    """Some gymnastics to try install local DEB files"""
 
-def show_dependencies(deb):
+    non_existent = list()
+    for package in package_list:
+        if not os.path.exists(package):
+            non_existent.append(package)
+    if non_existent:
+        print("File(s) not found: " + " ".join(non_existent))
+        return 1
 
-    install, remove, unauthenticated = deb.required_changes
-    prefix = "In order to allow installation of"
+    packages = " ".join(package_list)
+    cmd_install = "/usr/bin/sudo dpkg --install {}".format(packages)
+    cmd_configure = "/usr/bin/sudo dpkg --configure --pending"
 
-    if unauthenticated:
-        # me not know what should happen here
-        print ("The following are UNAUTHENTICATED: ", end="")
-        for pkgname in unauthenticated:
-            print(pkgname + " ", end=" ")
-        print()
-
-    if remove:
-        print ("{} {}, the following are to be REMOVED: ".format(
-                prefix, deb.pkgname), end="")
-        for pkgname in remove:
-            print(pkgname + " ", end=" ")
-        print()
-
-    if install:
-        print ("{} {}, the following are to be INSTALLED: ".format(
-                prefix, deb.pkgname), end="")
-        for pkgname in install:
-            print(pkgname, end=" ")
-        print()
+    if not os.path.exists("/usr/bin/sudo"):
+        cmd_install = \
+            "/bin/su --command 'dpkg --install {}'".format(packages)
+        cmd_configure = \
+            "/bin/su --command 'dpkg --configure --pending'"
+    cmd_install = shlex.split(cmd_install)
+    cmd_configure = shlex.split(cmd_configure)
+    if subprocess.call(cmd_install):
+        curdir = os.path.dirname(__file__)
+        script = os.path.join(curdir, "debfile-deps.py")
+        cmd = "/usr/bin/sudo {} {} {}"
+        if not os.path.exists("/usr/bin/sudo"):
+            cmd = "/bin/su --command '{} {} {}'"
+        for package in package_list:
+            cmd = cmd.format(sys.executable, script, package)
+            cmd = shlex.split(cmd)
+            subprocess.call(cmd)
+    subprocess.call(cmd_configure)
 
 if __name__ == "__main__":
-    for package in sys.argv[1:]:
-        if not os.path.exists(package):
-            print(package + " not found!")
-            break
-        cache = apt.Cache()
-        deb = DebPackage(package, cache=cache)
-        if deb.check():
-            show_dependencies(deb)
-            choice = input("Do you want to continue [Y/n]? ")
-            if "y" == choice.lower() or not choice:
-                cache.commit(apt.progress.text.AcquireProgress())
-                deb.install()
-            else:
-                print("Abort.")
-        else:
-            print(deb.pkgname + " is not satisfiable")
+    install(sys.argv[1:])
