@@ -6,6 +6,8 @@ Uploaders: Tshepang Lekhonkhobe <tshepang@gmail.com>
 Homepage: http://wajig.togaware.com
 Standards-Version: 3.9.1
 Build-Depends: debhelper (>= 7)
+Vcs-hg: https://wajig.googlecode.com/hg
+Vcs-Browser: http://code.google.com/p/wajig/source/list
 
 Package: wajig
 Architecture: all
