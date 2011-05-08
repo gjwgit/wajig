@@ -12,8 +12,7 @@ $ python3 /path/to/debfile.py <DEB file>
 
 import os
 import sys
-import subprocess
-import shlex
+import perform
 
 
 def install(package_list):
@@ -28,27 +27,16 @@ def install(package_list):
         return 1
 
     packages = " ".join(package_list)
-    cmd_install = "/usr/bin/sudo dpkg --install {}".format(packages)
-    cmd_configure = "/usr/bin/sudo dpkg --configure --pending"
+    cmd_install = "dpkg --install {}".format(packages)
+    cmd_configure = "dpkg --configure --pending"
 
-    if not os.path.exists("/usr/bin/sudo"):
-        cmd_install = \
-            "/bin/su --command 'dpkg --install {}'".format(packages)
-        cmd_configure = \
-            "/bin/su --command 'dpkg --configure --pending'"
-    cmd_install = shlex.split(cmd_install)
-    cmd_configure = shlex.split(cmd_configure)
-    if subprocess.call(cmd_install):
+    if perform.execute(cmd_install, root=True):
         curdir = os.path.dirname(__file__)
         script = os.path.join(curdir, "debfile-deps.py")
-        cmd = "/usr/bin/sudo {} {} {}"
-        if not os.path.exists("/usr/bin/sudo"):
-            cmd = "/bin/su --command '{} {} {}'"
         for package in package_list:
-            cmd = cmd.format(sys.executable, script, package)
-            cmd = shlex.split(cmd)
-            subprocess.call(cmd)
-    subprocess.call(cmd_configure)
+            cmd = "{} {} {}".format(sys.executable, script, package)
+            perform.execute(cmd, root=True)
+    perform.execute(cmd_configure, root=True)
 
 if __name__ == "__main__":
     install(sys.argv[1:])
