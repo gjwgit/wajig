@@ -24,6 +24,7 @@
 #------------------------------------------------------------------------
 import os
 import getpass
+import subprocess
 
 setroot = "/bin/su"
 #
@@ -121,7 +122,7 @@ def execute(command, root=False, noquiet=False, display=True, pipe=False,
             # like listnames (in user has no access to sources.list),
             # hold, unhold. So should be sufferable.
             #
-            if '|' in command and os.system(setroot + " -v"):
+            if '|' in command and subprocess.call(setroot + " -v", shell=True):
                 raise SystemExit("wajig: sudo authentication failed.")
             #
             # Bug #320126 noted the following is not good as is since
@@ -173,7 +174,7 @@ passwords. See wajig documentation (wajig doc) for details.
         if pipe:
             return os.popen(command)
         else:
-            return os.system(command)
+            return subprocess.call(command, shell=True)
     if test:
         return command
     return 0
