@@ -2,8 +2,6 @@ wajig (2.2) unstable; urgency=low
 
   * port to Python 3 (Closes: #600059, by making it irrelevant)
   * AVAILABLE: add back to bash auto completion
-  * rm TODO items that no one will likely implement, and add ones that
-    I intend to
   * WHICHPACKAGE: use apt-file and dpkg instead of custom implementation
     to search for package content
     * local implementation could not use path as search term if package
@@ -13,7 +11,7 @@ wajig (2.2) unstable; urgency=low
   * INSTALL: when installing a DEB file, install its dependencies too
   * UPDATE: rm dependency on dselect; use apt-get instead
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 May 2011 02:30:56 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 09 May 2011 22:06:02 +0200
 
 wajig (2.1) unstable; urgency=low
 
