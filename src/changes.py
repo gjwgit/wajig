@@ -128,10 +128,13 @@ def update_available(noreport=False):
     available_packages = len(open(available_file).readlines())
     previous_packages = len(open(previous_file).readlines())
     diff = available_packages - previous_packages
+
     # 090425 Use langC=True to work with change from coreutils 6.10 to 7.2
-    newest = perform.execute("join -v 1 -t' '  {0} {1} | wc -l".\
-                              format(available_file, previous_file), \
-                              pipe=True, langC=True).readlines()[0].strip()
+    command = "join -v 1 -t' '  {0} {1} | wc -l"
+    command = command.format(available_file, previous_file)
+    newest = perform.execute(command, pipe=True, langC=True)
+    newest = newest.readlines()[0].strip()
+
     if not noreport:
         if diff < 0:
             direction = str(0 - diff) + " down on"
