@@ -1,7 +1,4 @@
-gradual
-* use suprocess module instead of older os.system() and os.popen()
-
-future
-* 'wajig install DEBFILE' should only autocomplete filenames
-* 'wajig reconfigure SCRIPTNAME' should only autocomplete /etc/init.d/*
+eventually
+* Installting a DEB should only autocomplete filenames with .deb extenstion
+* RECONFIGURE should only autocomplete scripts in /etc/init.d/*
 * add auto completion for wajig shell
