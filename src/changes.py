@@ -62,7 +62,7 @@ if os.path.exists(tmp_dir + "/Installed"):
 
 # 100104 Remove any old tmp files. Bug#563573
 
-os.system("rm -f " + init_dir + "/tmp*")
+perform.execute("rm -f " + init_dir + "/tmp*")
 
 #
 # TODO 23 Aug 2003

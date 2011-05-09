@@ -852,7 +852,7 @@ def do_status(packages, snapshot=False):
     # list its status appropriately.
     #
     for i in packages:
-        if os.system("egrep '^" + i + " ' " + ifile + " >/dev/null"):
+        if perform.execute("egrep '^" + i + " ' " + ifile + " >/dev/null"):
             # Package is not installed.
             command = \
               "join -a 2 " + previous_file + " " + available_file + " | " +\
@@ -1025,4 +1025,4 @@ def versions(packages):
 def rbuilddep(package):
     cmd = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep " + \
           package + " /var/lib/apt/lists/*Sources"
-    os.system(cmd)
+    perform.execute(cmd)
