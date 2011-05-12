@@ -2,7 +2,7 @@
 
 
 """
-Test some of WaJIG functionality.
+Test some of wajig functionality.
 
 TODO:
 * changes.py
@@ -17,7 +17,7 @@ from src import perform
 from src import util
 
 
-class WaJIGTests(unittest.TestCase):
+class Tests(unittest.TestCase):
 
     # ----
     # testing perform.py
