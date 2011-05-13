@@ -31,7 +31,8 @@ _wajig()
               update-usb-ids upgrade verify version versions whatis whichpkg"
 
     if [ "$COMP_CWORD" -ge "2" ]; then
-        COMPREPLY=($( compgen -W '$(apt-cache pkgnames)' -- "$cur" ) )
+        COMPREPLY=($( compgen -W '$(apt-cache pkgnames)' -- "$cur" ) \
+                   $( compgen -o default -- "$cur"))
 
     elif [[ "$cur" == -* ]]; then
         COMPREPLY=($( compgen -W "$options" -- "$cur" ) )
