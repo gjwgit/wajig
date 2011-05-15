@@ -7,7 +7,7 @@ Homepage: http://wajig.togaware.com
 Standards-Version: 3.9.1
 Build-Depends: debhelper (>= 7)
 Vcs-hg: https://wajig.googlecode.com/hg
-Vcs-Browser: http://code.google.com/p/wajig/source/list
+Vcs-Browser: http://code.google.com/p/wajig/source/browse
 
 Package: wajig
 Architecture: all
