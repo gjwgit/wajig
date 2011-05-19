@@ -20,7 +20,7 @@ COMMANDS:
  detail-new     Provide a detailed description of new packages (describe -vv)
  dist-upgrade   Upgrade to new distribution (installed and new rqd packages)
  docs           Equivalent to help with -verbose=2
- download       Download package files ready for an install
+ download       Download one or more packages without installing them
  download-file  Download packages listed in file ready for an install
  editsources    Edit list of archives which locates Debian package sources
  extract        Extract the files from a package file to a directory

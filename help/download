@@ -1,2 +1,2 @@
-Download package files ready for an install.
+Download one or more packages without installing them.
 $ wajig download PKG
