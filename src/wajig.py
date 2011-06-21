@@ -476,7 +476,7 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args,
         "a file name containing a list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
-            pkgs = str.join(stripped)
+            pkgs = " ".join(stripped)
             perform.execute("apt-get install " + pkgs,
                              root=True)
 
