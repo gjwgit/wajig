@@ -468,7 +468,7 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args,
         "a file name containing list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
-            pkgs = str.join(stripped)
+            pkgs = " ".join(stripped)
             perform.execute("apt-get --download-only install " + pkgs,
                              root=True)
 
