@@ -24,7 +24,7 @@ _wajig()
               move new news new-upgrades non-free orphans policy purge \
               purge-orphans purge-removed rbuilddeps readme list-recommended \
               recursive reconfigure reinstall reload remove remove-file \
-              remove-orphans repackage reset restart rpm rpminstall search \
+              remove-orphans repackage reset restart rpm2deb rpmtodeb rpminstall search \
               search-apt setup showdistupgrade showinstall showremove \
               showupgrade sizes snapshot source start status status-search \
               stop tasksel toupgrade unhold update update-alts update-pci-ids \
