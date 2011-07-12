@@ -2,8 +2,9 @@ wajig (2.3) unstable; urgency=low
 
   * Add bash file completion. Useful for INSTALL command.
   * DOWNLOAD: improve description. (Closes: #627173)
+  * FILE-INSTALL, FILE-REMOVE, FILE-DOWNLOAD: fix bugs.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 19 May 2011 13:29:16 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 21 Jun 2011 02:35:20 +0200
 
 wajig (2.2) unstable; urgency=low
 
