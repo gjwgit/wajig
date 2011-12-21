@@ -728,8 +728,8 @@ def select_command(command, args, verbose):
 
     elif command in ("purge", "purgedepend"):
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get {0} --auto-remove purge {1}".format(yes,
-                             util.concat(args[1:])),
+            perform.execute("apt-get {0} {1} --auto-remove purge {2}".format(\
+                             yes, noauth, util.concat(args[1:])),
                              root=True)
 
     elif command == "purgeorphans":
@@ -811,8 +811,8 @@ def select_command(command, args, verbose):
 
     elif command in ("remove", "removedepend"):
         if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get {0} --auto-remove remove {1}".format(yes,
-                             util.concat(args[1:])),
+            perform.execute("apt-get {0} {1}--auto-remove remove {2}".format(\
+                             yes, noauth, util.concat(args[1:])),
                              root=True)
 
     elif command == "removeorphans":
