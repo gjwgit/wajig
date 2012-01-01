@@ -20,9 +20,7 @@
 #
 #
 
-########################################################################
-# Standard python modules
-#
+# stdlib
 import os
 import subprocess
 import sys
@@ -31,9 +29,7 @@ import tempfile
 import argparse
 import textwrap
 
-########################################################################
-# Wajig modules
-#
+# wajig modules
 import documentation
 import commands
 import changes
@@ -41,9 +37,6 @@ import perform
 import util
 import const
 
-########################################################################
-# Global Variables
-#
 pause = False
 interactive = False  # set to true for interactive command line
 match_commands = list()  # for interactive command line completion
@@ -151,11 +144,6 @@ def interactive_shell():
         elif cmd:
             select_command(command, cmd, False)
 
-#------------------------------------------------------------------------
-#
-# MAIN PROGRAM
-#
-#------------------------------------------------------------------------
 
 def main():
     global pause
@@ -245,12 +233,6 @@ def main():
     if result.verbose:
         commands.set_verbosity_level(result.verbose)
 
-    #
-    # NO ARGS => INTERACTIVE COMMAND LINE
-    #
-    #   Run interactive shell with optional readline support
-    #   Returns from inside the IF
-    #
     if len(sys.argv) == 1:
         interactive_shell()
         return
