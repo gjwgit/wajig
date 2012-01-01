@@ -6,9 +6,9 @@ _wajig()
     COMPREPLY=()
     cur=${COMP_WORDS[COMP_CWORD]}
 
-    options="-b --backup --dist -f --fast -h --help -n --noauth -P --pager \
+    options="-b --backup -d --dist -f --fast -h --help -n --noauth -P --pager \
              -p --pause -q --quiet -s --simulate -t --teaching -v --verbose \
-             -r --recommends -R --norecommends -y --yes"
+             -r --recommends -R --norecommends -y --yes -V --version"
 
     commands="addcdrom addrepo auto-alts auto-clean auto-download \
               autoremove available bug build build-depend changelog clean \

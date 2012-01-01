@@ -23,12 +23,13 @@
 ########################################################################
 # Standard python modules
 #
-import getopt
 import os
 import subprocess
 import sys
 import re
 import tempfile
+import argparse
+import textwrap
 
 ########################################################################
 # Wajig modules
@@ -38,6 +39,7 @@ import commands
 import changes
 import perform
 import util
+import const
 
 ########################################################################
 # Global Variables
@@ -170,73 +172,78 @@ def main():
     for i in range(2, len(oldargv)):
         sys.argv += oldargv[i].split(",")
 
-    try:
-        sopts = "bfhnPpqrRstvy"
-        lopts = ("backup=", "dist=", "fast", "help", "pause", "quiet",
-                 "recommends", "norecommends", "simulate", "teaching",
-                 "verbose=", "version", "yes", "noauth", "pager")
-        opts, args = getopt.getopt(sys.argv[1:], sopts, lopts)
-    except getopt.error as e:
-        print(e)
-        documentation.usage()
-        util.finishup(2)
-
-    # action the command line options
-    for o, a in opts:
-        if o in ["-h", "--help"]:
-            documentation.usage()
-            util.finishup()
-        elif o == "-b":
-            backup = True
-        elif o == "--backup":
-            if a in ("upgrade", "distupgrade") and len(sys.argv) < 4:
-                print('Should be of the form "wajig --backup=BKDIR upgrade"')
-                util.finishup(1)
-            backup = a
-        elif o == "--dist":
-            util.dist = a
-        elif o in ["-f", "--fast"]:
-            util.fast = True
-        elif o in ["-p", "--pause"]:
-            pause = True
-            util.pause = True
-        elif o in ["-P", "--pager"]:
-            pager = True
-            commands.set_verbosity_level(1)
-        elif o in ["-q", "--quiet"]:
-            perform.set_quiet()
-        elif o in ["-r", "--recommends"]:
-            util.recommends_flag = True
-        elif o in ["-R", "--norecommends"]:
-            util.recommends_flag = False
-        elif o in ["-s", "--simulate"]:
-            perform.set_simulate(True)
-        elif o in ["-t", "--teaching"]:
-            perform.set_teaching()
-        elif o in ["-y", "--yes"]:
-            yes = " --yes "
-        # The --force-yes is a dangerous option that will cause apt to
-        # continue without prompting if it is doing something
-        # potentially harmful. It should not be used except in very
-        # special situations.  Using force-yes can potentially destroy
-        # your system! Configuration Item: APT::Get::force-yes.
-        # elif o in ("-Y", "--force-yes"):
-        #    yes = " --yes --force-yes"
-        elif o in ["-n", "--noauth"]:
-            noauth = " --allow-unauthenticated "
-        elif o == "-v":
-            verbose += 1
-            commands.set_verbosity_level(verbose)
-        elif o == "--verbose":
-            try:
-                verbose = int(a)
-            except ValueError:
-                print('Should be of the form "wajig --verbose=1 CMD"')
-                util.finishup(1)
-            commands.set_verbosity_level(verbose)
-        elif o == "--version":
-            documentation.version()
-            util.finishup()
+    description = ("wajig is a simple and unified package management front-end "
+                   "for Debian and its derivatives.")
+    epilog = textwrap.dedent("""\
+         For a mini-tutorial try "wajig help".
+         For a list of all commands try "wajig list-commands".
+         A more complete turorial is available with "wajig doc".
+         Full documentation is at http://www.togaware.com/wajig.""")
+    usage = "%(prog)s [options] COMMAND [arguments]"
+    parser = argparse.ArgumentParser(description=description, epilog=epilog,
+             formatter_class=argparse.RawDescriptionHelpFormatter,
+             prog="wajig", usage=usage)
+    message = ("backup packages currently installed packages before replacing "
+               "them; used in conjuntion with [DIST]UPGRADE commands")
+    parser.add_argument("-b", "--backup", nargs="?", const=True, help=message)
+    message = ("set verbosity; defaults to 1 if argument is not provided")
+    parser.add_argument("-v", "--verbose", nargs="?", const=True, help=message,
+                        type=int)
+    message = ("uses the faster apt-cache instead of the slower (but more "
+               "advanced) aptitude to display package info; used in "
+               "conjunction with SHOW command")
+    parser.add_argument("-f", "--fast", action='store_true', help=message)
+    message = "wait for input before exiting"
+    parser.add_argument("-p", "--pause", action='store_true', help=message)
+    message = "use a pager to scroll through output"
+    parser.add_argument("-P", "--pager", action='store_true', help=message)
+    message = "reduce verbosity of output"
+    parser.add_argument("-q", "--quiet", action='store_true', help=message)
+    message = "simulate command execution"
+    parser.add_argument("-s", "--simulate", action='store_true', help=message)
+    message = ("install with Recommended dependencies; used in "
+               "conjunction with INSTALL command")
+    parser.add_argument("-r", "--recommends", action='store_true',
+                        default=True, help=message)
+    message = "display commands before executing them"
+    parser.add_argument("-t", "--teaching", action='store_true', help=message)
+    message = "a dangerous option that skips 'Yes/No' prompts'"
+    parser.add_argument("-y", "--yes", action='store_true', help=message)
+    message = "do not authenticate packages before installation"
+    parser.add_argument("-n", "--noauth", action='store_true', help=message)
+    message = ("do not install with Recommended dependencies; used in "
+               "conjunction with INSTALL command")
+    parser.add_argument("-R", "--norecommends", action='store_false',
+                        help=message)
+    message = ("specify a distribution to use (e.g. testing or experimental)")
+    parser.add_argument("-d", "--dist", help=message)
+    parser.add_argument("--version", action="version", version=const.version)
+    parser.add_argument("args", nargs="*")
+    result = parser.parse_args()
+    backup = result.backup
+    util.fast = result.fast
+    if result.dist:
+        util.dist = result.dist
+    util.pause = result.pause
+    pause = result.pause
+    util.recommends_flag = result.recommends
+    util.recommends_flag = result.norecommends
+    args = result.args
+    if result.pager:
+        pager = True
+        commands.set_verbosity_level(1)
+    if result.quiet:
+        perform.set_quiet()
+    if result.simulate:
+        perform.set_simulate(True)
+    if result.teaching:
+        perform.set_teaching()
+    if result.yes:
+        yes = " --yes "
+    if result.noauth:
+        noauth = " --allow-unauthenticated "
+    if result.verbose:
+        commands.set_verbosity_level(result.verbose)
 
     #
     # NO ARGS => INTERACTIVE COMMAND LINE
@@ -244,7 +251,7 @@ def main():
     #   Run interactive shell with optional readline support
     #   Returns from inside the IF
     #
-    if len(args) == 0:
+    if len(sys.argv) == 1:
         interactive_shell()
         return
     #
