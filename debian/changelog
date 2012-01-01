@@ -9,8 +9,9 @@ wajig (2.3) unstable; urgency=low
     where APT want to be smart/convenient, and install a replacement.
   * debian/control: ensure to depend at least on Python 3.2 (preparing for
     replacing getopt with the superior argparse module).
+  * fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 01 Jan 2012 20:47:00 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 01 Jan 2012 20:49:24 +0200
 
 wajig (2.2) unstable; urgency=low
 

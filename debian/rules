@@ -23,6 +23,8 @@ install: build
 	dh_testroot
 	dh_installdirs
 	$(MAKE) DESTDIR=$(CURDIR)/debian/wajig install
+build-arch:
+build-indep:
 binary-arch: build install
 binary-indep: build install
 	dh_fixperms
