@@ -26,7 +26,6 @@ import sys
 import apt
 
 dist = str()  # stable, testing, unstable, ...
-pause = False
 interactive = False
 recommends_flag = None
 fast = False  # Used for choosing 'apt-cache show' instead of the slower
@@ -123,9 +122,6 @@ def concat(args):
 
 
 def finishup(code=0):
-    if pause:
-        print("Press Enter to continue...", end=' ')
-        sys.stdin.readline()
     if not interactive:
         sys.exit(code)
 

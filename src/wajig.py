@@ -37,7 +37,6 @@ import perform
 import util
 import const
 
-pause = False
 interactive = False  # set to true for interactive command line
 match_commands = list()  # for interactive command line completion
 backup = False
@@ -145,7 +144,6 @@ def interactive_shell():
 
 
 def main():
-    global pause
     global yes
     global noauth
     global backup
@@ -181,9 +179,6 @@ def main():
                "advanced) aptitude to display package info; used in "
                "conjunction with SHOW command")
     parser.add_argument("-f", "--fast", action='store_true', help=message)
-
-    message = "wait for input before exiting"
-    parser.add_argument("-p", "--pause", action='store_true', help=message)
 
     message = "reduce verbosity of output"
     parser.add_argument("-q", "--quiet", action='store_true', help=message)
@@ -224,8 +219,6 @@ def main():
     util.fast = result.fast
     if result.dist:
         util.dist = result.dist
-    util.pause = result.pause
-    pause = result.pause
     util.recommends_flag = result.recommends
     util.recommends_flag = result.norecommends
     args = result.args
