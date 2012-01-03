@@ -304,9 +304,9 @@ def get_dependees(pkg):
     dp = []
     # Watch for changes to apt-cache output.
     if pkginfo.next().strip() != pkg:
-        print("wajig: unexpected result from apt-cache - submit a bug report")
+        print("unexpected result from apt-cache - submit a bug report")
     if pkginfo.next().strip() != "Reverse Depends:":
-        print("wajig: unexpected result from apt-cache - submit a bug report")
+        print("unexpected result from apt-cache - submit a bug report")
     for l in pkginfo:
         pn = l.strip().split(',')[0].replace('|', '')
         dp.append(pn)
@@ -332,7 +332,7 @@ def get_dependencies(pkg):
     dp = []
     # Watch for changes to apt-cache output.
     if pkginfo.next().strip() != pkg:
-        print("wajig: unexpected result from apt-cache - submit a bug report")
+        print("unexpected result from apt-cache - submit a bug report")
     # Find package names. Ignore "<name>" as these are not installed.
     for l in pkginfo:
         if l.find(":") >= 0 and l.find("<") < 0:

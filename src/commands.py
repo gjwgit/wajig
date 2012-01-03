@@ -353,7 +353,7 @@ def do_force(packages):
             elif os.path.exists(archives + pkg):
                 command += "'" + archives + pkg + "' "
             else:
-                print("""Wajig: Error: File `%s' not found.
+                print("""File `%s' not found.
               Searched current directory and %s.
               Please confirm the location and try again.""" % (pkg, archives))
                 return()
@@ -445,7 +445,7 @@ def do_install(packages, yes="", noauth="", dist=""):
     if re.match("(http|ftp)://", packages[0]) \
        and util.requires_package("wget", "/usr/bin/wget"):
         if len(packages) > 1:
-            print("wajig: Error: install URL allows only one URL, not " +\
+            print("install URL allows only one URL, not " +\
                   str(len(packages)))
             sys.exit(1)
         tmpdeb = tempfile.mkstemp()[1] + ".deb"
@@ -456,7 +456,7 @@ def do_install(packages, yes="", noauth="", dist=""):
             if os.path.exists(tmpdeb):
                 os.remove(tmpdeb)
         else:
-            print("Wajig: The location " + packages[0] +\
+            print("The location " + packages[0] +\
                   " was not found. Check and try again.")
 
     # check if DEB files were specified

@@ -123,7 +123,7 @@ def execute(command, root=False, noquiet=False, display=True, pipe=False,
             # hold, unhold. So should be sufferable.
             #
             if '|' in command and subprocess.call(setroot + " -v", shell=True):
-                raise SystemExit("wajig: sudo authentication failed.")
+                raise SystemExit("sudo authentication failed.")
             #
             # Bug #320126 noted the following is not good as is since
             # the password is asked for multiple times in a pipe
