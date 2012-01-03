@@ -251,6 +251,9 @@ def main():
     # Need to check for install/sarge-backport and not convert the
     # part after the / (Bug##350944)
     #
+    if not args:
+        print("You must specify an argument; Look at 'wajig help'")
+        util.finishup(1)
     slash = args[0].find("/")
     if slash == -1:
         command = re.sub('-|_|/', '', args[0].lower())
