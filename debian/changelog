@@ -15,8 +15,11 @@ wajig (2.3) unstable; urgency=low
   * get rid of --pause option; it was only useful for gjig (IIRC) to avoid
     windows from closing up automatically, in order to allow one to read
     the output
+  * rm ability to specify backup directory; requires too much work in order to
+    make it work with argparse; simplifies code too and there's probably no
+    one else who uses this feature anyways (not even me)
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 03 Jan 2012 11:17:18 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 03 Jan 2012 11:35:54 +0200
 
 wajig (2.2) unstable; urgency=low
 

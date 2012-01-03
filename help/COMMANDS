@@ -115,7 +115,7 @@ COMMANDS:
  whichpkg       Find the package that supplies the given command or file
 
 OPTIONS:
- -b|--backup=DIR UPGRADE - Backup packages before they are upgraded.
+ -b|--backup     [DIST]UPGRADE - Backup packages before they are upgraded.
  -f|--fast       SHOW - use apt-cache's version, due to its speed.
  -h|--help       Print usage message.
  -n|--noauth     Allow packages from unathenticated archives.

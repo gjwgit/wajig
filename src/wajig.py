@@ -170,7 +170,7 @@ def main():
 
     message = ("backup packages currently installed packages before replacing "
                "them; used in conjuntion with [DIST]UPGRADE commands")
-    parser.add_argument("-b", "--backup", nargs="?", const=True, help=message)
+    parser.add_argument("-b", "--backup", action='store_true', help=message)
 
     message = ("set verbosity; defaults to 1 if argument is not provided")
     parser.add_argument("-v", "--verbose", nargs="?", const=True, help=message)
@@ -416,7 +416,7 @@ def select_command(command, args, verbose):
             if backup \
             and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
             and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
-                changes.backup_before_upgrade(backup, pkgs, distupgrade=True)
+                changes.backup_before_upgrade(pkgs, distupgrade=True)
             cmd = "apt-get --show-upgraded {0} {1} ".format(yes, noauth)
             if len(args) == 2:
                 cmd += "-t " + args[1] + " "
