@@ -205,7 +205,7 @@ def main():
                         help=message)
     message = ("specify a distribution to use (e.g. testing or experimental)")
     parser.add_argument("-d", "--dist", help=message)
-    parser.add_argument("--version", action="version", version=const.version)
+    parser.add_argument("-V", "--version", action="version", version=const.version)
     parser.add_argument("args", nargs="*")
     result = parser.parse_args()
     backup = result.backup
