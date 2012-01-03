@@ -349,10 +349,8 @@ def backup_before_upgrade(pkgs, distupgrade=False):
 
     date = time.strftime("%Y-%m-%d_%Hh%M", time.localtime())
     target = init_dir + "/backups/" + date
-    try:
+    if not os.path.exists(target):
         os.makedirs(target)
-    except:
-        pass  # ignore the 'file already exists' exception and proceed
     os.chdir(target)
     print("JIG: The packages will saved in", target)
     for pkg in pkgs:
