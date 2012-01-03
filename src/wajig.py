@@ -235,9 +235,11 @@ def main():
     if result.verbose:
         try:
             commands.set_verbosity_level(int(result.verbose))
+            verbose = int(result.verbose)
         except:
             commands.set_verbosity_level(1)
             args.insert(0, result.verbose)  # a hack
+            verbose = 1
 
     if len(sys.argv) == 1:
         interactive_shell()
