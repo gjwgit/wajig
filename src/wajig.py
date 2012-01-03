@@ -397,7 +397,7 @@ def select_command(command, args, verbose):
             and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
             and util.requires_package("fakeroot", "/usr/bin/fakeroot") \
             and util.requires_no_args(command, args):
-                changes.backup_before_upgrade(backup, pkgs)
+                changes.backup_before_upgrade(pkgs)
             if sys.argv[-1].lower() == "upgrade":
                 perform.execute("apt-get {0} {1} --show-upgraded upgrade".format(yes, noauth),
                                  root=True)
