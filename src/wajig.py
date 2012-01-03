@@ -175,8 +175,7 @@ def main():
     parser.add_argument("-b", "--backup", nargs="?", const=True, help=message)
 
     message = ("set verbosity; defaults to 1 if argument is not provided")
-    parser.add_argument("-v", "--verbose", nargs="?", const=True, help=message,
-                        type=int)
+    parser.add_argument("-v", "--verbose", nargs="?", const=True, help=message)
 
     message = ("uses the faster apt-cache instead of the slower (but more "
                "advanced) aptitude to display package info; used in "
@@ -241,7 +240,11 @@ def main():
     if result.noauth:
         noauth = " --allow-unauthenticated "
     if result.verbose:
-        commands.set_verbosity_level(result.verbose)
+        try:
+            commands.set_verbosity_level(int(result.verbose))
+        except:
+            commands.set_verbosity_level(1)
+            args.insert(0, result.verbose)  # a hack
 
     if len(sys.argv) == 1:
         interactive_shell()
