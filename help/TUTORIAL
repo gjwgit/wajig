@@ -129,13 +129,16 @@ All wajig commands:
 
 Command line options:
 
- -b|--backup=DIR UPGRADE - Backup packages before they are upgraded.
- -h|--help       Print this documentation and exit.
+ -b|--backup     [DIST]UPGRADE - Backup packages before they are upgraded.
+ -f|--fast       SHOW - use apt-cache's version, due to its speed.
+ -h|--help       Print usage message.
  -n|--noauth     Allow packages from unathenticated archives.
- -q|--quiet      Do not show progress of commands.
+ -q|--quiet      Execute system commands quietly.
  -s|--simulate   Show commands to be executed but don't execute.
  -t|--teaching   Show commands to be executed and then execute them.
  -v|--verbose=n  Increase (or set) the level of verbosity (to n).
+ -r|--recommends    Used with INSTALL, to install Recommends too (this is Debian default).
+ -R|--norecommends  Used with INSTALL, to NOT install Recommends.
  -y|--yes        Assume yes for any questions asked.
 
 Wajig expects a command and will call upon other Debian tools to
