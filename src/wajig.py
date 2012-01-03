@@ -261,12 +261,9 @@ def main():
 
     args = [x for x in args if x != ""]
 
-    # Provide help up front - don't need to initialise the system to give help
-
     print_help(command, args, verbose, exit_=True)
-    #
+
     # Before we do any other command make sure the right files exist.
-    #
     changes.ensure_initialised()
 
     select_command(command, args, verbose)
