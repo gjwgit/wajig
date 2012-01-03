@@ -398,16 +398,7 @@ You can upgrade all installed packages with:
 
   $ wajig upgrade                       (apt-get -u upgrade)
 
-You can also backup packages just before upgrading them with:
-
-  $ wajig -b upgrade pkgname
-
-OR
-
-  $ wajig --backup=DIR upgrade pkgname
-  
-DIR is directory where backups will end up. For both options, the
-location of the backups will be displayed.
+The directory into which the backups will end up will be displayed.
 
 And you can upgrade all installed packages, remove those packages that
 need to be removed (for various reasons, including issues to do with
