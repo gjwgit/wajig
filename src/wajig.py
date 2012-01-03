@@ -191,6 +191,11 @@ def main():
     parser.add_argument("-r", "--recommends", action='store_true',
                         default=True, help=message)
 
+    message = ("do not install with Recommended dependencies; used in "
+               "conjunction with INSTALL command")
+    parser.add_argument("-R", "--norecommends", action='store_false',
+                        help=message)
+
     message = "display commands before executing them"
     parser.add_argument("-t", "--teaching", action='store_true', help=message)
 
@@ -199,11 +204,6 @@ def main():
 
     message = "do not authenticate packages before installation"
     parser.add_argument("-n", "--noauth", action='store_true', help=message)
-
-    message = ("do not install with Recommended dependencies; used in "
-               "conjunction with INSTALL command")
-    parser.add_argument("-R", "--norecommends", action='store_false',
-                        help=message)
 
     message = ("specify a distribution to use (e.g. testing or experimental)")
     parser.add_argument("-d", "--dist", help=message)
