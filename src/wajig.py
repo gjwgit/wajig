@@ -169,40 +169,57 @@ def main():
     parser = argparse.ArgumentParser(description=description, epilog=epilog,
              formatter_class=argparse.RawDescriptionHelpFormatter,
              prog="wajig", usage=usage)
+
     message = ("backup packages currently installed packages before replacing "
                "them; used in conjuntion with [DIST]UPGRADE commands")
     parser.add_argument("-b", "--backup", nargs="?", const=True, help=message)
+
     message = ("set verbosity; defaults to 1 if argument is not provided")
     parser.add_argument("-v", "--verbose", nargs="?", const=True, help=message,
                         type=int)
+
     message = ("uses the faster apt-cache instead of the slower (but more "
                "advanced) aptitude to display package info; used in "
                "conjunction with SHOW command")
     parser.add_argument("-f", "--fast", action='store_true', help=message)
+
     message = "wait for input before exiting"
     parser.add_argument("-p", "--pause", action='store_true', help=message)
+
     message = "reduce verbosity of output"
     parser.add_argument("-q", "--quiet", action='store_true', help=message)
+
     message = "simulate command execution"
     parser.add_argument("-s", "--simulate", action='store_true', help=message)
+
     message = ("install with Recommended dependencies; used in "
                "conjunction with INSTALL command")
     parser.add_argument("-r", "--recommends", action='store_true',
                         default=True, help=message)
+
     message = "display commands before executing them"
     parser.add_argument("-t", "--teaching", action='store_true', help=message)
+
     message = "a dangerous option that skips 'Yes/No' prompts'"
     parser.add_argument("-y", "--yes", action='store_true', help=message)
+
     message = "do not authenticate packages before installation"
     parser.add_argument("-n", "--noauth", action='store_true', help=message)
+
     message = ("do not install with Recommended dependencies; used in "
                "conjunction with INSTALL command")
     parser.add_argument("-R", "--norecommends", action='store_false',
                         help=message)
+
     message = ("specify a distribution to use (e.g. testing or experimental)")
     parser.add_argument("-d", "--dist", help=message)
-    parser.add_argument("-V", "--version", action="version", version=const.version)
+
+    message = "show wajig version"
+    parser.add_argument("-V", "--version", action="version", help=message,
+                        version=const.version)
+
     parser.add_argument("args", nargs="*")
+
     result = parser.parse_args()
     backup = result.backup
     util.fast = result.fast
