@@ -682,7 +682,7 @@ def do_changelog(package):
               "ensure that it's APT pinning isn't less than 0.")
         return
     help_message = "\nTo display the local changelog, run:\n" \
-                   "wajig --pager changelog " + package
+                   "wajig --verbose changelog " + package
     if "Failed to download the list of changes" in changelog:
         if not verbose:
             changelog += help_message
