@@ -132,7 +132,6 @@ Command line options:
  -b|--backup=DIR UPGRADE - Backup packages before they are upgraded.
  -h|--help       Print this documentation and exit.
  -n|--noauth     Allow packages from unathenticated archives.
- -x|--pager      CHANGELOG - Use a pager for viewing the entire Debian changelog of a package.
  -p|--pause      Pause before exiting.
  -q|--quiet      Do not show progress of commands.
  -s|--simulate   Show commands to be executed but don't execute.
@@ -349,11 +348,7 @@ If you want to display the entire changelog, use:
 
   $ wajig -v changelog <package name>
 
-If you want to pipe the entire changelog through the system's pager, use:
-
-  $ wajig --pager changelog <package name>
-
-Either that, or you can run the pipe yourself:
+It may be more practical to run the output through a pager:
 
   $ wajig -v changelog <package name> | pager
 

@@ -47,7 +47,7 @@ Usage:
 
  For a mini-tutorial try "wajig help".
  For a list of all commands try "wajig list-commands".
- A more complete turorial is available with "wajig doc | pager".
+ A more complete turorial is available with "wajig doc".
  Full documentation is at http://www.togaware.com/wajig.
 
 """)

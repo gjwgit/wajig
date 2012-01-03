@@ -654,27 +654,21 @@ def local_changelog(package, tmp):
         print("Package", package, "is likely broken (changelog not found)!")
 
 
-def do_changelog(package, pager):
+def do_changelog(package):
     """Display Debian changelog.
 
     network on:
          changelog - if there's newer entries, display them
       -v changelog - if there's newer entries, display them, and proceed to
                      display complete local changelog
-      -P changelog - same as "-v changelog", but use a pager
 
     network off:
          changelog - if there's newer entries, mention failure to retrieve
       -v changelog - if there's newer entries, mention failure to retrieve, and
                      proceed to display complete local changelog
-      -P changelog - same as "-v changelog", but use a pager
     """
 
     changelog = "{:=^79}\n".format(" {} ".format(package))  # header
-    if pager:
-        pipe_cmd = "/usr/bin/sensible-pager "
-    else:
-        pipe_cmd = ""
 
     pkg = apt.Cache()[package]
     try:
@@ -711,12 +705,9 @@ def do_changelog(package, pager):
             if not cmd:
                 return
             perform.execute(cmd)
-        if pipe_cmd:
-            perform.execute(pipe_cmd + tmp)
-        else:
-            with open(tmp) as f:
-                for line in f:
-                    sys.stdout.write(line)
+        with open(tmp) as f:
+            for line in f:
+                sys.stdout.write(line)
 
 
 #------------------------------------------------------------------------

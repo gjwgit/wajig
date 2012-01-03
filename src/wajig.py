@@ -41,7 +41,6 @@ pause = False
 interactive = False  # set to true for interactive command line
 match_commands = list()  # for interactive command line completion
 backup = False
-pager = False  # use a pager?
 yes = str()
 noauth = str()
 
@@ -150,7 +149,6 @@ def main():
     global yes
     global noauth
     global backup
-    global pager
 
     verbose = 0
 
@@ -183,8 +181,6 @@ def main():
     parser.add_argument("-f", "--fast", action='store_true', help=message)
     message = "wait for input before exiting"
     parser.add_argument("-p", "--pause", action='store_true', help=message)
-    message = "use a pager to scroll through output"
-    parser.add_argument("-P", "--pager", action='store_true', help=message)
     message = "reduce verbosity of output"
     parser.add_argument("-q", "--quiet", action='store_true', help=message)
     message = "simulate command execution"
@@ -217,9 +213,6 @@ def main():
     util.recommends_flag = result.recommends
     util.recommends_flag = result.norecommends
     args = result.args
-    if result.pager:
-        pager = True
-        commands.set_verbosity_level(1)
     if result.quiet:
         perform.set_quiet()
     if result.simulate:
@@ -345,7 +338,7 @@ def select_command(command, args, verbose):
     elif command == "changelog":
         if util.requires_one_arg(command, args, "one package name") \
         and util.package_exists(args[1]):
-            commands.do_changelog(args[1], pager)
+            commands.do_changelog(args[1])
 
     elif command == "clean":
         if util.requires_no_args(command, args):
