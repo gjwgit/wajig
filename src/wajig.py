@@ -123,7 +123,7 @@ def interactive_shell():
         all_commands = list_commands()
     except:
         pass
-    prompt = "JIG> "
+    prompt = "wajig> "
     while True:
         try:
             cmdline = input(prompt)

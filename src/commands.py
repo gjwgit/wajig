@@ -57,13 +57,13 @@ def ping_host(hostname):
     # Check if fping is installed.
     if perform.execute("fping localhost 2>/dev/null >/dev/null",
                        display=False) != 0:
-        print("JIG Warning: fping was not found. " +\
+        print("fping was not found. " +\
               "Consider installing the package fping.\n")
 
     # Check if we can talk to the HOST
     elif perform.execute("fping " + hostname + " 2>/dev/null >/dev/null",
                          display=False) != 0:
-        print("JIG Warning: Could not contact the Debian server at " + hostname\
+        print("Could not contact the Debian server at " + hostname\
         + """
              Perhaps it is down or you are not connected to the network.
              JIG will continue to try to get the information required.""")

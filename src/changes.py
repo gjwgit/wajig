@@ -352,7 +352,7 @@ def backup_before_upgrade(pkgs, distupgrade=False):
     if not os.path.exists(target):
         os.makedirs(target)
     os.chdir(target)
-    print("JIG: The packages will saved in", target)
+    print("The packages will saved in", target)
     for pkg in pkgs:
         command = "fakeroot -u dpkg-repack " + pkg
         perform.execute(command)
