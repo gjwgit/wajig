@@ -122,7 +122,7 @@ def update_available(noreport=False):
               "| perl -p -e 's|Package: |\n|g; s|Version: ||g'" +\
               "| sort -k 1b,1 | tail -n +2 | sed 's| $||' > " + available_file
     # Use langC in the following since it uses a grep.
-    perform.execute(command, noquiet=True, langC=True)  # root is not required.
+    perform.execute(command, langC=True)  # root is not required.
     os.rename(temporary_file, previous_file)
 
     available_packages = len(open(available_file).readlines())
@@ -170,13 +170,12 @@ def count_upgrades():
     "Return as a string the number of new upgrades since last update."
     ifile = tempfile.mkstemp()[1]
     # Use langC in the following since it uses a grep.
-    perform.execute(gen_installed_command_str() + " > " + ifile,
-                    langC=True, noquiet=True)
+    perform.execute(gen_installed_command_str() + " > " + ifile, langC=True)
     command = "join " + previous_file + " " + available_file + " |" +\
               "awk '$2 != $3 {print}' | sort -k 1b,1 | join - " + ifile + " |" +\
               "awk '$4 != $3 {print}' | wc -l | awk '{print $1}' "
     # 090425 Use langC=True to work with change from coreutils 6.10 to 7.2
-    count = perform.execute(command, noquiet=True, pipe=True,
+    count = perform.execute(command, pipe=True,
             langC=True).read().split()[0]
     if os.path.exists(ifile):
         os.remove(ifile)
@@ -223,8 +222,7 @@ def load_dictionaries():
     for i in range(0, len(pfile)):
         previous_list[pfile[i].split()[0]] = pfile[i].split()[1]
 
-    ifile = perform.execute(gen_installed_command_str(),
-                            noquiet=True, pipe=True).readlines()
+    ifile = perform.execute(gen_installed_command_str(), pipe=True).readlines()
     for i in range(0, len(ifile)):
         installed_list[ifile[i].split()[0]] = ifile[i].split()[1]
 

@@ -133,7 +133,6 @@ Command line options:
  -f|--fast       SHOW - use apt-cache's version, due to its speed.
  -h|--help       Print usage message.
  -n|--noauth     Allow packages from unathenticated archives.
- -q|--quiet      Execute system commands quietly.
  -s|--simulate   Show commands to be executed but don't execute.
  -t|--teaching   Show commands to be executed and then execute them.
  -v|--verbose=n  Increase (or set) the level of verbosity (to n).

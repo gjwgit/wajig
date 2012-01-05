@@ -61,16 +61,8 @@ if os.path.exists("/usr/bin/sudo") and user != 'root':
 #
 #------------------------------------------------------------------------
 
-quiet = ""
 simulate = False
 teaching = False
-
-def set_quiet(check=True):
-    global quiet
-    if check:
-        quiet = "> /dev/null"
-    else:
-        quiet = ""
 
 
 def set_teaching():
@@ -83,15 +75,14 @@ def set_simulate(new_level):
     simulate = new_level
 
 
-def execute(command, root=False, noquiet=False, display=True, pipe=False,
-            langC=False, test=False):
+def execute(command, root=False, display=True, pipe=False, langC=False,
+            test=False):
     """Ask the operating system to perform a command.
 
     Arguments:
 
     COMMAND     A string containing the command and command line options
     ROOT        If non-zero then root access is required to execute command
-    NOQUIET     Suppress the use of quiet (in case command has a redirect)
     PIPE        If True then return a file-like object.
     LANGC       If LC_TYPE=C is needed (as in join in status command)
 
@@ -146,14 +137,12 @@ def execute(command, root=False, noquiet=False, display=True, pipe=False,
             # says NOPASSWD. Only other alternative might be to store
             # intermediate results in temporary files.
         else:
-            if quiet == "" and user != "root" and not test:
+            if user != "root" and not test:
                 print("""
 Using `su' and requiring root password. Install `sudo' to support user
 passwords. See wajig documentation (wajig doc) for details.
 """)
             command = setroot + " -c '" + command + "'"
-    if not noquiet:
-        command = command + quiet
     #
     # Bug#119899 from Michal Politowski <mpol@charybda.icm.edu.pl>
     # was implemented to ensure handling Polish language okay:

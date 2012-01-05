@@ -4,22 +4,26 @@ wajig (2.3) unstable; urgency=low
   * DOWNLOAD: improve description. (Closes: #627173)
   * FILE-INSTALL, FILE-REMOVE, FILE-DOWNLOAD: fix bugs.
   * REMOVE, PURGE: add --noauth option, to avoid cases where a package would
-    be downloaded when there's an anuthenticated version available; this
-    happens in a case where when removing/purging a package leaves a void
+    be downloaded when there's an unauthenticated version available; this
+    happens in a case where removing/purging a package leaves a void
     where APT want to be smart/convenient, and install a replacement.
   * fix some lintian warnings
   * replace usage of getopt with the superior argparse; this required
     increasing minimum Python version to 3.2
-  * get rid of --pager option; it's really excess, considering that user can
+  * rm --pager option; it's really excess, considering that user can
     simply do "wajig COMMAND | pager" by herself
-  * get rid of --pause option; it was only useful for gjig (IIRC) to avoid
+  * rm --pause option; it was only useful for gjig (IIRC) to avoid
     windows from closing up automatically, in order to allow one to read
     the output
   * rm ability to specify backup directory; requires too much work in order to
     make it work with argparse; simplifies code too and there's probably no
     one else who uses this feature anyways (not even me)
+  * rm --quiet option: all it did was redirect output to /dev/null;
+    when the option is used, if there is, for example, a Yes/No prompt, it
+    won't be seen and it will appear like wajig is stuck; user can do own
+    redirection is she insists anyways, so let's reduce the bloat
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 03 Jan 2012 11:35:54 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 05 Jan 2012 22:22:00 +0200
 
 wajig (2.2) unstable; urgency=low
 
@@ -161,7 +165,7 @@ wajig (2.0.48) unstable; urgency=low
 
   [ Tshepang Lekhonkhobe ]
 
-  * ADDREPO: new command USED to add a Launchpad PPA. Uses add-apt-repository.
+  * ADDEPO: new command USED to add a Launchpad PPA. Uses add-apt-repository.
   * UPGRADE: Add -b (backup) option so it is easier to revert to a previous state
     if problems arises. Uses dpkg-repack.
   * Cleanups: debian meta data, code, remove deprecated usage of 'string' module,
@@ -201,7 +205,7 @@ wajig (2.0.45) unstable; urgency=low
     link information from the call to lynx - Bernat Arlandis i
     Mañó. (Closes: #565666).
 
- -- Graham Williams <Graham.Williams@togaware.com>  Mon, 18 Jan 2010 09:08:41 +1100
+ -- Grham Williams <Graham.Williams@togaware.com>  Mon, 18 Jan 2010 09:08:41 +1100
 
 wajig (2.0.44) unstable; urgency=low
 

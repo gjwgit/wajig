@@ -180,9 +180,6 @@ def main():
                "conjunction with SHOW command")
     parser.add_argument("-f", "--fast", action='store_true', help=message)
 
-    message = "reduce verbosity of output"
-    parser.add_argument("-q", "--quiet", action='store_true', help=message)
-
     message = "simulate command execution"
     parser.add_argument("-s", "--simulate", action='store_true', help=message)
 
@@ -222,8 +219,6 @@ def main():
     util.recommends_flag = result.recommends
     util.recommends_flag = result.norecommends
     args = result.args
-    if result.quiet:
-        perform.set_quiet()
     if result.simulate:
         perform.set_simulate(True)
     if result.teaching:
@@ -304,7 +299,7 @@ def select_command(command, args, verbose):
                 commands.do_update()
                 filter_str = ""
             else:
-                commands.do_update(quiet=True)
+                commands.do_update()
                 filter_str = '| egrep -v "(http|ftp)"'
             perform.execute("apt-get --download-only --show-upgraded " +\
                             "--assume-yes dist-upgrade " + filter_str,

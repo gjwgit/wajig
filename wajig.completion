@@ -7,7 +7,7 @@ _wajig()
     cur=${COMP_WORDS[COMP_CWORD]}
 
     options="-b --backup -d --dist -f --fast -h --help -n --noauth \
-             -q --quiet -s --simulate -t --teaching -v --verbose \
+             -s --simulate -t --teaching -v --verbose \
              -r --recommends -R --norecommends -y --yes -V --version"
 
     commands="addcdrom addrepo auto-alts auto-clean auto-download \

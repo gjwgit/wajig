@@ -45,12 +45,6 @@ class Tests(unittest.TestCase):
         res = perform.execute("TEST", test=True)
         self.assertEqual(res, "Performing: TEST")
 
-    def test_perform_quiet(self):
-        perform.set_quiet()
-        res = perform.execute("TEST", test=True)
-        self.assertEqual(res, "set -o noglob; TEST> /dev/null")
-        perform.set_quiet(False)
-
     # ----
     # testing util.py
     # ----

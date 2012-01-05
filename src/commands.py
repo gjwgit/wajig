@@ -77,7 +77,7 @@ def get_available(command="dumpavail"):
     # This originally ran the apt-cache command as a pipe to
     # TagFile as in:
     #  command = "apt-cache dumpavail"
-    #  packages_pipe = perform.execute(command, noquiet=True, pipe=True)
+    #  packages_pipe = perform.execute(command, pipe=True)
     #  avail = apt_pkg.TagFile(packages_pipe)
     #
     # But as in Bug#366678 TagFile no longer works in a pipe
@@ -813,7 +813,7 @@ def do_status(packages, snapshot=False):
     # See Bug#288852 and Bug#119899.
     #
     perform.execute(changes.gen_installed_command_str() + " > " + ifile,
-                    noquiet=True, langC=True)
+                    langC=True)
     #
     # Build the command to list the status of installed packages.
     #
