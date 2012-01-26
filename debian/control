@@ -5,7 +5,7 @@ Maintainer: Graham Williams <Graham.Williams@togaware.com>
 Uploaders: Tshepang Lekhonkhobe <tshepang@gmail.com>
 Homepage: http://wajig.togaware.com
 Standards-Version: 3.9.2
-Build-Depends: debhelper (>= 8)
+Build-Depends: debhelper (>= 9)
 Vcs-hg: https://wajig.googlecode.com/hg
 Vcs-Browser: http://code.google.com/p/wajig/source/browse
 
