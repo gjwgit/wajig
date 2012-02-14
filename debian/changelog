@@ -25,8 +25,9 @@ wajig (2.3) unstable; urgency=low
     redirection is she insists anyways, so let's reduce the bloat
   * DESCRIBE: Last character in short description missing (patch by Chris
     Peach) - LP: #923041
+  * DEPENDENTS: improve output
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 14 Feb 2012 15:30:33 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 15 Feb 2012 01:13:02 +0200
 
 wajig (2.2) unstable; urgency=low
 

@@ -100,43 +100,47 @@ def get_available(command="dumpavail"):
     return avail
 
 
-def do_dependents(package):
-    command = "apt-cache showpkg " + package +\
-              " | awk \'BEGIN{found=0}/^Reverse Depends:/{found=1;next}/^[^ ]/{found=0}found==1{print}{next}\' " +\
-              " | sed \'s|Reverse Depends:||\' | tr \",\" \" \" " +\
-              " | awk \'{print $1}\' | sort -u -k 1b,1 | grep -v \'^$\'"
-    packages = perform.execute(command, pipe=True)
-    pkgs = []
-    for pkg in packages:
-        pkgs.append(pkg.strip())
-    avail = get_available()
+def getdeps(deptype, pkg, otherpkg):
+    li = list()
+    name = otherpkg.shortname
+    otherpkg = otherpkg.candidate
+    for deplist in otherpkg.get_dependencies(deptype):
+        for dep in deplist.or_dependencies:
+            if dep.name == pkg.shortname:
+                li.append(name)
+    return li
 
-    # Check for information in the Available list
-    for section in avail:
-        nam = section.get("Package")
-        if (nam in pkgs):
-            dep = section.get("Depends")
-            sug = section.get("Suggests")
-            rec = section.get("Recommends")
-            con = section.get("Conflicts")
-            rep = section.get("Replaces")
-            if not dep: dep = ""
-            if not sug: sug = ""
-            if not rec: rec = ""
-            if not con: con = ""
-            if not rep: rep = ""
-            if package in dep:
-                print("d", nam)  # depends
-            elif package in sug:
-                print("s", nam)  # suggests
-            elif package in rec:
-                print("r", nam)  # recommends
-            elif package in con:
-                print("c", nam)  # conflicts
-            elif package in rep:
-                print("p", nam)  # replaces
-            else:
-                print("o", nam)  # other
+
+def do_dependents(pkg):
+    cache = apt.cache.Cache()
+    try:
+        pkg = cache[pkg]
+    except KeyError as e:
+        print(str(e).strip('"'))
+        return
+
+    dependents = dict()
+    depends = list()
+    recommends = list()
+    suggests = list()
+    for key in cache.keys():
+        otherpkg = cache[key]
+        depends.append(getdeps("Depends", pkg, otherpkg))
+        recommends.append(getdeps("Recommends", pkg, otherpkg))
+        suggests.append(getdeps("Suggests", pkg, otherpkg))
+
+    dependents["Depends"] = depends
+    dependents["Recommends"] = recommends
+    dependents["Suggests"] = suggests
+    for deptype, deps in dependents.items():
+        deps_output = list()
+        for match in deps:
+            if match:
+                for item in match:
+                    deps_output.append(item)
+        if deps_output:
+            print(deptype.upper(), end=": ")
+            print(" ".join(deps_output))
 
 
 def do_describe(packages):
