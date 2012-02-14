@@ -270,8 +270,7 @@ def do_describe(packages):
             # is a description available.
             package_short_description = ""
             if describe_list[pkg]:
-                line_end = describe_list[pkg].find("\n")
-                package_short_description = describe_list[pkg][0:line_end]
+                package_short_description = describe_list[pkg].split("\n")[0]
             print("%-24s %s" % (pkg, package_short_description.capitalize()))
     elif verbose == 1:
         for pkg in pkgs:
