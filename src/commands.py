@@ -138,20 +138,7 @@ def do_dependents(package):
             else:
                 print("o", nam)  # other
 
-#------------------------------------------------------------------------
-#
-# DESCRIBE
-#
-# The package descriptions can either be in dpkg --status or in
-# apt-cache dumpavail.  They are not in the latter if they are no longer
-# available, so I really need to be checking both!
-#
-# Similarly using the Tag file within apt-pkg python package.
-# Some installed packages may no longer be available.
-# Thus need to check both Available and Status.
-# But then we get repeats so need to remove repeats.
-#
-#------------------------------------------------------------------------
+
 def do_describe(packages):
     """Display package description(s)."""
 
