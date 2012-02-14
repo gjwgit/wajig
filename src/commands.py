@@ -168,9 +168,6 @@ def do_describe(packages):
     else:
         return
 
-    pkgversions = list()
-    cache = apt.cache.Cache()
-
     global verbose
     if (verbose > 2):
         verbose = 2
@@ -182,6 +179,8 @@ def do_describe(packages):
         perform.execute("{} show {}".format(cmd, package_names))
 
     elif verbose in (0, 1):
+        pkgversions = list()
+        cache = apt.cache.Cache()
         for pkg in packages:
             try:
                 pkg = cache[pkg]
