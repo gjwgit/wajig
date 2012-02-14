@@ -193,10 +193,10 @@ def do_describe(packages):
             package_short_description = ""
             if describe_list[pkg]:
                 package_short_description = describe_list[pkg].split("\n")[0]
-            print("%-24s %s" % (pkg, package_short_description.capitalize()))
+            print("%-24s %s" % (pkg, package_short_description))
     elif verbose == 1:
         for pkg in pkgs:
-            print(pkg + ": " + describe_list[pkg].capitalize() + "\n")
+            print(pkg + ": " + describe_list[pkg] + "\n")
     else:
         package_names = util.concat(packages)
         cmd = "apt-cache" if util.fast else "aptitude"
