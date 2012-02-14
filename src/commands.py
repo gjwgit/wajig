@@ -420,11 +420,12 @@ def do_listsections():
         print(section)
 
 
-def do_listsection(pattern):
-    avail = get_available()
-    for section in avail:
-        if (pattern == section.get("Section")):
-            print(section.get("Package"))
+def do_listsection(section):
+    cache = apt.cache.Cache()
+    for pkg in cache.keys():
+        pkg = cache[pkg]
+        if(pkg.section == section):
+            print(pkg.name)
 
 
 def do_listinstalled(pattern):
