@@ -410,13 +410,14 @@ def do_install_suggest(packages, yes, noauth):
 
 
 def do_listsections():
-    avail = get_available()
-    sections = []
-    for section in avail:
-        s = section.get("Section")
-        if s not in sections:
-            sections.append(s)
-    print("\n".join(sections))
+    cache = apt.cache.Cache()
+    sections = list()
+    for pkg in cache.keys():
+        pkg = cache[pkg]
+        sections.append(pkg.section)
+    sections = set(sections)
+    for section in sections:
+        print(section)
 
 
 def do_listsection(pattern):
