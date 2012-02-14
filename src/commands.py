@@ -191,19 +191,19 @@ def do_describe(packages):
             pkgversion = pkg.installed
             if not pkgversion:  # if package is not installed...
                 pkgversion = pkg.candidate
-            pkgversions.append({"name": pkg.shortname,
-                                "summary": pkgversion.summary,
-                                "description": pkgversion.description})
+            pkgversions.append((pkg.shortname, pkgversion.summary,
+                                pkgversion.description))
+        pkgversions = set(pkgversions)
         if verbose == 0:
             print("{0:24} {1}".format("Package", "Description"))
             print("="*24 + "-" + "="*51)
             for pkgversion in pkgversions:
-                print("%-24s %s" % (pkgversion["name"], pkgversion["summary"]))
+                print("%-24s %s" % (pkgversion[0], pkgversion[1]))
         else:
             for pkgversion in pkgversions:
-                print("{}: {}\n{}\n".format(pkgversion["name"],
-                                            pkgversion["summary"],
-                                            pkgversion["description"]))
+                print("{}: {}\n{}\n".format(pkgversion[0],
+                                            pkgversion[1],
+                                            pkgversion[2]))
 
 #------------------------------------------------------------------------
 #
