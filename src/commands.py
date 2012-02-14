@@ -167,40 +167,43 @@ def do_describe(packages):
         packages = package_names
     else:
         return
-    avail = get_available()
-    describe_list = dict()
 
-    # Check for information in the Available list
-    for section in avail:
-        if section.get("Package") in packages:
-            package_name = section.get("Package")
-            package_description = section.get("Description")
-            if not package_name in describe_list:
-                describe_list[package_name] = package_description
+    pkgversions = list()
+    cache = apt.cache.Cache()
 
-    pkgs = sorted(describe_list)
-
-    if (not pkgs) and (verbose < 2):
+    global verbose
+    if (verbose > 2):
+        verbose = 2
+    if (not packages) and (verbose < 2):
         print("No packages found from those known to be available/installed.")
-    elif verbose == 0:
-        print("{0:24} {1}".format("Package", "Description"))
-        print("="*24 + "-" + "="*51)
-
-        # TODO mvo suggests apt.Package.summary may be helpful here
-        for pkg in pkgs:
-            # Only print that first line, but check that there
-            # is a description available.
-            package_short_description = ""
-            if describe_list[pkg]:
-                package_short_description = describe_list[pkg].split("\n")[0]
-            print("%-24s %s" % (pkg, package_short_description))
-    elif verbose == 1:
-        for pkg in pkgs:
-            print(pkg + ": " + describe_list[pkg] + "\n")
-    else:
+    elif verbose == 2:
         package_names = util.concat(packages)
         cmd = "apt-cache" if util.fast else "aptitude"
         perform.execute("{} show {}".format(cmd, package_names))
+
+    elif verbose in (0, 1):
+        for pkg in packages:
+            try:
+                pkg = cache[pkg]
+            except KeyError as e:
+                print(str(e).strip('"'))
+                return 1
+            pkgversion = pkg.installed
+            if not pkgversion:  # if package is not installed...
+                pkgversion = pkg.candidate
+            pkgversions.append({"name": pkg.shortname,
+                                "summary": pkgversion.summary,
+                                "description": pkgversion.description})
+        if verbose == 0:
+            print("{0:24} {1}".format("Package", "Description"))
+            print("="*24 + "-" + "="*51)
+            for pkgversion in pkgversions:
+                print("%-24s %s" % (pkgversion["name"], pkgversion["summary"]))
+        else:
+            for pkgversion in pkgversions:
+                print("{}: {}\n{}\n".format(pkgversion["name"],
+                                            pkgversion["summary"],
+                                            pkgversion["description"]))
 
 #------------------------------------------------------------------------
 #
