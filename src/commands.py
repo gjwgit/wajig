@@ -172,7 +172,7 @@ def do_describe(packages):
 
     # Check for information in the Available list
     for section in avail:
-        if (section.get("Package") in packages):
+        if section.get("Package") in packages:
             package_name = section.get("Package")
             package_description = section.get("Description")
             if not package_name in describe_list:
