@@ -180,7 +180,7 @@ def do_describe(packages):
 
     pkgs = sorted(describe_list)
 
-    if (not pkgs) and (verbose < 2):  # 'verbose' is for handling virtual pkgs
+    if (not pkgs) and (verbose < 2):
         print("No packages found from those known to be available/installed.")
     elif verbose == 0:
         print("{0:24} {1}".format("Package", "Description"))
