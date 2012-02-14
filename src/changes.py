@@ -98,11 +98,6 @@ if os.path.exists(log_file):
 tempfile.tempdir = init_dir
 
 
-#------------------------------------------------------------------------
-#
-# UPDATE AVAILABLE
-#
-#------------------------------------------------------------------------
 def update_available(noreport=False):
     """Generate current list of available packages, backing up the old list.
 
@@ -150,11 +145,6 @@ def update_available(noreport=False):
             print("packages.")
 
 
-#------------------------------------------------------------------------
-#
-# GET INSTALLED COMMAND STR
-#
-#------------------------------------------------------------------------
 def gen_installed_command_str():
     "Generate command to list installed packages and their status."
     command = "cat /var/lib/dpkg/status | " +\
@@ -189,21 +179,13 @@ def reset_files():
         os.remove(previous_file)
     update_available(noreport=True)
 
-#------------------------------------------------------------------------
-#
-# ENSURE INITIALISED
-#
-#------------------------------------------------------------------------
+
 def ensure_initialised():
     "Create the init_dir and files if they don't exist."
     if not os.path.exists(available_file):
         reset_files()
 
-#------------------------------------------------------------------------
-#
-# Dictionaries of available, installed, and previously available packages.
-#
-#------------------------------------------------------------------------
+
 available_list = {}
 previous_list = {}
 installed_list = {}

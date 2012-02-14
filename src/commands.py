@@ -191,11 +191,7 @@ def do_describe(packages):
                                             pkgversion[1],
                                             pkgversion[2]))
 
-#------------------------------------------------------------------------
-#
-# DESCRIBE NEW
-#
-#------------------------------------------------------------------------
+
 def do_describe_new(install=False):
     "Report on packages that are newly available."
 
@@ -211,22 +207,14 @@ def do_describe_new(install=False):
             print("="*76)
             do_install(new_pkgs)
 
-#------------------------------------------------------------------------
-#
-# DOWNLOAD
-#
-#------------------------------------------------------------------------
+
 def do_download(packages):
     "Download packages without installing them."
 
     command = "apt-get --download-only install " + util.concat(packages)
     perform.execute(command, root=1)
 
-#------------------------------------------------------------------------
-#
-# FORCE : Rewritten 2004-06-05 09:58:47 graham
-#
-#------------------------------------------------------------------------
+
 def do_force(packages):
     """Force the installation of a package.
 
@@ -286,11 +274,7 @@ def do_force(packages):
     #
     perform.execute(command, root=1)
 
-#------------------------------------------------------------------------
-#
-# HOLD
-#
-#------------------------------------------------------------------------
+
 def do_hold(packages):
     "Place packages on hold (so they will not be upgraded)."
 
@@ -303,11 +287,6 @@ def do_hold(packages):
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
 
 
-#------------------------------------------------------------------------
-#
-# INSTALL
-#
-#------------------------------------------------------------------------
 def do_install(packages, yes="", noauth="", dist=""):
     "Install packages."
 
@@ -385,11 +364,7 @@ def do_install(packages, yes="", noauth="", dist=""):
         cmd = cmd.format(yes, noauth, rec, dist, util.concat(packages))
         perform.execute(cmd, root=True)
 
-#------------------------------------------------------------------------
-#
-# INSTALL SUGGEST
-#
-#------------------------------------------------------------------------
+
 def do_install_suggest(packages, yes, noauth):
     "Install packages suggested by the listed packages."
 
@@ -433,11 +408,7 @@ def do_install_suggest(packages, yes, noauth):
                      util.concat(packages), suggest_list),
                      root=True)
 
-#-----------------------------------------------------------------------
-#
-# LIST SECTION
-#
-#-----------------------------------------------------------------------
+
 def do_listsections():
     avail = get_available()
     sections = []
@@ -454,11 +425,7 @@ def do_listsection(pattern):
         if (pattern == section.get("Section")):
             print(section.get("Package"))
 
-#------------------------------------------------------------------------
-#
-# LIST INSTALLED
-#
-#------------------------------------------------------------------------
+
 def do_listinstalled(pattern):
     "Display a list of installed packages."
     command = "dpkg --get-selections | awk '$2 ~/^install$/ {print $1}'"
@@ -466,11 +433,7 @@ def do_listinstalled(pattern):
         command = command + " | grep -- " + pattern[0] + " | sort -k 1b,1"
     perform.execute(command)
 
-#------------------------------------------------------------------------
-#
-# LIST NAMES
-#
-#------------------------------------------------------------------------
+
 def do_listnames(pattern, pipe=False):
     "Print list of known package names."
 
@@ -512,11 +475,7 @@ def do_listscripts(pkg):
                 print(">"*nlen, script, "<"*nlen)
                 perform.execute("cat " + fname)
 
-#------------------------------------------------------------------------
-#
-# NEW
-#
-#------------------------------------------------------------------------
+
 def do_new():
     "Report on packages that are newly available."
 
@@ -532,11 +491,6 @@ def do_new():
             changes.get_available_version(new_pkgs[i])))
 
 
-#------------------------------------------------------------------------
-#
-# CHANGELOG
-#
-#------------------------------------------------------------------------
 def local_changelog(package, tmp):
     "Retrieve Debian changelog from local installation."
 
@@ -606,11 +560,6 @@ def do_changelog(package):
                 sys.stdout.write(line)
 
 
-#------------------------------------------------------------------------
-#
-# NEWUPGRADES
-#
-#------------------------------------------------------------------------
 def do_newupgrades(install=False):
     "Display packages that are newly upgraded."
 
@@ -776,12 +725,7 @@ def do_toupgrade():
                             changes.get_available_version(to_upgrade[i]), \
                             changes.get_installed_version(to_upgrade[i])))
 
-#------------------------------------------------------------------------
-#
-# edd 03 Sep 2003  unhold patch based on hold semantics
-# UNHOLD
-#
-#------------------------------------------------------------------------
+
 def do_unhold(packages):
     "Remove packages from hold (they will again be upgraded)."
 
@@ -793,11 +737,7 @@ def do_unhold(packages):
     print("The following packages are still on hold:")
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
 
-#------------------------------------------------------------------------
-#
-# UPDATE
-#
-#------------------------------------------------------------------------
+
 def do_update():
     if not perform.execute("apt-get update", root=1):
         changes.update_available()
@@ -835,11 +775,7 @@ def do_findpkg(pkg):
     if os.path.exists(results):
         os.remove(results)
 
-#------------------------------------------------------------------------
-#
-# RECDOWNLOAD
-#
-#------------------------------------------------------------------------
+
 def do_recdownload(packages):
     #FIXME: This has problems with virtual packages, FIX THEM!!!
 
