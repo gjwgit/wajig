@@ -123,7 +123,6 @@ def do_dependents(pkg):
     depends = list()
     recommends = list()
     suggests = list()
-    conflicts = list()
     replaces = list()
     enhances = list()
     for key in cache.keys():
@@ -131,14 +130,12 @@ def do_dependents(pkg):
         depends.append(getdeps("Depends", pkg, otherpkg))
         recommends.append(getdeps("Recommends", pkg, otherpkg))
         suggests.append(getdeps("Suggests", pkg, otherpkg))
-        conflicts.append(getdeps("Conflicts", pkg, otherpkg))
         replaces.append(getdeps("Replaces", pkg, otherpkg))
         enhances.append(getdeps("Enhances", pkg, otherpkg))
 
     dependents["Depends"] = depends
     dependents["Recommends"] = recommends
     dependents["Suggests"] = suggests
-    dependents["Conflicts"] = conflicts
     dependents["Replaces"] = replaces
     dependents["Enhances"] = enhances
     for deptype, deps in dependents.items():
