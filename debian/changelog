@@ -23,11 +23,10 @@ wajig (2.3) unstable; urgency=low
     when the option is used, if there is, for example, a Yes/No prompt, it
     won't be seen and it will appear like wajig is stuck; user can do own
     redirection is she insists anyways, so let's reduce the bloat
-  * DESCRIBE: Last character in short description missing (patch by Chris
-    Peach) - LP: #923041
+  * DESCRIBE: Last character in short description missing - LP: #923041
   * DEPENDENTS: improve output
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 15 Feb 2012 01:13:02 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 15 Feb 2012 01:13:38 +0200
 
 wajig (2.2) unstable; urgency=low
 
