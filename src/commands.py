@@ -200,7 +200,7 @@ def do_describe(packages):
     else:
         package_names = util.concat(packages)
         cmd = "apt-cache" if util.fast else "aptitude"
-        perform.execute(cmd + " show " + package_names)
+        perform.execute("{} show {}".format(cmd, package_names))
 
 #------------------------------------------------------------------------
 #
