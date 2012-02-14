@@ -155,41 +155,6 @@ def do_dependents(package):
 def do_describe(packages):
     """Display package description(s)."""
 
-    #
-    # From where do we get information about the packages?
-    #
-    #   /var/lib/dpkg/available         dpkg's idea of available
-    #   /var/cache/apt/available        apt's  idea of available
-    #
-    # TODO does apt_pkg provide a way to get available apt-cache directly,
-    # and does not require root access - otherwise I need to do it through
-    # sudo with external commands.
-    #
-    # I did think to move to /var/cache/apt/available so I don't need to
-    # use dpkg's copy which is not updated by apt-get update.
-    # Hoever, "dselect update" does update it after doing
-    # "apt-get update".
-    #
-    # So it seems "apt-get update" updates /var/cache/apt/pkgcache.bin not
-    # /var/cache/apt/available.  Thus new packages are not found in available.
-    # How to get access to /var/cache/apt/pkgcache.bin? Go back to
-    # the dpkg available list /var/lib/dpkg/available for now and
-    # make sure UPDATE uses "dselect update"
-    #
-    # avail  = apt_pkg.TagFile(open("/var/cache/apt/available","r"));
-    # avail  = apt_pkg.TagFile(open("/var/cache/apt/pkgcache.bin","r"));
-    # avail  = apt_pkg.TagFile(open("/var/lib/dpkg/available","r"))
-    #
-    # Simplest solution seems to be to pipe details of all packages
-    # from apt-cache (which needs sudo). 23 Aug 2003.
-    #
-    # However, as of 11 Nov 2003 at least, apt-cache seems user
-    # accessible on festiva, alpine, cultus, fairmont. So remove
-    # root=1.
-    #
-    # First, extract the package names and the package files
-    # and handle separately.
-    #
     package_files = [pkg for pkg in packages if pkg.endswith(".deb")]
     package_names = [pkg for pkg in packages if not pkg.endswith(".deb")]
     if package_files:
@@ -197,22 +162,6 @@ def do_describe(packages):
             perform.execute("dpkg-deb --info " + package_file)
             print("="*72)
             sys.stdout.flush()
-
-    # 090409 Bug #432266 From Reuben Thomas <rrt@sc3d.org> 9 Apr 2009
-    # Call to apt-cache dumpavail fails for packages installed but no
-    # longer available. His original suggestion was to use dpkg
-    # --status.  That did not work! He then supplied this one which
-    # uses grep-status from dctrl package. But this accounts for only
-    # "detail" and not "describe" and "new". So remove for now until
-    # that is fixed.
-
-#    l = package_names[:]
-#    for p in l:
-#        # if perform.execute("dpkg --status %s" % p) == 0:
-#        if perform.execute("grep-status -PX %s" % p) == 0:
-#            sys.stdout.flush()
-#            package_names.remove(p)
-    # End Reuben Thomas patch.
 
     if package_names:
         packages = package_names
@@ -228,41 +177,14 @@ def do_describe(packages):
             package_description = section.get("Description")
             if not package_name in describe_list:
                 describe_list[package_name] = package_description
-    # Bug fix for Bug#366678 Part 2 - not working yet???
-    # mvo: its probably a good idea to keep the cache around in all of wajig
-    #      because getting it may be expensive
-#     cache = apt.Cache()
-#     for pkgname in packages:
-#         if cache.has_key(pkgname):
-#             describe_list[pkgname] = cache[pkgname].description
-    # End Bug Fix for Bug#366678
 
-    # Print out the one line descriptions. Should it be sorted?
-    # If not sorted it should be same order as on the command line.
     pkgs = sorted(describe_list)
 
-    # Print the description, depending on level of detail (verbose).
     if len(pkgs) == 0 and verbose < 2:  # 'verbose' is for handling virtual pkgs
         print("No packages found from those known to be available/installed.")
     elif verbose == 0:
         print("{0:24} {1}".format("Package", "Description"))
         print("="*24 + "-" + "="*51)
-
-#
-# We could start using the grep-dctrl package to get the information.
-# Almost works (except when package is not found in one of status
-# or available - still prints package name)
-#
-#        command = "(:"
-#        for pkg in packages:
-#            command += "; printf \"%-24s \" " + pkg +\
-#                       "; grep-status -XP -s Description " + pkg +\
-#                       "| head -1 | cut -d' ' -f2- "
-#            command += "; printf \"%-24s \" " + pkg +\
-#                       "; grep-available -XP -s Description " + pkg +\
-#                       "| head -1 | cut -d' ' -f2- "
-#        command += ") | sort"
-#        perform.execute(command)
 
         # TODO mvo suggests apt.Package.summary may be helpful here
         for pkg in pkgs:
@@ -276,23 +198,9 @@ def do_describe(packages):
         for pkg in pkgs:
             print(pkg + ": " + describe_list[pkg].capitalize() + "\n")
     else:
-        # TODO is there a way of doing this using apt_pkg easily?
-        # Use "aptitude show" for now.
-        #
-# Comment out for fix for Bug#366678
         package_names = util.concat(packages)
         cmd = "apt-cache" if util.fast else "aptitude"
         perform.execute(cmd + " show " + package_names)
-# Bug#366678 fix from mvo - part 3 - not working yet???
-#   for pkgname in filter(lambda pkgname: cache.has_key(pkgname), packages):
-#       pkg = cache[pkgname]
-#       for ver in pkg._pkg.VersionList:
-#           if ver == None or ver.FileList == None:
-#              print "no ver or ver.FileList"
-#               continue
-#           f, index = ver.FileList.pop(0)
-#           cache._records.Lookup((f,index))
-#           print cache._records.Record
 
 #------------------------------------------------------------------------
 #
