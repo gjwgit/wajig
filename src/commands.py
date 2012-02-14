@@ -174,7 +174,7 @@ def do_describe(packages):
     if (not packages) and (verbose < 2):
         print("No packages found from those known to be available/installed.")
     elif verbose == 2:
-        package_names = util.concat(packages)
+        package_names = util.concat(set(packages))
         cmd = "apt-cache" if util.fast else "aptitude"
         perform.execute("{} show {}".format(cmd, package_names))
 
