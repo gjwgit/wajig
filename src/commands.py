@@ -387,10 +387,10 @@ def do_install_suggest(packages, yes, noauth):
         dependencies.extend(extract_dependencies(pkg, "Suggests"))
 
     dependencies = " ".join(dependencies)
-    perform.execute("apt-get {0} {1} {2} --show-upgraded install {3} {4}".\
-                     format(util.recommends(), yes, noauth, \
-                     util.concat(packages), suggest_list),
-                     root=True)
+    template = "apt-get {0} {1} {2} --show-upgraded install {3} {4}"
+    cmd = template.format(util.recommends(), yes, noauth, dependencies,
+                          util.concat(packages))
+    perform.execute(cmd, root=True)
 
 
 def do_listsections():
