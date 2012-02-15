@@ -100,53 +100,45 @@ def get_available(command="dumpavail"):
     return avail
 
 
-def getdeps(deptype, pkg, otherpkg):
-    li = list()
-    name = otherpkg.shortname
-    otherpkg = otherpkg.candidate
-    for deplist in otherpkg.get_dependencies(deptype):
-        for dep in deplist.or_dependencies:
-            if dep.name == pkg.shortname:
-                li.append(name)
-    return li
+def extract_dependencies(package, dependency_type):
+    """
+    Generator that produce all the dependencies of a particular type
+    """
+    for dependency_list in package.candidate.get_dependencies(dependency_type):
+        for dependency in dependency_list.or_dependencies:
+            yield dependency.name
 
 
 def do_dependents(pkg):
+    """Which packages have some kind of dependency on the given package"""
+
+    DEPENDENCY_TYPES = [
+        "Depends",
+        "Recommends",
+        "Suggests",
+        "Replaces",
+        "Enhances",
+    ]
+
     cache = apt.cache.Cache()
     try:
         pkg = cache[pkg]
-    except KeyError as e:
-        print(str(e).strip('"'))
-        return
+    except KeyError as error:
+        print(error.args[0])
+        sys.exit(1)
 
-    dependents = dict()
-    depends = list()
-    recommends = list()
-    suggests = list()
-    replaces = list()
-    enhances = list()
+    dependents = { name : [] for name in DEPENDENCY_TYPES }
+
     for key in cache.keys():
-        otherpkg = cache[key]
-        depends.append(getdeps("Depends", pkg, otherpkg))
-        recommends.append(getdeps("Recommends", pkg, otherpkg))
-        suggests.append(getdeps("Suggests", pkg, otherpkg))
-        replaces.append(getdeps("Replaces", pkg, otherpkg))
-        enhances.append(getdeps("Enhances", pkg, otherpkg))
+        other_package = cache[key]
+        for dependency_type, specific_dependents in dependents.items():
+            if pkg.shortname in extract_dependencies(other_package, dependency_type):
+                specific_dependents.append(other_package.shortname)
 
-    dependents["Depends"] = depends
-    dependents["Recommends"] = recommends
-    dependents["Suggests"] = suggests
-    dependents["Replaces"] = replaces
-    dependents["Enhances"] = enhances
-    for deptype, deps in dependents.items():
-        deps_output = list()
-        for match in deps:
-            if match:
-                for item in match:
-                    deps_output.append(item)
-        if deps_output:
-            print(deptype.upper(), end=": ")
-            print(" ".join(deps_output))
+    for dependency_type, specific_dependents in dependents.items():
+        if specific_dependents:
+            output = dependency_type.upper(), " ".join(specific_dependents)
+            print("{}: {}".format(*output))
 
 
 def do_describe(packages):
