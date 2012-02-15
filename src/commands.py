@@ -376,35 +376,17 @@ def do_install_suggest(packages, yes, noauth):
         joined = str.join(stripped)
         packages = joined.split()
 
-    # For each package obtain the list of suggested packages
-    suggest_list = ""
+    cache = apt.cache.Cache()
+    dependencies = list()
+    for pkg in packages:
+        try:
+            pkg = cache[pkg]
+        except KeyError as error:
+            print(error.args[0])
+            sys.exit(1)
+        dependencies.extend(extract_dependencies(pkg, "Suggests"))
 
-    # Obtain the details of each available package.
-    avail = get_available()
-
-    # Check for information in the Available list
-    for section in avail:
-        if section.get("Package") in packages:
-            sug = section.get("Suggests")
-            if sug:
-                suggest_list = "{0} {1}".format(suggest_list, sug)
-
-    # Remove version information
-    suggest_list = re.sub('\([^)]*\)', '', suggest_list)
-
-    # Remove the commas from the list
-    suggest_list = re.sub(',', '', suggest_list)
-
-    # Deal with alternatives.
-    # For now simply ignore all alternatives.
-    # Should prompt user to select one?
-    suggest_list = re.sub(' *[a-z0-9-]* *\| *[a-z0-9-]* *', ' ', suggest_list)
-
-    # Remove duplicates
-    suggest_list = suggest_list + " "
-    for i in suggest_list.split():
-        suggest_list = i + " " + re.sub(" " + i + " ", ' ', suggest_list)
-
+    dependencies = " ".join(dependencies)
     perform.execute("apt-get {0} {1} {2} --show-upgraded install {3} {4}".\
                      format(util.recommends(), yes, noauth, \
                      util.concat(packages), suggest_list),
