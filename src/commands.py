@@ -181,13 +181,6 @@ def do_describe_new(install=False):
             do_install(new_pkgs)
 
 
-def do_download(packages):
-    "Download packages without installing them."
-
-    command = "apt-get --download-only install " + " ".join(packages)
-    perform.execute(command, root=1)
-
-
 def do_force(packages):
     """Force the installation of a package.
 
