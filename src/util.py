@@ -114,13 +114,6 @@ def upgradable(distupgrade=False):
     return pkgs
 
 
-def concat(args):
-    result = str()
-    for a in args:
-        result += "'{0}' ".format(a)
-    return result
-
-
 def finishup(code=0):
     if not interactive:
         sys.exit(code)

@@ -134,7 +134,7 @@ def do_describe(packages):
     if (not packages) and (verbose < 2):
         print("No packages found from those known to be available/installed.")
     elif verbose == 2:
-        package_names = util.concat(set(packages))
+        package_names = " ".join(set(packages))
         cmd = "apt-cache" if util.fast else "aptitude"
         perform.execute("{} show {}".format(cmd, package_names))
 
@@ -184,7 +184,7 @@ def do_describe_new(install=False):
 def do_download(packages):
     "Download packages without installing them."
 
-    command = "apt-get --download-only install " + util.concat(packages)
+    command = "apt-get --download-only install " + " ".join(packages)
     perform.execute(command, root=1)
 
 
@@ -334,7 +334,7 @@ def do_install(packages, yes="", noauth="", dist=""):
         if dist:
             dist = "--target-release " + dist
         cmd = "apt-get {0} {1} {2} {3} install {4}"
-        cmd = cmd.format(yes, noauth, rec, dist, util.concat(packages))
+        cmd = cmd.format(yes, noauth, rec, dist, " ".join(packages))
         perform.execute(cmd, root=True)
 
 
@@ -778,8 +778,8 @@ def do_recdownload(packages):
         print(i, end=' ')
     print("\n")
 
-    command = "apt-get --download-only --reinstall -u install " \
-    + util.concat(packageNames)
+    command = "apt-get --download-only --reinstall -u install " + \
+              " ".join(packageNames)
     perform.execute(command, root=1)
 
 

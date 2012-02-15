@@ -327,17 +327,17 @@ def select_command(command, args, verbose):
         and util.requires_package("sudo", "/usr/bin/sudo"):
             # First make sure dependencies are met
             result = perform.execute("apt-get {0} {1} build-dep {2}".format(\
-                                      yes, noauth, util.concat(args[1:])),
+                                      yes, noauth, " ".join(args[1:])),
                                       root=True)
             if not result:
                 perform.execute("apt-get {0} source --build {1}".format(\
-                                 noauth, util.concat(args[1:])),
+                                 noauth, " ".join(args[1:])),
                                  root=True)
 
     elif command in ("builddepend", "builddep"):
         if util.requires_args(command, args, "a list of package names"):
             perform.execute("apt-get {0} {1} build-dep {2}".format(yes, noauth,
-                             util.concat(args[1:])),
+                             " ".join(args[1:])),
                              root=True)
 
     elif command in ("reverse-build-depends", "rbuilddeps"):
@@ -441,7 +441,7 @@ def select_command(command, args, verbose):
             #
             perform.execute("apt-get --quiet=2 --reinstall " +
                             "--download-only install " +
-                             util.concat(pkgs),
+                             " ".join(pkgs),
                              root=True)
 
     elif command in ["editsources", "setup"]:
@@ -540,7 +540,7 @@ def select_command(command, args, verbose):
                           "a list of packages, .deb files, or url")
         dist = args[0].split("/")[1]
         perform.execute("apt-get --target-release {0} install {1}".\
-                         format(dist, util.concat(args[1:])),
+                         format(dist, " ".join(args[1:])),
                          root=True)
 
     elif command == "integrity":
@@ -674,7 +674,7 @@ def select_command(command, args, verbose):
         perform.execute("apt-get moo")
 
     elif command == "madison":
-        perform.execute("apt-cache madison " + util.concat(args[1:]))
+        perform.execute("apt-cache madison " + " ".join(args[1:]))
 
     elif command == "move":
         if util.requires_no_args(command, args):
@@ -716,12 +716,12 @@ def select_command(command, args, verbose):
                 perform.execute("deborphan")
 
     elif command in ("policy", "available"):
-        perform.execute("apt-cache policy " + util.concat(args[1:]))
+        perform.execute("apt-cache policy " + " ".join(args[1:]))
 
     elif command in ("purge", "purgedepend"):
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get {0} {1} --auto-remove purge {2}".format(\
-                             yes, noauth, util.concat(args[1:])),
+                             yes, noauth, " ".join(args[1:])),
                              root=True)
 
     elif command == "purgeorphans":
@@ -784,7 +784,7 @@ def select_command(command, args, verbose):
 
     elif command == "reconfigure":
         if len(args) > 1:
-            perform.execute("dpkg-reconfigure " + util.concat(args[1:]),
+            perform.execute("dpkg-reconfigure " + " ".join(args[1:]),
                              root=True)
         else:
             perform.execute("gkdebconf",
@@ -793,7 +793,7 @@ def select_command(command, args, verbose):
     elif command == "reinstall":
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get install --reinstall {0} {1} {2}".\
-                             format(noauth, yes, util.concat(args[1:])),
+                             format(noauth, yes, " ".join(args[1:])),
                              root=True)
 
     elif command in ("reload", "restart", "start", "stop"):
@@ -804,7 +804,7 @@ def select_command(command, args, verbose):
     elif command in ("remove", "removedepend"):
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get {0} {1}--auto-remove remove {2}".format(\
-                             yes, noauth, util.concat(args[1:])),
+                             yes, noauth, " ".join(args[1:])),
                              root=True)
 
     elif command == "removeorphans":
@@ -840,10 +840,10 @@ def select_command(command, args, verbose):
         # finds nothing but libstdc..6 does.
         if util.requires_args(command, args, "a list of words to search for"):
             if verbose > 0:
-                perform.execute("apt-cache search " + util.concat(args[1:]))
+                perform.execute("apt-cache search " + " ".join(args[1:]))
             else:
                 perform.execute("apt-cache --names-only search " + \
-                                 util.concat(args[1:]))
+                                 " ".join(args[1:]))
 
     elif command == "searchapt":
         util.requires_one_arg(command, args, "one of stable|testing|unstable")
@@ -859,13 +859,13 @@ def select_command(command, args, verbose):
     elif command == "showinstall":
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get --show-upgraded --simulate install " + \
-                             util.concat(args[1:]),
+                             " ".join(args[1:]),
                              root=True)
 
     elif command == "showremove":
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get --show-upgraded --simulate remove " + \
-                             util.concat(args[1:]),
+                             " ".join(args[1:]),
                              root=True)
 
     elif command == "showupgrade":
@@ -883,7 +883,7 @@ def select_command(command, args, verbose):
     elif command == "source":
         util.requires_args(command, args, "a list of package names")
         util.requires_package("dpkg-source", "/usr/bin/dpkg-source")
-        perform.execute("apt-get source " + util.concat(args[1:]))
+        perform.execute("apt-get source " + " ".join(args[1:]))
 
     elif command == "status":
         commands.do_status(args[1:])

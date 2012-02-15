@@ -103,14 +103,6 @@ class Tests(unittest.TestCase):
         # needs root access to APT cache, so ignoring
         pass
 
-    def test_util_concat(self):
-        res = util.concat([])
-        self.assertEqual(res, "")
-        res = util.concat(["TEST1"])
-        self.assertEqual(res, "'TEST1' ")
-        res = util.concat(["TEST1", "TEST2"])
-        self.assertEqual(res, "'TEST1' 'TEST2' ")
-
 
 if __name__ == '__main__':
     unittest.main()
