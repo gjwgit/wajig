@@ -531,8 +531,8 @@ def select_command(command, args, verbose):
             commands.do_install(args[1:], yes, noauth, util.dist)
 
     elif command in ["installs", "suggested"]:
-        if util.requires_args(command, args, "a list of packages"):
-            commands.do_install_suggest(args[1:], yes, noauth)
+        if util.requires_one_arg(command, args, "a single package name"):
+            commands.do_install_suggest(args[1], yes, noauth)
 
     elif args[0].startswith('install') and "/" in args[0]:
         # For example: install/unsable

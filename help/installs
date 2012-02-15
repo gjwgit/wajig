@@ -1,2 +1,2 @@
-Install package and its Suggests.
+Install a package and its Suggests dependencies.
 $ wajig installs PKG

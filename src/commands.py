@@ -338,29 +338,18 @@ def do_install(packages, yes="", noauth="", dist=""):
         perform.execute(cmd, root=True)
 
 
-def do_install_suggest(packages, yes, noauth):
-    "Install packages suggested by the listed packages."
-
-    # If reading from standard input, generate the list of packages.
-    if len(packages) == 1 and packages[0] == "-":
-        stripped = [x.strip() for x in sys.stdin.readlines()]
-        joined = str.join(stripped)
-        packages = joined.split()
-
+def do_install_suggest(package_name, yes, noauth):
+    """Install a package and its Suggests dependencies"""
     cache = apt.cache.Cache()
-    dependencies = list()
-    for pkg in packages:
-        try:
-            pkg = cache[pkg]
-        except KeyError as error:
-            print(error.args[0])
-            sys.exit(1)
-        dependencies.extend(extract_dependencies(pkg, "Suggests"))
-
-    dependencies = " ".join(dependencies)
+    try:
+        package = cache[package_name]
+    except KeyError as error:
+        print(error.args[0])
+        sys.exit(1)
+    dependencies = " ".join(extract_dependencies(package, "Suggests"))
     template = "apt-get {0} {1} {2} --show-upgraded install {3} {4}"
     cmd = template.format(util.recommends(), yes, noauth, dependencies,
-                          util.concat(packages))
+                          package_name)
     perform.execute(cmd, root=True)
 
 
