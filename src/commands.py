@@ -71,35 +71,6 @@ def ping_host(hostname):
         return True  # host found
 
 
-def get_available(command="dumpavail"):
-    "Return an apt_pkg object that represents the parsed list of packages."
-
-    # This originally ran the apt-cache command as a pipe to
-    # TagFile as in:
-    #  command = "apt-cache dumpavail"
-    #  packages_pipe = perform.execute(command, pipe=True)
-    #  avail = apt_pkg.TagFile(packages_pipe)
-    #
-    # But as in Bug#366678 TagFile no longer works in a pipe
-    # because of changes to apt_pkg by Michael Vogt. He supplied
-    # suggested fixes, but they were not tested and I've not had
-    # a chance to understand the new APT package for Python. So put
-    # the apt-cache dump into a file and then use that file here.
-
-    # 090501 Note that using "apt-cache dumpavail" misses packages
-    # that are installed but are no longer available. So why not
-    # append /var/lib/dpkg/status to be more comprehensive? Would
-    # repeats be an issue? Closes Bug#432266
-
-    tmpcache = tempfile.mkstemp()[1]
-    perform.execute("apt-cache dumpavail > " + tmpcache)
-    perform.execute("cat /var/lib/dpkg/status >> " + tmpcache)  # 090501 fix
-    avail = apt_pkg.TagFile(open(tmpcache))
-    if os.path.exists(tmpcache):
-        os.remove(tmpcache)
-    return avail
-
-
 def extract_dependencies(package, dependency_type):
     """
     Generator that produce all the dependencies of a particular type
