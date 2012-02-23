@@ -476,7 +476,7 @@ def do_changelog(package):
         else:
             changelog += "\n"
     elif changelog.endswith("The list of changes is not available"):
-        changelog += ".\nYou are likely running the latest version."
+        changelog += ".\nYou are likely running the latest version.\n"
         if not verbose:
             changelog += help_message
     if not verbose:
@@ -485,7 +485,7 @@ def do_changelog(package):
         tmp = tempfile.mkstemp()[1]
         with open(tmp, "w") as f:
             if pkg.is_installed:
-                changelog += "\n{:=^79}\n".format(" local changelog ")
+                changelog += "{:=^79}\n".format(" local changelog ")
             f.write(changelog)
         if pkg.is_installed:
             cmd = local_changelog(package, tmp)
