@@ -72,9 +72,7 @@ def ping_host(hostname):
 
 
 def extract_dependencies(package, dependency_type):
-    """
-    Generator that produce all the dependencies of a particular type
-    """
+    """Produce all Dependencies of a particular type"""
     for dependency_list in package.candidate.get_dependencies(dependency_type):
         for dependency in dependency_list.or_dependencies:
             yield dependency.name
