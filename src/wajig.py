@@ -42,23 +42,6 @@ yes = str()
 noauth = str()
 
 
-def print_help(command, args, verbose=False, exit_=False):
-    if command in ("doc", "docs", "documentation"):
-        util.requires_no_args(command, args)
-        verbose = 2
-        documentation.help(verbose)
-        if exit_:
-            util.finishup(0)
-    elif command == "help":
-        if len(args) > 1:
-            for command in args[1:]:
-                util.help_cmd(command)
-        elif len(args) == 1:
-            documentation.help(verbose)
-        if exit_:
-            util.finishup(0)
-
-
 def wajig_completer(text, state):
     """The start of a completer function. Very rough so far."""
     #
@@ -197,8 +180,6 @@ def main():
     # paste from the security status email, for example.
 
     args = [x for x in args if x != ""]
-
-    print_help(command, args, verbose, exit_=True)
 
     # Before we do any other command make sure the right files exist.
     changes.ensure_initialised()
@@ -357,6 +338,10 @@ def select_command(command, args, verbose):
             cmd += "dist-upgrade"
             perform.execute(cmd, root=True)
 
+    elif command in ("doc", "docs", "documentation"):
+        util.requires_no_args(command, args)
+        documentation.help(verbose=True)
+
     elif command == "download":
         if util.requires_args(command, args, "a list of packages"):
             packages = args[1:]
@@ -444,6 +429,11 @@ def select_command(command, args, verbose):
     elif command == "force":
         if util.requires_args(command, args, "a package name"):
             commands.do_force(args[1:])
+
+    elif command == "help":
+        if len(args) > 1:
+            for command in args[1:]:
+                util.help_cmd(command)
 
     elif command == "hold":
         if util.requires_args(command, args, "a list of packages to place on hold"):
