@@ -17,22 +17,22 @@ def show_dependencies(deb):
         # me not know what should happen here
         # awaiting bug report :)
         print ("The following are UNAUTHENTICATED: ", end="")
-        for pkgname in unauthenticated:
-            print(pkgname + " ", end=" ")
+        for package_name in unauthenticated:
+            print(package_name + " ", end=" ")
         print()
 
     if remove:
         print ("{} {}, the following is to be REMOVED: ".format(
                 prefix, deb.pkgname), end="")
-        for pkgname in remove:
-            print(pkgname + " ", end=" ")
+        for package_name in remove:
+            print(package_name + " ", end=" ")
         print()
 
     if install:
         print ("{} {}, the following is to be INSTALLED: ".format(
                 prefix, deb.pkgname), end="")
-        for pkgname in install:
-            print(pkgname, end=" ")
+        for package_name in install:
+            print(package_name, end=" ")
         print()
 
 
