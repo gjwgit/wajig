@@ -133,8 +133,8 @@ def do_describe(packages):
         print("No packages found from those known to be available/installed.")
     elif verbose == 2:
         package_names = " ".join(set(packages))
-        cmd = "apt-cache" if util.fast else "aptitude"
-        perform.execute("{} show {}".format(cmd, package_names))
+        command = "apt-cache" if util.fast else "aptitude"
+        perform.execute("{} show {}".format(command, package_names))
 
     elif verbose in (0, 1):
         pkgversions = list()
@@ -324,9 +324,9 @@ def do_install(packages, yes="", noauth="", dist=""):
         rec = util.recommends()
         if dist:
             dist = "--target-release " + dist
-        cmd = "apt-get {0} {1} {2} {3} install {4}"
-        cmd = cmd.format(yes, noauth, rec, dist, " ".join(packages))
-        perform.execute(cmd, root=True)
+        command = "apt-get {0} {1} {2} {3} install {4}"
+        command = command.format(yes, noauth, rec, dist, " ".join(packages))
+        perform.execute(command, root=True)
 
 
 def do_install_suggest(package_name, yes, noauth):
@@ -339,9 +339,9 @@ def do_install_suggest(package_name, yes, noauth):
         sys.exit(1)
     dependencies = " ".join(extract_dependencies(package, "Suggests"))
     template = "apt-get {0} {1} {2} --show-upgraded install {3} {4}"
-    cmd = template.format(util.recommends(), yes, noauth, dependencies,
+    command = template.format(util.recommends(), yes, noauth, dependencies,
                           package_name)
-    perform.execute(cmd, root=True)
+    perform.execute(command, root=True)
 
 
 def do_listsections():
@@ -488,10 +488,10 @@ def do_changelog(package):
                 changelog += "{:=^79}\n".format(" local changelog ")
             f.write(changelog)
         if pkg.is_installed:
-            cmd = local_changelog(package, tmp)
-            if not cmd:
+            command = local_changelog(package, tmp)
+            if not command:
                 return
-            perform.execute(cmd)
+            perform.execute(command)
         with open(tmp) as f:
             for line in f:
                 sys.stdout.write(line)
@@ -783,6 +783,6 @@ def versions(packages):
 
 
 def rbuilddep(package):
-    cmd = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep " + \
+    command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep " + \
           package + " /var/lib/apt/lists/*Sources"
-    perform.execute(cmd)
+    perform.execute(command)

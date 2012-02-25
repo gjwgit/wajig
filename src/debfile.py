@@ -34,8 +34,8 @@ def install(package_list):
         curdir = os.path.dirname(__file__)
         script = os.path.join(curdir, "debfile-deps.py")
         for package in package_list:
-            cmd = "{} {} {}".format(sys.executable, script, package)
-            perform.execute(cmd, root=True)
+            command = "{} {} {}".format(sys.executable, script, package)
+            perform.execute(command, root=True)
     perform.execute(cmd_configure, root=True)
 
 if __name__ == "__main__":

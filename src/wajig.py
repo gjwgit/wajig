@@ -53,8 +53,8 @@ def print_help(command, args, verbose=False, exit_=False):
             util.finishup(0)
     elif command == "help":
         if len(args) > 1:
-            for cmd in args[1:]:
-                util.help_cmd(cmd)
+            for command in args[1:]:
+                util.help_cmd(command)
         elif len(args) == 1:
             documentation.help(verbose)
         if exit_:
@@ -71,7 +71,7 @@ def list_commands():
     lines = f.readlines()
     command_patt = r'^ ([a-z][a-z-]*) '
     command_patt_r = re.compile(command_patt)
-    cmds = []
+    commands = []
     for l in lines:
         mo = command_patt_r.search(l)
         if mo == None:
@@ -79,7 +79,7 @@ def list_commands():
         # a "-" in completion seems to start strings from beginning?
         #cmds += [re.sub('-', '', mo.group(1))]
         cmds += [mo.group(1)]
-    return cmds
+    return commands
 
 
 def wajig_completer(text, state):
