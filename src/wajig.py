@@ -520,7 +520,7 @@ def select_command(command, args, verbose):
 
     elif command in ("listcommands", "commands"):
         if util.requires_no_args(command, args):
-            documentation.help(verbose=1)
+            documentation.help()
 
     elif command == "listdaemons":
         if util.requires_no_args(command, args):
