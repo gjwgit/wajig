@@ -8,9 +8,9 @@ import apt
 from apt.debfile import DebPackage
 
 
-def show_dependencies(deb):
+def show_dependencies(debfile):
 
-    install, remove, unauthenticated = deb.required_changes
+    install, remove, unauthenticated = debfile.required_changes
     prefix = "In order to allow installation of"
 
     if unauthenticated:
@@ -23,14 +23,14 @@ def show_dependencies(deb):
 
     if remove:
         print ("{} {}, the following is to be REMOVED: ".format(
-                prefix, deb.pkgname), end="")
+                prefix, debfile.pkgname), end="")
         for package_name in remove:
             print(package_name + " ", end=" ")
         print()
 
     if install:
         print ("{} {}, the following is to be INSTALLED: ".format(
-                prefix, deb.pkgname), end="")
+                prefix, debfile.pkgname), end="")
         for package_name in install:
             print(package_name, end=" ")
         print()
@@ -38,9 +38,9 @@ def show_dependencies(deb):
 
 def main(package):
     cache = apt.Cache()
-    deb = DebPackage(package, cache=cache)
-    if deb.check():
-        show_dependencies(deb)
+    debfile = DebPackage(package, cache=cache)
+    if debfile.check():
+        show_dependencies(debfile)
         prompt = "Do you want to continue [Y/n]? "
         choice = input(prompt)
         if "y" == choice.lower() or not choice:
