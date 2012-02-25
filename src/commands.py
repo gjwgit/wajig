@@ -78,7 +78,7 @@ def extract_dependencies(package, dependency_type):
             yield dependency.name
 
 
-def do_dependents(pkg):
+def do_dependents(package):
     """Which packages have some kind of dependency on the given package"""
 
     DEPENDENCY_TYPES = [
@@ -91,7 +91,7 @@ def do_dependents(pkg):
 
     cache = apt.cache.Cache()
     try:
-        pkg = cache[pkg]
+        package = cache[package]
     except KeyError as error:
         print(error.args[0])
         sys.exit(1)
@@ -101,7 +101,7 @@ def do_dependents(pkg):
     for key in cache.keys():
         other_package = cache[key]
         for dependency_type, specific_dependents in dependents.items():
-            if pkg.shortname in extract_dependencies(other_package, dependency_type):
+            if package.shortname in extract_dependencies(other_package, dependency_type):
                 specific_dependents.append(other_package.shortname)
 
     for dependency_type, specific_dependents in dependents.items():
@@ -113,8 +113,8 @@ def do_dependents(pkg):
 def do_describe(packages):
     """Display package description(s)."""
 
-    package_files = [pkg for pkg in packages if pkg.endswith(".deb")]
-    package_names = [pkg for pkg in packages if not pkg.endswith(".deb")]
+    package_files = [package for package in packages if package.endswith(".deb")]
+    package_names = [package for package in packages if not package.endswith(".deb")]
     if package_files:
         for package_file in package_files:
             perform.execute("dpkg-deb --info " + package_file)
@@ -137,30 +137,30 @@ def do_describe(packages):
         perform.execute("{} show {}".format(command, package_names))
 
     elif verbose in (0, 1):
-        pkgversions = list()
+        packageversions = list()
         cache = apt.cache.Cache()
-        for pkg in packages:
+        for package in packages:
             try:
-                pkg = cache[pkg]
+                package = cache[package]
             except KeyError as e:
                 print(str(e).strip('"'))
                 return 1
-            pkgversion = pkg.installed
-            if not pkgversion:  # if package is not installed...
-                pkgversion = pkg.candidate
-            pkgversions.append((pkg.shortname, pkgversion.summary,
-                                pkgversion.description))
-        pkgversions = set(pkgversions)
+            packageversion = package.installed
+            if not packageversion:  # if package is not installed...
+                packageversion = package.candidate
+            packageversions.append((package.shortname, packageversion.summary,
+                                packageversion.description))
+        packageversions = set(packageversions)
         if verbose == 0:
             print("{0:24} {1}".format("Package", "Description"))
             print("="*24 + "-" + "="*51)
-            for pkgversion in pkgversions:
-                print("%-24s %s" % (pkgversion[0], pkgversion[1]))
+            for packageversion in packageversions:
+                print("%-24s %s" % (packageversion[0], packageversion[1]))
         else:
-            for pkgversion in pkgversions:
-                print("{}: {}\n{}\n".format(pkgversion[0],
-                                            pkgversion[1],
-                                            pkgversion[2]))
+            for packageversion in packageversions:
+                print("{}: {}\n{}\n".format(packageversion[0],
+                                            packageversion[1],
+                                            packageversion[2]))
 
 
 def do_describe_new(install=False):
@@ -169,14 +169,14 @@ def do_describe_new(install=False):
     #
     # Describe each new package.
     #
-    new_pkgs = changes.get_new_available()
-    if len(new_pkgs) == 0:
+    new_packages = changes.get_new_available()
+    if len(new_packages) == 0:
         print("No new packages")
     else:
-        do_describe(new_pkgs)
+        do_describe(new_packages)
         if install:
             print("="*76)
-            do_install(new_pkgs)
+            do_install(new_packages)
 
 
 def do_force(packages):
@@ -195,28 +195,28 @@ def do_force(packages):
     # For a .deb file we simply force install it.
     #
     if re.match(".*\.deb$", packages[0]):
-        for pkg in packages:
-            if os.path.exists(pkg):
-                command += "'" + pkg + "' "
-            elif os.path.exists(archives + pkg):
-                command += "'" + archives + pkg + "' "
+        for package in packages:
+            if os.path.exists(package):
+                command += "'" + package + "' "
+            elif os.path.exists(archives + package):
+                command += "'" + archives + package + "' "
             else:
                 print("""File `%s' not found.
               Searched current directory and %s.
-              Please confirm the location and try again.""" % (pkg, archives))
+              Please confirm the location and try again.""" % (package, archives))
                 return()
     else:
         #
         # Package names rather than a specific deb package archive
         # is expected.
         #
-        for pkg in packages:
+        for package in packages:
             #
             # Identify the latest version of the package available in
             # the download archive, if there is any there.
             #
             lscmd = "/bin/ls " + archives
-            lscmd += " | egrep '^" + pkg + "_' | sort -k 1b,1 | tail -n -1"
+            lscmd += " | egrep '^" + package + "_' | sort -k 1b,1 | tail -n -1"
             matches = perform.execute(lscmd, pipe=True)
             debpkg = matches.readline().strip()
             #
@@ -225,7 +225,7 @@ def do_force(packages):
             #
             if not debpkg:
                 dlcmd = "apt-get --quiet=2 --reinstall --download-only "
-                dlcmd += "install '" + pkg + "'"
+                dlcmd += "install '" + package + "'"
                 perform.execute(dlcmd, root=1)
                 matches = perform.execute(lscmd, pipe=True)
                 debpkg = matches.readline().strip()
@@ -347,9 +347,9 @@ def do_install_suggest(package_name, yes, noauth):
 def do_listsections():
     cache = apt.cache.Cache()
     sections = list()
-    for pkg in cache.keys():
-        pkg = cache[pkg]
-        sections.append(pkg.section)
+    for package in cache.keys():
+        package = cache[package]
+        sections.append(package.section)
     sections = set(sections)
     for section in sections:
         print(section)
@@ -357,10 +357,10 @@ def do_listsections():
 
 def do_listsection(section):
     cache = apt.cache.Cache()
-    for pkg in cache.keys():
-        pkg = cache[pkg]
-        if(pkg.section == section):
-            print(pkg.name)
+    for package in cache.keys():
+        package = cache[package]
+        if(package.section == section):
+            print(package.name)
 
 
 def do_listinstalled(pattern):
@@ -390,23 +390,23 @@ def do_listnames(pattern, pipe=False):
     return perform.execute(command, root=needsudo, pipe=pipe)
 
 
-def do_listscripts(pkg):
+def do_listscripts(package):
     scripts = ["preinst", "postinst", "prerm", "postrm"]
-    if re.match(".*\.deb$", pkg):
-        command = "ar p " + pkg + " control.tar.gz | tar ztvf -"
+    if re.match(".*\.deb$", package):
+        command = "ar p " + package + " control.tar.gz | tar ztvf -"
         pkgScripts = perform.execute(command, pipe=True).readlines()
         for script in scripts:
             if "./" + script in "".join(pkgScripts):
                 nlen = (72 - len(script)) / 2
                 print(">"*nlen, script, "<"*nlen)
-                command = "ar p " + pkg + " control.tar.gz |" +\
+                command = "ar p " + package + " control.tar.gz |" +\
                           "tar zxvf - -O ./" + script +\
                           " 2>/dev/null"
                 perform.execute(command)
     else:
         root = "/var/lib/dpkg/info/"
         for script in scripts:
-            fname = root + pkg + "." + script
+            fname = root + package + "." + script
             if os.path.exists(fname):
                 nlen = (72 - len(script))/2
                 print(">"*nlen, script, "<"*nlen)
@@ -421,11 +421,11 @@ def do_new():
     #
     # List each package and it's version
     #
-    new_pkgs = changes.get_new_available()
-    new_pkgs.sort()
-    for i in range(0, len(new_pkgs)):
-        print("%-24s %s" % (new_pkgs[i],
-            changes.get_available_version(new_pkgs[i])))
+    new_packages = changes.get_new_available()
+    new_packages.sort()
+    for i in range(0, len(new_packages)):
+        print("%-24s %s" % (new_packages[i],
+            changes.get_available_version(new_packages[i])))
 
 
 def local_changelog(package, tmp):
@@ -457,9 +457,9 @@ def do_changelog(package):
 
     changelog = "{:=^79}\n".format(" {} ".format(package))  # header
 
-    pkg = apt.Cache()[package]
+    package = apt.Cache()[package]
     try:
-        changelog += pkg.get_changelog()
+        changelog += package.get_changelog()
     except AttributeError as e:
         # This is caught so as to avoid an ugly python-apt trace; it's a bug
         # that surfaces when:
@@ -484,10 +484,10 @@ def do_changelog(package):
     else:
         tmp = tempfile.mkstemp()[1]
         with open(tmp, "w") as f:
-            if pkg.is_installed:
+            if package.is_installed:
                 changelog += "{:=^79}\n".format(" local changelog ")
             f.write(changelog)
-        if pkg.is_installed:
+        if package.is_installed:
             command = local_changelog(package, tmp)
             if not command:
                 return
@@ -520,7 +520,7 @@ def do_newupgrades(install=False):
 
 
 def do_size(packages, size=0):
-    "Print sizes for pkg in list PACKAGES with size greater than SIZE."
+    "Print sizes for package in list PACKAGES with size greater than SIZE."
 
     # Work with the list of installed packages
     # (I think status has more than installed?)
@@ -539,17 +539,17 @@ def do_size(packages, size=0):
                     size_list[package_name] = package_size
                     status_list[package_name] = package_status
 
-    pkgs = list(size_list)
-    pkgs.sort(key=lambda x: int(size_list[x]))  # sort by size
+    packages = list(size_list)
+    packages.sort(key=lambda x: int(size_list[x]))  # sort by size
 
-    if len(pkgs) == 0:
+    if len(packages) == 0:
         print("No packages found from those known to be available or installed")
     else:
         print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
         print("{}-{}-{}".format("="*33, "="*10, "="*12))
-        for pkg in pkgs:
-            print("{:<33} {:^10} {:>12}".format(pkg,
-                    format(int(size_list[pkg]), ',d'), status_list[pkg]))
+        for package in packages:
+            print("{:<33} {:^10} {:>12}".format(package,
+                    format(int(size_list[package]), ',d'), status_list[package]))
 
 
 def do_status(packages, snapshot=False):
@@ -681,8 +681,8 @@ def do_update():
         print("There are " + changes.count_upgrades() + " new upgrades")
 
 
-def do_findpkg(pkg):
-    "Look for a particular pkg at apt-get.org."
+def do_findpkg(package):
+    "Look for a particular package at apt-get.org."
 
     ping_host("www.apt-get.org")
 
@@ -694,7 +694,7 @@ def do_findpkg(pkg):
     results = tempfile.mkstemp()[1]
     command = "wget --timeout=60 --output-document=" + results +\
               " http://www.apt-get.org/" +\
-              "search.php\?query=" + pkg +\
+              "search.php\?query=" + package +\
               "\&submit=\&arch%5B%5D=i386\&arch%5B%5D=all " +\
               "2> /dev/null"
     perform.execute(command)

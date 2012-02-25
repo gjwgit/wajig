@@ -219,29 +219,29 @@ def get_previous_list():
     return previous_list
 
 
-def get_available_version(pkg):
+def get_available_version(package):
     "Obtain the package's available version number."
-    return available_list[pkg]
+    return available_list[package]
 
 
-def get_previous_version(pkg):
+def get_previous_version(package):
     "Obtain the package's previously available version number."
-    return previous_list[pkg]
+    return previous_list[package]
 
 
-def get_installed_version(pkg):
+def get_installed_version(package):
     "Return, as string, the package's installed version number."
     # TODO: Make sure the dictionary has been loaded.
-    return installed_list[pkg]
+    return installed_list[package]
 
 
 def get_new_available():
     "Obtain the packages available now but not previously."
     load_dictionaries()
     new_list = []
-    for pkg in available_list.keys():
-        if not pkg in previous_list:
-            new_list.append(pkg)
+    for package in available_list.keys():
+        if not package in previous_list:
+            new_list.append(package)
     return new_list
 
 
@@ -250,11 +250,11 @@ def get_new_upgrades():
     load_dictionaries()
     upgraded_list = []
     apt_pkg.init_system()  # Not sure why!
-    for pkg in installed_list.keys():
-        if pkg in available_list and pkg in previous_list \
-        and apt_pkg.version_compare(available_list[pkg],
-        previous_list[pkg]) > 0:
-            upgraded_list.append(pkg)
+    for package in installed_list.keys():
+        if package in available_list and package in previous_list \
+        and apt_pkg.version_compare(available_list[package],
+        previous_list[package]) > 0:
+            upgraded_list.append(package)
     return upgraded_list
 
 
@@ -263,39 +263,39 @@ def get_to_upgrade():
     load_dictionaries()
     upgraded_list = []
     apt_pkg.init_system()  # Not sure why!
-    for pkg in installed_list.keys():
-        if pkg in available_list \
-        and apt_pkg.version_compare(available_list[pkg],
-        installed_list[pkg]) > 0:
-            upgraded_list.append(pkg)
+    for package in installed_list.keys():
+        if package in available_list \
+        and apt_pkg.version_compare(available_list[package],
+        installed_list[package]) > 0:
+            upgraded_list.append(package)
     return upgraded_list
 
 
-def get_status(pkg):
-    p = perform.execute("dpkg --status " + pkg, pipe=True)
-    pkginfo = apt_pkg.TagFile(p)
-    return pkginfo.next().get("Status")
+def get_status(package):
+    p = perform.execute("dpkg --status " + package, pipe=True)
+    packageinfo = apt_pkg.TagFile(p)
+    return packageinfo.next().get("Status")
 
 
-def get_dependees(pkg):
+def get_dependees(package):
     "Return a list of other installed pkgs that depend on PKG."
-    pkginfo = perform.execute("apt-cache rdepends --installed " +
-                               pkg, pipe=True)
+    packageinfo = perform.execute("apt-cache rdepends --installed " +
+                               package, pipe=True)
     dp = []
     # Watch for changes to apt-cache output.
-    if pkginfo.next().strip() != pkg:
+    if packageinfo.next().strip() != package:
         print("unexpected result from apt-cache - submit a bug report")
-    if pkginfo.next().strip() != "Reverse Depends:":
+    if packageinfo.next().strip() != "Reverse Depends:":
         print("unexpected result from apt-cache - submit a bug report")
-    for l in pkginfo:
+    for l in packageinfo:
         pn = l.strip().split(',')[0].replace('|', '')
         dp.append(pn)
     #
     # If dp is too long, don't check install status.
     # Just assume installed.
     # libc6 (over 7000), for exapmle, takes far too long.
-    # Really just need to find first pkg that is installed
-    # that depends on this pkg to rule it out.
+    # Really just need to find first package that is installed
+    # that depends on this package to rule it out.
     #
     np = []
     if len(dp) < 20:
@@ -305,22 +305,22 @@ def get_dependees(pkg):
     return np
 
 
-def get_dependencies(pkg):
+def get_dependencies(package):
     "Return a list of installed packages that PKG depends on."
-    pkginfo = perform.execute("apt-cache depends --installed " +
-                              pkg, pipe=True)
+    packageinfo = perform.execute("apt-cache depends --installed " +
+                              package, pipe=True)
     dp = []
     # Watch for changes to apt-cache output.
-    if pkginfo.next().strip() != pkg:
+    if packageinfo.next().strip() != package:
         print("unexpected result from apt-cache - submit a bug report")
     # Find package names. Ignore "<name>" as these are not installed.
-    for l in pkginfo:
+    for l in packageinfo:
         if l.find(":") >= 0 and l.find("<") < 0:
             dp.append(l.split()[1])
     return dp
 
 
-def backup_before_upgrade(pkgs, distupgrade=False):
+def backup_before_upgrade(packages, distupgrade=False):
     """Backup packages before a (dist)upgrade.
 
      This optional functionality helps recovery in case of trouble caused
@@ -333,6 +333,6 @@ def backup_before_upgrade(pkgs, distupgrade=False):
         os.makedirs(target)
     os.chdir(target)
     print("The packages will saved in", target)
-    for pkg in pkgs:
-        command = "fakeroot -u dpkg-repack " + pkg
+    for package in packages:
+        command = "fakeroot -u dpkg-repack " + package
         perform.execute(command)

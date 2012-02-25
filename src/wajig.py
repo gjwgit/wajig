@@ -388,13 +388,13 @@ def select_command(command, args, verbose):
             commands.do_describe_new()
 
     elif command == "upgrade":
-        pkgs = util.upgradable()
-        if pkgs:
+        packages = util.upgradable()
+        if packages:
             if backup \
             and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
             and util.requires_package("fakeroot", "/usr/bin/fakeroot") \
             and util.requires_no_args(command, args):
-                changes.backup_before_upgrade(pkgs)
+                changes.backup_before_upgrade(packages)
             if sys.argv[-1].lower() == "upgrade":
                 perform.execute("apt-get {0} {1} --show-upgraded upgrade".format(yes, noauth),
                                  root=True)
@@ -405,15 +405,15 @@ def select_command(command, args, verbose):
             print('No upgrades. Did you run "wajig update" beforehand?')
 
     elif command == "distupgrade":
-        pkgs = util.upgradable(distupgrade=True)
-        if not pkgs and len(args) < 2:
+        packages = util.upgradable(distupgrade=True)
+        if not packages and len(args) < 2:
             print('No upgrades. Did you run "wajig update" beforehand?')
         elif util.requires_opt_arg(command, args,
                                   "the distribution to upgrade to"):
             if backup \
             and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
             and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
-                changes.backup_before_upgrade(pkgs, distupgrade=True)
+                changes.backup_before_upgrade(packages, distupgrade=True)
             cmd = "apt-get --show-upgraded {0} {1} ".format(yes, noauth)
             if len(args) == 2:
                 cmd += "-t " + args[1] + " "
@@ -422,15 +422,15 @@ def select_command(command, args, verbose):
 
     elif command == "download":
         if util.requires_args(command, args, "a list of packages"):
-            pkgs = args[1:]
-            if len(pkgs) == 1 and pkgs[0] == "-":
+            packages = args[1:]
+            if len(packages) == 1 and packages[0] == "-":
                 stripped = [x.strip() for x in sys.stdin.readlines()]
                 joined = str.join(stripped)
-                pkgs = joined.split()
-            elif len(pkgs) == 2 and pkgs[0] == "-f":
-                stripped = [x.strip() for x in open(pkgs[1]).readlines()]
+                packages = joined.split()
+            elif len(packages) == 2 and packages[0] == "-f":
+                stripped = [x.strip() for x in open(packages[1]).readlines()]
                 joined = str.join(stripped)
-                pkgs = joined.split()
+                packages = joined.split()
             #
             # Print message here since no messages are printed for the command.
             #
@@ -441,7 +441,7 @@ def select_command(command, args, verbose):
             #
             perform.execute("apt-get --quiet=2 --reinstall " +
                             "--download-only install " +
-                             " ".join(pkgs),
+                             " ".join(packages),
                              root=True)
 
     elif command in ["editsources", "setup"]:
@@ -460,24 +460,24 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args,
         "a file name containing list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
-            pkgs = " ".join(stripped)
-            perform.execute("apt-get --download-only install " + pkgs,
+            packages = " ".join(stripped)
+            perform.execute("apt-get --download-only install " + packages,
                              root=True)
 
     elif command in ["fileinstall", "installfile"]:
         if util.requires_one_arg(command, args,
         "a file name containing a list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
-            pkgs = " ".join(stripped)
-            perform.execute("apt-get install " + pkgs,
+            packages = " ".join(stripped)
+            perform.execute("apt-get install " + packages,
                              root=True)
 
     elif command in ["fileremove", "removefile"]:
         if util.requires_one_arg(command, args,
         "a file name containing a list of packages"):
             stripped = [x.strip() for x in open(args[1]).readlines()]
-            pkgs = " ".join(stripped)
-            perform.execute("apt-get remove " + pkgs,
+            packages = " ".join(stripped)
+            perform.execute("apt-get remove " + packages,
                              root=True)
 
     elif command in ["findfile", "locate"]:
@@ -729,22 +729,22 @@ def select_command(command, args, verbose):
         # so build up the orphans list first, then pass that to dpkg.
         if util.requires_no_args(command, args) \
         and util.requires_package("deborphan", "/usr/bin/deborphan"):
-            pkgs = str()
-            for pkg in perform.execute("deborphan", pipe=True):
-                pkgs += " " + pkg.strip()
-            if pkgs:
-                perform.execute("apt-get purge" + pkgs,
+            packages = str()
+            for package in perform.execute("deborphan", pipe=True):
+                packages += " " + package.strip()
+            if packages:
+                perform.execute("apt-get purge" + packages,
                                  root=True)
 
     elif command == "purgeremoved":
         if util.requires_no_args(command, args):
-            pkgs = str()
+            packages = str()
             cmd = "dpkg-query --show --showformat='${Package}\t${Status}\n' |"\
             + " grep \"deinstall ok config-files\" | cut -f 1 "
-            for pkg in perform.execute(cmd, pipe=True):
-                pkgs += " " + pkg.strip()
-            if pkgs:
-                perform.execute("apt-get purge" + pkgs,
+            for package in perform.execute(cmd, pipe=True):
+                packages += " " + package.strip()
+            if packages:
+                perform.execute("apt-get purge" + packages,
                                  root=True)
 
     elif command in ("readme", "news"):
@@ -810,11 +810,11 @@ def select_command(command, args, verbose):
     elif command == "removeorphans":
         if util.requires_no_args(command, args) \
         and util.requires_package("deborphan", "/usr/bin/deborphan"):
-            pkgs = str()
-            for pkg in perform.execute("deborphan", pipe=True):
-                pkgs += " " + pkg.strip()
-            if pkgs:
-                perform.execute("apt-get remove" + pkgs, root=True)
+            packages = str()
+            for package in perform.execute("deborphan", pipe=True):
+                packages += " " + package.strip()
+            if packages:
+                perform.execute("apt-get remove" + packages, root=True)
 
     elif command in ("repackage", "package"):
         if util.requires_one_arg(command, args, "name of an installed package") \
@@ -891,9 +891,9 @@ def select_command(command, args, verbose):
     elif command in ["statusmatch", "statussearch"]:
         if util.requires_one_arg(command, args,
         "a search string for the package name"):
-            pkgs = [s.strip() for s in commands.do_listnames(args[1:], pipe=True).readlines()]
-            if len(pkgs) > 0:
-                commands.do_status(pkgs)
+            packages = [s.strip() for s in commands.do_listnames(args[1:], pipe=True).readlines()]
+            if len(packages) > 0:
+                commands.do_status(packages)
             else:
                 print("No packages found matching '{0}'".format(args[1]))
         #
