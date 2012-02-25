@@ -29,8 +29,9 @@ wajig (2.3) unstable; urgency=low
     so work to fix, so limit to just one.
   * Remove wajig shell; I doubt if anyone will miss it, and am too lazy to
     maintain it.
+  * Remove the mini-tutorial; me wonders if it was useful to anyone.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 25 Feb 2012 23:33:19 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 25 Feb 2012 23:44:42 +0200
 
 wajig (2.2) unstable; urgency=low
 

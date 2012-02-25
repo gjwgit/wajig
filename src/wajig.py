@@ -100,9 +100,8 @@ def main():
     description = ("wajig is a simple and unified package management front-end "
                    "for Debian and its derivatives.")
     epilog = textwrap.dedent("""\
-         For a mini-tutorial try "wajig help".
          For a list of all commands try "wajig list-commands".
-         A more complete turorial is available with "wajig doc".
+         For a tutorial, try "wajig doc".
          Full documentation is at http://www.togaware.com/wajig.""")
     usage = "%(prog)s [options] COMMAND [arguments]"
     parser = argparse.ArgumentParser(description=description, epilog=epilog,

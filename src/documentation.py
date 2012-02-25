@@ -39,38 +39,13 @@ def version():
 
 
 def help(verbose):
-
-    if verbose == 0:
-        print("""
- A mini-tutorial:
-
- update         Update the list of downloadable packages
-
- new            List packages that became available since last update
- newupgrades    List packages newly available for upgrading
-
- install        Install (or upgrade) one or more packages or .deb files
- remove         Remove one or more packages (see also purge)
-
- toupgrade      List packages with newer versions available for upgrading
- upgrade        Upgrade all of the installed packages or just those listed
-
- listnames      List all known packages or those containing supplied string
- whatis         For each package named obtain a one line description
- whichpkg       Find the package that supplies the given command or file
-
-Run 'wajig COMMANDS' for a complete list of commands.
-""")
-
-    # ALL COMMANDS AND OPTIONS
-    elif verbose == 1:
+    if verbose:
+        with open("/usr/share/wajig/help/TUTORIAL") as f:
+            for line in f:
+                print(line, end=' ')
+    else:
         with open("/usr/share/wajig/help/COMMANDS") as f:
             print()
             for line in f:
                 print(line, end=' ')
             print()
-    # TUTORIAL
-    else:
-        with open("/usr/share/wajig/help/TUTORIAL") as f:
-            for line in f:
-                print(line, end=' ')
