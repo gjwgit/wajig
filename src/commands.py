@@ -104,7 +104,7 @@ def do_dependents(package):
             print("{}: {}".format(*output))
 
 
-def do_describe(packages, verbose):
+def do_describe(packages, verbose=False):
     """Display package description(s)."""
 
     package_files = [package for package in packages if package.endswith(".deb")]
@@ -149,20 +149,16 @@ def do_describe(packages, verbose):
                 print("%-24s %s" % (packageversion[0], packageversion[1]))
 
 
-def do_describe_new(install=False):
-    "Report on packages that are newly available."
-
-    #
-    # Describe each new package.
-    #
+def do_describe_new(install=False, verbose=False):
+    """Report on packages that are newly available."""
     new_packages = changes.get_new_available()
-    if len(new_packages) == 0:
-        print("No new packages")
-    else:
-        do_describe(new_packages)
+    if new_packages:
+        do_describe(new_packages, verbose)
         if install:
             print("="*76)
             do_install(new_packages)
+    else:
+        print("No new packages")
 
 
 def do_force(packages):

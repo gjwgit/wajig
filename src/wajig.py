@@ -291,8 +291,11 @@ def select_command(command, args, verbose):
 
     elif command in ["detailnew", "newdetail"]:
         if util.requires_no_args(command, args):
-            commands.set_verbosity_level(2)
-            commands.do_describe_new()
+            new_packages = changes.get_new_available()
+            if new_packages:
+                package_names = " ".join(new_packages)
+                command = "apt-cache" if util.fast else "aptitude"
+                perform.execute("{} show {}".format(command, package_names))
 
     elif command == "upgrade":
         packages = util.upgradable()
