@@ -24,7 +24,7 @@ import const
 
 
 def version():
-    print("\nJIG " + const.version + \
+    print("\nwajig " + const.version + \
     """ - Command-line system admin for Debian GNU/Linux
 
     Copyright (c) Graham.Williams@togaware.com
