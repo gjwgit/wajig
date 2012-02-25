@@ -201,7 +201,7 @@ def select_command(command, args, verbose):
 
     elif command == "autodownload":
         if util.requires_no_args(command, args):
-            if verbose > 0:
+            if verbose:
                 commands.do_update()
                 filter_str = ""
             else:

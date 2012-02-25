@@ -1,5 +1,4 @@
 Display the short description of a package(s).
 $ wajig describe PKG
 options:
-  -v  --verbose=1   display long description
-  -vv --verbose=2   same as "wajig show"
+  -v  --verbose     also display long description
