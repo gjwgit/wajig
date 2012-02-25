@@ -756,11 +756,7 @@ def select_command(command, args, verbose):
 
     elif command == "search":
         if util.requires_args(command, args, "a list of words to search for"):
-            if verbose:
-                perform.execute("apt-cache search " + " ".join(args[1:]))
-            else:
-                perform.execute("apt-cache --names-only search " + \
-                                 " ".join(args[1:]))
+            perform.execute("apt-cache search " + " ".join(args[1:]))
 
     elif command == "searchapt":
         util.requires_one_arg(command, args, "one of stable|testing|unstable")
