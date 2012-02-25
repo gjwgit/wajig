@@ -427,7 +427,7 @@ def local_changelog(package, tmp):
         print("Package", package, "is likely broken (changelog not found)!")
 
 
-def do_changelog(package, verbose):
+def do_changelog(package_name, verbose):
     """Display Debian changelog.
 
     network on:
@@ -441,9 +441,9 @@ def do_changelog(package, verbose):
                      proceed to display complete local changelog
     """
 
-    changelog = "{:=^79}\n".format(" {} ".format(package))  # header
+    changelog = "{:=^79}\n".format(" {} ".format(package_name))  # header
 
-    package = apt.Cache()[package]
+    package = apt.Cache()[package_name]
     try:
         changelog += package.get_changelog()
     except AttributeError as e:
@@ -455,7 +455,7 @@ def do_changelog(package, verbose):
               "ensure that it's APT pinning isn't less than 0.")
         return
     help_message = "\nTo display the local changelog, run:\n" \
-                   "wajig --verbose changelog " + package
+                   "wajig --verbose changelog " + package_name
     if "Failed to download the list of changes" in changelog:
         if not verbose:
             changelog += help_message
@@ -474,7 +474,7 @@ def do_changelog(package, verbose):
                 changelog += "{:=^79}\n".format(" local changelog ")
             f.write(changelog)
         if package.is_installed:
-            command = local_changelog(package, tmp)
+            command = local_changelog(package_name, tmp)
             if not command:
                 return
             perform.execute(command)
