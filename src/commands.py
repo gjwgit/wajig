@@ -742,7 +742,7 @@ def do_recdownload(packages):
                 get_deps_recursively(packageName, packageslist)
         return packageslist
 
-    packageNames = []
+    package_names = []
     dontDownloadList = []
     for package in packages[:]:
         # Ignore packages with a "-" at the end so the user can workaround some
@@ -760,17 +760,17 @@ def do_recdownload(packages):
             # and we don't want package in the dontDownloadList
             if i in dontDownloadList:
                 continue
-            if i not in packageNames:
-                packageNames.append(i)
+            if i not in package_names:
+                package_names.append(i)
     print("Packages to download to /var/cache/apt/archives:")
-    for i in packageNames:
+    for i in package_names:
         # We do this because apt-get install dont list the packages to
         # reinstall if they don't need to be upgraded
         print(i, end=' ')
     print("\n")
 
     command = "apt-get --download-only --reinstall -u install " + \
-              " ".join(packageNames)
+              " ".join(package_names)
     perform.execute(command, root=1)
 
 
