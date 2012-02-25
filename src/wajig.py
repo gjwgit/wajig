@@ -140,10 +140,8 @@ def main():
     util.recommends_flag = result.recommends
     util.recommends_flag = result.norecommends
     args = result.args
-    if result.simulate:
-        perform.simulate = True
-    if result.teaching:
-        perform.set_teaching()
+    perform.simulate = result.simulate
+    perform.teaching = result.teaching
     if result.yes:
         yes = " --yes "
     if result.noauth:

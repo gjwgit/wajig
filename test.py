@@ -34,9 +34,10 @@ class Tests(unittest.TestCase):
         perform.simulate = False
 
     def test_perform_teaching(self):
-        perform.set_teaching()
+        perform.teaching = True
         res = perform.execute("TEST", test=True)
         self.assertEqual(res, "Performing: TEST")
+        perform.teaching = False
 
     # ----
     # testing util.py
