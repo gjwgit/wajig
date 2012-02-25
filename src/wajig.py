@@ -72,8 +72,6 @@ def main():
     global noauth
     global backup
 
-    verbose = 0
-
     # remove commas and insert the arguments appropriately
     oldargv = sys.argv
     sys.argv = oldargv[0:2]
@@ -95,8 +93,8 @@ def main():
                "them; used in conjuntion with [DIST]UPGRADE commands")
     parser.add_argument("-b", "--backup", action='store_true', help=message)
 
-    message = ("set verbosity; defaults to 1 if argument is not provided")
-    parser.add_argument("-v", "--verbose", nargs="?", const=True, help=message)
+    message = ("turn on verbose output")
+    parser.add_argument("-v", "--verbose", action="store_false", help=message)
 
     message = ("uses the faster apt-cache instead of the slower (but more "
                "advanced) aptitude to display package info; used in "
@@ -150,14 +148,6 @@ def main():
         yes = " --yes "
     if result.noauth:
         noauth = " --allow-unauthenticated "
-    if result.verbose:
-        try:
-            commands.set_verbosity_level(int(result.verbose))
-            verbose = int(result.verbose)
-        except:
-            commands.set_verbosity_level(1)
-            args.insert(0, result.verbose)  # a hack
-            verbose = 1
 
     #
     # Process the command. Lowercase it so that we allow any case
@@ -184,8 +174,7 @@ def main():
     # Before we do any other command make sure the right files exist.
     changes.ensure_initialised()
 
-    select_command(command, args, verbose)
-    util.finishup(0)
+    select_command(command, args, result.verbose)
 
 
 def select_command(command, args, verbose):
@@ -266,7 +255,7 @@ def select_command(command, args, verbose):
     elif command == "changelog":
         if util.requires_one_arg(command, args, "one package name") \
         and util.package_exists(args[1]):
-            commands.do_changelog(args[1])
+            commands.do_changelog(args[1], verbose)
 
     elif command == "clean":
         if util.requires_no_args(command, args):
@@ -289,7 +278,7 @@ def select_command(command, args, verbose):
 
     elif command in ("describe", "whatis"):
         if util.requires_args(command, args, "a list of packages"):
-            commands.do_describe(args[1:])
+            commands.do_describe(args[1:], verbose)
 
     elif command in ["describenew", "newdescribe"]:
         if util.requires_no_args(command, args):
@@ -297,8 +286,9 @@ def select_command(command, args, verbose):
 
     elif command in ["detail", "details", "show"]:
         if util.requires_args(command, args, "a list of packages or package file"):
-            commands.set_verbosity_level(2)
-            commands.do_describe(args[1:])
+            package_names = " ".join(set(args[1:]))
+            command = "apt-cache" if util.fast else "aptitude"
+            perform.execute("{} show {}".format(command, package_names))
 
     elif command in ["detailnew", "newdetail"]:
         if util.requires_no_args(command, args):

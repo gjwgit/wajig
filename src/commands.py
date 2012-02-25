@@ -41,14 +41,8 @@ import debfile
 # the signal and hadle it with the default handler.
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
-verbose = 0
 available_file = changes.available_file
 previous_file  = changes.previous_file
-
-
-def set_verbosity_level(new_level):
-    global verbose
-    verbose = new_level
 
 
 def ping_host(hostname):
@@ -110,7 +104,7 @@ def do_dependents(package):
             print("{}: {}".format(*output))
 
 
-def do_describe(packages):
+def do_describe(packages, verbose):
     """Display package description(s)."""
 
     package_files = [package for package in packages if package.endswith(".deb")]
@@ -126,17 +120,9 @@ def do_describe(packages):
     else:
         return
 
-    global verbose
-    if (verbose > 2):
-        verbose = 2
-    if (not packages) and (verbose < 2):
+    if not packages:
         print("No packages found from those known to be available/installed.")
-    elif verbose == 2:
-        package_names = " ".join(set(packages))
-        command = "apt-cache" if util.fast else "aptitude"
-        perform.execute("{} show {}".format(command, package_names))
-
-    elif verbose in (0, 1):
+    else:
         packageversions = list()
         cache = apt.cache.Cache()
         for package in packages:
@@ -151,16 +137,16 @@ def do_describe(packages):
             packageversions.append((package.shortname, packageversion.summary,
                                 packageversion.description))
         packageversions = set(packageversions)
-        if verbose == 0:
-            print("{0:24} {1}".format("Package", "Description"))
-            print("="*24 + "-" + "="*51)
-            for packageversion in packageversions:
-                print("%-24s %s" % (packageversion[0], packageversion[1]))
-        else:
+        if verbose:
             for packageversion in packageversions:
                 print("{}: {}\n{}\n".format(packageversion[0],
                                             packageversion[1],
                                             packageversion[2]))
+        else:
+            print("{0:24} {1}".format("Package", "Description"))
+            print("="*24 + "-" + "="*51)
+            for packageversion in packageversions:
+                print("%-24s %s" % (packageversion[0], packageversion[1]))
 
 
 def do_describe_new(install=False):
@@ -441,7 +427,7 @@ def local_changelog(package, tmp):
         print("Package", package, "is likely broken (changelog not found)!")
 
 
-def do_changelog(package):
+def do_changelog(package, verbose):
     """Display Debian changelog.
 
     network on:
