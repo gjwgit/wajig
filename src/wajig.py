@@ -141,7 +141,7 @@ def main():
     util.recommends_flag = result.norecommends
     args = result.args
     if result.simulate:
-        perform.set_simulate(True)
+        perform.simulate = True
     if result.teaching:
         perform.set_teaching()
     if result.yes:

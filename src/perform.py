@@ -70,11 +70,6 @@ def set_teaching():
     teaching = True
 
 
-def set_simulate(new_level):
-    global simulate
-    simulate = new_level
-
-
 def execute(command, root=False, display=True, pipe=False, langC=False,
             test=False):
     """Ask the operating system to perform a command.

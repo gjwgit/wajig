@@ -28,10 +28,10 @@ class Tests(unittest.TestCase):
         self.assertEqual(res, "LC_ALL=C; export LC_ALL; set -o noglob; TEST")
 
     def test_perform_simulate(self):
-        perform.set_simulate(True)
+        perform.simulate = True
         res = perform.execute("TEST", test=True)
         self.assertEqual(res, "TEST")
-        perform.set_simulate(False)
+        perform.simulate = False
 
     def test_perform_teaching(self):
         perform.set_teaching()
