@@ -94,7 +94,7 @@ def main():
     parser.add_argument("-b", "--backup", action='store_true', help=message)
 
     message = ("turn on verbose output")
-    parser.add_argument("-v", "--verbose", action="store_false", help=message)
+    parser.add_argument("-v", "--verbose", action="store_true", help=message)
 
     message = ("uses the faster apt-cache instead of the slower (but more "
                "advanced) aptitude to display package info; used in "
@@ -173,7 +173,6 @@ def main():
 
     # Before we do any other command make sure the right files exist.
     changes.ensure_initialised()
-
     select_command(command, args, result.verbose)
 
 
