@@ -37,8 +37,6 @@ import perform
 import util
 import const
 
-interactive = False  # set to true for interactive command line
-match_commands = list()  # for interactive command line completion
 backup = False
 yes = str()
 noauth = str()
@@ -59,27 +57,6 @@ def print_help(command, args, verbose=False, exit_=False):
             documentation.help(verbose)
         if exit_:
             util.finishup(0)
-
-
-#------------------------------------------------------------------------
-#
-# INTERACTIVE COMMAND LINE
-#
-#-----------------------------------------------------------------------
-def list_commands():
-    f = os.popen('wajig -v commands', 'r')
-    lines = f.readlines()
-    command_patt = r'^ ([a-z][a-z-]*) '
-    command_patt_r = re.compile(command_patt)
-    commands = []
-    for l in lines:
-        mo = command_patt_r.search(l)
-        if mo == None:
-            continue
-        # a "-" in completion seems to start strings from beginning?
-        #cmds += [re.sub('-', '', mo.group(1))]
-        cmds += [mo.group(1)]
-    return commands
 
 
 def wajig_completer(text, state):
@@ -105,42 +82,6 @@ def wajig_completer(text, state):
     if state < len(match_commands):
         return match_commands[state]
     return None
-
-
-def interactive_shell():
-    global all_commands
-    global interactive
-    interactive = True
-    util.interactive = True
-    try:
-        import readline
-        readline.parse_and_bind("tab: complete")
-        readline.set_completer(wajig_completer)
-        # Allow "-" in command names.
-        readline.set_completer_delims(readline.
-                                      get_completer_delims().
-                                      replace("-", ""))
-        all_commands = list_commands()
-    except:
-        pass
-    prompt = "wajig> "
-    while True:
-        try:
-            cmdline = input(prompt)
-        except:
-            print("")
-            return
-        cmd = cmdline.split()
-        if cmd:
-            command = re.sub('-|_|/', '', cmd[0].lower())
-        else:
-            command = ""
-        if command in ("exit", "quit", "bye"):
-            return
-        elif command in ("doc", "docs", "documentation", "help"):
-            print_help(command, cmd)
-        elif cmd:
-            select_command(command, cmd, False)
 
 
 def main():
@@ -236,9 +177,6 @@ def main():
             args.insert(0, result.verbose)  # a hack
             verbose = 1
 
-    if len(sys.argv) == 1:
-        interactive_shell()
-        return
     #
     # Process the command. Lowercase it so that we allow any case
     # for commands and allow hyphens and underscores and slash.

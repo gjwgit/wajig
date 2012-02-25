@@ -26,7 +26,6 @@ import sys
 import apt
 
 dist = str()  # stable, testing, unstable, ...
-interactive = False
 recommends_flag = None
 fast = False  # Used for choosing 'apt-cache show' instead of the slower
               # 'aptitude show'; see debian/changelog for 2.0.50 why aptitude
@@ -115,8 +114,7 @@ def upgradable(distupgrade=False):
 
 
 def finishup(code=0):
-    if not interactive:
-        sys.exit(code)
+    sys.exit(code)
 
 
 def help_cmd(command):
