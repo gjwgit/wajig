@@ -1,14 +1,7 @@
 #!/usr/bin/python3
 
 
-"""
-Test some of wajig functionality.
-
-TODO:
-* changes.py
-* commands.py
-* glutil.py
-"""
+"""Test some of wajig functionality."""
 
 import unittest
 import difflib
