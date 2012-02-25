@@ -38,7 +38,7 @@ def version():
     """)
 
 
-def help(verbose):
+def help(verbose=False):
     if verbose:
         with open("/usr/share/wajig/help/TUTORIAL") as f:
             for line in f:
