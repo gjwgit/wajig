@@ -38,21 +38,6 @@ def version():
     """)
 
 
-def usage():
-    print("""
-Usage:
- wajig [options] [command] [packages|files] ...
-
- wajig is a simple and unified package management front-end for Debian.
-
- For a mini-tutorial try "wajig help".
- For a list of all commands try "wajig list-commands".
- A more complete turorial is available with "wajig doc".
- Full documentation is at http://www.togaware.com/wajig.
-
-""")
-
-
 def help(verbose):
 
     if verbose == 0:
