@@ -198,7 +198,7 @@ def select_command(command, args, verbose):
     elif command in "builddepend builddepends builddep builddeps".split():
         commands.builddeps(args, yes, noauth)
 
-    elif command in ("reversebuilddepends", "rbuilddeps"):
+    elif command in "reversebuilddepends rbuilddeps rbuilddep".split():
         commands.rbuilddeps(args)
 
     elif command == "changelog":
@@ -216,9 +216,9 @@ def select_command(command, args, verbose):
     elif command == "dependents":
         commands.dependents(args)
 
-    elif command in ("describe", "whatis"):
+    elif command in ["describe", "whatis"]:
         commands.describe(args, verbose)
- 
+
     elif command in ["describenew", "newdescribe"]:
         if util.requires_no_args(command, args):
             commands.do_describe_new()
@@ -270,7 +270,7 @@ def select_command(command, args, verbose):
             cmd += "dist-upgrade"
             perform.execute(cmd, root=True)
 
-    elif command in ("doc", "docs", "documentation"):
+    elif command in "doc docs documentation".split():
         util.requires_no_args(command, args)
         documentation.help(verbose=True)
 
@@ -374,11 +374,11 @@ def select_command(command, args, verbose):
         if util.requires_one_arg(command, args, "one filename"):
             perform.execute("dpkg --info " + args[1])
 
-    elif command in ("init", "reset"):
+    elif command in ["init", "reset"]:
         if util.requires_no_args(command, args):
             changes.reset_files()
 
-    elif command in ("install", "isntall", "autoinstall"):
+    elif command in "install isntall autoinstall".split():
         # Okay, so I'm sometimes dyslexic :-)
         if util.requires_args(command, args, "packages, .deb files, or a url"):
             # kept so as not to break anyone's setup; consider it deprecated;
@@ -456,7 +456,7 @@ def select_command(command, args, verbose):
             cmd += "; echo"
             perform.execute(cmd)
 
-    elif command in ("listcommands", "commands"):
+    elif command in ["listcommands", "commands"]:
         if util.requires_no_args(command, args):
             documentation.help()
 
@@ -572,10 +572,10 @@ def select_command(command, args, verbose):
             if util.requires_package("deborphan", "/usr/bin/deborphan"):
                 perform.execute("deborphan")
 
-    elif command in ("policy", "available"):
+    elif command in ["policy", "available"]:
         perform.execute("apt-cache policy " + " ".join(args[1:]))
 
-    elif command in ("purge", "purgedepend"):
+    elif command in ["purge", "purgedepend"]:
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get {0} {1} --auto-remove purge {2}".format(\
                              yes, noauth, " ".join(args[1:])),
@@ -604,16 +604,16 @@ def select_command(command, args, verbose):
                 perform.execute("apt-get purge" + packages,
                                  root=True)
 
-    elif command in ("readme", "news"):
+    elif command in ["readme", "news"]:
         if util.requires_one_arg(command, args, "a single package"):
             docpath = "/usr/share/doc/" + args[1] + "/"
             if not os.path.exists(docpath):
                 print("No docs found for '{0}'. Is it installed?".format(args[1]))
                 return
             if command == "news":
-                li = ("NEWS.Debian", "NEWS")
+                li = "NEWS.Debian NEWS".split()
             else:
-                li = ("README", "README.Debian", "USAGE")
+                li = "README README.Debian USAGE".split()
             found = False
             for x in li:
                 path = docpath + x
@@ -653,12 +653,12 @@ def select_command(command, args, verbose):
                              format(noauth, yes, " ".join(args[1:])),
                              root=True)
 
-    elif command in ("reload", "restart", "start", "stop"):
+    elif command in "reload restart start stop".split():
         if util.requires_one_arg(command, args, "name of service to " + command):
             perform.execute("service {0} {1}".format(args[1], command),
                              root=True)
 
-    elif command in ("remove", "removedepend"):
+    elif command in ["remove", "removedepend"]:
         if util.requires_args(command, args, "a list of packages"):
             perform.execute("apt-get {0} {1}--auto-remove remove {2}".format(\
                              yes, noauth, " ".join(args[1:])),
@@ -673,7 +673,7 @@ def select_command(command, args, verbose):
             if packages:
                 perform.execute("apt-get remove" + packages, root=True)
 
-    elif command in ("repackage", "package"):
+    elif command in ["repackage", "package"]:
         if util.requires_one_arg(command, args, "name of an installed package") \
         and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
         and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
@@ -782,8 +782,7 @@ def select_command(command, args, verbose):
         if util.requires_no_args(command, args):
             changes.update_available()
 
-    elif command in ["updatealts", "updatealternatives", "setalts",
-        "setalternatives"]:
+    elif command in "updatealts updatealternatives setalts setalternatives".split():
         if util.requires_one_arg(command, args, "name of alternative to update"):
             perform.execute("update-alternatives --config " + args[1], root=True)
 
