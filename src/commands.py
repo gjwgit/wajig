@@ -65,45 +65,6 @@ def ping_host(hostname):
         return True  # host found
 
 
-def extract_dependencies(package, dependency_type):
-    """Produce all Dependencies of a particular type"""
-    for dependency_list in package.candidate.get_dependencies(dependency_type):
-        for dependency in dependency_list.or_dependencies:
-            yield dependency.name
-
-
-def do_dependents(package):
-    """Which packages have some kind of dependency on the given package"""
-
-    DEPENDENCY_TYPES = [
-        "Depends",
-        "Recommends",
-        "Suggests",
-        "Replaces",
-        "Enhances",
-    ]
-
-    cache = apt.cache.Cache()
-    try:
-        package = cache[package]
-    except KeyError as error:
-        print(error.args[0])
-        sys.exit(1)
-
-    dependents = { name : [] for name in DEPENDENCY_TYPES }
-
-    for key in cache.keys():
-        other_package = cache[key]
-        for dependency_type, specific_dependents in dependents.items():
-            if package.shortname in extract_dependencies(other_package, dependency_type):
-                specific_dependents.append(other_package.shortname)
-
-    for dependency_type, specific_dependents in dependents.items():
-        if specific_dependents:
-            output = dependency_type.upper(), " ".join(specific_dependents)
-            print("{}: {}".format(*output))
-
-
 def do_describe(packages, verbose=False):
     """Display package description(s)."""
 
@@ -319,7 +280,7 @@ def do_install_suggest(package_name, yes, noauth):
     except KeyError as error:
         print(error.args[0])
         sys.exit(1)
-    dependencies = " ".join(extract_dependencies(package, "Suggests"))
+    dependencies = " ".join(util.extract_dependencies(package, "Suggests"))
     template = "apt-get {0} {1} {2} --show-upgraded install {3} {4}"
     command = template.format(util.recommends(), yes, noauth, dependencies,
                           package_name)
@@ -908,6 +869,74 @@ def clean(args):
     """
     util.requires_no_args("clean", args)
     perform.execute("apt-get clean", root=True)
+
+
+def contents(args):
+    """
+    List the contents of a package file (.deb).
+    $ wajig contents <deb file>
+    
+    note: this runs 'dpkg --contents'
+    """
+    util.requires_one_arg("contents", args, "a single filename")
+    perform.execute("dpkg --contents " + args[1])
+
+
+def dailyupgrade(args):
+    """
+    Perform an update then a dist-upgrade.
+    $ wajg daily-upgrade
+    
+    note: this runs 'apt-get --show-upgraded dist-upgrade'
+    """
+    util.requires_no_args("dailyupgrade", args)
+    do_update()
+    perform.execute("apt-get --show-upgraded dist-upgrade", root=True)
+
+
+def dependents(args):
+    """
+    Display packages which have some form of dependency on the given package.
+
+    Types of dependencies:
+    * Depends
+    * Recommends
+    * Suggests
+    * Replaces
+    * Enhances
+
+    $ wajig dependents <package name>
+    """
+    util.requires_one_arg("dependents", args, "one package name")
+    package = args[1]
+
+    DEPENDENCY_TYPES = [
+        "Depends",
+        "Recommends",
+        "Suggests",
+        "Replaces",
+        "Enhances",
+    ]
+
+    cache = apt.cache.Cache()
+    try:
+        package = cache[package]
+    except KeyError as error:
+        print(error.args[0])
+        sys.exit(1)
+
+    dependents = { name : [] for name in DEPENDENCY_TYPES }
+
+    for key in cache.keys():
+        other_package = cache[key]
+        for dependency_type, specific_dependents in dependents.items():
+            if package.shortname in util.extract_dependencies(other_package, dependency_type):
+                specific_dependents.append(other_package.shortname)
+
+    for dependency_type, specific_dependents in dependents.items():
+        if specific_dependents:
+            output = dependency_type.upper(), " ".join(specific_dependents)
+            print("{}: {}".format(*output))
 
 
 def help(args):

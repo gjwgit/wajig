@@ -1,9 +1,0 @@
-Display packages which have some form of binary dependency on the given package.
-$ wajig dependents PKG
-flags:
-  d Depends
-  r Recommends
-  s Suggests
-  c Conflicts
-  p Replaces
-  o Other

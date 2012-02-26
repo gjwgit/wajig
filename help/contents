@@ -1,2 +1,0 @@
-List the contents of a package file.
-$ wajig contents .DEB                   (dpkg --contents)

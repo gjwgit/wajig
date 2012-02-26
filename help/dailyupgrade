@@ -1,2 +1,0 @@
-Perform an update then a dist-upgrade.
-$ wajg daily-upgrade               (apt-get --show-upgraded dist-upgrade)

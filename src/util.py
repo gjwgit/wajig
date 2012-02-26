@@ -141,3 +141,10 @@ def local_changelog(package, tmp):
         print("Package", package, "is likely broken (changelog not found)!")
 
 
+def extract_dependencies(package, dependency_type):
+    """Produce all Dependencies of a particular type"""
+    for dependency_list in package.candidate.get_dependencies(dependency_type):
+        for dependency in dependency_list.or_dependencies:
+            yield dependency.name
+
+

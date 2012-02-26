@@ -208,18 +208,13 @@ def select_command(command, args, verbose):
         commands.clean(args)
  
     elif command == "contents":
-        if util.requires_one_arg(command, args, "a filename"):
-            perform.execute("dpkg --contents " + args[1])
+        commands.contents(args)
 
     elif command == "dailyupgrade":
-        if util.requires_no_args(command, args):
-            commands.do_update()
-            perform.execute("apt-get --show-upgraded dist-upgrade",
-                             root=True)
+        commands.dailyupgrade(args)
 
     elif command == "dependents":
-        if util.requires_one_arg(command, args, "one package name"):
-            commands.do_dependents(args[1])
+        commands.dependents(args)
 
     elif command in ("describe", "whatis"):
         if util.requires_args(command, args, "a list of packages"):
