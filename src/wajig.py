@@ -180,9 +180,7 @@ def select_command(command, args, verbose):
     global yes
 
     if command in ["addcdrom", "cdromadd"]:
-        if util.requires_no_args(command, args):
-            perform.execute("apt-cdrom add",
-                             root=True)
+        commands.addcdrom(command, args)
 
     elif command == "addrepo":
         if util.requires_one_arg(command, args,

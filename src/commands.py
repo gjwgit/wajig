@@ -768,3 +768,12 @@ def rbuilddep(package):
     command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep " + \
           package + " /var/lib/apt/lists/*Sources"
     perform.execute(command)
+
+def addcdrom(command, args):
+    """Add a Debian CD/DVD to APT's list of available sources.
+    $ wajig addcdrom
+    
+    note: this calls 'apt-cdrom add'
+    """
+    if util.requires_no_args(command, args):
+        perform.execute("apt-cdrom add", root=True)
