@@ -1,1 +1,2 @@
-doc
+syntax: glob
+*__pycache__*
