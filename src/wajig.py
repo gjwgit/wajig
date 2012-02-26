@@ -195,14 +195,10 @@ def select_command(command, args, verbose):
         commands.autoclean(args)
 
     elif command == "autoremove":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get autoremove", root=True)
+        commands.autoremove(args)
 
-    elif command in ["bug", "bugs", "reportbug"]:
-        if util.requires_one_arg(command, args, "a single named package"):
-            if util.requires_package("reportbug", "/usr/bin/reportbug"):
-                # 090430 Specify bts=debian since ubuntu not working at present
-                perform.execute("reportbug --bts=debian " + args[1])
+    elif command == "reportbug":
+        commands.reportbug(args)
 
     elif command == "build":
         if util.requires_args(command, args, "a list of package names") \

@@ -797,7 +797,7 @@ def addrepo(command, args):
 def autoalts(command, args):
     """
     Mark the Alternative to be auto-set (using set priorities).
-    $ wajig autoalts NAME
+    $ wajig autoalts <alternative name>
 
     note: this runs 'update-alternatives --auto'
     """
@@ -835,6 +835,29 @@ def autoclean(args):
     """
     util.requires_no_args("autodownload", args)
     perform.execute("apt-get autoclean", root=True)
+
+
+def autoremove(args):
+    """
+    Remove unused dependency packages
+    $ wajig autoremove
+    """
+    util.requires_no_args("autoremove", args)
+    perform.execute("apt-get autoremove", root=True)
+
+
+def reportbug(args):
+    """
+    Report a bug in a package using Debian BTS (Bug Tracking System).
+    $ wajig bug <package name>
+
+    note: this runs 'reportbug'
+    """
+    util.requires_one_arg("reportbug", args, "a single named package")
+    util.requires_package("reportbug", "/usr/bin/reportbug")
+    # 090430 Specify bts=debian since ubuntu not working at present
+    perform.execute("reportbug --bts=debian " + args[1])
+
 
 def help(args):
     """
