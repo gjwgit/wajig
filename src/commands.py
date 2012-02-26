@@ -769,6 +769,7 @@ def rbuilddep(package):
           package + " /var/lib/apt/lists/*Sources"
     perform.execute(command)
 
+
 def addcdrom(command, args):
     """
     Add a Debian CD/DVD to APT's list of available sources
@@ -778,6 +779,25 @@ def addcdrom(command, args):
     """
     util.requires_no_args(command, args)
     perform.execute("apt-cdrom add", root=True)
+
+
+def addrepo(command, args):
+    """
+    Add a Launchpad PPA (Personal Package Archive) repository.
+    Here's an example that shows how to add the daily builds of
+    Google's Chromium browser:
+    $ wajig addrepo ppa:chromium-daily      (add-apt-repository)
+    """
+    util.requires_one_arg(command, args,
+                         "a PPA (Personal Package Archive) repository to add")
+    util.requires_package("add-apt-repository", "/usr/bin/add-apt-repository")
+    perform.execute("add-apt-repository " + args[1], root=True)
+
+
+
+
+
+
 
 
 def help(command, args):

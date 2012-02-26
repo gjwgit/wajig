@@ -183,12 +183,7 @@ def select_command(command, args, verbose):
         commands.addcdrom(command, args)
 
     elif command == "addrepo":
-        if util.requires_one_arg(command, args,
-                "a PPA (Personal Package Archive) repository to add"):
-            if util.requires_package("add-apt-repository",
-                                "/usr/bin/add-apt-repository"):
-                perform.execute("add-apt-repository " + args[1],
-                                 root=True)
+        commands.addrepo(command, args)
 
     elif command in ["autoalts", "autoalternatives"]:
         if util.requires_one_arg(command, args, "name alternative to set as auto"):
