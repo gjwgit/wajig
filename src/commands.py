@@ -764,12 +764,6 @@ def versions(packages):
             perform.execute("apt-show-versions " + package)
 
 
-def rbuilddep(package):
-    command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep " + \
-          package + " /var/lib/apt/lists/*Sources"
-    perform.execute(command)
-
-
 def addcdrom(command, args):
     """
     Add a Debian CD/DVD to APT's list of available sources
@@ -895,10 +889,24 @@ def builddepend(args, yes, noauth):
 
     note: this runs 'apt-get build-dep'
     """
-    util.requires_args(command, args, "a list of package names")
+    util.requires_args("builddepend", args, "a list of package names")
     command = "apt-get {0} {1} build-dep {2} " + " ".join(args[1:])
     command = command.format(yes, noauth)
     perform.execute(command, root=True)
+
+
+def rbuilddeps(args):
+    """
+    Display the packages which build-depend on the given package.
+    $ wajig rbuilddeps PKG
+    """
+    util.requires_one_arg("rbuilddeps", args, "one package name")
+    util.requires_package("grep-dctrl", "/usr/bin/grep-dctrl")
+    command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep "
+    command = command + args[1] + " /var/lib/apt/lists/*Sources"
+    perform.execute(command)
+
+
 
 
 

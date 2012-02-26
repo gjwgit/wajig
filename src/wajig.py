@@ -203,14 +203,11 @@ def select_command(command, args, verbose):
     elif command == "build":
         commands.build(args, yes, noauth)
 
-
     elif command in ("builddepend", "builddep"):
         commands.builddepend(args, yes, noauth)
 
     elif command in ("reverse-build-depends", "rbuilddeps"):
-        if util.requires_one_arg(command, args, "one package name") \
-        and util.requires_package("grep-dctrl", "/usr/bin/grep-dctrl"):
-            commands.rbuilddep(args[1])
+        commands.rbuilddeps(args)
 
     elif command == "changelog":
         if util.requires_one_arg(command, args, "one package name") \
