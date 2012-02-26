@@ -126,3 +126,18 @@ def help(command):
         print(help_text)
     except AttributeError:
         print(command.upper(), "is not a wajig command")
+
+
+def local_changelog(package, tmp):
+    "Retrieve Debian changelog from local installation."
+
+    changelog = "/usr/share/doc/" + package + "/changelog.Debian.gz"
+    changelog_native = "/usr/share/doc/" + package + "/changelog.gz"
+    if os.path.exists(changelog):
+        return "zcat {0} >> {1}".format(changelog, tmp)
+    elif os.path.exists(changelog_native):
+        return "zcat {0} >> {1}".format(changelog_native, tmp)
+    else:
+        print("Package", package, "is likely broken (changelog not found)!")
+
+

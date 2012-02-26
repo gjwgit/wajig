@@ -410,75 +410,6 @@ def do_new():
             changes.get_available_version(new_packages[i])))
 
 
-def local_changelog(package, tmp):
-    "Retrieve Debian changelog from local installation."
-
-    changelog = "/usr/share/doc/" + package + "/changelog.Debian.gz"
-    changelog_native = "/usr/share/doc/" + package + "/changelog.gz"
-    if os.path.exists(changelog):
-        return "zcat {0} >> {1}".format(changelog, tmp)
-    elif os.path.exists(changelog_native):
-        return "zcat {0} >> {1}".format(changelog_native, tmp)
-    else:
-        print("Package", package, "is likely broken (changelog not found)!")
-
-
-def do_changelog(package_name, verbose):
-    """Display Debian changelog.
-
-    network on:
-         changelog - if there's newer entries, display them
-      -v changelog - if there's newer entries, display them, and proceed to
-                     display complete local changelog
-
-    network off:
-         changelog - if there's newer entries, mention failure to retrieve
-      -v changelog - if there's newer entries, mention failure to retrieve, and
-                     proceed to display complete local changelog
-    """
-
-    changelog = "{:=^79}\n".format(" {} ".format(package_name))  # header
-
-    package = apt.Cache()[package_name]
-    try:
-        changelog += package.get_changelog()
-    except AttributeError as e:
-        # This is caught so as to avoid an ugly python-apt trace; it's a bug
-        # that surfaces when:
-        # 1. The package is not available in the default Debian suite
-        # 2. The suite the package belongs to is set to a pin of < 0
-        print("If this package is not on your default Debian suite, " \
-              "ensure that it's APT pinning isn't less than 0.")
-        return
-    help_message = "\nTo display the local changelog, run:\n" \
-                   "wajig --verbose changelog " + package_name
-    if "Failed to download the list of changes" in changelog:
-        if not verbose:
-            changelog += help_message
-        else:
-            changelog += "\n"
-    elif changelog.endswith("The list of changes is not available"):
-        changelog += ".\nYou are likely running the latest version.\n"
-        if not verbose:
-            changelog += help_message
-    if not verbose:
-        print(changelog)
-    else:
-        tmp = tempfile.mkstemp()[1]
-        with open(tmp, "w") as f:
-            if package.is_installed:
-                changelog += "{:=^79}\n".format(" local changelog ")
-            f.write(changelog)
-        if package.is_installed:
-            command = local_changelog(package_name, tmp)
-            if not command:
-                return
-            perform.execute(command)
-        with open(tmp) as f:
-            for line in f:
-                sys.stdout.write(line)
-
-
 def do_newupgrades(install=False):
     "Display packages that are newly upgraded."
 
@@ -907,8 +838,65 @@ def rbuilddeps(args):
     perform.execute(command)
 
 
+def changelog(args, verbose):
+    """
+    Display Debian changelog of a package.
+    $ wajig changelog <package name>
+    options:
+    network on:
+         changelog - if there's newer entries, display them
+      -v changelog - if there's newer entries, display them, and proceed to
+                     display complete local changelog
 
+    network off:
+         changelog - if there's newer entries, mention failure to retrieve
+      -v changelog - if there's newer entries, mention failure to retrieve, and
+                     proceed to display complete local changelog
+    """
+    util.requires_one_arg("changelog", args, "one package name")
+    package_name = args[1]
+    util.package_exists(package_name)
 
+    changelog = "{:=^79}\n".format(" {} ".format(package_name))  # header
+
+    package = apt.Cache()[package_name]
+    try:
+        changelog += package.get_changelog()
+    except AttributeError as e:
+        # This is caught so as to avoid an ugly python-apt trace; it's a bug
+        # that surfaces when:
+        # 1. The package is not available in the default Debian suite
+        # 2. The suite the package belongs to is set to a pin of < 0
+        print("If this package is not on your default Debian suite, " \
+              "ensure that it's APT pinning isn't less than 0.")
+        return
+    help_message = "\nTo display the local changelog, run:\n" \
+                   "wajig --verbose changelog " + package_name
+    if "Failed to download the list of changes" in changelog:
+        if not verbose:
+            changelog += help_message
+        else:
+            changelog += "\n"
+    elif changelog.endswith("The list of changes is not available"):
+        changelog += ".\nYou are likely running the latest version.\n"
+        if not verbose:
+            changelog += help_message
+    if not verbose:
+        print(changelog)
+    else:
+        tmp = tempfile.mkstemp()[1]
+        with open(tmp, "w") as f:
+            if package.is_installed:
+                changelog += "{:=^79}\n".format(" local changelog ")
+            f.write(changelog)
+        if package.is_installed:
+            command = util.local_changelog(package_name, tmp)
+            if not command:
+                return
+            perform.execute(command)
+        with open(tmp) as f:
+            for line in f:
+                sys.stdout.write(line)
 
 def help(args):
     """
@@ -921,4 +909,7 @@ def help(args):
             command = "autoalts"
         elif command == "builddep":
             command = "builddepend"
+        elif command in ["rbuilddep", "reversebuilddeps",
+                         "reversebuilddependencies"]:
+            command = "rbuilddeps"
         util.help(command)

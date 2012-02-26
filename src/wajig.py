@@ -210,9 +210,7 @@ def select_command(command, args, verbose):
         commands.rbuilddeps(args)
 
     elif command == "changelog":
-        if util.requires_one_arg(command, args, "one package name") \
-        and util.package_exists(args[1]):
-            commands.do_changelog(args[1], verbose)
+        commands.changelog(args, verbose)
 
     elif command == "clean":
         if util.requires_no_args(command, args):
