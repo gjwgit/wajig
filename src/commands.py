@@ -775,7 +775,7 @@ def addcdrom(command, args):
     Add a Debian CD/DVD to APT's list of available sources
     $ wajig addcdrom
     
-    note: this calls 'apt-cdrom add'
+    note: this runs 'apt-cdrom add'
     """
     util.requires_no_args(command, args)
     perform.execute("apt-cdrom add", root=True)
@@ -799,18 +799,18 @@ def autoalts(command, args):
     Mark the Alternative to be auto-set (using set priorities).
     $ wajig autoalts NAME
 
-    note: this calls 'update-alternatives --auto'
+    note: this runs 'update-alternatives --auto'
     """
     util.requires_one_arg(command, args, "name alternative to set as auto")
     perform.execute("update-alternatives --auto " + args[1], root=True)
 
 
-def autodownload(command, args, verbose):
+def autodownload(args, verbose):
     """
     Do an update followed by a download of all updated packages.
     $ wajig autodownload
     
-    note: this calls 'apt-get -d -u -y dist-upgrade'
+    note: this runs 'apt-get -d -u -y dist-upgrade'
     """
     util.requires_no_args("autodownload", args)
     if verbose:
@@ -826,6 +826,15 @@ def autodownload(command, args, verbose):
     do_newupgrades()
 
 
+def autoclean(args):
+    """
+    Remove no-longer-downloadable .deb files from the download cache.
+    $ wajig autoclean
+
+    note: this runs 'apt-get autoclean'
+    """
+    util.requires_no_args("autodownload", args)
+    perform.execute("apt-get autoclean", root=True)
 
 def help(args):
     """

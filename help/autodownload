@@ -1,2 +1,0 @@
-Do an update followed by a download of all updated packages.
-$ wajig autodownload                    (apt-get -d -u -y dist-upgrade)

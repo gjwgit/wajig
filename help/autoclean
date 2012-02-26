@@ -1,2 +1,0 @@
-Remove no-longer-downloadable .deb files from the download cache.
-$ wajig autoclean                       (apt-get autoclean)

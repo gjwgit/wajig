@@ -189,12 +189,10 @@ def select_command(command, args, verbose):
         commands.autoalts(command, args)
 
     elif command == "autodownload":
-        commands.autodownload(command, args, verbose)
+        commands.autodownload(args, verbose)
 
     elif command == "autoclean":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get autoclean",
-                             root=True)
+        commands.autoclean(args)
 
     elif command == "autoremove":
         if util.requires_no_args(command, args):
