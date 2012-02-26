@@ -821,7 +821,7 @@ def builddepend(args, yes, noauth):
     note: this runs 'apt-get build-dep'
     """
     util.requires_args("builddepend", args, "a list of package names")
-    command = "apt-get {0} {1} build-dep {2} " + " ".join(args[1:])
+    command = "apt-get {0} {1} build-dep " + " ".join(args[1:])
     command = command.format(yes, noauth)
     perform.execute(command, root=True)
 
