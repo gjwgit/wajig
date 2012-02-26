@@ -22,6 +22,7 @@
 
 import os
 import sys
+import commands
 
 import apt
 
@@ -42,8 +43,7 @@ def recommends():
 def requires_no_args(command, args, test=False):
     if len(args) > 1:
         if not test:
-            message = "no further arguments"
-            print(command.upper() + " requires " + message)
+            print(command.upper() + " requires no further arguments")
             finishup(1)
         return False
     return True
@@ -128,3 +128,8 @@ def help_cmd(command):
             print()
     except:
         print("Command", command.upper(), "does not exist.")
+
+def help(command):
+    """Handles commands of the form 'wajig help install'."""
+    help_text = eval("commands.{}.__doc__".format(command))
+    print(help_text)

@@ -419,9 +419,7 @@ def select_command(command, args, verbose):
             commands.do_force(args[1:])
 
     elif command == "help":
-        if len(args) > 1:
-            for command in args[1:]:
-                util.help_cmd(command)
+        commands.help(command, args)
 
     elif command == "hold":
         if util.requires_args(command, args, "a list of packages to place on hold"):

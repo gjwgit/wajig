@@ -770,10 +770,21 @@ def rbuilddep(package):
     perform.execute(command)
 
 def addcdrom(command, args):
-    """Add a Debian CD/DVD to APT's list of available sources.
+    """
+    Add a Debian CD/DVD to APT's list of available sources
     $ wajig addcdrom
     
     note: this calls 'apt-cdrom add'
     """
-    if util.requires_no_args(command, args):
-        perform.execute("apt-cdrom add", root=True)
+    util.requires_no_args(command, args)
+    perform.execute("apt-cdrom add", root=True)
+
+
+def help(command, args):
+    """
+    Print help on individual command
+    $ wajig help COMMAND
+    """
+    util.requires_args(command, args, "wajig commands(s)")
+    for command in args[1:]:
+        util.help(command)
