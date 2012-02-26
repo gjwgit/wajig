@@ -1,2 +1,0 @@
-Mark the Alternative to be auto-set (using set priorities).
-$ wajig autoalts NAME                   (update-alternatives --auto)
