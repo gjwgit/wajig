@@ -102,9 +102,9 @@ def package_exists(package, test=False):
     try:
         cache[package]
         return True
-    except KeyError as e:
+    except KeyError as error:
         if not test:
-            print(e[0])
+            print(error.args[0])
             finishup(1)
 
 
