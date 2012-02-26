@@ -1,8 +1,0 @@
-Install build-dependencies for given packages.
-$ wajig builddep PKG                        (apt-get build-dep)
-
-long form command: reverse-build-depends
-
-options:
-  -n --noauth       install even if package is untrusted
-  -y --yes          install without yes/no prompts; use with care!

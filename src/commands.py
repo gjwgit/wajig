@@ -898,6 +898,18 @@ def changelog(args, verbose):
             for line in f:
                 sys.stdout.write(line)
 
+
+def clean(args):
+    """
+    Remove all deb files from the download cache.
+    $ wajig clean
+
+    note: this runs 'apt-get clean'
+    """
+    util.requires_no_args("clean", args)
+    perform.execute("apt-get clean", root=True)
+
+
 def help(args):
     """
     Print help on individual command

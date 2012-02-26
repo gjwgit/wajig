@@ -1,5 +1,0 @@
-Display Debian changelog of a package.
-$ wajig changelog PKG
-options:
-  -v --verbose=1    if there's newer entries, display them, and proceed to
-                    display complete local changelog

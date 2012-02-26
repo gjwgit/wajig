@@ -213,10 +213,8 @@ def select_command(command, args, verbose):
         commands.changelog(args, verbose)
 
     elif command == "clean":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get clean",
-                             root=True)
-
+        commands.clean(args)
+ 
     elif command == "contents":
         if util.requires_one_arg(command, args, "a filename"):
             perform.execute("dpkg --contents " + args[1])
