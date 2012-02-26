@@ -147,7 +147,7 @@ def main():
     # part after the / (Bug##350944)
     #
     if not args:
-        print("You must specify an argument; Look at 'wajig help'")
+        print("You must specify an argument; Run 'wajig commands' for a list")
         util.finishup(1)
     slash = args[0].find("/")
     if slash == -1:
