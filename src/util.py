@@ -119,5 +119,8 @@ def finishup(code=0):
 
 def help(command):
     """Handles commands of the form 'wajig help install'."""
-    help_text = eval("commands.{}.__doc__".format(command))
-    print(help_text)
+    try:
+        help_text = eval("commands.{}.__doc__".format(command))
+        print(help_text)
+    except AttributeError:
+        print(command.upper(), "is not a wajig command")

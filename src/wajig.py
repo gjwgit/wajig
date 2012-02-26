@@ -186,9 +186,7 @@ def select_command(command, args, verbose):
         commands.addrepo(command, args)
 
     elif command in ["autoalts", "autoalternatives"]:
-        if util.requires_one_arg(command, args, "name alternative to set as auto"):
-            perform.execute("update-alternatives --auto " + args[1],
-                             root=True)
+        commands.autoalts(command, args)
 
     elif command == "autodownload":
         if util.requires_no_args(command, args):
@@ -414,7 +412,7 @@ def select_command(command, args, verbose):
             commands.do_force(args[1:])
 
     elif command == "help":
-        commands.help(command, args)
+        commands.help(args)
 
     elif command == "hold":
         if util.requires_args(command, args, "a list of packages to place on hold"):

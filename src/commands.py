@@ -794,17 +794,27 @@ def addrepo(command, args):
     perform.execute("add-apt-repository " + args[1], root=True)
 
 
+def autoalts(command, args):
+    """
+    Mark the Alternative to be auto-set (using set priorities).
+    $ wajig autoalts NAME
+
+    note: this calls 'update-alternatives --auto'
+    """
+    util.requires_one_arg(command, args, "name alternative to set as auto")
+    perform.execute("update-alternatives --auto " + args[1], root=True)
 
 
 
 
 
-
-def help(command, args):
+def help(args):
     """
     Print help on individual command
     $ wajig help COMMAND
     """
-    util.requires_args(command, args, "wajig commands(s)")
+    util.requires_args("help", args, "wajig commands(s)")
     for command in args[1:]:
+        if command == "autoalternatives":
+            command = "autoalts"
         util.help(command)
