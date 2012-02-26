@@ -1,2 +1,0 @@
-Add a Debian CD/DVD to APT's list of available sources.
-$ wajig addcdrom                        (apt-cdrom add)
