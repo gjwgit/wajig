@@ -206,7 +206,7 @@ def select_command(command, args, verbose):
     elif command in ("builddepend", "builddep"):
         commands.builddepend(args, yes, noauth)
 
-    elif command in ("reverse-build-depends", "rbuilddeps"):
+    elif command in ("reversebuilddepends", "rbuilddeps"):
         commands.rbuilddeps(args)
 
     elif command == "changelog":
