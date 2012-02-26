@@ -117,18 +117,6 @@ def finishup(code=0):
     sys.exit(code)
 
 
-def help_cmd(command):
-    "Handles commands of the form 'wajig help install'."
-    filename = "/usr/share/wajig/help/" + command
-    try:
-        with open(filename) as f:
-            print()
-            for line in f:
-                print("    " + line[:-1])
-            print()
-    except:
-        print("Command", command.upper(), "does not exist.")
-
 def help(command):
     """Handles commands of the form 'wajig help install'."""
     help_text = eval("commands.{}.__doc__".format(command))
