@@ -189,18 +189,7 @@ def select_command(command, args, verbose):
         commands.autoalts(command, args)
 
     elif command == "autodownload":
-        if util.requires_no_args(command, args):
-            if verbose:
-                commands.do_update()
-                filter_str = ""
-            else:
-                commands.do_update()
-                filter_str = '| egrep -v "(http|ftp)"'
-            perform.execute("apt-get --download-only --show-upgraded " +\
-                            "--assume-yes dist-upgrade " + filter_str,
-                            root=True)
-            commands.do_describe_new()
-            commands.do_newupgrades()
+        commands.autodownload(command, args, verbose)
 
     elif command == "autoclean":
         if util.requires_no_args(command, args):

@@ -805,6 +805,25 @@ def autoalts(command, args):
     perform.execute("update-alternatives --auto " + args[1], root=True)
 
 
+def autodownload(command, args, verbose):
+    """
+    Do an update followed by a download of all updated packages.
+    $ wajig autodownload
+    
+    note: this calls 'apt-get -d -u -y dist-upgrade'
+    """
+    util.requires_no_args("autodownload", args)
+    if verbose:
+        do_update()
+        filter_str = ""
+    else:
+        do_update()
+        filter_str = '| egrep -v "(http|ftp)"'
+    perform.execute("apt-get --download-only --show-upgraded " + \
+                    "--assume-yes dist-upgrade " + filter_str,
+                    root=True)
+    do_describe_new()
+    do_newupgrades()
 
 
 
