@@ -29,18 +29,6 @@ class Tests(unittest.TestCase):
         res = perform.execute("TEST", test=True, langC=True)
         self.assertEqual(res, "LC_ALL=C; export LC_ALL; set -o noglob; TEST")
 
-    def test_perform_simulate(self):
-        perform.simulate = True
-        res = perform.execute("TEST", test=True)
-        self.assertEqual(res, "TEST")
-        perform.simulate = False
-
-    def test_perform_teaching(self):
-        perform.teaching = True
-        res = perform.execute("TEST", test=True)
-        self.assertEqual(res, "Performing: TEST")
-        perform.teaching = False
-
     # ----
     # testing util.py
     # ----

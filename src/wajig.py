@@ -101,9 +101,6 @@ def main():
                "conjunction with SHOW command")
     parser.add_argument("-f", "--fast", action='store_true', help=message)
 
-    message = "simulate command execution"
-    parser.add_argument("-s", "--simulate", action='store_true', help=message)
-
     message = ("install with Recommended dependencies; used in "
                "conjunction with INSTALL command")
     parser.add_argument("-r", "--recommends", action='store_true',
@@ -113,9 +110,6 @@ def main():
                "conjunction with INSTALL command")
     parser.add_argument("-R", "--norecommends", action='store_false',
                         help=message)
-
-    message = "display commands before executing them"
-    parser.add_argument("-t", "--teaching", action='store_true', help=message)
 
     message = "a dangerous option that skips 'Yes/No' prompts'"
     parser.add_argument("-y", "--yes", action='store_true', help=message)
@@ -140,8 +134,6 @@ def main():
     util.recommends_flag = result.recommends
     util.recommends_flag = result.norecommends
     args = result.args
-    perform.simulate = result.simulate
-    perform.teaching = result.teaching
     if result.yes:
         yes = " --yes "
     if result.noauth:

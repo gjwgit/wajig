@@ -61,8 +61,6 @@ if os.path.exists("/usr/bin/sudo") and user != 'root':
 #
 #------------------------------------------------------------------------
 
-simulate = False
-teaching = False
 
 
 def execute(command, root=False, display=True, pipe=False, langC=False,
@@ -84,14 +82,6 @@ def execute(command, root=False, display=True, pipe=False, langC=False,
     Note that the PIPE option was added as a minor modification and has not
     been fully tested, but is extremely useful in avoiding temporary files."""
 
-    if teaching:
-        if test:
-            return "Performing: " + command
-        print("Performing: " + command)
-    elif simulate and display:
-        if test:
-            return command
-        print(command)
     if root:
         if setroot == "/usr/bin/sudo":
             #
@@ -149,7 +139,7 @@ passwords. See wajig documentation (wajig doc) for details.
     #
     if langC:
         command = "LC_ALL=C; export LC_ALL; " + command
-    if not simulate and not test:
+    if not test:
         if pipe:
             return os.popen(command)
         else:

@@ -31,8 +31,12 @@ wajig (2.3) unstable; urgency=low
     maintain it.
   * Remove the mini-tutorial; me wonders if it was useful to anyone.
   * Improve usability by limiting verbosity to either True or False.
+  * Remove --simulate and --teaching options:
+    * they don't don't apply to a lot wajig commands
+    * they display ugly output
+    * I doubt if anyone will miss them
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 26 Feb 2012 00:16:12 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 26 Feb 2012 18:36:31 +0200
 
 wajig (2.2) unstable; urgency=low
 
