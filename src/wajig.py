@@ -205,10 +205,7 @@ def select_command(command, args, verbose):
 
 
     elif command in ("builddepend", "builddep"):
-        if util.requires_args(command, args, "a list of package names"):
-            perform.execute("apt-get {0} {1} build-dep {2}".format(yes, noauth,
-                             " ".join(args[1:])),
-                             root=True)
+        commands.builddepend(args, yes, noauth)
 
     elif command in ("reverse-build-depends", "rbuilddeps"):
         if util.requires_one_arg(command, args, "one package name") \

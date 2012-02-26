@@ -882,6 +882,26 @@ def build(args, yes, noauth):
         perform.execute(command, root=True)
 
 
+def builddepend(args, yes, noauth):
+    """
+    Install build-dependencies for given packages.
+    $ wajig builddep <package names>
+
+    long form command: reverse-build-depends
+
+    options:
+      -n --noauth       install even if package is untrusted
+      -y --yes          install without yes/no prompts; use with care!
+
+    note: this runs 'apt-get build-dep'
+    """
+    util.requires_args(command, args, "a list of package names")
+    command = "apt-get {0} {1} build-dep {2} " + " ".join(args[1:])
+    command = command.format(yes, noauth)
+    perform.execute(command, root=True)
+
+
+
 def help(args):
     """
     Print help on individual command
@@ -891,4 +911,6 @@ def help(args):
     for command in args[1:]:
         if command == "autoalternatives":
             command = "autoalts"
+        elif command == "builddep":
+            command = "builddepend"
         util.help(command)
