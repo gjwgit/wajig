@@ -220,8 +220,7 @@ def select_command(command, args, verbose):
         commands.describe(args, verbose)
 
     elif command in ["describenew", "newdescribe"]:
-        if util.requires_no_args(command, args):
-            commands.do_describe_new()
+        commands.describenew(args, verbose)
 
     elif command in ["detail", "details", "show"]:
         if util.requires_args(command, args, "a list of packages or package file"):

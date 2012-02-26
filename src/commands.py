@@ -65,18 +65,6 @@ def ping_host(hostname):
         return True  # host found
 
 
-def do_describe_new(install=False, verbose=False):
-    """Report on packages that are newly available."""
-    new_packages = changes.get_new_available()
-    if new_packages:
-        util.do_describe(new_packages, verbose)
-        if install:
-            print("="*76)
-            do_install(new_packages)
-    else:
-        print("No new packages")
-
-
 def do_force(packages):
     """Force the installation of a package.
 
@@ -663,7 +651,7 @@ def autodownload(args, verbose):
     perform.execute("apt-get --download-only --show-upgraded " + \
                     "--assume-yes dist-upgrade " + filter_str,
                     root=True)
-    do_describe_new()
+    util.do_describe_new(verbose)
     do_newupgrades()
 
 
@@ -905,6 +893,13 @@ def describe(args, verbose):
     util.do_describe(args[1:], verbose)
 
 
+def describenew(args, verbose):
+    """
+    One line descriptions of new packages.
+    $ wajig describe-new
+    """
+    util.requires_no_args("describe", args)
+    util.do_describe_new(verbose)
 
 
 def help(args):
@@ -921,4 +916,6 @@ def help(args):
         elif command in ["rbuilddep", "reversebuilddeps",
                          "reversebuilddependencies"]:
             command = "rbuilddeps"
+        elif command == "newdescribe":
+            command = "describenew"
         util.help(command)

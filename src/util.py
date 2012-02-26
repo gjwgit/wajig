@@ -22,9 +22,12 @@
 
 import os
 import sys
-import commands
 
 import apt
+
+import commands
+import changes
+
 
 dist = str()  # stable, testing, unstable, ...
 recommends_flag = None
@@ -191,5 +194,17 @@ def do_describe(packages, verbose=False):
             print("="*24 + "-" + "="*51)
             for packageversion in packageversions:
                 print("%-24s %s" % (packageversion[0], packageversion[1]))
+
+
+def do_describe_new(install=False, verbose=False):
+    """Report on packages that are newly available."""
+    new_packages = changes.get_new_available()
+    if new_packages:
+        util.do_describe(new_packages, verbose)
+        if install:
+            print("="*76)
+            do_install(new_packages)
+    else:
+        print("No new packages")
 
 
