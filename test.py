@@ -5,9 +5,11 @@
 
 import unittest
 import difflib
+import sys
 
-from src import perform
-from src import util
+sys.path.append("src")
+import perform
+import util
 
 
 class Tests(unittest.TestCase):
