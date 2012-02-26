@@ -201,16 +201,8 @@ def select_command(command, args, verbose):
         commands.reportbug(args)
 
     elif command == "build":
-        if util.requires_args(command, args, "a list of package names") \
-        and util.requires_package("sudo", "/usr/bin/sudo"):
-            # First make sure dependencies are met
-            result = perform.execute("apt-get {0} {1} build-dep {2}".format(\
-                                      yes, noauth, " ".join(args[1:])),
-                                      root=True)
-            if not result:
-                perform.execute("apt-get {0} source --build {1}".format(\
-                                 noauth, " ".join(args[1:])),
-                                 root=True)
+        commands.build(args, yes, noauth)
+
 
     elif command in ("builddepend", "builddep"):
         if util.requires_args(command, args, "a list of package names"):

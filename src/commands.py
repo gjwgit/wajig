@@ -859,6 +859,29 @@ def reportbug(args):
     perform.execute("reportbug --bts=debian " + args[1])
 
 
+def build(args, yes, noauth):
+    """
+    Retrieve source packages, unpack them, and build binary (.deb) packages
+    from them. This also installs the needed build-dependencies if needed.
+    $ wajig buld <package names>
+    options:
+      -n --noauth       install and build even if package(s) is untrusted
+      -y --yes          install/download without yes/no prompts; use with care!
+
+    note: this runs 'apt-get build-dep && apt-get source --build'
+    """
+    util.requires_args("build", args, "a list of package names")
+    util.requires_package("sudo", "/usr/bin/sudo")
+    # First make sure dependencies are met
+    command = "apt-get {} {} build-dep " + " ".join(args[1:])
+    command = command.format(yes, noauth)
+    result = perform.execute(command, root=True)
+    if not result:
+        command = "apt-get {} source --build " + " ".join(args[1:])
+        command = command.format(noauth)
+        perform.execute(command, root=True)
+
+
 def help(args):
     """
     Print help on individual command
