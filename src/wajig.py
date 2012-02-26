@@ -217,9 +217,8 @@ def select_command(command, args, verbose):
         commands.dependents(args)
 
     elif command in ("describe", "whatis"):
-        if util.requires_args(command, args, "a list of packages"):
-            commands.do_describe(args[1:], verbose)
-
+        commands.describe(args, verbose)
+ 
     elif command in ["describenew", "newdescribe"]:
         if util.requires_no_args(command, args):
             commands.do_describe_new()

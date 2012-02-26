@@ -148,3 +148,48 @@ def extract_dependencies(package, dependency_type):
             yield dependency.name
 
 
+def do_describe(packages, verbose=False):
+    """Display package description(s)."""
+
+    package_files = [package for package in packages if package.endswith(".deb")]
+    package_names = [package for package in packages if not package.endswith(".deb")]
+    if package_files:
+        for package_file in package_files:
+            perform.execute("dpkg-deb --info " + package_file)
+            print("="*72)
+            sys.stdout.flush()
+
+    if package_names:
+        packages = package_names
+    else:
+        return
+
+    if not packages:
+        print("No packages found from those known to be available/installed.")
+    else:
+        packageversions = list()
+        cache = apt.cache.Cache()
+        for package in packages:
+            try:
+                package = cache[package]
+            except KeyError as e:
+                print(str(e).strip('"'))
+                return 1
+            packageversion = package.installed
+            if not packageversion:  # if package is not installed...
+                packageversion = package.candidate
+            packageversions.append((package.shortname, packageversion.summary,
+                                packageversion.description))
+        packageversions = set(packageversions)
+        if verbose:
+            for packageversion in packageversions:
+                print("{}: {}\n{}\n".format(packageversion[0],
+                                            packageversion[1],
+                                            packageversion[2]))
+        else:
+            print("{0:24} {1}".format("Package", "Description"))
+            print("="*24 + "-" + "="*51)
+            for packageversion in packageversions:
+                print("%-24s %s" % (packageversion[0], packageversion[1]))
+
+
