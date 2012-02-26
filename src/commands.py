@@ -807,7 +807,7 @@ def build(args, yes, noauth):
         perform.execute(command, root=True)
 
 
-def builddepend(args, yes, noauth):
+def builddeps(args, yes, noauth):
     """
     Install build-dependencies for given packages.
     $ wajig builddep <package names>
@@ -907,8 +907,8 @@ def help(args):
     for command in args[1:]:
         if command == "autoalternatives":
             command = "autoalts"
-        elif command == "builddep":
-            command = "builddepend"
+        elif command in "builddepend builddepends builddeps".split():
+            command = "builddeps"
         elif command in ["rbuilddep", "reversebuilddeps",
                          "reversebuilddependencies"]:
             command = "rbuilddeps"

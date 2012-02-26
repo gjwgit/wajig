@@ -203,8 +203,8 @@ def select_command(command, args, verbose):
     elif command == "build":
         commands.build(args, yes, noauth)
 
-    elif command in ("builddepend", "builddep"):
-        commands.builddepend(args, yes, noauth)
+    elif command in "builddepend builddepends builddep builddeps".split():
+        commands.builddeps(args, yes, noauth)
 
     elif command in ("reversebuilddepends", "rbuilddeps"):
         commands.rbuilddeps(args)
