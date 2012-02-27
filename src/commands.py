@@ -963,6 +963,7 @@ def help(args):
     """
     util.requires_args("help", args, "wajig commands(s)")
     for command in args[1:]:
+        command = command.lower()
         if command == "autoalternatives":
             command = "autoalts"
         elif command in "builddepend builddepends builddeps".split():
