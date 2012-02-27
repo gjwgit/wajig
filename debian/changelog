@@ -39,11 +39,13 @@ wajig (2.3) unstable; urgency=low
     used that anyways?
   * DOWNLOAD: don't make the output 'quiet'; it's extra nice when user knows
     what actually ends up getting downloaded.
-  * DOWNLOADFILE: rm; this was pretty much a dupe of the above command.
+  * FILEDOWNLOAD: remove; this was pretty much a dupe of the above command.
+  * FILEINSTALL: remove; whoever used this functionality?
+  * FILEREMOVE: remove; whoever used this functionality?
   * EDITSOURCES: rm SETUP as an alias; it appear it was there since it was
     the name of a long-removed command, 'apt-setup'.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 27 Feb 2012 22:49:28 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 27 Feb 2012 22:54:49 +0200
 
 wajig (2.2) unstable; urgency=low
 

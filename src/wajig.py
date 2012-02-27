@@ -246,22 +246,6 @@ def select_command(command, args, verbose):
     elif command == "extract":
         commands.extract(args)
 
-    elif command in ["fileinstall", "installfile"]:
-        if util.requires_one_arg(command, args,
-        "a file name containing a list of packages"):
-            stripped = [x.strip() for x in open(args[1]).readlines()]
-            packages = " ".join(stripped)
-            perform.execute("apt-get install " + packages,
-                             root=True)
-
-    elif command in ["fileremove", "removefile"]:
-        if util.requires_one_arg(command, args,
-        "a file name containing a list of packages"):
-            stripped = [x.strip() for x in open(args[1]).readlines()]
-            packages = " ".join(stripped)
-            perform.execute("apt-get remove " + packages,
-                             root=True)
-
     elif command in ["findfile", "locate"]:
         if util.requires_one_arg(command, args, "a file name"):
             perform.execute("dpkg --search " + args[1])
