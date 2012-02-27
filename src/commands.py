@@ -1043,7 +1043,7 @@ def lastupdate(args):
 
 def listpackages(command, args):
     """
-    List the status and description of installed packages.
+    List the status, version, and description of installed packages.
     $ wajig list
     """
     util.requires_opt_arg(command, args, "string to filter on")

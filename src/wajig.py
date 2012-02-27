@@ -297,18 +297,6 @@ def select_command(command, args, verbose, dist):
     elif command == "list":
         commands.listpackages(command, args)
 
-    elif command == "listall":
-        if util.requires_opt_arg(command, args, "string to filter on"):
-            cmd = "apt-cache dumpavail |" +\
-                            "egrep \"^(Package|Description): \" |" +\
-                            "awk '/^Package: /{pkg=$2} /^Description: /" +\
-                                 "{printf(\"%-24s %s\\n\", pkg," +\
-                                 "substr($0,13))}' |" +\
-                            "sort -u -k 1b,1"
-            if len(args) == 2:
-                cmd = cmd + " | grep '" + args[1] + "'"
-            perform.execute(cmd)
-
     elif command in ["listalts", "listalternatives"]:
         if util.requires_no_args(command, args):
             perform.execute("ls /etc/alternatives/ | " +\
