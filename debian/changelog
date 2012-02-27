@@ -44,8 +44,10 @@ wajig (2.3) unstable; urgency=low
   * FILEREMOVE: remove; whoever used this functionality?
   * EDITSOURCES: rm SETUP as an alias; it appear it was there since it was
     the name of a long-removed command, 'apt-setup'.
+  * FINDFILE, LOCATE, FILESEARCH, WHICHPKG, WHICHPACKAGE: unify all these;
+    their goal is exactly the same.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 27 Feb 2012 22:54:49 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 27 Feb 2012 23:09:22 +0200
 
 wajig (2.2) unstable; urgency=low
 

@@ -25,6 +25,7 @@ import re
 import sys
 import tempfile
 import signal
+import subprocess
 
 import apt_pkg
 import apt
@@ -977,6 +978,8 @@ def help(args):
             command = "newdetail"
         elif command in ["detail", "details"]:
             command = "show"
+        elif command in "findfile locate filesearch whichpkg".split():
+            command = "whichpackage"
         util.help(command)
 
 
@@ -1055,3 +1058,20 @@ def upgrade(args, yes, noauth):
         perform.execute(command, root=True)
     else:
         print('No upgradeable packages. Did you run "wajig update" first?')
+
+
+def whichpackage(args):
+    """
+    Search for files matching a given pattern within packages.
+    $ wajig filesearch <pattern>
+
+    note: if the file is not found, an attempt is made in apt-file's repository
+    """
+    util.requires_one_arg("whichpackage", args, "a file name")
+    out = subprocess.getstatusoutput("dpkg --search " + args[1])
+    if out[0]:  # didn't find matching package, so use the slower apt-file
+        util.requires_package("apt-file", "/usr/bin/apt-file")
+        perform.execute("apt-file search " + args[1])
+    else:
+        print(out[1])
+

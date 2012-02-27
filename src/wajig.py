@@ -246,9 +246,8 @@ def select_command(command, args, verbose):
     elif command == "extract":
         commands.extract(args)
 
-    elif command in ["findfile", "locate"]:
-        if util.requires_one_arg(command, args, "a file name"):
-            perform.execute("dpkg --search " + args[1])
+    elif command in "findfile locate filesearch whichpkg whichpackage".split():
+        commands.whichpackage(args)
 
     elif command in ["findpkg", "unofficial"]:
         if util.requires_one_arg(command, args, "one package name") \
@@ -735,15 +734,6 @@ def select_command(command, args, verbose):
         elif util.requires_package("apt-show-versions",
                               "/usr/bin/apt-show-versions"):
             commands.versions(args[1:])
-
-    elif command in ["whichpkg", "whichpackage"]:
-        util.requires_one_arg(command, args, "a filename (or a path)")
-        out = subprocess.getstatusoutput("dpkg --search " + args[1])
-        if out[0]:  # didn't find matching package, so use the slower apt-file
-            util.requires_package("apt-file", "/usr/bin/apt-file")
-            perform.execute("apt-file search " + args[1])
-        else:
-            print(out[1])
 
     else:
         print("Command not recognised; run 'wajig commands' for a list")
