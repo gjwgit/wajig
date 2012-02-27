@@ -238,29 +238,7 @@ def select_command(command, args, verbose):
         commands.tutorial(args)
 
     elif command == "download":
-        if util.requires_args(command, args, "a list of packages"):
-            packages = args[1:]
-            if len(packages) == 1 and packages[0] == "-":
-                stripped = [x.strip() for x in sys.stdin.readlines()]
-                joined = str.join(stripped)
-                packages = joined.split()
-            elif len(packages) == 2 and packages[0] == "-f":
-                stripped = [x.strip() for x in open(packages[1]).readlines()]
-                joined = str.join(stripped)
-                packages = joined.split()
-            #
-            # Print message here since no messages are printed for the command.
-            #
-            print("Packages being downloaded to /var/cache/apt/archives...")
-            #
-            # Do the download, non-interactively (--quiet),
-            # and force download for already installed packages (--reinstall)
-            #
-            perform.execute("apt-get --quiet=2 --reinstall " +
-                            "--download-only install " +
-                             " ".join(packages),
-                             root=True)
-
+        commands.download(args)
     elif command in ["editsources", "setup"]:
         if util.requires_no_args(command, args):
             # if util.requires_package("base-config", "/usr/sbin/apt-setup"):

@@ -35,8 +35,12 @@ wajig (2.3) unstable; urgency=low
     * they don't don't apply to a lot wajig commands
     * they display ugly output
     * I doubt if anyone will miss them
+  * DOWNLOAD: can't download packages listed inside a file anymore; whoever
+    used that anyways?
+  * DOWNLOAD: don't make the output 'quiet'; it's extra nice when user knows
+    what actually ends up getting downloaded.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 26 Feb 2012 18:36:31 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 27 Feb 2012 22:27:47 +0200
 
 wajig (2.2) unstable; urgency=low
 

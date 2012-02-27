@@ -914,6 +914,26 @@ def distupgrade(args, yes, noauth):
         perform.execute(cmd, root=True)
 
 
+def download(args):
+    """
+    Download one or more packages without installing them.
+    $ wajig download <package name(s)>
+
+    note: this runs 'apt-get --reinstall --download-only install'
+    """
+    util.requires_args("download", args, "a list of packages")
+    packages = args[1:]
+
+    # Print message here since no messages are printed for the command.
+    print("Packages being downloaded to /var/cache/apt/archives/")
+
+    # Do the download, non-interactively (--quiet),
+    # and force download for already installed packages (--reinstall)
+    command = "apt-get --reinstall --download-only install "
+    command = command + " ".join(packages)
+    a = perform.execute(command, root=True)
+
+
 def help(args):
     """
     Print help on individual command.
