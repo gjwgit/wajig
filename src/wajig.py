@@ -249,10 +249,8 @@ def select_command(command, args, verbose):
     elif command in "findfile locate filesearch whichpkg whichpackage".split():
         commands.whichpackage(args)
 
-    elif command in ["findpkg", "unofficial"]:
-        if util.requires_one_arg(command, args, "one package name") \
-        and util.requires_package("wget", "/usr/bin/wget"):
-            commands.do_findpkg(args[1])
+    elif command in "findpkg findpackage unofficial".split():
+        commands.unofficial(args)
 
     elif command == "fixconfigure":
         if util.requires_no_args(command, args):

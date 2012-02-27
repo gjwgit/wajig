@@ -27,6 +27,7 @@ import apt
 
 import commands
 import changes
+import perform
 
 
 dist = str()  # stable, testing, unstable, ...
@@ -207,4 +208,14 @@ def do_describe_new(install=False, verbose=False):
     else:
         print("No new packages")
 
+
+def ping_host(hostname):
+    """Check if network host is reachable."""
+    # Check if we can talk to the HOST
+    command = "fping {} 2>/dev/null >/dev/null".format(hostname)
+    if perform.execute(command):
+        print("Could not contact the Debian server at " + hostname)
+        print("Perhaps it is down or you are not connected to the network.")
+        return False
+    return True
 

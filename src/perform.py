@@ -63,7 +63,7 @@ if os.path.exists("/usr/bin/sudo") and user != 'root':
 
 
 
-def execute(command, root=False, display=True, pipe=False, langC=False,
+def execute(command, root=False, pipe=False, langC=False,
             test=False):
     """Ask the operating system to perform a command.
 

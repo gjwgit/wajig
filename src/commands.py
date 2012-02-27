@@ -47,26 +47,6 @@ available_file = changes.available_file
 previous_file  = changes.previous_file
 
 
-def ping_host(hostname):
-    "Check if host is reachable."
-
-    # Check if fping is installed.
-    if perform.execute("fping localhost 2>/dev/null >/dev/null",
-                       display=False) != 0:
-        print("fping was not found. " +\
-              "Consider installing the package fping.\n")
-
-    # Check if we can talk to the HOST
-    elif perform.execute("fping " + hostname + " 2>/dev/null >/dev/null",
-                         display=False) != 0:
-        print("Could not contact the Debian server at " + hostname\
-        + """
-             Perhaps it is down or you are not connected to the network.
-             JIG will continue to try to get the information required.""")
-    else:
-        return True  # host found
-
-
 def do_force(packages):
     """Force the installation of a package.
 
@@ -486,38 +466,6 @@ def do_update():
     if not perform.execute("apt-get update", root=1):
         changes.update_available()
         print("There are " + changes.count_upgrades() + " new upgrades")
-
-
-def do_findpkg(package):
-    "Look for a particular package at apt-get.org."
-
-    ping_host("www.apt-get.org")
-
-    # Print out a suitable heading
-    print("Lines suitable for /etc/apt/sources.list\n")
-    sys.stdout.flush()
-
-    # Obtain the information from the Apt-Get server
-    results = tempfile.mkstemp()[1]
-    command = "wget --timeout=60 --output-document=" + results +\
-              " http://www.apt-get.org/" +\
-              "search.php\?query=" + package +\
-              "\&submit=\&arch%5B%5D=i386\&arch%5B%5D=all " +\
-              "2> /dev/null"
-    perform.execute(command)
-
-    # A single page of output
-    command = "cat " + results + " | " +\
-              "egrep '(^deb|sites and .*packages)' | " +\
-              "perl -p -e 's|<[^>]*>||g;s|<[^>]*$||g;s|^[^<]*>||g;'" +\
-              "| awk '/^deb/{" +\
-              'print "\t", $0;next}/ sites and /' +\
-              '{printf "\\n" ;' +\
-              "print}'"
-    perform.execute(command)
-
-    if os.path.exists(results):
-        os.remove(results)
 
 
 def do_recdownload(packages):
@@ -973,6 +921,8 @@ def help(args):
         elif command in ["rbuilddep", "reversebuilddeps",
                          "reversebuilddependencies"]:
             command = "rbuilddeps"
+        elif command in ["findpkg", "findpackage"]:
+            command = "unofficial"
         elif command == "newdescribe":
             command = "describenew"
         elif command == "detailnew":
@@ -1037,6 +987,43 @@ def tutorial(args):
     """
     util.requires_no_args("documentation", args)
     documentation.help(verbose=True)
+
+
+def unofficial(args):
+    """
+    Search for an unofficial Debian package at apt-get.org.
+    $ wajig <package name>
+    """
+    util.requires_one_arg("unofficial", args, "one package name")
+    util.requires_package("wget", "/usr/bin/wget")
+    util.requires_package("fping", "/usr/bin/fping")
+    package = args[1]
+    if util.ping_host("www.apt-get.org"):
+
+        print("Lines suitable for /etc/apt/sources.list")
+        sys.stdout.flush()
+
+        # Obtain the information from the Apt-Get server
+        results = tempfile.mkstemp()[1]
+        command = "wget --timeout=60 --output-document=" + results +\
+                  " http://www.apt-get.org/" +\
+                  "search.php\?query=" + package +\
+                  "\&submit=\&arch%5B%5D=i386\&arch%5B%5D=all " +\
+                  "2> /dev/null"
+        perform.execute(command)
+
+        # A single page of output
+        command = "cat " + results + " | " +\
+                  "egrep '(^deb|sites and .*packages)' | " +\
+                  "perl -p -e 's|<[^>]*>||g;s|<[^>]*$||g;s|^[^<]*>||g;'" +\
+                  "| awk '/^deb/{" +\
+                  'print "\t", $0;next}/ sites and /' +\
+                  '{printf "\\n" ;' +\
+                  "print}'"
+        perform.execute(command)
+
+        if os.path.exists(results):
+            os.remove(results)
 
 
 def upgrade(args, yes, noauth):
