@@ -944,7 +944,17 @@ def editsources(args):
     util.requires_no_args("editsources", args)
     perform.execute("editor /etc/apt/sources.list", root=True)
 
-    
+
+def extract(args):
+    """
+    Extract the files from a package file to a directory.
+    $ wajig extract <deb file> <destination directory>
+    """
+    util.requires_two_args("extract", args,
+                           "a filename and directory to extract into")
+    perform.execute("dpkg --extract {0} {1}".format(args[1], args[2]))
+
+
 def help(args):
     """
     Print help on individual command.

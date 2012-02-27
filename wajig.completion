@@ -14,7 +14,7 @@ _wajig()
               autoremove available bug build build-depend changelog clean \
               commands contents daily-upgrade dependents describe \
               describe-new detail detail-new dist-upgrade docs download \
-              download-file editsources extract find-file find-pkg \
+              editsources extract find-file find-pkg \
               fix-configure fix-install fix-missing force help hold init \
               info install install-file installs integrity large \
               last-update list list-all list-alts list-cache list-commands \

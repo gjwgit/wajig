@@ -244,17 +244,7 @@ def select_command(command, args, verbose):
         commands.editsources(args)
 
     elif command == "extract":
-        if util.requires_two_args(command, args,
-                             "a filename and directory to extract into"):
-            perform.execute("dpkg --extract {0} {1}".format(args[1], args[2]))
-
-    elif command in ["filedownload", "downloadfile"]:
-        if util.requires_one_arg(command, args,
-        "a file name containing list of packages"):
-            stripped = [x.strip() for x in open(args[1]).readlines()]
-            packages = " ".join(stripped)
-            perform.execute("apt-get --download-only install " + packages,
-                             root=True)
+        commands.extract(args)
 
     elif command in ["fileinstall", "installfile"]:
         if util.requires_one_arg(command, args,
