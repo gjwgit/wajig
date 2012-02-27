@@ -1,2 +1,0 @@
-Fix an interrupted install.
-$ wajig fix-configure                   (dpkg --configure --pending)

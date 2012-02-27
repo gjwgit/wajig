@@ -1,2 +1,0 @@
-Check the integrity of installed packages (through checksums).
-$ wajig integrity                       (debsums --all --silent)

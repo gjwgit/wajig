@@ -1,7 +1,0 @@
-Search package contents (i.e. file paths)
-$ wajig whichpkg
-
-This uses 'dpkg --search' which searches if the package is
-locally installed. If not found, it searches using the slower
-'apt-file search' if installed. This tool is capable of
-searching for uninstalled package contents.

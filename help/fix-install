@@ -1,2 +1,0 @@
-Fix an install interrupted by broken dependencies.
-$ wajig fix-install                     (apt-get --fix-broken install)

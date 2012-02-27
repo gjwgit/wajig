@@ -1,2 +1,0 @@
-Install packages and ignore file overwrites and depends.
-$ wajig force PKG
