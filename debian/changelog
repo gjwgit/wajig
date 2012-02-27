@@ -39,8 +39,10 @@ wajig (2.3) unstable; urgency=low
     used that anyways?
   * DOWNLOAD: don't make the output 'quiet'; it's extra nice when user knows
     what actually ends up getting downloaded.
+  * EDITSOURCES: rm SETUP as an alias; it appear it was there since it was
+    the name of a long-removed command, 'apt-setup'
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 27 Feb 2012 22:27:47 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 27 Feb 2012 22:35:39 +0200
 
 wajig (2.2) unstable; urgency=low
 

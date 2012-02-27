@@ -934,6 +934,17 @@ def download(args):
     a = perform.execute(command, root=True)
 
 
+def editsources(args):
+    """
+    Edit list of archives which locates Debian package sources.
+    $ wajig editsources
+
+    note: this runs 'editor /etc/apt/sources.list'
+    """
+    util.requires_no_args("editsources", args)
+    perform.execute("editor /etc/apt/sources.list", root=True)
+
+    
 def help(args):
     """
     Print help on individual command.

@@ -239,12 +239,9 @@ def select_command(command, args, verbose):
 
     elif command == "download":
         commands.download(args)
-    elif command in ["editsources", "setup"]:
-        if util.requires_no_args(command, args):
-            # if util.requires_package("base-config", "/usr/sbin/apt-setup"):
-            #    perform.execute("apt-setup", root=True)
-            perform.execute("editor /etc/apt/sources.list",
-                             root=True)
+
+    elif command == "editsources":
+        commands.editsources(args)
 
     elif command == "extract":
         if util.requires_two_args(command, args,
@@ -775,13 +772,7 @@ def select_command(command, args, verbose):
             print(out[1])
 
     else:
-        if command == args[0]:
-            print("The command {0} was not recognised.".format(command.upper()))
-        else:
-            print("The command {0} (entered as {1}) was not recognised.".\
-                   format(command.upper(), args[0]))
-        print("Perhaps it is not yet implemented or you misspelt it.")
-        print("Try 'wajig help' for further information.")
+        print("Command not recognised; run 'wajig commands' for a list")
 
 
 #------------------------------------------------------------------------
