@@ -890,19 +890,27 @@ def describenew(args, verbose):
     util.do_describe_new(verbose)
 
 
-def newdetail(args):
+def distupgrade(args, yes, noauth):
     """
-    Provide a detailed description of new packages.
-    $ wajig detail-new
+    Complete system upgrade; this may remove some packages if they are on the way
+    $ wajig dist-upgrade
+
+    note: this runs 'apt-get --show-upgraded distupgrade'
     """
-    util.requires_no_args("newdetail", args)
-    new_packages = changes.get_new_available()
-    if new_packages:
-        package_names = " ".join(new_packages)
-        command = "apt-cache" if util.fast else "aptitude"
-        perform.execute("{} show {}".format(command, package_names))
-    else:
-        print("No new packages available")
+    packages = util.upgradable(distupgrade=True)
+    if not packages and len(args) < 2:
+        print('No upgrades. Did you run "wajig update" beforehand?')
+    elif util.requires_opt_arg(command, args,
+                              "the distribution to upgrade to"):
+        if backup \
+        and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
+        and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
+            changes.backup_before_upgrade(packages, distupgrade=True)
+        cmd = "apt-get --show-upgraded {0} {1} ".format(yes, noauth)
+        if len(args) == 2:
+            cmd += "-t " + args[1] + " "
+        cmd += "dist-upgrade"
+        perform.execute(cmd, root=True)
 
 
 
@@ -943,6 +951,21 @@ def hold(args):
         perform.execute(command, root=True)
     print("The following packages are on hold:")
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
+
+
+def newdetail(args):
+    """
+    Provide a detailed description of new packages.
+    $ wajig detail-new
+    """
+    util.requires_no_args("newdetail", args)
+    new_packages = changes.get_new_available()
+    if new_packages:
+        package_names = " ".join(new_packages)
+        command = "apt-cache" if util.fast else "aptitude"
+        perform.execute("{} show {}".format(command, package_names))
+    else:
+        print("No new packages available")
 
 
 def show(args):

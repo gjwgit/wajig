@@ -1,2 +1,0 @@
-Upgrade to new distribution (installed and new required packages).
-$ wajig dist-upgrade                    (apt-get --show-upgraded distupgrade)

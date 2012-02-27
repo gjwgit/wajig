@@ -232,20 +232,7 @@ def select_command(command, args, verbose):
         commands.upgrade(args, yes, noauth)
 
     elif command == "distupgrade":
-        packages = util.upgradable(distupgrade=True)
-        if not packages and len(args) < 2:
-            print('No upgrades. Did you run "wajig update" beforehand?')
-        elif util.requires_opt_arg(command, args,
-                                  "the distribution to upgrade to"):
-            if backup \
-            and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
-            and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
-                changes.backup_before_upgrade(packages, distupgrade=True)
-            cmd = "apt-get --show-upgraded {0} {1} ".format(yes, noauth)
-            if len(args) == 2:
-                cmd += "-t " + args[1] + " "
-            cmd += "dist-upgrade"
-            perform.execute(cmd, root=True)
+        commands.distupgrade(args, yes, noauth)
 
     elif command in "doc docs documentation".split():
         util.requires_no_args(command, args)
