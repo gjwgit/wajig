@@ -129,11 +129,11 @@ def main():
     result = parser.parse_args()
     backup = result.backup
     util.fast = result.fast
-    if result.dist:
-        util.dist = result.dist
     util.recommends_flag = result.recommends
     util.recommends_flag = result.norecommends
     args = result.args
+    if not result.dist:
+        result.dist = ""
     if result.yes:
         yes = " --yes "
     if result.noauth:
@@ -163,10 +163,10 @@ def main():
 
     # Before we do any other command make sure the right files exist.
     changes.ensure_initialised()
-    select_command(command, args, result.verbose)
+    select_command(command, args, result.verbose, result.dist)
 
 
-def select_command(command, args, verbose):
+def select_command(command, args, verbose, dist):
     "Select the appropriate command and execute it."
 
     global yes
@@ -253,23 +253,16 @@ def select_command(command, args, verbose):
         commands.unofficial(args)
 
     elif command == "fixconfigure":
-        if util.requires_no_args(command, args):
-            perform.execute("dpkg --configure --pending",
-                             root=True)
+        commands.fixconfigure(args)
 
     elif command == "fixinstall":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get --fix-broken {0} install".format(noauth),
-                             root=True)
+        commands.fixinstall(args, noauth)
 
     elif command == "fixmissing":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get --fix-missing {0} upgrade".format(noauth),
-                             root=True)
+        commands.fixmissing(args, noauth)
 
     elif command == "force":
-        if util.requires_args(command, args, "a package name"):
-            commands.do_force(args[1:])
+        commands.force(args, noauth)
 
     elif command == "help":
         commands.help(args)
@@ -278,61 +271,31 @@ def select_command(command, args, verbose):
         commands.hold(args)
 
     elif command == "info":
-        if util.requires_one_arg(command, args, "one filename"):
-            perform.execute("dpkg --info " + args[1])
+        commands.hold(args)
 
     elif command in ["init", "reset"]:
-        if util.requires_no_args(command, args):
-            changes.reset_files()
+        commands.init(args)
 
     elif command in "install isntall autoinstall".split():
-        # Okay, so I'm sometimes dyslexic :-)
-        if util.requires_args(command, args, "packages, .deb files, or a url"):
-            # kept so as not to break anyone's setup; consider it deprecated;
-            # it's not even advertised no more (removed from docs)
-            if command == "autoinstall":
-                yes = "--yes"
-            commands.do_install(args[1:], yes, noauth, util.dist)
+        commands.install(command, args, yes, noauth, dist)
 
-    elif command in ["installs", "suggested"]:
-        if util.requires_one_arg(command, args, "a single package name"):
-            commands.do_install_suggest(args[1], yes, noauth)
+    elif command in "installs suggested installsuggested".split():
+        commands.installsuggested(command, args, yes, noauth, dist)
 
     elif args[0].startswith('install') and "/" in args[0]:
-        # For example: install/unsable
-        util.requires_args(args[0], args,
-                          "a list of packages, .deb files, or url")
-        dist = args[0].split("/")[1]
-        perform.execute("apt-get --target-release {0} install {1}".\
-                         format(dist, " ".join(args[1:])),
-                         root=True)
+        commands.installwithdist(command, args, yes, noauth, dist)
 
     elif command == "integrity":
-        if util.requires_no_args(command, args):
-            perform.execute("debsums --all --silent")
+        commands.integrity(args)
 
     elif command == "large":
-        commands.do_size(args[1:], 10000)
+        commands.large(args)
 
     elif command == "lastupdate":
-        if util.requires_no_args(command, args):
-            perform.execute("/bin/ls -l --full-time " +
-                            changes.available_file +
-                            " 2>/dev/null |awk '{printf \"Last update was " +
-                            "%s %s %s\\n\"" +
-                            ", $6, $7, $8}' | sed 's|\.000000000||'")
+        commands.lastupdate(args)
 
-    elif command in ["list", "listwide"]:
-        if util.requires_opt_arg(command, args, "string to filter on"):
-            cmd = ""
-            if command == "listwide":
-                cmd += "COLUMNS=200 "
-            cmd += "dpkg --list '*' | grep -v 'no description avail'"
-            if len(args) > 1:
-                cmd += " | egrep '" + args[1] + "' | sort -k 1b,1"
-            if command == "listwide":
-                cmd += "| sed 's|   *|  |g'"
-            perform.execute(cmd)
+    elif command == "list":
+        commands.listpackages(command, args)
 
     elif command == "listall":
         if util.requires_opt_arg(command, args, "string to filter on"):
@@ -459,15 +422,7 @@ def select_command(command, args, verbose):
                 util.finishup(1)
 
     elif command in ["newupgrades", "newupgrade"]:
-        if util.requires_opt_arg(command, args, "whether to INSTALL upgraded pkgs"):
-            if len(args) == 1:
-                commands.do_newupgrades()
-            elif args[1].lower() == "install":
-                commands.do_newupgrades(install=True)
-            else:
-                print("NEWUPGRADES only accepts " + \
-                      "optional argument INSTALL")
-                util.finishup(1)
+        commands.newupgrades(args, yes, noauth)
 
     elif command == "nonfree":
         if util.requires_no_args(command, args):

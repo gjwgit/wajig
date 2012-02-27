@@ -30,7 +30,6 @@ import changes
 import perform
 
 
-dist = str()  # stable, testing, unstable, ...
 recommends_flag = None
 fast = False  # Used for choosing 'apt-cache show' instead of the slower
               # 'aptitude show'; see debian/changelog for 2.0.50 why aptitude
@@ -218,4 +217,27 @@ def ping_host(hostname):
         print("Perhaps it is down or you are not connected to the network.")
         return False
     return True
+
+
+def do_newupgrades(install=False):
+    """Display packages that are newly upgraded."""
+
+    # Load the dictionaries from file then list each one and it's version
+    new_upgrades = changes.get_new_upgrades()
+    if len(new_upgrades) == 0:
+        print("No new upgrades")
+    else:
+        print("%-24s %-24s %s" % ("Package", "Available", "Installed"))
+        print("="*24 + "-" + "="*24 + "-" + "="*24)
+        new_upgrades.sort()
+        for i in range(0, len(new_upgrades)):
+            print("%-24s %-24s %-24s" % (new_upgrades[i], \
+                            changes.get_available_version(new_upgrades[i]), \
+                            changes.get_installed_version(new_upgrades[i])))
+        if install:
+            print("="*74)
+            command = "apt-get install {} {}" + " ".join(new_upgrades)
+            command = command.format(yes, noauth)
+            perform.execute(command, root=True)
+
 

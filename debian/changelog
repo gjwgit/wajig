@@ -42,12 +42,14 @@ wajig (2.3) unstable; urgency=low
   * FILEDOWNLOAD: remove; this was pretty much a dupe of the above command.
   * FILEINSTALL: remove; whoever used this functionality?
   * FILEREMOVE: remove; whoever used this functionality?
-  * EDITSOURCES: rm SETUP as an alias; it appear it was there since it was
+  * EDITSOURCES: remove SETUP as an alias; it appear it was there since it was
     the name of a long-removed command, 'apt-setup'.
   * FINDFILE, LOCATE, FILESEARCH, WHICHPKG, WHICHPACKAGE: unify all these;
     their goal is exactly the same.
+  * INSTALL: remove ability to install packages listed in a file.
+  * LISTWIDE: remove; it's basically the same as LIST command.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 27 Feb 2012 23:09:22 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 Feb 2012 01:25:09 +0200
 
 wajig (2.2) unstable; urgency=low
 

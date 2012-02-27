@@ -47,159 +47,6 @@ available_file = changes.available_file
 previous_file  = changes.previous_file
 
 
-def do_force(packages):
-    """Force the installation of a package.
-
-    This is useful when there is a conflict of the same file from
-    multiple packages or when a dependency is not installed for
-    whatever reason.
-    """
-    #
-    # The basic function is to force install the package using dpkg.
-    #
-    command = "dpkg --install --force overwrite --force depends "
-    archives = "/var/cache/apt/archives/"
-    #
-    # For a .deb file we simply force install it.
-    #
-    if re.match(".*\.deb$", packages[0]):
-        for package in packages:
-            if os.path.exists(package):
-                command += "'" + package + "' "
-            elif os.path.exists(archives + package):
-                command += "'" + archives + package + "' "
-            else:
-                print("""File `%s' not found.
-              Searched current directory and %s.
-              Please confirm the location and try again.""" % (package, archives))
-                return()
-    else:
-        #
-        # Package names rather than a specific deb package archive
-        # is expected.
-        #
-        for package in packages:
-            #
-            # Identify the latest version of the package available in
-            # the download archive, if there is any there.
-            #
-            lscmd = "/bin/ls " + archives
-            lscmd += " | egrep '^" + package + "_' | sort -k 1b,1 | tail -n -1"
-            matches = perform.execute(lscmd, pipe=True)
-            debpkg = matches.readline().strip()
-            #
-            # If the package was not perfound then download it before
-            # it is force installed.
-            #
-            if not debpkg:
-                dlcmd = "apt-get --quiet=2 --reinstall --download-only "
-                dlcmd += "install '" + package + "'"
-                perform.execute(dlcmd, root=1)
-                matches = perform.execute(lscmd, pipe=True)
-                debpkg = matches.readline().strip()
-            #
-            # Force install the package from the download archive.
-            #
-            command += "'" + archives + debpkg + "' "
-    #
-    # The command has been built.  Now execute it.
-    #
-    perform.execute(command, root=1)
-
-
-def do_install(packages, yes="", noauth="", dist=""):
-    "Install packages."
-
-    #
-    # Currently we use the first argument to determine the type of all
-    # of the rest. Perhaps we should look at each one in turn?
-    #
-
-    #
-    # Handle URLs first. We don't do anything smart.  Simply download
-    # the .deb file and install it.  If it fails then don't attempt to
-    # recover.  The user can do a wget themselves and install the
-    # resulting .deb if they need to.
-    #
-    # Currently only a single URL is allowed. Should this be generalised?
-    #
-
-    # reading packages from stdin
-    if len(packages) == 1 and packages[0] == "-":
-        stripped = [x.strip() for x in sys.stdin.readlines()]
-        joined = str.join(stripped)
-        packages = joined.split()
-
-    # reading packages from a file
-    elif len(packages) == 2 and packages[0] == "-f":
-        stripped = [x.strip() for x in open(packages[1]).readlines()]
-        joined = str.join(stripped)
-        packages = str.split(joined)
-
-    # check if a specific web location was specified
-    if re.match("(http|ftp)://", packages[0]) \
-       and util.requires_package("wget", "/usr/bin/wget"):
-        if len(packages) > 1:
-            print("install URL allows only one URL, not " +\
-                  str(len(packages)))
-            sys.exit(1)
-        tmpdeb = tempfile.mkstemp()[1] + ".deb"
-        command = "wget --output-document=" + tmpdeb + " " + packages[0]
-        if not perform.execute(command):
-            command = "dpkg --install " + tmpdeb
-            perform.execute(command, root=1)
-            if os.path.exists(tmpdeb):
-                os.remove(tmpdeb)
-        else:
-            print("The location " + packages[0] +\
-                  " was not found. Check and try again.")
-
-    # check if DEB files were specified
-    elif re.match(".*\.deb$", packages[0]):
-        debfile.install(set(packages))
-    #
-    # Check if a "/+" is in a package name then use the following distribution
-    # for all packages! We might not want this previsely if there are multiple
-    # packages listed and only one has the /+ notation. So do it only for the
-    # specified one. I have introduced this notation myself, extending
-    # the apt-get "/" notation. "+" by itself won't work since "+" can
-    # appear in a package name, and it is okay if a distribution name starts
-    # with "+" since you just include two "+"'s then.
-    #
-    # TODO
-    #
-    # Currently only do this for the first package........
-    #
-#     elif re.match(".*/+.*", packages[0]):
-#         print "HI"
-#         (packages[0], release) = re.compile(r'/\+').split(packages[0])
-#       command = "apt-get --target-release %s install %s" %\
-#                   (release, util.concat(packages))
-#       perform.execute(command, root=1)
-    else:
-        rec = util.recommends()
-        if dist:
-            dist = "--target-release " + dist
-        command = "apt-get {0} {1} {2} {3} install {4}"
-        command = command.format(yes, noauth, rec, dist, " ".join(packages))
-        perform.execute(command, root=True)
-
-
-def do_install_suggest(package_name, yes, noauth):
-    """Install a package and its Suggests dependencies"""
-    cache = apt.cache.Cache()
-    try:
-        package = cache[package_name]
-    except KeyError as error:
-        print(error.args[0])
-        sys.exit(1)
-    dependencies = " ".join(util.extract_dependencies(package, "Suggests"))
-    template = "apt-get {0} {1} {2} --show-upgraded install {3} {4}"
-    command = template.format(util.recommends(), yes, noauth, dependencies,
-                          package_name)
-    perform.execute(command, root=True)
-
-
 def do_listsections():
     cache = apt.cache.Cache()
     sections = list()
@@ -282,61 +129,6 @@ def do_new():
     for i in range(0, len(new_packages)):
         print("%-24s %s" % (new_packages[i],
             changes.get_available_version(new_packages[i])))
-
-
-def do_newupgrades(install=False):
-    "Display packages that are newly upgraded."
-
-    #
-    # Load the dictionaries from file then list each one and it's version
-    #
-    new_upgrades = changes.get_new_upgrades()
-    if len(new_upgrades) == 0:
-        print("No new upgrades")
-    else:
-        print("%-24s %-24s %s" % ("Package", "Available", "Installed"))
-        print("="*24 + "-" + "="*24 + "-" + "="*24)
-        new_upgrades.sort()
-        for i in range(0, len(new_upgrades)):
-            print("%-24s %-24s %-24s" % (new_upgrades[i], \
-                            changes.get_available_version(new_upgrades[i]), \
-                            changes.get_installed_version(new_upgrades[i])))
-        if install:
-            print("="*74)
-            do_install(new_upgrades)
-
-
-def do_size(packages, size=0):
-    "Print sizes for package in list PACKAGES with size greater than SIZE."
-
-    # Work with the list of installed packages
-    # (I think status has more than installed?)
-    status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"))
-    size_list = dict()
-    status_list = dict()
-
-    # Check for information in the Status list
-    for section in status:
-        if not packages or section.get("Package") in packages:
-            package_name   = section.get("Package")
-            package_size   = section.get("Installed-Size")
-            package_status = re.split(" ", section.get("Status"))[2]
-            if package_size and int(package_size) > size:
-                if package_name not in size_list:
-                    size_list[package_name] = package_size
-                    status_list[package_name] = package_status
-
-    packages = list(size_list)
-    packages.sort(key=lambda x: int(size_list[x]))  # sort by size
-
-    if len(packages) == 0:
-        print("No packages found from those known to be available or installed")
-    else:
-        print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
-        print("{}-{}-{}".format("="*33, "="*10, "="*12))
-        for package in packages:
-            print("{:<33} {:^10} {:>12}".format(package,
-                    format(int(size_list[package]), ',d'), status_list[package]))
 
 
 def do_status(packages, snapshot=False):
@@ -550,7 +342,7 @@ def addcdrom(command, args):
 
 def addrepo(command, args):
     """
-    Add a Launchpad PPA (Personal Package Archive) repository.
+    Add a Launchpad PPA (Personal Package Archive) repository
     Here's an example that shows how to add the daily builds of
     Google's Chromium browser:
     $ wajig addrepo ppa:chromium-daily      (add-apt-repository)
@@ -574,7 +366,7 @@ def autoalts(command, args):
 
 def autodownload(args, verbose):
     """
-    Do an update followed by a download of all updated packages.
+    Do an update followed by a download of all updated packages
     $ wajig autodownload
     
     note: this runs 'apt-get -d -u -y dist-upgrade'
@@ -590,12 +382,12 @@ def autodownload(args, verbose):
                     "--assume-yes dist-upgrade " + filter_str,
                     root=True)
     util.do_describe_new(verbose)
-    do_newupgrades()
+    util.do_newupgrades()
 
 
 def autoclean(args):
     """
-    Remove no-longer-downloadable .deb files from the download cache.
+    Remove no-longer-downloadable .deb files from the download cache
     $ wajig autoclean
 
     note: this runs 'apt-get autoclean'
@@ -615,7 +407,7 @@ def autoremove(args):
 
 def reportbug(args):
     """
-    Report a bug in a package using Debian BTS (Bug Tracking System).
+    Report a bug in a package using Debian BTS (Bug Tracking System)
     $ wajig bug <package name>
 
     note: this runs 'reportbug'
@@ -670,7 +462,7 @@ def builddeps(args, yes, noauth):
 
 def rbuilddeps(args):
     """
-    Display the packages which build-depend on the given package.
+    Display the packages which build-depend on the given package
     $ wajig rbuilddeps PKG
     """
     util.requires_one_arg("rbuilddeps", args, "one package name")
@@ -682,7 +474,7 @@ def rbuilddeps(args):
 
 def changelog(args, verbose):
     """
-    Display Debian changelog of a package.
+    Display Debian changelog of a package
     $ wajig changelog <package name>
     options:
     network on:
@@ -743,7 +535,7 @@ def changelog(args, verbose):
 
 def clean(args):
     """
-    Remove all deb files from the download cache.
+    Remove all deb files from the download cache
     $ wajig clean
 
     note: this runs 'apt-get clean'
@@ -754,7 +546,7 @@ def clean(args):
 
 def contents(args):
     """
-    List the contents of a package file (.deb).
+    List the contents of a package file (.deb)
     $ wajig contents <deb file>
     
     note: this runs 'dpkg --contents'
@@ -765,7 +557,7 @@ def contents(args):
 
 def dailyupgrade(args):
     """
-    Perform an update then a dist-upgrade.
+    Perform an update then a dist-upgrade
     $ wajg daily-upgrade
     
     note: this runs 'apt-get --show-upgraded dist-upgrade'
@@ -777,7 +569,7 @@ def dailyupgrade(args):
 
 def dependents(args):
     """
-    Display packages which have some form of dependency on the given package.
+    Display packages which have some form of dependency on the given package
 
     Types of dependencies:
     * Depends
@@ -822,7 +614,7 @@ def dependents(args):
 
 def describe(args, verbose):
     """
-    Display the short description of a package(s).
+    Display the short description of a package(s)
     $ wajig describe <package name>
     options:
       -v  --verbose     display long description as well
@@ -833,7 +625,7 @@ def describe(args, verbose):
 
 def describenew(args, verbose):
     """
-    One line descriptions of new packages.
+    One line descriptions of new packages
     $ wajig describe-new
     """
     util.requires_no_args("describe", args)
@@ -865,7 +657,7 @@ def distupgrade(args, yes, noauth):
 
 def download(args):
     """
-    Download one or more packages without installing them.
+    Download one or more packages without installing them
     $ wajig download <package name(s)>
 
     note: this runs 'apt-get --reinstall --download-only install'
@@ -885,7 +677,7 @@ def download(args):
 
 def editsources(args):
     """
-    Edit list of archives which locates Debian package sources.
+    Edit list of archives which locates Debian package sources
     $ wajig editsources
 
     note: this runs 'editor /etc/apt/sources.list'
@@ -896,7 +688,7 @@ def editsources(args):
 
 def extract(args):
     """
-    Extract the files from a package file to a directory.
+    Extract the files from a package file to a directory
     $ wajig extract <deb file> <destination directory>
     """
     util.requires_two_args("extract", args,
@@ -904,10 +696,96 @@ def extract(args):
     perform.execute("dpkg --extract {0} {1}".format(args[1], args[2]))
 
 
+def fixconfigure(args):
+    """
+    Fix an interrupted install
+    $ wajig fix-configure
+
+    note: this runs 'dpkg --configure --pending'
+    """
+    util.requires_no_args("fixconfigure", args)
+    perform.execute("dpkg --configure --pending", root=True)
+
+
+def fixinstall(args, noauth):
+    """
+    Fix an install interrupted by broken dependencies
+    $ wajig fixinstall
+
+    note: this runs 'apt-get --fix-broken install
+    """
+    util.requires_no_args("fixinstall", args)
+    perform.execute("apt-get --fix-broken {} install".format(noauth),
+                     root=True)
+
+
+def fixmissing(args, noauth):
+    """
+    Fix and install even though there are missing dependencies.
+    $ wajig fix-missing
+
+    note: this runs 'apt-get --ignore-missing'
+    """
+    util.requires_no_args("fixmissing", args)
+    command = "apt-get --ignore-missing {} upgrade".format(noauth)
+    perform.execute(command, root=True)
+
+
+def force(args):
+    """
+    Install packages and ignore file overwrites and depends.
+    $ wajig force <package name(s)>
+    
+    note: This is useful when there is a conflict of the same file from
+          multiple packages or when a dependency is not installed for
+          whatever reason.
+    """
+    util.requires_args("force", args, "a package name")
+    packages = args[1:]
+
+    command = "dpkg --install --force overwrite --force depends "
+    archives = "/var/cache/apt/archives/"
+
+    # For a .deb file we simply force install it.
+    if re.match(".*\.deb$", packages[0]):
+        for package in packages:
+            if os.path.exists(package):
+                command += "'" + package + "' "
+            elif os.path.exists(archives + package):
+                command += "'" + archives + package + "' "
+            else:
+                print("""File `%s' not found.
+              Searched current directory and %s.
+              Please confirm the location and try again.""" % (package, archives))
+                return()
+    else:
+        # Package names rather than a specific deb package archive
+        # is expected.
+        for package in packages:
+            # Identify the latest version of the package available in
+            # the download archive, if there is any there.
+            lscmd = "/bin/ls " + archives
+            lscmd += " | egrep '^" + package + "_' | sort -k 1b,1 | tail -n -1"
+            matches = perform.execute(lscmd, pipe=True)
+            debpkg = matches.readline().strip()
+
+            if not debpkg:
+                dlcmd = "apt-get --quiet=2 --reinstall --download-only "
+                dlcmd += "install '" + package + "'"
+                perform.execute(dlcmd, root=1)
+                matches = perform.execute(lscmd, pipe=True)
+                debpkg = matches.readline().strip()
+
+            # Force install the package from the download archive.
+            command += "'" + archives + debpkg + "' "
+
+    perform.execute(command, root=1)
+
+
 def help(args):
     """
-    Print help on individual command.
-    $ wajig help COMMAND
+    Print usage info on commands
+    $ wajig help COMMAND(s)
     """
     util.requires_args("help", args, "wajig commands(s)")
     for command in args[1:]:
@@ -927,8 +805,16 @@ def help(args):
             command = "describenew"
         elif command == "detailnew":
             command = "newdetail"
+        elif command == "list":
+            command = "listpackages"
+        elif command == "newupgrade":
+            command = "newupgrade"
         elif command in ["detail", "details"]:
             command = "show"
+        elif command in "installs suggested".split():
+            command = "installsuggested"
+        elif command in ["isntall", "autoinstall"]:
+            command = "install"
         elif command in "findfile locate filesearch whichpkg".split():
             command = "whichpackage"
         util.help(command)
@@ -936,7 +822,7 @@ def help(args):
 
 def hold(args):
     """
-    Place packages on hold (so they will not be upgraded).
+    Place packages on hold (so they will not be upgraded)
     $ wajig hold <package names>
     """
     util.requires_args("hold", args, "a list of packages to place on hold")
@@ -949,9 +835,228 @@ def hold(args):
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
 
 
+def info(args):
+    """
+    List the information contained in a package file.
+    $ wajig info
+    
+    note: this runs 'dpkg --info'
+    """
+    util.requires_one_arg("info", args, "one filename")
+    perform.execute("dpkg --info " + args[1])
+
+
+def init(args):
+    """
+    Initialise or reset wajig archive files.
+    $ wajig init
+    """
+    util.requires_no_args("init", args)
+    changes.reset_files()
+
+
+def install(command, args, yes, noauth, dist):
+    """
+    Install one or more packages or .deb files, or via a url
+
+    $ wajig install <package name(s)>
+    $ wajig install <deb filename(s)>
+    $ wajig install http://example.com/<deb filename>
+
+    options:
+      -n --noauth       install even if package is untrusted
+      -y --yes          install without yes/no prompts; use with care!
+      -r|--recommends   install Recommends (this is Debian default)
+      -R|--norecommends do NOT install Recommends
+         --dist         select which Debian suite to regard as default
+
+    example:
+    $ wajig --noauth --yes --norecommends --dist experimental <package names>
+
+    The above command installs the <package name> version from Experimental
+    suite, if available. It also disregard the situation where the package
+    can't be authenticated (e.g. the package cache is not updated or the
+    keyring isn't installed).  At the same don't prompt for confirmation, and
+    also, don't install packages Recommended by <package names>.
+
+    Note that, unlike using 'dpkg -i', installing a deb file will also install
+    its dependencies. The output is ugly though, so be not alarmed.
+    """
+    util.requires_args(command, args, "packages, .deb files, or a url")
+    # kept so as not to break anyone's setup; consider it deprecated;
+    # it's not even advertised no more (removed from docs)
+    if command == "autoinstall":
+        yes = "--yes"
+    packages = args[1:]
+
+    # Currently we use the first argument to determine the type of all
+    # of the rest. Perhaps we should look at each one in turn?
+    #
+    # Handle URLs first. We don't do anything smart.  Simply download
+    # the .deb file and install it.  If it fails then don't attempt to
+    # recover.  The user can do a wget themselves and install the
+    # resulting .deb if they need to.
+    #
+    # Currently only a single URL is allowed. Should this be generalised?
+
+    if re.match("(http|ftp)://", packages[0]) \
+       and util.requires_package("wget", "/usr/bin/wget"):
+        if len(packages) > 1:
+            print("install URL allows only one URL, not " +\
+                  str(len(packages)))
+            sys.exit(1)
+        tmpdeb = tempfile.mkstemp()[1] + ".deb"
+        command = "wget --output-document=" + tmpdeb + " " + packages[0]
+        if not perform.execute(command):
+            command = "dpkg --install " + tmpdeb
+            perform.execute(command, root=1)
+            if os.path.exists(tmpdeb):
+                os.remove(tmpdeb)
+        else:
+            print("The location " + packages[0] +\
+                  " was not found. Check and try again.")
+
+    # check if DEB files were specified
+    elif re.match(".*\.deb$", packages[0]):
+        debfile.install(set(packages))
+    #
+    # Check if a "/+" is in a package name then use the following distribution
+    # for all packages! We might not want this previsely if there are multiple
+    # packages listed and only one has the /+ notation. So do it only for the
+    # specified one. I have introduced this notation myself, extending
+    # the apt-get "/" notation. "+" by itself won't work since "+" can
+    # appear in a package name, and it is okay if a distribution name starts
+    # with "+" since you just include two "+"'s then.
+    #
+    # TODO
+    #
+    # Currently only do this for the first package........
+    #
+#     elif re.match(".*/+.*", packages[0]):
+#         print "HI"
+#         (packages[0], release) = re.compile(r'/\+').split(packages[0])
+#       command = "apt-get --target-release %s install %s" %\
+#                   (release, util.concat(packages))
+#       perform.execute(command, root=1)
+    else:
+        rec = util.recommends()
+        if dist:
+            dist = "--target-release " + dist
+        command = "apt-get {} {} {} {} install " + " ".join(packages)
+        command = command.format(yes, noauth, rec, dist)
+        perform.execute(command, root=True)
+
+
+def installsuggested(args, yes, noauth, dist):
+    """
+    Install a package and its Suggests dependencies.
+    $ wajig installs <package name>
+    """
+    util.requires_one_arg(command, args, "a single package name")
+    pacakge_name = args[1]
+    cache = apt.cache.Cache()
+    try:
+        package = cache[package_name]
+    except KeyError as error:
+        print(error.args[0])
+        sys.exit(1)
+    dependencies = " ".join(util.extract_dependencies(package, "Suggests"))
+    template = "apt-get {0} {1} {2} --show-upgraded install {3} {4}"
+    command = template.format(util.recommends(), yes, noauth, dependencies,
+                          package_name)
+    perform.execute(command, root=True)
+
+
+def installwithdist(args, yes, noauth, dist):
+    """
+    Install a package from while specifying a suite to install from
+    $ wajig install/experimental
+    """
+    util.requires_args(args[0], args, "a list of packages, .deb files, or url")
+    dist = args[0].split("/")[1]
+    command = "apt-get --target-release {} install " + " ".join(args[1:])
+    command = command.format(dist)
+    perform.execute(command, root=True)
+
+
+def integrity(args):
+    """
+    Check the integrity of installed packages (through checksums).
+    $ wajig integrity
+
+    notes: this runs 'debsums --all --silent'
+    """
+    util.requires_no_args("integrity", args)
+    perform.execute("debsums --all --silent")
+
+
+def large(args):
+    """
+    List size of all large (>10MB) installed packages.
+    $ wajig large
+    """
+    util.requires_no_args("large", args)
+    packages = args[1:]
+    size = 10000
+
+    # Work with the list of installed packages
+    # (I think status has more than installed?)
+    status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"))
+    size_list = dict()
+    status_list = dict()
+
+    # Check for information in the Status list
+    for section in status:
+        if not packages or section.get("Package") in packages:
+            package_name   = section.get("Package")
+            package_size   = section.get("Installed-Size")
+            package_status = re.split(" ", section.get("Status"))[2]
+            if package_size and int(package_size) > size:
+                if package_name not in size_list:
+                    size_list[package_name] = package_size
+                    status_list[package_name] = package_status
+
+    packages = list(size_list)
+    packages.sort(key=lambda x: int(size_list[x]))  # sort by size
+
+    if packages:
+        print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
+        print("{}-{}-{}".format("="*33, "="*10, "="*12))
+        for package in packages:
+            print("{:<33} {:^10} {:>12}".format(package,
+                    format(int(size_list[package]), ',d'), status_list[package]))
+    else:
+        print("No packages found from those known to be available or installed")
+
+
+def lastupdate(args):
+    """
+    Identify when an update was last performed.
+    $ wajig last-update
+    """
+    util.requires_no_args("lastupdate", args)
+    command = ("/bin/ls -l --full-time " + changes.available_file + " 2> "
+               "/dev/null | awk '{printf \"Last update was %s %s %s\\n\""
+               ", $6, $7, $8}' | sed 's|\.000000000||'")
+    perform.execute(command)
+
+
+def listpackages(command, args):
+    """
+    List the status and description of installed packages.
+    $ wajig list
+    """
+    util.requires_opt_arg(command, args, "string to filter on")
+    cmd = ""
+    cmd += "dpkg --list '*' | grep -v 'no description avail'"
+    if len(args) > 1:
+        cmd += " | egrep '" + args[1] + "' | sort -k 1b,1"
+    perform.execute(cmd)
+
+
 def newdetail(args):
     """
-    Provide a detailed description of new packages.
+    Provide a detailed description of new packages
     $ wajig detail-new
     """
     util.requires_no_args("newdetail", args)
@@ -964,9 +1069,26 @@ def newdetail(args):
         print("No new packages available")
 
 
+def newupgrades(args, yes, noauth):
+    """
+    List packages newly available for upgrading.
+    $ wajig new-upgrades
+    """
+    util.requires_opt_arg("newupgrades", args,
+                          "whether to INSTALL upgraded pkgs")
+    if len(args) == 1:
+        util.do_newupgrades()
+    elif args[1].lower() == "install":
+        util.do_newupgrades(install=True)
+    else:
+        print("NEWUPGRADES only accepts " + \
+              "optional argument INSTALL")
+        util.finishup(1)
+
+
 def show(args):
     """
-    Provide a detailed description of package (describe -vv).
+    Provide a detailed description of package (describe -vv)
     $ wajig detail <package names>
     options:
       -f --fast     use apt-cache's version of SHOW, due to its speed; see
@@ -991,7 +1113,7 @@ def tutorial(args):
 
 def unofficial(args):
     """
-    Search for an unofficial Debian package at apt-get.org.
+    Search for an unofficial Debian package at apt-get.org
     $ wajig <package name>
     """
     util.requires_one_arg("unofficial", args, "one package name")
@@ -1050,7 +1172,7 @@ def upgrade(args, yes, noauth):
 
 def whichpackage(args):
     """
-    Search for files matching a given pattern within packages.
+    Search for files matching a given pattern within packages
     $ wajig filesearch <pattern>
 
     note: if the file is not found, an attempt is made in apt-file's repository
