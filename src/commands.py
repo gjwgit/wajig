@@ -890,6 +890,21 @@ def describenew(args, verbose):
     util.do_describe_new(verbose)
 
 
+def show(args):
+    """
+    Provide a detailed description of package (describe -vv).
+    $ wajig detail <package names>
+    options:
+      -f --fast     use apt-cache's version of SHOW, due to its speed; see
+                    debian/changelog for 2.0.50 release for the rationale on
+                    why aptitude's version was chosen as default
+    """
+    util.requires_args("show", args, "a list of packages or package file")
+    package_names = " ".join(set(args[1:]))
+    tool = "apt-cache" if util.fast else "aptitude"
+    command = "{} show {}".format(tool, package_names)
+    perform.execute(command)
+
 def help(args):
     """
     Print help on individual command.
@@ -906,6 +921,8 @@ def help(args):
             command = "rbuilddeps"
         elif command == "newdescribe":
             command = "describenew"
+        elif command in ["detail", "details"]:
+            command = "show"
         util.help(command)
 
 

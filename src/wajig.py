@@ -223,10 +223,7 @@ def select_command(command, args, verbose):
         commands.describenew(args, verbose)
 
     elif command in ["detail", "details", "show"]:
-        if util.requires_args(command, args, "a list of packages or package file"):
-            package_names = " ".join(set(args[1:]))
-            command = "apt-cache" if util.fast else "aptitude"
-            perform.execute("{} show {}".format(command, package_names))
+        commands.show(args)
 
     elif command in ["detailnew", "newdetail"]:
         if util.requires_no_args(command, args):
