@@ -42,7 +42,7 @@ def help(verbose=False):
     if verbose:
         with open("/usr/share/wajig/help/TUTORIAL") as f:
             for line in f:
-                print(line, end=' ')
+                print(line, end="")
     else:
         with open("/usr/share/wajig/help/COMMANDS") as f:
             print()

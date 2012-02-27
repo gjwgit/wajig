@@ -34,6 +34,7 @@ import changes
 import perform
 import util
 import debfile
+import documentation
 
 # When writing to a pipe where there is no reader (e.g., when
 # output is directed to head or to less and the user exists from less
@@ -913,8 +914,6 @@ def distupgrade(args, yes, noauth):
         perform.execute(cmd, root=True)
 
 
-
-
 def help(args):
     """
     Print help on individual command.
@@ -926,6 +925,8 @@ def help(args):
             command = "autoalts"
         elif command in "builddepend builddepends builddeps".split():
             command = "builddeps"
+        elif command in "doc docs documentation".split():
+            command = "tutorial"
         elif command in ["rbuilddep", "reversebuilddeps",
                          "reversebuilddependencies"]:
             command = "rbuilddeps"
@@ -982,6 +983,16 @@ def show(args):
     tool = "apt-cache" if util.fast else "aptitude"
     command = "{} show {}".format(tool, package_names)
     perform.execute(command)
+
+
+def tutorial(args):
+    """
+    Display wajig tutorial.
+    $ wajig tutorial
+    """
+    util.requires_no_args("documentation", args)
+    documentation.help(verbose=True)
+
 
 def upgrade(args, yes, noauth):
     """

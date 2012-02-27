@@ -234,9 +234,8 @@ def select_command(command, args, verbose):
     elif command == "distupgrade":
         commands.distupgrade(args, yes, noauth)
 
-    elif command in "doc docs documentation".split():
-        util.requires_no_args(command, args)
-        documentation.help(verbose=True)
+    elif command in "doc docs documentation tutorial".split():
+        commands.tutorial(args)
 
     elif command == "download":
         if util.requires_args(command, args, "a list of packages"):
