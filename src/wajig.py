@@ -365,9 +365,7 @@ def select_command(command, args, verbose):
         commands.help(args)
 
     elif command == "hold":
-        if util.requires_args(command, args, "a list of packages to place on hold"):
-            commands.do_hold(args[1:])
-            # TODO Perhaps I can use map to "execute" over each package
+        commands.hold(args)
 
     elif command == "info":
         if util.requires_one_arg(command, args, "one filename"):

@@ -125,18 +125,6 @@ def do_force(packages):
     perform.execute(command, root=1)
 
 
-def do_hold(packages):
-    "Place packages on hold (so they will not be upgraded)."
-
-    for p in packages:
-        # The dpkg needs sudo but not the echo.
-        # Do all of it as root then!
-        command = "echo \"" + p + " hold\" | dpkg --set-selections"
-        perform.execute(command, root=1)
-    print("The following packages are on hold:")
-    perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
-
-
 def do_install(packages, yes="", noauth="", dist=""):
     "Install packages."
 
@@ -904,7 +892,7 @@ def describenew(args, verbose):
 
 def help(args):
     """
-    Print help on individual command
+    Print help on individual command.
     $ wajig help COMMAND
     """
     util.requires_args("help", args, "wajig commands(s)")
@@ -919,3 +907,18 @@ def help(args):
         elif command == "newdescribe":
             command = "describenew"
         util.help(command)
+
+
+def hold(args):
+    """
+    Place packages on hold (so they will not be upgraded).
+    $ wajig hold <package names>
+    """
+    util.requires_args("hold", args, "a list of packages to place on hold")
+    for package in args[1:]:
+        # The dpkg needs sudo but not the echo.
+        # Do all of it as root then!
+        command = "echo \"" + package + " hold\" | dpkg --set-selections"
+        perform.execute(command, root=True)
+    print("The following packages are on hold:")
+    perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
