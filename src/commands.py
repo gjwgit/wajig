@@ -890,20 +890,22 @@ def describenew(args, verbose):
     util.do_describe_new(verbose)
 
 
-def show(args):
+def newdetail(args):
     """
-    Provide a detailed description of package (describe -vv).
-    $ wajig detail <package names>
-    options:
-      -f --fast     use apt-cache's version of SHOW, due to its speed; see
-                    debian/changelog for 2.0.50 release for the rationale on
-                    why aptitude's version was chosen as default
+    Provide a detailed description of new packages.
+    $ wajig detail-new
     """
-    util.requires_args("show", args, "a list of packages or package file")
-    package_names = " ".join(set(args[1:]))
-    tool = "apt-cache" if util.fast else "aptitude"
-    command = "{} show {}".format(tool, package_names)
-    perform.execute(command)
+    util.requires_no_args("newdetail", args)
+    new_packages = changes.get_new_available()
+    if new_packages:
+        package_names = " ".join(new_packages)
+        command = "apt-cache" if util.fast else "aptitude"
+        perform.execute("{} show {}".format(command, package_names))
+    else:
+        print("No new packages available")
+
+
+
 
 def help(args):
     """
@@ -921,6 +923,8 @@ def help(args):
             command = "rbuilddeps"
         elif command == "newdescribe":
             command = "describenew"
+        elif command == "detailnew":
+            command = "newdetail"
         elif command in ["detail", "details"]:
             command = "show"
         util.help(command)
@@ -939,3 +943,40 @@ def hold(args):
         perform.execute(command, root=True)
     print("The following packages are on hold:")
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
+
+
+def show(args):
+    """
+    Provide a detailed description of package (describe -vv).
+    $ wajig detail <package names>
+    options:
+      -f --fast     use apt-cache's version of SHOW, due to its speed; see
+                    debian/changelog for 2.0.50 release for the rationale on
+                    why aptitude's version was chosen as default
+    """
+    util.requires_args("show", args, "a list of packages or package file")
+    package_names = " ".join(set(args[1:]))
+    tool = "apt-cache" if util.fast else "aptitude"
+    command = "{} show {}".format(tool, package_names)
+    perform.execute(command)
+
+def upgrade(args, yes, noauth):
+    """
+    Conservative system upgrade... won't remove or install new packages
+    $ wajig upgrade
+    options:
+      -b --backup   backup packages about to be upgraded onto some default directory
+      -n --noauth   skip the authentication verification prompt before the upgrade
+      -y --yes      to skip confirmation prompts (warning: not safe)
+    """
+    util.requires_no_args("upgrade", args)
+    packages = util.upgradable()
+    if packages:
+        if backup:
+            util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
+            util.requires_package("fakeroot", "/usr/bin/fakeroot")
+            changes.backup_before_upgrade(packages)
+        command = "apt-get {0} {1} --show-upgraded upgrade".format(yes, noauth)
+        perform.execute(command, root=True)
+    else:
+        print('No upgradeable packages. Did you run "wajig update" first?')

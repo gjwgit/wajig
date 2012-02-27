@@ -1,6 +1,0 @@
-Provide a detailed description of package (describe -vv).
-$ wajig detail PKG
-options:
-  -f --fast     use apt-cache's version of SHOW, due to its speed; see
-                debian/changelog for 2.0.50 release for the rationale on
-                why aptitude's version was chosen as default

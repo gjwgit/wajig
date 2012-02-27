@@ -226,29 +226,10 @@ def select_command(command, args, verbose):
         commands.show(args)
 
     elif command in ["detailnew", "newdetail"]:
-        if util.requires_no_args(command, args):
-            new_packages = changes.get_new_available()
-            if new_packages:
-                package_names = " ".join(new_packages)
-                command = "apt-cache" if util.fast else "aptitude"
-                perform.execute("{} show {}".format(command, package_names))
+        commands.newdetail(args)
 
     elif command == "upgrade":
-        packages = util.upgradable()
-        if packages:
-            if backup \
-            and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
-            and util.requires_package("fakeroot", "/usr/bin/fakeroot") \
-            and util.requires_no_args(command, args):
-                changes.backup_before_upgrade(packages)
-            if sys.argv[-1].lower() == "upgrade":
-                perform.execute("apt-get {0} {1} --show-upgraded upgrade".format(yes, noauth),
-                                 root=True)
-            else:
-                print("To upgrade individual packages, use INSTALL command:")
-                print("$ wajig INSTALL " + sys.argv[-1].lower())
-        else:
-            print('No upgrades. Did you run "wajig update" beforehand?')
+        commands.upgrade(args, yes, noauth)
 
     elif command == "distupgrade":
         packages = util.upgradable(distupgrade=True)

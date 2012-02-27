@@ -1,5 +1,0 @@
-Upgrade all of the installed packages.
-$ wajig upgrade
-options:
-  -b --backup   backup packages about to be upgraded onto some default directory
-  -n --noauth   skip the authentication verification prompt before the upgrade
