@@ -298,9 +298,7 @@ def select_command(command, args, verbose, dist):
         commands.listpackages(command, args)
 
     elif command in ["listalts", "listalternatives"]:
-        if util.requires_no_args(command, args):
-            perform.execute("ls /etc/alternatives/ | " +\
-                            "egrep -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
+        commands.listalternatives(args)
 
     elif command == "listcache":
         if util.requires_opt_arg(command, args, "string to filter on"):

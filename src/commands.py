@@ -807,6 +807,8 @@ def help(args):
             command = "newdetail"
         elif command == "list":
             command = "listpackages"
+        elif command == "listalts":
+            command = "listalternatives"
         elif command == "newupgrade":
             command = "newupgrade"
         elif command in ["detail", "details"]:
@@ -1031,7 +1033,7 @@ def large(args):
 
 def lastupdate(args):
     """
-    Identify when an update was last performed.
+    Identify when an update was last performed
     $ wajig last-update
     """
     util.requires_no_args("lastupdate", args)
@@ -1041,12 +1043,23 @@ def lastupdate(args):
     perform.execute(command)
 
 
-def listpackages(command, args):
+def listalternatives(args):
     """
-    List the status, version, and description of installed packages.
+    List the objects that can have alternatives configured
+    $ wajig list-alternatives
+    """
+    util.requires_no_args("listalternatives", args)
+    command = ("ls /etc/alternatives/ | "
+               "egrep -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
+    perform.execute(command)
+
+
+def listpackages(args):
+    """
+    List the status, version, and description of installed packages
     $ wajig list
     """
-    util.requires_opt_arg(command, args, "string to filter on")
+    util.requires_opt_arg("listpackages", args, "string to filter on")
     cmd = ""
     cmd += "dpkg --list '*' | grep -v 'no description avail'"
     if len(args) > 1:
