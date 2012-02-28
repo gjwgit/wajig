@@ -123,8 +123,6 @@ def finishup(code=0):
 def help(command):
     """Handles commands of the form 'wajig help install'."""
     try:
-        command = command.replace("-", "")
-        command = command.replace("_", "")
         help_text = eval("commands.{}.__doc__".format(command))
         print(help_text)
     except AttributeError:

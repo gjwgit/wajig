@@ -47,32 +47,6 @@ available_file = changes.available_file
 previous_file  = changes.previous_file
 
 
-def do_listsections():
-    cache = apt.cache.Cache()
-    sections = list()
-    for package in cache.keys():
-        package = cache[package]
-        sections.append(package.section)
-    sections = set(sections)
-    for section in sections:
-        print(section)
-
-
-def do_listsection(section):
-    cache = apt.cache.Cache()
-    for package in cache.keys():
-        package = cache[package]
-        if(package.section == section):
-            print(package.name)
-
-
-def do_listinstalled(pattern):
-    "Display a list of installed packages."
-    command = "dpkg --get-selections | awk '$2 ~/^install$/ {print $1}'"
-    if len(pattern) == 1:
-        command = command + " | grep -- " + pattern[0] + " | sort -k 1b,1"
-    perform.execute(command)
-
 
 def do_listnames(pattern, pipe=False):
     "Print list of known package names."
@@ -789,6 +763,8 @@ def help(args):
     """
     util.requires_args("help", args, "wajig commands(s)")
     for command in args[1:]:
+        command = command.replace("-", "")
+        command = command.replace("_", "")
         command = command.lower()
         if command == "autoalternatives":
             command = "autoalts"
@@ -801,12 +777,16 @@ def help(args):
             command = "rbuilddeps"
         elif command in ["findpkg", "findpackage"]:
             command = "unofficial"
+        elif command == "commands":
+            command = "listcommands"
         elif command == "newdescribe":
             command = "describenew"
         elif command == "detailnew":
             command = "newdetail"
         elif command == "list":
             command = "listpackages"
+        elif command == "listlog":
+            command = "syslog"
         elif command == "listalts":
             command = "listalternatives"
         elif command == "newupgrade":
@@ -1043,6 +1023,30 @@ def lastupdate(args):
     perform.execute(command)
 
 
+def listcache(args):
+    """
+    List the contents of the download cache.
+    $ wajig list-cache
+    """
+    util.requires_opt_arg("listcache", args, "string to filter on")
+    command = "printf 'Found %d files %s in the cache.\n\n'\
+           $(ls /var/cache/apt/archives/ | wc -l) \
+           $(ls -sh /var/cache/apt/archives/ | head -1 | awk '{print $2}')"
+    perform.execute(command)
+    command = "ls /var/cache/apt/archives/"
+    if len(args) == 2:
+        command = command + " | grep '" + args[1] + "'"
+    command += "; echo"
+    perform.execute(command)
+
+def listcommands(args):
+    """
+    List all the JIG commands and one line descriptions for each.
+    $ wajig list-commands
+    """
+    util.requires_no_args("listcommands", args)
+    documentation.help()
+
 def listalternatives(args):
     """
     List the objects that can have alternatives configured
@@ -1052,6 +1056,54 @@ def listalternatives(args):
     command = ("ls /etc/alternatives/ | "
                "egrep -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
     perform.execute(command)
+
+
+def listdaemons(args):
+    """
+    List the daemons that wajig can start/stop/restart
+    $ wajig list-daemons
+    """
+    util.requires_no_args("listdaemons", args)
+    command = ("printf 'Found %d daemons in /etc/init.d.\n\n' "
+               "$(ls /etc/init.d/ | "
+               "egrep -v '(~$|README|-(old|dist)|\.[0-9]*$)' | wc -l)")
+    perform.execute(command)
+    command = ("ls /etc/init.d/ | "
+               "egrep -v '(~$|README|-(old|dist)|\.[0-9]*$)' |"
+               "pr --columns=3 --omit-header")
+    perform.execute(command)
+
+
+def listfiles(args):
+    """
+    List the files that are supplied by the named package
+    $ wajig list-files
+    """
+    util.requires_one_arg("listfiles", args,
+                          "the name of a single Debian package or deb file")
+    package = args[1]
+    if package.endswith("deb"):
+        perform.execute("dpkg --contents " + args[1])
+    else:
+        perform.execute("dpkg --listfiles " + args[1])
+
+
+def listhold(args):
+    """
+    List packages that are on hold (i.e. those that won't be upgraded)
+    $ wajig list-hold
+    """
+    util.requires_no_args("listhold", args)
+    perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
+
+
+def listinstalled(args):
+    """
+    List installed packages
+    $ wajig list-installed
+    """
+    util.requires_no_args("listinstalled", args)
+    perform.execute("dpkg --get-selections | cut -f1")
 
 
 def listpackages(args):
@@ -1065,6 +1117,38 @@ def listpackages(args):
     if len(args) > 1:
         cmd += " | egrep '" + args[1] + "' | sort -k 1b,1"
     perform.execute(cmd)
+
+
+def listsection(args):
+    """
+    List packages that belong to a specific section.
+    $ wajig list-section <section name>
+
+    note: Use the LIST-SECTIONS command for a list of Debian Sections
+    """
+    util.requires_one_arg("listsection", args, "the name of a Debian Section")
+    section = args[1]
+    cache = apt.cache.Cache()
+    for package in cache.keys():
+        package = cache[package]
+        if(package.section == section):
+            print(package.name)
+
+
+def listsections(args):
+    """
+    List all available sections
+    $ wajig list-sections
+    """
+    util.requires_no_args("listsections", args)
+    cache = apt.cache.Cache()
+    sections = list()
+    for package in cache.keys():
+        package = cache[package]
+        sections.append(package.section)
+    sections = set(sections)
+    for section in sections:
+        print(section)
 
 
 def newdetail(args):
@@ -1113,6 +1197,17 @@ def show(args):
     tool = "apt-cache" if util.fast else "aptitude"
     command = "{} show {}".format(tool, package_names)
     perform.execute(command)
+
+
+def syslog(args):
+    """
+    Display APT log file
+    $ wajig list-log
+
+    note: this runs 'cat /var/log/apt/history.log'
+    """
+    util.requires_no_args("syslog", args)
+    perform.execute("cat /var/log/apt/history.log")
 
 
 def tutorial(args):

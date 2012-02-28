@@ -301,58 +301,31 @@ def select_command(command, args, verbose, dist):
         commands.listalternatives(args)
 
     elif command == "listcache":
-        if util.requires_opt_arg(command, args, "string to filter on"):
-            cmd = "printf 'Found %d files %s in the cache.\n\n'\
-            $(ls /var/cache/apt/archives/ | wc -l) \
-            $(ls -sh /var/cache/apt/archives/ | head -1 | awk '{print $2}')"
-            perform.execute(cmd)
-            cmd = "ls /var/cache/apt/archives/"
-            if len(args) == 2:
-                cmd = cmd + " | grep '" + args[1] + "'"
-            cmd += "; echo"
-            perform.execute(cmd)
+        commands.listcache(args)
 
     elif command in ["listcommands", "commands"]:
-        if util.requires_no_args(command, args):
-            documentation.help()
+        commands.listcommands(args)
 
     elif command == "listdaemons":
-        if util.requires_no_args(command, args):
-            perform.execute("printf 'Found %d daemons in /etc/init.d.\n\n'\
-            $(ls /etc/init.d/ | \
-            egrep -v '(~$|README|-(old|dist)|\.[0-9]*$)' | wc -l)")
-            perform.execute("ls /etc/init.d/ | \
-            egrep -v '(~$|README|-(old|dist)|\.[0-9]*$)' |\
-            pr --columns=3 --omit-header")
+        commands.listdaemons(args)
 
     elif command == "listfiles":
-        if util.requires_one_arg(command, args,
-                            "the name of a single Debian package or deb file"):
-            if re.match(".*\.deb$", args[1]):
-                perform.execute("dpkg --contents " + args[1])
-            else:
-                perform.execute("dpkg --listfiles " + args[1])
+        commands.listfiles(args)
 
     elif command == "listsection":
-        if util.requires_one_arg(command, args, "the name of a Debian Section." +
-                            "\nUse the LIST-SECTIONS command for a list " +
-                            "of Debian Sections."):
-            commands.do_listsection(args[1])
+        commands.listsection(args)
 
     elif command == "listsections":
-        if util.requires_no_args(command, args):
-            commands.do_listsections()
+        commands.listsections(args)
 
     elif command == "listhold":
-        if util.requires_no_args(command, args):
-            perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
+        commands.listhold(args)
 
     elif command == "listinstalled":
-        if util.requires_opt_arg(command, args, "string to filter on"):
-            commands.do_listinstalled(args[1:])
+        commands.listinstalled(args)
 
-    elif command == "listlog":
-        perform.execute("cat /var/log/apt/history.log")
+    elif command in "listlog syslog".split():
+        commands.listlog(args)
 
     elif command == "listnames":
         if util.requires_opt_arg(command, args, "at most one argument"):
