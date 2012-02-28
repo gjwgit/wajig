@@ -48,29 +48,6 @@ previous_file  = changes.previous_file
 
 
 
-def do_listscripts(package):
-    scripts = ["preinst", "postinst", "prerm", "postrm"]
-    if re.match(".*\.deb$", package):
-        command = "ar p " + package + " control.tar.gz | tar ztvf -"
-        pkgScripts = perform.execute(command, pipe=True).readlines()
-        for script in scripts:
-            if "./" + script in "".join(pkgScripts):
-                nlen = (72 - len(script)) / 2
-                print(">"*nlen, script, "<"*nlen)
-                command = "ar p " + package + " control.tar.gz |" +\
-                          "tar zxvf - -O ./" + script +\
-                          " 2>/dev/null"
-                perform.execute(command)
-    else:
-        root = "/var/lib/dpkg/info/"
-        for script in scripts:
-            fname = root + package + "." + script
-            if os.path.exists(fname):
-                nlen = (72 - len(script))/2
-                print(">"*nlen, script, "<"*nlen)
-                perform.execute("cat " + fname)
-
-
 def do_new():
     "Report on packages that are newly available."
 
@@ -1111,7 +1088,6 @@ def listnames(args):
     return perform.execute(command, root=needsudo, pipe=False)
 
 
-
 def listpackages(args):
     """
     List the status, version, and description of installed packages
@@ -1123,6 +1099,37 @@ def listpackages(args):
     if len(args) > 1:
         cmd += " | egrep '" + args[1] + "' | sort -k 1b,1"
     perform.execute(cmd)
+
+
+def listscripts(args):
+    """
+    List the control scripts of the package of deb file
+    $ wajig list-scripts <.deb file>
+    """
+    util.requires_one_arg("listscripts", args, "a package name or deb file")
+    package = args[1]
+    scripts = ["preinst", "postinst", "prerm", "postrm"]
+    if re.match(".*\.deb$", package):
+        command = "ar p " + package + " control.tar.gz | tar ztvf -"
+        pkgScripts = perform.execute(command, pipe=True).readlines()
+        for script in scripts:
+            if "./" + script in "".join(pkgScripts):
+                nlen = (72 - len(script)) / 2
+                print(">"*nlen, script, "<"*nlen)
+                command = "ar p " + package + " control.tar.gz |" +\
+                          "tar zxvf - -O ./" + script +\
+                          " 2>/dev/null"
+                perform.execute(command)
+    else:
+        root = "/var/lib/dpkg/info/"
+        for script in scripts:
+            fname = root + package + "." + script
+            if os.path.exists(fname):
+                nlen = (72 - len(script))/2
+                print(">"*nlen, script, "<"*nlen)
+                perform.execute("cat " + fname)
+
+
 
 
 def listsection(args):
