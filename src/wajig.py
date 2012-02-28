@@ -342,9 +342,6 @@ def select_command(command, args, verbose, dist):
     elif command == "localupgrade":
         commands.localupgrade(args)
 
-    elif command == "moo":
-        perform.execute("apt-get moo")
-
     elif command == "madison":
         perform.execute("apt-cache madison " + " ".join(args[1:]))
 
