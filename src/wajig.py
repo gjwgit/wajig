@@ -30,7 +30,6 @@ import argparse
 import textwrap
 
 # wajig modules
-import documentation
 import commands
 import changes
 import perform
@@ -597,7 +596,7 @@ def select_command(command, args, verbose, dist):
 
     elif command in ["version", "versions"]:
         if command == "version" and len(args) == 1:
-            documentation.version()
+            util.version()
         elif util.requires_package("apt-show-versions",
                               "/usr/bin/apt-show-versions"):
             commands.versions(args[1:])

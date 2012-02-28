@@ -35,7 +35,6 @@ import changes
 import perform
 import util
 import debfile
-import documentation
 
 # When writing to a pipe where there is no reader (e.g., when
 # output is directed to head or to less and the user exists from less
@@ -1005,13 +1004,19 @@ def listcache(args):
     command += "; echo"
     perform.execute(command)
 
+
 def listcommands(args):
     """
     List all the JIG commands and one line descriptions for each.
     $ wajig list-commands
     """
     util.requires_no_args("listcommands", args)
-    documentation.help()
+    with open("/usr/share/wajig/help/COMMANDS") as f:
+        print()
+        for line in f:
+            print(line, end=' ')
+        print()
+
 
 def listalternatives(args):
     """
@@ -1371,7 +1376,10 @@ def tutorial(args):
     $ wajig tutorial
     """
     util.requires_no_args("documentation", args)
-    documentation.help(verbose=True)
+    with open("/usr/share/wajig/help/TUTORIAL") as f:
+        for line in f:
+            print(line, end="")
+
 
 
 def unofficial(args):

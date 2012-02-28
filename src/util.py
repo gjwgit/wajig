@@ -28,6 +28,7 @@ import apt
 import commands
 import changes
 import perform
+import const
 
 
 recommends_flag = None
@@ -239,3 +240,16 @@ def do_newupgrades(install=False):
             perform.execute(command, root=True)
 
 
+def version():
+    print("\nwajig " + const.version + \
+    """ - Command-line system admin for Debian GNU/Linux
+
+    Copyright (c) Graham.Williams@togaware.com
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    On Debian systems, it may be found in /usr/share/common-licenses/GPL.
+    """)
