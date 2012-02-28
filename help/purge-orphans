@@ -1,2 +1,0 @@
-Purge orphaned libraries (not required by installed packages).
-$ wajig purge-orphans

@@ -1,4 +1,0 @@
-Remove one or more packages and their configuration files.
-$ wajig purge PKG
-options:
-  -y --yes      purge without (yes/no) prompts; use with care!
