@@ -748,7 +748,7 @@ def help(args):
         elif command == "listalts":
             command = "listalternatives"
         elif command == "newupgrade":
-            command = "newupgrade"
+            command = "newupgrades"
         elif command in ["detail", "details"]:
             command = "show"
         elif command in "installs suggested".split():
@@ -1201,7 +1201,7 @@ def listsections(args):
 
 def madison(args):
     """
-    Runs the madison command of apt-cache.
+    Runs the madison command of apt-cache
     $ wajig madison <package name(s)>
 
     note: this runs 'apt-cache madison'
@@ -1212,11 +1212,25 @@ def madison(args):
 
 def move(args):
     """
-    Move packages in the download cache to a local Debian mirror.
+    Move packages in the download cache to a local Debian mirror
     $ wajig move
     """
     util.requires_no_args("move", args)
     perform.execute("apt-move update", root=True)
+
+
+def new(args):
+    """
+    List packages that became available since last update
+    $ wajig new
+    """
+    util.requires_opt_arg("new", args, "whether to INSTALL the new pkgs")
+    if len(args) == 1:
+        util.do_describe_new()
+    elif args[1].lower() == "install":
+        util.do_describe_new(install=True)
+    else:
+        print("NEW only accepts optional argument INSTALL")
 
 
 def newdetail(args):

@@ -349,14 +349,7 @@ def select_command(command, args, verbose, dist):
         commands.move(args)
 
     elif command == "new":
-        if util.requires_opt_arg(command, args, "whether to INSTALL the new pkgs"):
-            if len(args) == 1:
-                commands.do_describe_new()
-            elif args[1].lower() == "install":
-                commands.do_describe_new(install=True)
-            else:
-                print("NEW only accepts optional argument INSTALL")
-                util.finishup(1)
+        commands.new(args)
 
     elif command in ["newupgrades", "newupgrade"]:
         commands.newupgrades(args, yes, noauth)
