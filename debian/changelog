@@ -50,8 +50,9 @@ wajig (2.3) unstable; urgency=low
   * LISTWIDE: remove; it's basically the same as LIST command.
   * LISTALL: remove; it's exactly the same is LIST command.
   * LIST-SCRIPTS: fix brokenness which was a result of porting to Py3k.
+  * MADISON: get rid of duplicates from output, if any.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 Feb 2012 19:56:51 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 Feb 2012 20:43:25 +0200
 
 wajig (2.2) unstable; urgency=low
 

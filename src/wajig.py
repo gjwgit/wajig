@@ -343,7 +343,7 @@ def select_command(command, args, verbose, dist):
         commands.localupgrade(args)
 
     elif command == "madison":
-        perform.execute("apt-cache madison " + " ".join(args[1:]))
+        commands.madison(args)
 
     elif command == "move":
         if util.requires_no_args(command, args):

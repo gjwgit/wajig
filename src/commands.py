@@ -1199,6 +1199,16 @@ def listsections(args):
         print(section)
 
 
+def madison(args):
+    """
+    Runs the madison command of apt-cache.
+    $ wajig madison <package name(s)>
+
+    note: this runs 'apt-cache madison'
+    """
+    util.requires_args("madison", args, "package name(s)")
+    perform.execute("apt-cache madison " + " ".join(set(args[1:])))
+
 def newdetail(args):
     """
     Provide a detailed description of new packages
