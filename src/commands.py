@@ -1334,6 +1334,74 @@ def purgeorphans(args):
         perform.execute("apt-get purge" + packages, root=True)
 
 
+def purgeremoved(args):
+    """
+    Purge all packages marked as deinstall
+    $ wajig purge-removed
+    """
+    util.requires_no_args("purgeremoved", args)
+    packages = ""
+    cmd = ("dpkg-query --show --showformat='${Package}\t${Status}\n' | "
+           "grep \"deinstall ok config-files\" | cut -f 1 ")
+    for package in perform.execute(cmd, pipe=True):
+        packages += " " + package.strip()
+    if packages:
+        perform.execute("apt-get purge" + packages, root=True)
+
+
+def readme(command, args):
+    """
+    Display the README file of a given package
+    $ wajig readme <package name>
+    """
+    util.requires_one_arg(command, args, "a single package")
+    docpath = os.path.join("/usr/share/doc", args[1])
+    if not os.path.exists(docpath):
+        print("No docs found for '{0}'. Is it installed?".format(args[1]))
+        return
+    filenames = "README README.Debian USAGE".split()
+    found = False
+    for filename in filenames:
+        path = os.path.join(docpath, filename)
+        cat = "cat"
+        if not os.path.exists(path):
+            path += ".gz"
+            cat = "zcat"
+        if os.path.exists(path):
+            found = True
+            print("{0:=^72}".format(" {0} ".format(filename)))
+            sys.stdout.flush()
+            perform.execute(cat + " " + path)
+    if not found:
+        print("No {0} file found for {1}".format(command.upper(), args[1]))
+
+
+def news(command, args):
+    """
+    Display the NEWS file of a given package
+    $ wajig news <package name>
+    """
+    util.requires_one_arg(command, args, "a single package")
+    docpath = os.path.join("/usr/share/doc", args[1])
+    if not os.path.exists(docpath):
+        print("No docs found for '{0}'. Is it installed?".format(args[1]))
+        return
+    filenames = "NEWS.Debian NEWS".split()
+    found = False
+    for filename in filenames:
+        path = os.path.join(docpath, filename)
+        cat = "cat"
+        if not os.path.exists(path):
+            path += ".gz"
+            cat = "zcat"
+        if os.path.exists(path):
+            found = True
+            print("{0:=^72}".format(" {0} ".format(filename)))
+            sys.stdout.flush()
+            perform.execute(cat + " " + path)
+    if not found:
+        print("No {0} file found for {1}.".format(command.upper(), args[1]))
+
 def show(args):
     """
     Provide a detailed description of package (describe -vv)

@@ -369,40 +369,13 @@ def select_command(command, args, verbose, dist):
         commands.purgeorphans(args)
 
     elif command == "purgeremoved":
-        if util.requires_no_args(command, args):
-            packages = str()
-            cmd = "dpkg-query --show --showformat='${Package}\t${Status}\n' |"\
-            + " grep \"deinstall ok config-files\" | cut -f 1 "
-            for package in perform.execute(cmd, pipe=True):
-                packages += " " + package.strip()
-            if packages:
-                perform.execute("apt-get purge" + packages,
-                                 root=True)
+        commands.purgeremoved(args)
 
-    elif command in ["readme", "news"]:
-        if util.requires_one_arg(command, args, "a single package"):
-            docpath = "/usr/share/doc/" + args[1] + "/"
-            if not os.path.exists(docpath):
-                print("No docs found for '{0}'. Is it installed?".format(args[1]))
-                return
-            if command == "news":
-                li = "NEWS.Debian NEWS".split()
-            else:
-                li = "README README.Debian USAGE".split()
-            found = False
-            for x in li:
-                path = docpath + x
-                cat = "cat"
-                if not os.path.exists(path):
-                    path += ".gz"
-                    cat = "zcat"
-                if os.path.exists(path):
-                    found = True
-                    print("{0:=^72}".format(" {0} ".format(x)))
-                    sys.stdout.flush()
-                    perform.execute(cat + " " + path)
-            if not found:
-                print("No {0} file found for {1}.".format(command.upper(), args[1]))
+    elif command == "readme":
+        commands.readme(command, args)
+
+    elif command == "news":
+        commands.news(command, args)
 
     elif command in "listrecommended":
         command = "aptitude search '" + \
