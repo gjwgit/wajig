@@ -1,2 +1,0 @@
-Display APT log file.
-$ wajig list-log                    (cat /var/log/apt/history.log)
