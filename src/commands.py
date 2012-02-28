@@ -1209,6 +1209,16 @@ def madison(args):
     util.requires_args("madison", args, "package name(s)")
     perform.execute("apt-cache madison " + " ".join(set(args[1:])))
 
+
+def move(args):
+    """
+    Move packages in the download cache to a local Debian mirror.
+    $ wajig move
+    """
+    util.requires_no_args("move", args)
+    perform.execute("apt-move update", root=True)
+
+
 def newdetail(args):
     """
     Provide a detailed description of new packages

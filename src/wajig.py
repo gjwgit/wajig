@@ -346,12 +346,7 @@ def select_command(command, args, verbose, dist):
         commands.madison(args)
 
     elif command == "move":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-move update",
-                             root=True)
-            # Then clean out the cached archive.
-            perform.execute("apt-get clean",
-                             root=True)
+        commands.move(args)
 
     elif command == "new":
         if util.requires_opt_arg(command, args, "whether to INSTALL the new pkgs"):
