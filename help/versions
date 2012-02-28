@@ -1,5 +1,0 @@
-List version and distribution of packages:
-$ wajig versions
-
-List version and distribution of given packages:
-$ wajig versions PKG
