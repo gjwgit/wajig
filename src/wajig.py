@@ -334,25 +334,13 @@ def select_command(command, args, verbose, dist):
         commands.listscripts(args)
 
     elif command == "liststatus":
-        if util.requires_opt_arg(command, args, "package name"):
-            cmd = "COLUMNS=400 "
-            cmd += "dpkg --list '*' | grep -v 'no description avail'"
-            cmd += " | awk '{print $1,$2}'"
-            if len(args) > 1:
-                cmd += " | egrep '" + args[1] + "' | sort -k 1b,1"
-            perform.execute(cmd)
+        commands.liststatus(args)
 
     elif command == "localdistupgrade":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get --no-download --ignore-missing " +
-                            "--show-upgraded dist-upgrade",
-                             root=True)
+        commands.localdistupgrade(args)
 
     elif command == "localupgrade":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get --no-download --ignore-missing " + \
-                            "--show-upgraded upgrade",
-                             root=True)
+        commands.localupgrade(args)
 
     elif command == "moo":
         perform.execute("apt-get moo")

@@ -1148,6 +1148,41 @@ def listsection(args):
             print(package.name)
 
 
+def liststatus(args):
+    """
+    Same as list but only prints first two columns, not truncated.
+    $ wajig list-status
+    """
+    util.requires_opt_arg("liststatus", args, "package name")
+    cmd = "COLUMNS=400 "
+    cmd += "dpkg --list '*' | grep -v 'no description avail'"
+    cmd += " | awk '{print $1,$2}'"
+    if len(args) > 1:
+        cmd += " | egrep '" + args[1] + "' | sort -k 1b,1"
+    perform.execute(cmd)
+
+
+def localdistupgrade(args):
+    """
+    Dist-upgrade using only packages that are already downloaded
+    $ wajig local-dist-upgrade
+    """
+    util.requires_no_args("localdistupgrade", args)
+    command = ("apt-get --no-download --ignore-missing "
+               "--show-upgraded dist-upgrade")
+    perform.execute(command, root=True)
+
+
+def localupgrade(args):
+    """
+    Upgrade using only packages that are already downloaded
+    $ wajig local-upgrade
+    """
+    util.requires_no_args("localupgrade", args)
+    command = "apt-get --no-download --ignore-missing --show-upgraded upgrade"
+    perform.execute(command, root=True)
+
+
 def listsections(args):
     """
     List all available sections
