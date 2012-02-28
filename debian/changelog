@@ -49,8 +49,9 @@ wajig (2.3) unstable; urgency=low
   * INSTALL: remove ability to install packages listed in a file.
   * LISTWIDE: remove; it's basically the same as LIST command.
   * LISTALL: remove; it's exactly the same is LIST command.
+  * LIST-SCRIPTS: fix brokenness which was a result of porting to Py3k.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 Feb 2012 01:33:26 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 Feb 2012 19:56:51 +0200
 
 wajig (2.2) unstable; urgency=low
 

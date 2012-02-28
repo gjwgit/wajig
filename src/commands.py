@@ -1114,7 +1114,7 @@ def listscripts(args):
         pkgScripts = perform.execute(command, pipe=True).readlines()
         for script in scripts:
             if "./" + script in "".join(pkgScripts):
-                nlen = (72 - len(script)) / 2
+                nlen = int((72 - len(script)) / 2)
                 print(">"*nlen, script, "<"*nlen)
                 command = "ar p " + package + " control.tar.gz |" +\
                           "tar zxvf - -O ./" + script +\
