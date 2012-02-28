@@ -355,6 +355,7 @@ def build(args, yes, noauth):
     Retrieve source packages, unpack them, and build binary (.deb) packages
     from them. This also installs the needed build-dependencies if needed.
     $ wajig buld <package names>
+
     options:
       -n --noauth       install and build even if package(s) is untrusted
       -y --yes          install/download without yes/no prompts; use with care!
@@ -408,7 +409,7 @@ def changelog(args, verbose):
     """
     Display Debian changelog of a package
     $ wajig changelog <package name>
-    options:
+
     network on:
          changelog - if there's newer entries, display them
       -v changelog - if there's newer entries, display them, and proceed to
@@ -548,6 +549,7 @@ def describe(args, verbose):
     """
     Display the short description of a package(s)
     $ wajig describe <package name>
+
     options:
       -v  --verbose     display long description as well
     """
@@ -735,6 +737,10 @@ def help(args):
             command = "rbuilddeps"
         elif command in ["findpkg", "findpackage"]:
             command = "unofficial"
+        elif command == "available":
+            command = "policy"
+        elif command == "purgedepend":
+            command = "purge"
         elif command == "commands":
             command = "listcommands"
         elif command == "newdescribe":
@@ -745,6 +751,8 @@ def help(args):
             command = "listpackages"
         elif command == "listlog":
             command = "syslog"
+        elif command in "orphaned listorphaned listorphans".split():
+            command = "orphans"
         elif command == "listalts":
             command = "listalternatives"
         elif command == "newupgrade":
@@ -1210,6 +1218,16 @@ def madison(args):
     perform.execute("apt-cache madison " + " ".join(set(args[1:])))
 
 
+def nonfree(args):
+    """
+    List installed packages that do not meet the DFSG.
+    $ wajig non-free
+    """
+    util.requires_no_args("nonfree", args)
+    util.requires_package("vrms", "/usr/bin/vrms")
+    perform.execute("vrms")
+
+
 def move(args):
     """
     Move packages in the download cache to a local Debian mirror
@@ -1250,7 +1268,7 @@ def newdetail(args):
 
 def newupgrades(args, yes, noauth):
     """
-    List packages newly available for upgrading.
+    List packages newly available for upgrading
     $ wajig new-upgrades
     """
     util.requires_opt_arg("newupgrades", args,
@@ -1265,10 +1283,65 @@ def newupgrades(args, yes, noauth):
         util.finishup(1)
 
 
+def orphans(args):
+    """
+    List libraries not required by any installed package
+    $ wajig orphans
+    """
+    util.requires_no_args("orphans", args)
+    util.requires_package("deborphan", "/usr/bin/deborphan")
+    perform.execute("deborphan")
+
+
+def policy(args):
+    """
+    From preferences file show priorities/policy (available).
+    $ wajig policy <package name>
+
+    note: this runs 'apt-cache policy'
+    """
+    util.requires_args("policy", args, "a package or packages")
+    perform.execute("apt-cache policy " + " ".join(args[1:]))
+
+
+def purge(args, yes, noauth):
+    """
+    Remove one or more packages and their configuration files.
+    $ wajig purge <package name(s)>
+
+    options:
+      -n --noauth   skip the authentication verification prompt before the upgrade
+      -y --yes      purge without (yes/no) prompts; use with care!
+
+    note: this runs 'apt-get --auto-remove purge'
+    """
+    util.requires_args("purge", args, "a list of packages")
+    command = "apt-get {0} {1} --auto-remove purge ".format(yes, noauth)
+    command = command + " ".join(args[1:])
+    perform.execute(command, root=True)
+
+
+def purgeorphans(args):
+    """
+    Purge orphaned libraries (not required by installed packages).
+    $ wajig purge-orphans
+    """
+    # Deborphans does not require root, but dpkg does,
+    # so build up the orphans list first, then pass that to dpkg.
+    util.requires_no_args("purgeorphans", args)
+    util.requires_package("deborphan", "/usr/bin/deborphan")
+    packages = ""
+    for package in perform.execute("deborphan", pipe=True):
+        packages += " " + package.strip()
+    if packages:
+        perform.execute("apt-get purge" + packages, root=True)
+
+
 def show(args):
     """
     Provide a detailed description of package (describe -vv)
     $ wajig detail <package names>
+
     options:
       -f --fast     use apt-cache's version of SHOW, due to its speed; see
                     debian/changelog for 2.0.50 release for the rationale on
@@ -1342,10 +1415,11 @@ def upgrade(args, yes, noauth):
     """
     Conservative system upgrade... won't remove or install new packages
     $ wajig upgrade
+
     options:
       -b --backup   backup packages about to be upgraded onto some default directory
       -n --noauth   skip the authentication verification prompt before the upgrade
-      -y --yes      to skip confirmation prompts (warning: not safe)
+      -y --yes      purge without (yes/no) prompts; use with care!
     """
     util.requires_no_args("upgrade", args)
     packages = util.upgradable()

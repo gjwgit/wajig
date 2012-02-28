@@ -355,35 +355,19 @@ def select_command(command, args, verbose, dist):
         commands.newupgrades(args, yes, noauth)
 
     elif command == "nonfree":
-        if util.requires_no_args(command, args):
-            if util.requires_package("vrms", "/usr/bin/vrms"):
-                perform.execute("vrms")
+        commands.nonfree(args)
 
-    elif command in ["orphans", "listorphans"]:
-        if util.requires_no_args(command, args):
-            if util.requires_package("deborphan", "/usr/bin/deborphan"):
-                perform.execute("deborphan")
+    elif command in "orphans orphaned listorphaned listorphans".split():
+        commands.orphans(args)
 
     elif command in ["policy", "available"]:
-        perform.execute("apt-cache policy " + " ".join(args[1:]))
+        commands.policy(args)
 
     elif command in ["purge", "purgedepend"]:
-        if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get {0} {1} --auto-remove purge {2}".format(\
-                             yes, noauth, " ".join(args[1:])),
-                             root=True)
+        commands.purge(args, yes, noauth)
 
     elif command == "purgeorphans":
-        # Deborphans does not require root, but dpkg does,
-        # so build up the orphans list first, then pass that to dpkg.
-        if util.requires_no_args(command, args) \
-        and util.requires_package("deborphan", "/usr/bin/deborphan"):
-            packages = str()
-            for package in perform.execute("deborphan", pipe=True):
-                packages += " " + package.strip()
-            if packages:
-                perform.execute("apt-get purge" + packages,
-                                 root=True)
+        commands.purgeorphans(args)
 
     elif command == "purgeremoved":
         if util.requires_no_args(command, args):
