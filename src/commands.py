@@ -48,25 +48,6 @@ previous_file  = changes.previous_file
 
 
 
-def do_listnames(pattern, pipe=False):
-    "Print list of known package names."
-
-    # If user can't access /etc/apt/sources.list then must do this with
-    # sudo or else most packages will not be found.
-    needsudo = not os.access("/etc/apt/sources.list", os.R_OK)
-    if len(pattern) == 0:
-        command = "apt-cache pkgnames | sort -k 1b,1"
-    else:
-        command = "apt-cache pkgnames | grep -- " + pattern[0] \
-                + " | sort -k 1b,1"
-    # Start fix for Bug #292581 - pre-run command to check for no output
-    results = perform.execute(command, root=needsudo, pipe=True).readlines()
-    if len(results) == 0:
-        sys.exit(1)
-    # End fix for Bug #292581
-    return perform.execute(command, root=needsudo, pipe=pipe)
-
-
 def do_listscripts(package):
     scripts = ["preinst", "postinst", "prerm", "postrm"]
     if re.match(".*\.deb$", package):
@@ -1104,6 +1085,31 @@ def listinstalled(args):
     """
     util.requires_no_args("listinstalled", args)
     perform.execute("dpkg --get-selections | cut -f1")
+
+
+def listnames(args):
+    """
+    List all known packages; optionally filter the list with a pattern
+    $ wajig list-names [<pattern>]
+    """
+    util.requires_opt_arg("listnames", args, "at most one argument")
+    pattern = args[1:]
+
+    # If user can't access /etc/apt/sources.list then must do this with
+    # sudo or else most packages will not be found.
+    needsudo = not os.access("/etc/apt/sources.list", os.R_OK)
+    if pattern:
+        command = "apt-cache pkgnames | grep -- " + pattern[0] \
+                + " | sort -k 1b,1"
+    else:
+        command = "apt-cache pkgnames | sort -k 1b,1"
+    # Start fix for Bug #292581 - pre-run command to check for no output
+    results = perform.execute(command, root=needsudo, pipe=True).readlines()
+    if len(results) == 0:
+        sys.exit(1)
+    # End fix for Bug #292581
+    return perform.execute(command, root=needsudo, pipe=False)
+
 
 
 def listpackages(args):

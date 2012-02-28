@@ -328,8 +328,7 @@ def select_command(command, args, verbose, dist):
         commands.listlog(args)
 
     elif command == "listnames":
-        if util.requires_opt_arg(command, args, "at most one argument"):
-            commands.do_listnames(args[1:])
+        commands.listnames(args)
 
     elif command == "listscripts":
         if util.requires_one_arg(command, args, "a package name or deb file"):
