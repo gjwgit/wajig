@@ -594,12 +594,8 @@ def select_command(command, args, verbose, dist):
         and util.requires_package("debsums", "/usr/bin/debsums"):
             perform.execute("debsums " + args[1])
 
-    elif command in ["version", "versions"]:
-        if command == "version" and len(args) == 1:
-            util.version()
-        elif util.requires_package("apt-show-versions",
-                              "/usr/bin/apt-show-versions"):
-            commands.versions(args[1:])
+    elif command == "versions":
+        commands.versions(args)
 
     else:
         print("Command not recognised; run 'wajig commands' for a list")

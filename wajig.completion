@@ -28,7 +28,7 @@ _wajig()
               search search-apt showdistupgrade showinstall showremove \
               showupgrade sizes snapshot source start status status-search stop \
               syslog tasksel toupgrade unhold update update-alts update-pci-ids \
-              update-usb-ids upgrade verify version versions whatis whichpkg"
+              update-usb-ids upgrade verify versions whatis whichpkg"
 
     if [ "$COMP_CWORD" -ge "2" ]; then
         COMPREPLY=($( compgen -W '$(apt-cache pkgnames)' -- "$cur" ) \

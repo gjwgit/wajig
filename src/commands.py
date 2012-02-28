@@ -252,14 +252,6 @@ def do_recdownload(packages):
     perform.execute(command, root=1)
 
 
-def versions(packages):
-    if len(packages) == 0:
-        perform.execute("apt-show-versions")
-    else:
-        for package in packages:
-            perform.execute("apt-show-versions " + package)
-
-
 def addcdrom(command, args):
     """
     Add a Debian CD/DVD to APT's list of available sources
@@ -1440,6 +1432,25 @@ def upgrade(args, yes, noauth):
         perform.execute(command, root=True)
     else:
         print('No upgradeable packages. Did you run "wajig update" first?')
+
+
+def versions(args):
+    """
+    List version and distribution of given packages:
+    $ wajig versions <package name(s)>
+
+    note: this runs 'apt-show-versions'
+    """
+    util.requires_package("apt-show-versions", "/usr/bin/apt-show-versions")
+    packages = args[1:]
+    if packages:
+        for package in packages:
+            perform.execute("apt-show-versions " + package)
+    else:
+        perform.execute("apt-show-versions")
+
+
+
 
 
 def whichpackage(args):
