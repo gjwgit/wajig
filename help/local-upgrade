@@ -1,2 +1,0 @@
-Upgrade using packages already downloaded, but not any others.
-$ wajig local-upgrade
