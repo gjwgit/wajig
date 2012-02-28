@@ -1434,6 +1434,16 @@ def upgrade(args, yes, noauth):
         print('No upgradeable packages. Did you run "wajig update" first?')
 
 
+def verify(args):
+    """
+    Check package md5sum
+    $ wajig verify <package name(s)>
+    """
+    util.requires_one_arg("verify", args, "a package name")
+    util.requires_package("debsums", "/usr/bin/debsums")
+    perform.execute("debsums " + args[1])
+
+
 def versions(args):
     """
     List version and distribution of given packages:
@@ -1448,9 +1458,6 @@ def versions(args):
             perform.execute("apt-show-versions " + package)
     else:
         perform.execute("apt-show-versions")
-
-
-
 
 
 def whichpackage(args):
