@@ -380,9 +380,8 @@ def select_command(command, args, verbose, dist):
     elif command == "recommended":
         commands.recommended(args)
 
-    elif command in ["recursive", "recdownload"]:
-        if util.requires_args(command, args, "a list of packages"):
-            commands.do_recdownload(args[1:])
+    elif command in "recursive recdownload".split():
+        commands.recdownload(args)
 
     elif command == "reconfigure":
         if len(args) > 1:

@@ -191,67 +191,6 @@ def do_update():
         print("There are " + changes.count_upgrades() + " new upgrades")
 
 
-def do_recdownload(packages):
-    #FIXME: This has problems with virtual packages, FIX THEM!!!
-
-    """Download packages and all dependencies recursively.
-    Author: Juanjo Alvarez <juanjux@yahoo.es>
-    """
-
-    def get_deps(package):
-        tagfile = apt_pkg.TagFile(open("/var/lib/dpkg/available", "r"))
-        deplist = []
-        for section in tagfile:
-            if section.get("Package") == package:
-                deplist = apt_pkg.parse_depends(section.get("Depends", ""))
-                break
-        realdeplist = []
-        if deplist != []:
-            for i in deplist:
-                realdeplist.append((i[0][0], i[0][1]))
-        return realdeplist
-
-    def get_deps_recursively(package, packageslist):
-        if not package in packageslist:
-            packageslist.append(package)
-        for packageName, versionInfo in get_deps(package):
-            if packageName not in packageslist:
-                packageslist.append(packageName)
-                get_deps_recursively(packageName, packageslist)
-        return packageslist
-
-    package_names = []
-    dontDownloadList = []
-    for package in packages[:]:
-        # Ignore packages with a "-" at the end so the user can workaround some
-        # dependencies problems (usually in unstable)
-        if package[len(package) - 1:] == "-":
-            dontDownloadList.append(package[:-1])
-            packages.remove(package)
-            continue
-
-    print("Calculating all dependencies...")
-    for i in packages:
-        tmp = get_deps_recursively(i, [])
-        for i in tmp:
-            # We don't want dupplicated package names
-            # and we don't want package in the dontDownloadList
-            if i in dontDownloadList:
-                continue
-            if i not in package_names:
-                package_names.append(i)
-    print("Packages to download to /var/cache/apt/archives:")
-    for i in package_names:
-        # We do this because apt-get install dont list the packages to
-        # reinstall if they don't need to be upgraded
-        print(i, end=' ')
-    print("\n")
-
-    command = "apt-get --download-only --reinstall -u install " + \
-              " ".join(package_names)
-    perform.execute(command, root=1)
-
-
 def addcdrom(command, args):
     """
     Add a Debian CD/DVD to APT's list of available sources
@@ -735,6 +674,8 @@ def help(args):
             command = "purge"
         elif command == "commands":
             command = "listcommands"
+        elif command == "recursive":
+            command = "recdownload"
         elif command == "newdescribe":
             command = "describenew"
         elif command == "detailnew":
@@ -1375,6 +1316,65 @@ def readme(command, args):
             perform.execute(cat + " " + path)
     if not found:
         print("No {0} file found for {1}".format(command.upper(), args[1]))
+
+
+def recdownload(args):
+    """
+    Download a package and all its dependencies
+    $ wajig recursive <package name>
+    """
+    util.requires_args("recdownload", args, "a list of packages")
+    packages = args[1:]
+
+    def get_deps(package):
+        tagfile = apt_pkg.TagFile(open("/var/lib/dpkg/available", "r"))
+        deplist = []
+        for section in tagfile:
+            if section.get("Package") == package:
+                deplist = apt_pkg.parse_depends(section.get("Depends", ""))
+                break
+        realdeplist = []
+        if deplist != []:
+            for i in deplist:
+                realdeplist.append((i[0][0], i[0][1]))
+        return realdeplist
+
+    def get_deps_recursively(package, packageslist):
+        if not package in packageslist:
+            packageslist.append(package)
+        for packageName, versionInfo in get_deps(package):
+            if packageName not in packageslist:
+                packageslist.append(packageName)
+                get_deps_recursively(packageName, packageslist)
+        return packageslist
+
+    package_names = list()
+    dontDownloadList = list()
+    for package in packages:
+        # Ignore packages with a "-" at the end so the user can workaround some
+        # dependencies problems (usually in unstable)
+        if package[len(package) - 1:] == "-":
+            dontDownloadList.append(package[:-1])
+            packages.remove(package)
+
+    print("Calculating all dependencies...")
+    for i in packages:
+        tmp = get_deps_recursively(i, [])
+        for i in tmp:
+            # We don't want dupplicated package names
+            # and we don't want package in the dontDownloadList
+            if i not in package_names:
+                package_names.append(i)
+    print("Packages to download to /var/cache/apt/archives:")
+    for i in package_names:
+        # We do this because apt-get install dont list the packages to
+        # reinstall if they don't need to be upgraded
+        print(i, end=' ')
+    print("\n")
+
+    command = "apt-get --download-only --reinstall -u install " + \
+              " ".join(package_names)
+    perform.execute(command, root=True)
 
 
 def recommended(args):
