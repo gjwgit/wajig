@@ -425,13 +425,10 @@ def select_command(command, args, verbose, dist):
         commands.statusmatch(args)
 
     elif command == "tasksel":
-        util.requires_no_args(command, args)
-        util.requires_package("tasksel", "/usr/bin/tasksel")
-        perform.execute("tasksel", root=True)
+        commands.tasksel(args)
 
     elif command == "toupgrade":
-        if util.requires_no_args(command, args):
-            commands.do_toupgrade()
+        commands.toupgrade(args)
 
     # edd 03 Sep 2003  unhold patch based on hold semantics
     elif command == "unhold":

@@ -63,26 +63,6 @@ def do_new():
 
 
 
-def do_toupgrade():
-    "List packages with Available version more recent than Installed."
-
-    # A simple way of doing this is to just list packages in the installed
-    # list and the available list which have different versions.
-    # However this does not capture the situation where the available
-    # package version predates the installed package version (e.g,
-    # you've installed a more recent version than in the distribution).
-    # So now also add in a call to "dpkg --compare-versions" which slows
-    # things down quite a bit!
-    print("%-24s %-24s %s" % ("Package", "Available", "Installed"))
-    print("="*24 + "-" + "="*24 + "-" + "="*24)
-
-    # List each upgraded pacakge and it's version.
-    to_upgrade = changes.get_to_upgrade()
-    to_upgrade.sort()
-    for i in range(0, len(to_upgrade)):
-        print("%-24s %-24s %-24s" % (to_upgrade[i], \
-                            changes.get_available_version(to_upgrade[i]), \
-                            changes.get_installed_version(to_upgrade[i])))
 
 
 def do_unhold(packages):
@@ -1624,6 +1604,47 @@ def syslog(args):
     """
     util.requires_no_args("syslog", args)
     perform.execute("cat /var/log/apt/history.log")
+
+
+def tasksel(args):
+    """
+    Run the task selector to install groups of packages
+    $ wajig tasksel
+
+    note: this runs 'tasksel'
+    """
+    util.requires_no_args(args[0], args)
+    util.requires_package("tasksel", "/usr/bin/tasksel")
+    perform.execute("tasksel", root=True)
+
+
+def toupgrade(args):
+    """
+    List packages with newer versions available for upgrading
+    $ wajig toupgrade
+    """
+    util.requires_no_args(args[0], args)
+
+    # A simple way of doing this is to just list packages in the installed
+    # list and the available list which have different versions.
+    # However this does not capture the situation where the available
+    # package version predates the installed package version (e.g,
+    # you've installed a more recent version than in the distribution).
+    # So now also add in a call to "dpkg --compare-versions" which slows
+    # things down quite a bit!
+
+    # List each upgraded pacakge and it's version.
+    to_upgrade = changes.get_to_upgrade()
+    to_upgrade.sort()
+    if to_upgrade:
+        print("%-24s %-24s %s" % ("Package", "Available", "Installed"))
+        print("="*24 + "-" + "="*24 + "-" + "="*24)
+        for i in range(0, len(to_upgrade)):
+            print("%-24s %-24s %-24s" % (to_upgrade[i],
+                   changes.get_available_version(to_upgrade[i]),
+                   changes.get_installed_version(to_upgrade[i])))
+    else:
+        print("No upgradeable packages")
 
 
 def tutorial(args):
