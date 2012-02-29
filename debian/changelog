@@ -54,8 +54,11 @@ wajig (2.3) unstable; urgency=low
   * VERSION: Remove, since it's already provided by 'wajig --version'.
   * BUG, BUGREPORT, and REPORTBUG are all aliases, and they run reportbug
   * Rename LISTRECOMMENDED --> RECOMMENDED
+  * RECONFIGURE: remove dependency on gkdebconf; the implementation was so
+    broken that gkdebconf never got invoked; I also think invoking GUI tools
+    is real overkill.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 29 Feb 2012 19:46:21 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 29 Feb 2012 20:36:02 +0200
 
 wajig (2.2) unstable; urgency=low
 

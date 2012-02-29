@@ -359,12 +359,7 @@ def select_command(command, args, verbose, dist):
         commands.recdownload(args)
 
     elif command == "reconfigure":
-        if len(args) > 1:
-            perform.execute("dpkg-reconfigure " + " ".join(args[1:]),
-                             root=True)
-        else:
-            perform.execute("gkdebconf",
-                             root=True)
+        commands.reconfigure(args)
 
     elif command == "reinstall":
         if util.requires_args(command, args, "a list of packages"):

@@ -1205,6 +1205,33 @@ def newdetail(args):
         print("No new packages available")
 
 
+def news(command, args):
+    """
+    Display the NEWS file of a given package
+    $ wajig news <package name>
+    """
+    util.requires_one_arg(command, args, "a single package")
+    docpath = os.path.join("/usr/share/doc", args[1])
+    if not os.path.exists(docpath):
+        print("No docs found for '{0}'. Is it installed?".format(args[1]))
+        return
+    filenames = "NEWS.Debian NEWS".split()
+    found = False
+    for filename in filenames:
+        path = os.path.join(docpath, filename)
+        cat = "cat"
+        if not os.path.exists(path):
+            path += ".gz"
+            cat = "zcat"
+        if os.path.exists(path):
+            found = True
+            print("{0:=^72}".format(" {0} ".format(filename)))
+            sys.stdout.flush()
+            perform.execute(cat + " " + path)
+    if not found:
+        print("No {0} file found for {1}.".format(command.upper(), args[1]))
+
+
 def newupgrades(args, yes, noauth):
     """
     List packages newly available for upgrading
@@ -1377,6 +1404,18 @@ def recdownload(args):
     perform.execute(command, root=True)
 
 
+def reconfigure(args):
+    """
+    Reconfigure a few packages
+    $ wajig reconfigure <package name(s)>
+
+    note: this runs 'dpkg-reconfigure'
+    """
+    util.requires_args("reconfigure", args, "one or more packages")
+    command = "dpkg-reconfigure " + " ".join(args[1:])
+    perform.execute(command, root=True)
+
+
 def recommended(args):
     """
     Display packages that were installed via Recommends and have no dependents.
@@ -1388,32 +1427,6 @@ def recommended(args):
               "?not(?automatic(?reverse-depends(?installed))) )'")
     perform.execute(command)
 
-
-def news(command, args):
-    """
-    Display the NEWS file of a given package
-    $ wajig news <package name>
-    """
-    util.requires_one_arg(command, args, "a single package")
-    docpath = os.path.join("/usr/share/doc", args[1])
-    if not os.path.exists(docpath):
-        print("No docs found for '{0}'. Is it installed?".format(args[1]))
-        return
-    filenames = "NEWS.Debian NEWS".split()
-    found = False
-    for filename in filenames:
-        path = os.path.join(docpath, filename)
-        cat = "cat"
-        if not os.path.exists(path):
-            path += ".gz"
-            cat = "zcat"
-        if os.path.exists(path):
-            found = True
-            print("{0:=^72}".format(" {0} ".format(filename)))
-            sys.stdout.flush()
-            perform.execute(cat + " " + path)
-    if not found:
-        print("No {0} file found for {1}.".format(command.upper(), args[1]))
 
 def show(args):
     """
