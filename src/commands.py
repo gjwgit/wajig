@@ -65,22 +65,8 @@ def do_new():
 
 
 
-def do_unhold(packages):
-    "Remove packages from hold (they will again be upgraded)."
-
-    for package in packages:
-        # The dpkg needs sudo but not the echo.
-        # Do all of it as root then.
-        command = "echo \"" + package + " install\" | dpkg --set-selections"
-        perform.execute(command, root=1)
-    print("The following packages are still on hold:")
-    perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
 
 
-def do_update():
-    if not perform.execute("apt-get update", root=1):
-        changes.update_available()
-        print("There are " + changes.count_upgrades() + " new upgrades")
 
 
 def addcdrom(args):
@@ -127,10 +113,10 @@ def autodownload(args, verbose):
     """
     util.requires_no_args("autodownload", args)
     if verbose:
-        do_update()
+        util.do_update()
         filter_str = ""
     else:
-        do_update()
+        util.do_update()
         filter_str = '| egrep -v "(http|ftp)"'
     perform.execute("apt-get --download-only --show-upgraded " + \
                     "--assume-yes dist-upgrade " + filter_str,
@@ -317,7 +303,7 @@ def dailyupgrade(args):
     note: this runs 'apt-get --show-upgraded dist-upgrade'
     """
     util.requires_no_args("dailyupgrade", args)
-    do_update()
+    util.do_update()
     perform.execute("apt-get --show-upgraded dist-upgrade", root=True)
 
 
@@ -1649,13 +1635,29 @@ def toupgrade(args):
 
 def tutorial(args):
     """
-    Display wajig tutorial.
+    Display wajig tutorial
     $ wajig tutorial
     """
     util.requires_no_args("documentation", args)
     with open("/usr/share/wajig/help/TUTORIAL") as f:
         for line in f:
             print(line, end="")
+
+
+def unhold(args):
+    """
+    Remove listed packages from hold so they are again upgradeable
+    $ wajig unhold <package name>
+    """
+    util.requires_args(args[0], args, "a list of packages to remove from hold")
+    packages = args[1:]
+    for package in packages:
+        # The dpkg needs sudo but not the echo.
+        # Do all of it as root then.
+        command = "echo \"" + package + " install\" | dpkg --set-selections"
+        perform.execute(command, root=1)
+    print("The following packages are still on hold:")
+    perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
 
 
 
@@ -1694,6 +1696,23 @@ def unofficial(args):
 
         if os.path.exists(results):
             os.remove(results)
+
+
+def update(args):
+    """
+    Update the list of new and updated packages
+    $ wajig update
+    """
+    util.requires_no_args(args[0], args)
+    util.do_update()
+
+
+def updateavailable(args):
+    """
+    note: this is for internal testing
+    """
+    util.requires_no_args(args[0], args)
+    changes.update_available()
 
 
 def upgrade(args, yes, noauth):

@@ -430,21 +430,15 @@ def select_command(command, args, verbose, dist):
     elif command == "toupgrade":
         commands.toupgrade(args)
 
-    # edd 03 Sep 2003  unhold patch based on hold semantics
     elif command == "unhold":
-        if util.requires_args(command, args,
-        "a list of packages to remove from hold"):
-            commands.do_unhold(args[1:])
-        # TODO Perhaps I can use map to "execute" over each package
+        commands.unhold(args)
 
     elif command == "update":
-        util.requires_no_args(command, args)
-        commands.do_update()
+        commands.update(args)
 
     # For testing only!
     elif command == "updateavailable":
-        if util.requires_no_args(command, args):
-            changes.update_available()
+        commands.updateavailable(args)
 
     elif command in "updatealts updatealternatives setalts setalternatives".split():
         if util.requires_one_arg(command, args, "name of alternative to update"):

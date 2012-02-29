@@ -369,3 +369,9 @@ def do_listnames(pattern, pipe=False):
     results = perform.execute(command, root=needsudo, pipe=True).readlines()
     if results:
         return perform.execute(command, root=needsudo, pipe=pipe)
+
+
+def do_update():
+    if not perform.execute("apt-get update", root=1):
+        changes.update_available()
+        print("There are " + changes.count_upgrades() + " new upgrades")
