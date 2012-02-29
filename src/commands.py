@@ -1393,6 +1393,57 @@ def recommended(args):
     perform.execute(command)
 
 
+def reload(args):
+    """
+    Reload system daemons (see LIST-DAEMONS for available daemons)
+    $ wajig reload DAEMON
+
+    notes: this runs 'service DAEMON reload'
+    """
+    util.requires_one_arg(args[0], args, "name of service to " + args[0])
+    command = "service {} {}".format(args[1], args[0])
+    if perform.execute(command, root=True):
+        print("attempt FORCE-RELOAD instead")
+        command = "service {} force-reload ".format(args[1])
+        perform.execute(command, root=True)
+
+
+def restart(args):
+    """
+    Restart system daemons (see LIST-DAEMONS for available daemons)
+    $ wajig restart DAEMON
+
+    notes: this runs 'service DAEMON restart'
+    """
+    util.requires_one_arg(args[0], args, "name of service to " + args[0])
+    command = "service {} {}".format(args[1], args[0])
+    perform.execute(command, root=True)
+
+
+def start(args):
+    """
+    Start system daemons (see LIST-DAEMONS for available daemons)
+    $ wajig start DAEMON
+
+    notes: this runs 'service DAEMON start'
+    """
+    util.requires_one_arg(args[0], args, "name of service to " + args[0])
+    command = "service {} {}".format(args[1], args[0])
+    perform.execute(command, root=True)
+
+
+def stop(args):
+    """
+    Stop system daemons (see LIST-DAEMONS for available daemons)
+    $ wajig stop DAEMON
+
+    notes: this runs 'service DAEMON stop'
+    """
+    util.requires_one_arg(args[0], args, "name of service to " + args[0])
+    command = "service {} {}".format(args[1], args[0])
+    perform.execute(command, root=True)
+
+
 def reinstall(args, noauth, yes):
     """
     Reinstall the given packages

@@ -364,10 +364,17 @@ def select_command(command, args, verbose, dist):
     elif command == "reinstall":
         commands.reinstall(args, noauth, yes)
 
-    elif command in "reload restart start stop".split():
-        if util.requires_one_arg(command, args, "name of service to " + command):
-            perform.execute("service {0} {1}".format(args[1], command),
-                             root=True)
+    elif command == "reload":
+        commands.reload(args)
+
+    elif command == "restart":
+        commands.restart(args)
+
+    elif command == "start":
+        commands.start(args)
+
+    elif command == "stop":
+        commands.stop(args)
 
     elif command in ["remove", "removedepend"]:
         if util.requires_args(command, args, "a list of packages"):

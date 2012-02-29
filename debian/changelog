@@ -57,8 +57,9 @@ wajig (2.3) unstable; urgency=low
   * RECONFIGURE: remove dependency on gkdebconf; the implementation was so
     broken that gkdebconf never got invoked; I also think invoking GUI tools
     is real overkill.
+  * RELOAD: if this fails, try FORCE-RELOAD
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 29 Feb 2012 20:36:02 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 29 Feb 2012 21:29:54 +0200
 
 wajig (2.2) unstable; urgency=low
 
