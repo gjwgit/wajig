@@ -1,2 +1,0 @@
-Generate a .deb file for an installed package.
-$ wajig repackage                       (fakeroot -u dpkg-repack)

@@ -1,4 +1,0 @@
-Remove one or more packages (see also purge).
-$ wajig remove PKG                      (apt-get --auto-remove remove)
-options:
-  -y --yes      remove without (yes/no) prompts; use with care!

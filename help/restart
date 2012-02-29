@@ -1,2 +1,0 @@
-Stop then start a daemon, e.g., gdm, apache; see LIST-DAEMONS.
-$ wajig restart DAEMON                  (service DAEMON restart)
