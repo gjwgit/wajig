@@ -377,32 +377,16 @@ def select_command(command, args, verbose, dist):
         commands.stop(args)
 
     elif command in ["remove", "removedepend"]:
-        if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get {0} {1}--auto-remove remove {2}".format(\
-                             yes, noauth, " ".join(args[1:])),
-                             root=True)
+        commands.remove(args, noauth, yes)
 
     elif command == "removeorphans":
-        if util.requires_no_args(command, args) \
-        and util.requires_package("deborphan", "/usr/bin/deborphan"):
-            packages = str()
-            for package in perform.execute("deborphan", pipe=True):
-                packages += " " + package.strip()
-            if packages:
-                perform.execute("apt-get remove" + packages, root=True)
+        commands.removeorphans(args)
 
     elif command in ["repackage", "package"]:
-        if util.requires_one_arg(command, args, "name of an installed package") \
-        and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
-        and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
-            perform.execute("fakeroot --unknown-is-real dpkg-repack " + args[1],
-                             root=False)
+        commands.repackage(args)
 
     elif command == "rpminstall":
-        if util.requires_one_arg(command, args,
-        "a Red Hat package file name (.rpm)"):
-            perform.execute("alien --install " + args[1],
-                             root=True)
+        commands.rpminstall(args)
 
     elif command in ["rpmtodeb", "rpm2deb"]:
         if util.requires_one_arg(command, args,

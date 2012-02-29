@@ -678,6 +678,8 @@ def help(args):
             command = "recdownload"
         elif command == "newdescribe":
             command = "describenew"
+        elif command == "package":
+            command = "repackage"
         elif command == "detailnew":
             command = "newdetail"
         elif command == "list":
@@ -1406,6 +1408,64 @@ def reload(args):
         print("attempt FORCE-RELOAD instead")
         command = "service {} force-reload ".format(args[1])
         perform.execute(command, root=True)
+
+
+def remove(args, noauth, yes):
+    """
+    Remove packages (see also PURGE command)
+    $ wajig remove <package name(s)>
+
+    options:
+      -n --noauth   reinstall even if package is untrusted
+      -y --yes      remove without (yes/no) prompts; use with care!
+
+    note: this runs 'apt-get --auto-remove remove'
+    """
+    util.requires_args("remove", args, "a list of packages")
+    command = "apt-get {0} {1}--auto-remove remove " + " ".join(args[1:])
+    command = command.format(yes, noauth)
+    perform.execute(command, root=True)
+
+
+def removeorphans(args):
+    """
+    Remove orphaned libraries
+    $ wajig remove-orphans
+    """
+    util.requires_no_args("removeorphans", args)
+    util.requires_package("deborphan", "/usr/bin/deborphan")
+    packages = ""
+    for package in perform.execute("deborphan", pipe=True):
+        packages += " " + package.strip()
+    if packages:
+        perform.execute("apt-get remove" + packages, root=True)
+
+
+def repackage(args):
+    """
+    Generate a .deb file for an installed package.
+    $ wajig repackage <package name>
+
+    note: this runs 'fakeroot -u dpkg-repack'
+    """
+    util.requires_one_arg("repackage", args, "name of an installed package")
+    util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
+    util.requires_package("fakeroot", "/usr/bin/fakeroot")
+    command = "fakeroot --unknown-is-real dpkg-repack " + args[1]
+    perform.execute(command, root=False)
+
+
+def rpminstall(args):
+    """
+    Install an .rpm package file
+    $ wajig rpminstall <rpm file>
+
+    note: this runs 'alien --install'
+    """
+    util.requires_one_arg("rpminstall", args,
+                          "a single .rpm file")
+    command = "alien --install " + args[1]
+    perform.execute(command, root=True)
 
 
 def restart(args):
