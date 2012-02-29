@@ -1,2 +1,0 @@
-Trace the steps that a dist-upgrade would perform.
-$ wajig showdistupgrade

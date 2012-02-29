@@ -1,2 +1,0 @@
-Convert a RedHat .rpm file to a Debian .deb file.
-$ wajig rpm2deb PKGFILE                 (alien PKGFILE)

@@ -1,5 +1,0 @@
-Display sizes of given packages.
-$ wajig sizes PKG(s)
-
-Display sizes of all packages.
-$ wajig sizes

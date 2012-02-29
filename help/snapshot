@@ -1,2 +1,0 @@
-Generates list of package=version for all installed packages.
-$ wajig snapshot
