@@ -550,6 +550,8 @@ def help(args):
             command = "statusmatch"
         elif command == "size":
             command = "sizes"
+        elif command in "updatealts setalts setalternatives".split():
+            command = "updatealternatives"
         elif command == "rpmtodeb":
             command = "rpm2deb"
         elif command in "bug bugreport".split():
@@ -1705,6 +1707,15 @@ def update(args):
     """
     util.requires_no_args(args[0], args)
     util.do_update()
+
+
+def updatealternatives(args):
+    """
+    Update default alternative for things like x-window-manager
+    $ wajig update-alts
+    """
+    util.requires_one_arg(args[0], args, "name of alternative to update")
+    perform.execute("update-alternatives --config " + args[1], root=True)
 
 
 def updateavailable(args):

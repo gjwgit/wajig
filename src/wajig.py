@@ -441,8 +441,7 @@ def select_command(command, args, verbose, dist):
         commands.updateavailable(args)
 
     elif command in "updatealts updatealternatives setalts setalternatives".split():
-        if util.requires_one_arg(command, args, "name of alternative to update"):
-            perform.execute("update-alternatives --config " + args[1], root=True)
+        commands.updatealternatives(args)
 
     elif command == "updatepciids":
         if util.requires_package("pciutils", "/usr/bin/update-pciids"):
