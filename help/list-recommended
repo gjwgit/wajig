@@ -1,2 +1,0 @@
-Display packages that were installed via Recommends and have no dependents.
-$ wajig list-recommended

@@ -1,2 +1,0 @@
-Extract the files from a package file to a directory.
-$ wajig extract PKGFILE

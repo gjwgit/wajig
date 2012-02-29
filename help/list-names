@@ -1,2 +1,0 @@
-List all known packages or those containing supplied string.
-$ wajig list-names MATCH
