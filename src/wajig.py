@@ -389,14 +389,10 @@ def select_command(command, args, verbose, dist):
         commands.rpminstall(args)
 
     elif command in ["rpmtodeb", "rpm2deb"]:
-        if util.requires_one_arg(command, args,
-        "a Red Hat package file name (.rpm)"):
-            perform.execute("alien " + args[1],
-                             root=True)
+        commands.rpm2deb(args)
 
     elif command == "search":
-        if util.requires_args(command, args, "a list of words to search for"):
-            perform.execute("apt-cache search " + " ".join(args[1:]))
+        commands.search(args, verbose)
 
     elif command == "searchapt":
         util.requires_one_arg(command, args, "one of stable|testing|unstable")

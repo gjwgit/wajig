@@ -668,6 +668,8 @@ def help(args):
             command = "unofficial"
         elif command == "available":
             command = "policy"
+        elif command == "rpmtodeb":
+            command = "rpm2deb"
         elif command in "bug bugreport".split():
             command = "reportbug"
         elif command == "purgedepend":
@@ -1455,6 +1457,30 @@ def repackage(args):
     perform.execute(command, root=False)
 
 
+def restart(args):
+    """
+    Restart system daemons (see LIST-DAEMONS for available daemons)
+    $ wajig restart DAEMON
+
+    notes: this runs 'service DAEMON restart'
+    """
+    util.requires_one_arg(args[0], args, "name of service to " + args[0])
+    command = "service {} {}".format(args[1], args[0])
+    perform.execute(command, root=True)
+
+
+def rpm2deb(args):
+    """
+    Convert an .rpm file to a Debian .deb file
+    $ wajig rpm2deb <rpm file>
+
+    note: this runs 'alien'
+    """
+    util.requires_one_arg("rpm2deb", args, "a .rpm file")
+    command = "alien " + args[1]
+    perform.execute(command, root=True)
+
+
 def rpminstall(args):
     """
     Install an .rpm package file
@@ -1468,16 +1494,20 @@ def rpminstall(args):
     perform.execute(command, root=True)
 
 
-def restart(args):
+def search(args, verbose):
     """
-    Restart system daemons (see LIST-DAEMONS for available daemons)
-    $ wajig restart DAEMON
+    Search for package names containing the given pattern
+    $ wajig search <pattern>
 
-    notes: this runs 'service DAEMON restart'
+    options:
+      -v --verbose  also search package descriptions
     """
-    util.requires_one_arg(args[0], args, "name of service to " + args[0])
-    command = "service {} {}".format(args[1], args[0])
-    perform.execute(command, root=True)
+    util.requires_args("search", args, "a list of words to search for")
+    if verbose:
+        command = "apt-cache search " + " ".join(args[1:])
+    else:
+        command = "apt-cache search --names-only " + " ".join(args[1:])
+    perform.execute(command)
 
 
 def start(args):
