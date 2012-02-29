@@ -11,7 +11,7 @@ _wajig()
              -y --yes -V --version"
 
     commands="addcdrom addrepo auto-alts auto-clean auto-download \
-              autoremove available bug build build-depend changelog clean \
+              autoremove available bug bugreport build build-depend changelog clean \
               commands contents daily-upgrade dependents describe \
               describe-new detail detail-new dist-upgrade docs download \
               editsources extract find-file find-pkg \
@@ -24,7 +24,7 @@ _wajig()
               move new news new-upgrades non-free orphans policy purge \
               purge-orphans purge-removed rbuilddeps readme list-recommended \
               recursive reconfigure reinstall reload remove remove-file \
-              remove-orphans repackage reset restart rpm2deb rpmtodeb rpminstall \
+              remove-orphans repackage reportbug reset restart rpm2deb rpmtodeb rpminstall \
               search search-apt showdistupgrade showinstall showremove \
               showupgrade sizes snapshot source start status status-search stop \
               syslog tasksel toupgrade unhold update update-alts update-pci-ids \

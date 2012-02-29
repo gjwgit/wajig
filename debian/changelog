@@ -52,8 +52,9 @@ wajig (2.3) unstable; urgency=low
   * LIST-SCRIPTS: fix brokenness which was a result of porting to Py3k.
   * MADISON: get rid of duplicates from output, if any.
   * VERSION: Remove, since it's already provided by 'wajig --version'.
+  * BUG, BUGREPORT, and REPORTBUG are all aliases, and they run reportbug
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 Feb 2012 21:56:16 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 29 Feb 2012 13:33:03 +0200
 
 wajig (2.2) unstable; urgency=low
 

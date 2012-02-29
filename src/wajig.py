@@ -188,7 +188,7 @@ def select_command(command, args, verbose, dist):
     elif command == "autoremove":
         commands.autoremove(args)
 
-    elif command == "reportbug":
+    elif command in "reportbug bug bugreport".split():
         commands.reportbug(args)
 
     elif command == "build":

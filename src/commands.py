@@ -337,8 +337,7 @@ def reportbug(args):
     """
     util.requires_one_arg("reportbug", args, "a single named package")
     util.requires_package("reportbug", "/usr/bin/reportbug")
-    # 090430 Specify bts=debian since ubuntu not working at present
-    perform.execute("reportbug --bts=debian " + args[1])
+    perform.execute("reportbug " + args[1])
 
 
 def build(args, yes, noauth):
@@ -730,6 +729,8 @@ def help(args):
             command = "unofficial"
         elif command == "available":
             command = "policy"
+        elif command in "bug bugreport".split():
+            command = "reportbug"
         elif command == "purgedepend":
             command = "purge"
         elif command == "commands":
