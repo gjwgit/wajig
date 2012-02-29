@@ -377,11 +377,8 @@ def select_command(command, args, verbose, dist):
     elif command == "news":
         commands.news(command, args)
 
-    elif command in "listrecommended":
-        command = "aptitude search '" + \
-                  "?and( ?automatic(?reverse-recommends(?installed)), "+ \
-                  "?not(?automatic(?reverse-depends(?installed))) )'"
-        perform.execute(command)
+    elif command == "recommended":
+        commands.recommended(args)
 
     elif command in ["recursive", "recdownload"]:
         if util.requires_args(command, args, "a list of packages"):

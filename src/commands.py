@@ -1377,6 +1377,18 @@ def readme(command, args):
         print("No {0} file found for {1}".format(command.upper(), args[1]))
 
 
+def recommended(args):
+    """
+    Display packages that were installed via Recommends and have no dependents.
+    $ wajig list-recommended
+    """
+    util.requires_no_args("recommended", args)
+    command = ("aptitude search '"
+              "?and( ?automatic(?reverse-recommends(?installed)), "
+              "?not(?automatic(?reverse-depends(?installed))) )'")
+    perform.execute(command)
+
+
 def news(command, args):
     """
     Display the NEWS file of a given package
