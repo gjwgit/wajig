@@ -191,38 +191,38 @@ def do_update():
         print("There are " + changes.count_upgrades() + " new upgrades")
 
 
-def addcdrom(command, args):
+def addcdrom(args):
     """
     Add a Debian CD/DVD to APT's list of available sources
     $ wajig addcdrom
     
     note: this runs 'apt-cdrom add'
     """
-    util.requires_no_args(command, args)
+    util.requires_no_args("addcdrom", args)
     perform.execute("apt-cdrom add", root=True)
 
 
-def addrepo(command, args):
+def addrepo(args):
     """
     Add a Launchpad PPA (Personal Package Archive) repository
     Here's an example that shows how to add the daily builds of
     Google's Chromium browser:
     $ wajig addrepo ppa:chromium-daily      (add-apt-repository)
     """
-    util.requires_one_arg(command, args,
+    util.requires_one_arg("addrepo", args,
                          "a PPA (Personal Package Archive) repository to add")
     util.requires_package("add-apt-repository", "/usr/bin/add-apt-repository")
     perform.execute("add-apt-repository " + args[1], root=True)
 
 
-def autoalts(command, args):
+def autoalts(args):
     """
     Mark the Alternative to be auto-set (using set priorities).
     $ wajig autoalts <alternative name>
 
     note: this runs 'update-alternatives --auto'
     """
-    util.requires_one_arg(command, args, "name alternative to set as auto")
+    util.requires_one_arg("autoalts", args, "name alternative to set as auto")
     perform.execute("update-alternatives --auto " + args[1], root=True)
 
 
@@ -505,7 +505,7 @@ def distupgrade(args, yes, noauth):
     packages = util.upgradable(distupgrade=True)
     if not packages and len(args) < 2:
         print('No upgrades. Did you run "wajig update" beforehand?')
-    elif util.requires_opt_arg(command, args,
+    elif util.requires_opt_arg("distupgrade", args,
                               "the distribution to upgrade to"):
         if backup \
         and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
@@ -833,8 +833,8 @@ def installsuggested(args, yes, noauth, dist):
     Install a package and its Suggests dependencies.
     $ wajig installs <package name>
     """
-    util.requires_one_arg(command, args, "a single package name")
-    pacakge_name = args[1]
+    util.requires_one_arg("installsuggested", args, "a single package name")
+    package_name = args[1]
     cache = apt.cache.Cache()
     try:
         package = cache[package_name]
@@ -853,7 +853,8 @@ def installwithdist(args, yes, noauth, dist):
     Install a package from while specifying a suite to install from
     $ wajig install/experimental
     """
-    util.requires_args(args[0], args, "a list of packages, .deb files, or url")
+    util.requires_args("installwithdist", args,
+                       "a list of packages, .deb files, or url")
     dist = args[0].split("/")[1]
     command = "apt-get --target-release {} install " + " ".join(args[1:])
     command = command.format(dist)
@@ -1426,6 +1427,23 @@ def recommended(args):
               "?and( ?automatic(?reverse-recommends(?installed)), "
               "?not(?automatic(?reverse-depends(?installed))) )'")
     perform.execute(command)
+
+
+def reinstall(args, noauth, yes):
+    """
+    Reinstall the given packages
+    $ wajig reinstall <package name(s)>
+
+    options:
+      -n --noauth   reinstall even if package is untrusted
+      -y --yes      install without (yes/no) prompts; use with care!
+
+    note: this runs 'apt-get install --reinstall'
+    """
+    util.requires_args("reinstall", args, "a list of packages")
+    command = "apt-get install --reinstall {} {} " + " ".join(args[1:])
+    command = command.format(noauth, yes)
+    perform.execute(command, root=True)
 
 
 def show(args):

@@ -146,13 +146,13 @@ def select_command(command, args, verbose, dist):
     global yes
 
     if command in ["addcdrom", "cdromadd"]:
-        commands.addcdrom(command, args)
+        commands.addcdrom(args)
 
     elif command == "addrepo":
-        commands.addrepo(command, args)
+        commands.addrepo(args)
 
     elif command in ["autoalts", "autoalternatives"]:
-        commands.autoalts(command, args)
+        commands.autoalts(args)
 
     elif command == "autodownload":
         commands.autodownload(args, verbose)
@@ -254,10 +254,10 @@ def select_command(command, args, verbose, dist):
         commands.install(command, args, yes, noauth, dist)
 
     elif command in "installs suggested installsuggested".split():
-        commands.installsuggested(command, args, yes, noauth, dist)
+        commands.installsuggested(args, yes, noauth, dist)
 
     elif args[0].startswith('install') and "/" in args[0]:
-        commands.installwithdist(command, args, yes, noauth, dist)
+        commands.installwithdist(args, yes, noauth, dist)
 
     elif command == "integrity":
         commands.integrity(args)
@@ -269,7 +269,7 @@ def select_command(command, args, verbose, dist):
         commands.lastupdate(args)
 
     elif command == "list":
-        commands.listpackages(command, args)
+        commands.listpackages(args)
 
     elif command in ["listalts", "listalternatives"]:
         commands.listalternatives(args)
@@ -362,10 +362,7 @@ def select_command(command, args, verbose, dist):
         commands.reconfigure(args)
 
     elif command == "reinstall":
-        if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get install --reinstall {0} {1} {2}".\
-                             format(noauth, yes, " ".join(args[1:])),
-                             root=True)
+        commands.reinstall(args, noauth, yes)
 
     elif command in "reload restart start stop".split():
         if util.requires_one_arg(command, args, "name of service to " + command):
