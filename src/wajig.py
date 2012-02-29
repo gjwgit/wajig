@@ -395,65 +395,34 @@ def select_command(command, args, verbose, dist):
         commands.search(args, verbose)
 
     elif command == "searchapt":
-        util.requires_one_arg(command, args, "one of stable|testing|unstable")
-        util.requires_package("netselect-apt", "/usr/bin/netselect-apt")
-        perform.execute("netselect-apt " + args[1],
-                         root=True)
+        commands.searchapt(args)
 
     elif command == "showdistupgrade":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get --show-upgraded --simulate dist-upgrade",
-                             root=True)
+        commands.showdistupgrade(args)
 
     elif command == "showinstall":
-        if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get --show-upgraded --simulate install " + \
-                             " ".join(args[1:]),
-                             root=True)
+        commands.showinstall(args)
 
     elif command == "showremove":
-        if util.requires_args(command, args, "a list of packages"):
-            perform.execute("apt-get --show-upgraded --simulate remove " + \
-                             " ".join(args[1:]),
-                             root=True)
+        commands.showremove(args)
 
     elif command == "showupgrade":
-        if util.requires_no_args(command, args):
-            perform.execute("apt-get --show-upgraded --simulate upgrade",
-                             root=True)
+        commands.showupgrade(args)
 
     elif command in ["size", "sizes"]:
-        commands.do_size(args[1:])
+        commands.sizes(args)
 
     elif command == "snapshot":
-        if util.requires_no_args(command, args):
-            commands.do_status([], snapshot=True)
+        commands.snapshot(args)
 
     elif command == "source":
-        util.requires_args(command, args, "a list of package names")
-        util.requires_package("dpkg-source", "/usr/bin/dpkg-source")
-        perform.execute("apt-get source " + " ".join(args[1:]))
+        commands.source(args)
 
     elif command == "status":
-        commands.do_status(args[1:])
+        commands.status(args)
 
     elif command in ["statusmatch", "statussearch"]:
-        if util.requires_one_arg(command, args,
-        "a search string for the package name"):
-            packages = [s.strip() for s in commands.do_listnames(args[1:], pipe=True).readlines()]
-            if len(packages) > 0:
-                commands.do_status(packages)
-            else:
-                print("No packages found matching '{0}'".format(args[1]))
-        #
-        # Simplest thing to do is call wajig again.  Not the right way
-        # but works for now.
-        #
-        # This was too slow and was not stopping when killed!
-        #perform.execute("apt-cache search " \
-        #                    + util.concat(args[1:]) \
-        #                    + " | awk '{print $1}' " \
-        #                    + " | xargs wajig status ")
+        commands.statusmatch(args)
 
     elif command == "tasksel":
         util.requires_no_args(command, args)

@@ -62,94 +62,6 @@ def do_new():
             changes.get_available_version(new_packages[i])))
 
 
-def do_status(packages, snapshot=False):
-    """List status of the packages identified.
-
-    Arguments:
-    packages    List the version of installed packages
-    snapshot    Whether a snapshot is required (affects output format)
-    """
-
-    if not snapshot:
-        print("%-23s %-15s %-15s %-15s %s" % \
-              ("Package", "Installed", "Previous", "Now", "State"))
-        print("="*23 + "-" + "="*15 + "-" + "="*15 + "-" + "="*15 + "-" + "="*5)
-        sys.stdout.flush()
-    #
-    # Get status.  Previously used dpkg --list but this truncates package
-    # names to 16 characters :-(. Perhaps should now also remove the DS
-    # column as that was the "ii" thing from dpkg --list.  It is now
-    # "install" or "deinstall" from dpkg --get-selections.
-    #
-    #   command = "dpkg --list | " +\
-    #             "awk '{print $2,$1}' | " +\
-    #
-    # Generate a temporary file of installed packages.
-    #
-    ifile = tempfile.mkstemp()[1]
-    #
-    # Using langC=TRUE here makes it work for other LANG, e.g.,
-    # LANG=ru_RU.koi8r. Seems that the sorting is the key problem. To
-    # test, try:
-    #
-    #   $ wajign status | wc -l
-    #   1762
-    #   $ LANG=ru_RU.koi8r wajign status | wc -l
-    #   1762
-    #
-    # But now set it to False (the default):
-    #
-    #   $ LANG=ru_RU.koi8r wajign status | wc -l
-    #   1449
-    #
-    # See Bug#288852 and Bug#119899.
-    #
-    perform.execute(changes.gen_installed_command_str() + " > " + ifile,
-                    langC=True)
-    #
-    # Build the command to list the status of installed packages.
-    #
-    command = "dpkg --get-selections | join - " + ifile + " | " +\
-              "join -a 1 - " + previous_file + " | " +\
-              "awk 'NF==3 {print $0, \"N/A\"; next}{print}' | " +\
-              "join -a 1 - " + available_file + " | " +\
-              "awk 'NF==4 {print $0, \"N/A\"; next}{print}' | "
-    if len(packages) > 0:
-        # Use grep, not egrep, otherwise g++ gets lost, for example!
-        command = command + "grep '^\($"
-        for i in packages:
-            command = command + " \|" + i
-        command = command + " \)' |"
-
-    command = command +\
-              "awk '{printf(\"%-20s\\t%-15s\\t%-15s\\t%-15s\\t%-2s\\n\", " +\
-              "$1, $3, $4, $5, $2)}'"
-    if snapshot:
-        fobj = perform.execute(command, pipe=True)
-        for l in fobj:
-            print("=".join(l.split()[0:2]))
-    else:
-        perform.execute(command, langC=True)
-    #
-    # Check whether the package is not in the installed list, and if not
-    # list its status appropriately.
-    #
-    for i in packages:
-        if perform.execute("egrep '^" + i + " ' " + ifile + " >/dev/null"):
-            # Package is not installed.
-            command = \
-              "join -a 2 " + previous_file + " " + available_file + " | " +\
-              "awk 'NF==2 {print $1, \"N/A\", $2; next}{print}' | " +\
-              "egrep '^" + i + " '"
-            command = command +\
-              " | awk '{printf(\"%-20s\\t%-15s\\t%-15s\\t%-15s\\n\", " +\
-              "$1, \"N/A\", $2, $3)}'"
-            perform.execute(command, langC=True)
-
-    # Tidy up - remove the "installed file"
-    if os.path.exists(ifile):
-        os.remove(ifile)
-
 
 def do_toupgrade():
     "List packages with Available version more recent than Installed."
@@ -668,6 +580,10 @@ def help(args):
             command = "unofficial"
         elif command == "available":
             command = "policy"
+        elif command == "statussearch":
+            command = "statusmatch"
+        elif command == "size":
+            command = "sizes"
         elif command == "rpmtodeb":
             command = "rpm2deb"
         elif command in "bug bugreport".split():
@@ -929,7 +845,7 @@ def lastupdate(args):
 
 def listcache(args):
     """
-    List the contents of the download cache.
+    List the contents of the download cache
     $ wajig list-cache
     """
     util.requires_opt_arg("listcache", args, "string to filter on")
@@ -1022,22 +938,7 @@ def listnames(args):
     $ wajig list-names [<pattern>]
     """
     util.requires_opt_arg("listnames", args, "at most one argument")
-    pattern = args[1:]
-
-    # If user can't access /etc/apt/sources.list then must do this with
-    # sudo or else most packages will not be found.
-    needsudo = not os.access("/etc/apt/sources.list", os.R_OK)
-    if pattern:
-        command = "apt-cache pkgnames | grep -- " + pattern[0] \
-                + " | sort -k 1b,1"
-    else:
-        command = "apt-cache pkgnames | sort -k 1b,1"
-    # Start fix for Bug #292581 - pre-run command to check for no output
-    results = perform.execute(command, root=needsudo, pipe=True).readlines()
-    if len(results) == 0:
-        sys.exit(1)
-    # End fix for Bug #292581
-    return perform.execute(command, root=needsudo, pipe=False)
+    util.do_listnames(args[1:])
 
 
 def listpackages(args):
@@ -1510,6 +1411,67 @@ def search(args, verbose):
     perform.execute(command)
 
 
+def searchapt(args):
+    """
+    Find nearby Debian archives that are suitable for /etc/apt/sources.list
+    $ wajig search-apt
+
+    note: this runs 'netselect-apt'
+    """
+    util.requires_one_arg("searchapt", args, "one of stable|testing|unstable")
+    util.requires_package("netselect-apt", "/usr/bin/netselect-apt")
+    command = "netselect-apt " + args[1]
+    perform.execute(command, root=True)
+
+
+def showdistupgrade(args):
+    """
+    Trace the steps that a dist-upgrade would perform
+    $ wajig showdistupgrade
+
+    note: this runs 'apt-get --show-upgraded --simulate dist-upgrade'
+    """
+    util.requires_no_args("showdistupgrade", args)
+    command = "apt-get --show-upgraded --simulate dist-upgrade"
+    perform.execute(command, root=True)
+
+
+def showinstall(args):
+    """
+    Trace the steps that an install would perform.
+    $ wajig showinstall <package name(s)>
+
+    note: this runs 'apt-get --show-upgraded --simulate install'
+    """
+    util.requires_args("showinstall", args, "a list of packages")
+    command = "apt-get --show-upgraded --simulate install " + " ".join(args[1:])
+    perform.execute(command, root=True)
+
+
+def showremove(args):
+    """
+    Trace the steps that a remove would perform
+    $ wajig showremove <package name(s)>
+
+    note: this runs 'apt-get --show-upgraded --simulate remove'
+    """
+    util.requires_args(command, args, "a list of packages")
+    command = "apt-get --show-upgraded --simulate remove " + " ".join(args[1:])
+    perform.execute(command, root=True)
+
+
+def showupgrade(args):
+    """
+    Trace the steps that an upgrade would perform
+    $ wajig showupgrade
+
+    note: this runs 'apt-get --show-upgraded --simulate upgrade'
+    """
+    util.requires_no_args(command, args)
+    command = "apt-get --show-upgraded --simulate upgrade"
+    perform.execute(command, root=True)
+
+
 def start(args):
     """
     Start system daemons (see LIST-DAEMONS for available daemons)
@@ -1566,6 +1528,91 @@ def show(args):
     tool = "apt-cache" if util.fast else "aptitude"
     command = "{} show {}".format(tool, package_names)
     perform.execute(command)
+
+
+def sizes(args):
+    """
+    Display installed sizes of given packages
+    $ wajig sizes [<package name(s)>]
+
+    Display installed sizes of all packages
+    $ wajig sizes
+    """
+    packages = args[1:]
+
+    # Work with the list of installed packages
+    # (I think status has more than installed?)
+    status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"))
+    size_list = dict()
+    status_list = dict()
+
+    # Check for information in the Status list
+    for section in status:
+        if not packages or section.get("Package") in packages:
+            package_name   = section.get("Package")
+            package_size   = section.get("Installed-Size")
+            package_status = re.split(" ", section.get("Status"))[2]
+            if package_size and int(package_size) > 0:
+                if package_name not in size_list:
+                    size_list[package_name] = package_size
+                    status_list[package_name] = package_status
+
+    packages = list(size_list)
+    packages.sort(key=lambda x: int(size_list[x]))  # sort by size
+
+    if len(packages) == 0:
+        print("No packages found from those known to be available or installed")
+    else:
+        print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
+        print("{}-{}-{}".format("="*33, "="*10, "="*12))
+        for package in packages:
+            print("{:<33} {:^10} {:>12}".format(package,
+                    format(int(size_list[package]), ',d'), status_list[package]))
+
+
+def snapshot(args):
+    """
+    Generates a list of package=version for all installed packages
+    $ wajig snapshot
+    """
+    util.requires_no_args(args[0], args)
+    util.do_status([], snapshot=True)
+
+
+def source(args):
+    """
+    Retrieve and unpack sources for the named packages.
+    $ wajig source
+
+    note: this runs 'apt-get source'
+    """
+    util.requires_args(args[0], args, "a list of package names")
+    util.requires_package("dpkg-source", "/usr/bin/dpkg-source")
+    perform.execute("apt-get source " + " ".join(args[1:]))
+
+
+def status(args):
+    """
+    Show the version and available versions of packages
+    $ wajig status
+    """
+    util.do_status(args[1:])
+
+
+def statusmatch(args):
+    """
+    Show the version and available versions of matching packages
+    $ wajig status-search
+    """
+    util.requires_one_arg(args[0], args,
+                         "a search string for the package name")
+    try:
+        packages = [s.strip() for s in
+                    util.do_listnames(args[1:], pipe=True).readlines()]
+    except AttributeError:
+        print("No packages found matching '{0}'".format(args[1]))
+    else:
+        util.do_status(packages)
 
 
 def syslog(args):

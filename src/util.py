@@ -22,6 +22,7 @@
 
 import os
 import sys
+import tempfile
 
 import apt
 
@@ -261,3 +262,110 @@ def display_sys_docs(args, filenames):
             perform.execute(cat + " " + path)
     if not found:
         print("No {0} file found for {1}.".format(command.upper(), args[1]))
+
+
+def do_status(packages, snapshot=False):
+    """List status of the packages identified.
+
+    Arguments:
+    packages    List the version of installed packages
+    snapshot    Whether a snapshot is required (affects output format)
+    """
+
+    if not snapshot:
+        print("%-23s %-15s %-15s %-15s %s" % \
+              ("Package", "Installed", "Previous", "Now", "State"))
+        print("="*23 + "-" + "="*15 + "-" + "="*15 + "-" + "="*15 + "-" + "="*5)
+        sys.stdout.flush()
+    #
+    # Get status.  Previously used dpkg --list but this truncates package
+    # names to 16 characters :-(. Perhaps should now also remove the DS
+    # column as that was the "ii" thing from dpkg --list.  It is now
+    # "install" or "deinstall" from dpkg --get-selections.
+    #
+    #   command = "dpkg --list | " +\
+    #             "awk '{print $2,$1}' | " +\
+    #
+    # Generate a temporary file of installed packages.
+    #
+    ifile = tempfile.mkstemp()[1]
+    #
+    # Using langC=TRUE here makes it work for other LANG, e.g.,
+    # LANG=ru_RU.koi8r. Seems that the sorting is the key problem. To
+    # test, try:
+    #
+    #   $ wajign status | wc -l
+    #   1762
+    #   $ LANG=ru_RU.koi8r wajign status | wc -l
+    #   1762
+    #
+    # But now set it to False (the default):
+    #
+    #   $ LANG=ru_RU.koi8r wajign status | wc -l
+    #   1449
+    #
+    # See Bug#288852 and Bug#119899.
+    #
+    perform.execute(changes.gen_installed_command_str() + " > " + ifile,
+                    langC=True)
+    #
+    # Build the command to list the status of installed packages.
+    #
+    available_file = changes.available_file
+    previous_file  = changes.previous_file
+
+    command = "dpkg --get-selections | join - " + ifile + " | " +\
+              "join -a 1 - " + previous_file + " | " +\
+              "awk 'NF==3 {print $0, \"N/A\"; next}{print}' | " +\
+              "join -a 1 - " + available_file + " | " +\
+              "awk 'NF==4 {print $0, \"N/A\"; next}{print}' | "
+    if len(packages) > 0:
+        # Use grep, not egrep, otherwise g++ gets lost, for example!
+        command = command + "grep '^\($"
+        for i in packages:
+            command = command + " \|" + i
+        command = command + " \)' |"
+
+    command = command +\
+              "awk '{printf(\"%-20s\\t%-15s\\t%-15s\\t%-15s\\t%-2s\\n\", " +\
+              "$1, $3, $4, $5, $2)}'"
+    if snapshot:
+        fobj = perform.execute(command, pipe=True)
+        for l in fobj:
+            print("=".join(l.split()[0:2]))
+    else:
+        perform.execute(command, langC=True)
+    #
+    # Check whether the package is not in the installed list, and if not
+    # list its status appropriately.
+    #
+    for i in packages:
+        if perform.execute("egrep '^" + i + " ' " + ifile + " >/dev/null"):
+            # Package is not installed.
+            command = \
+              "join -a 2 " + previous_file + " " + available_file + " | " +\
+              "awk 'NF==2 {print $1, \"N/A\", $2; next}{print}' | " +\
+              "egrep '^" + i + " '"
+            command = command +\
+              " | awk '{printf(\"%-20s\\t%-15s\\t%-15s\\t%-15s\\n\", " +\
+              "$1, \"N/A\", $2, $3)}'"
+            perform.execute(command, langC=True)
+
+    # Tidy up - remove the "installed file"
+    if os.path.exists(ifile):
+        os.remove(ifile)
+
+def do_listnames(pattern, pipe=False):
+
+    # If user can't access /etc/apt/sources.list then must do this with
+    # sudo or else most packages will not be found.
+    needsudo = not os.access("/etc/apt/sources.list", os.R_OK)
+    if pattern:
+        command = "apt-cache pkgnames | grep -- " + pattern[0] \
+                + " | sort -k 1b,1"
+    else:
+        command = "apt-cache pkgnames | sort -k 1b,1"
+    # Start fix for Bug #292581 - pre-run command to check for no output
+    results = perform.execute(command, root=needsudo, pipe=True).readlines()
+    if results:
+        return perform.execute(command, root=needsudo, pipe=pipe)
