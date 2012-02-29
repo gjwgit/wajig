@@ -324,7 +324,7 @@ def select_command(command, args, verbose, dist):
         commands.listinstalled(args)
 
     elif command in "listlog syslog".split():
-        commands.listlog(args)
+        commands.syslog(args)
 
     elif command == "listnames":
         commands.listnames(args)
