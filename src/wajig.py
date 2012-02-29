@@ -41,31 +41,6 @@ yes = str()
 noauth = str()
 
 
-def wajig_completer(text, state):
-    """The start of a completer function. Very rough so far."""
-    #
-    # Check first that we are completing just the first word.
-    # Otherwise do not perform any completion.
-    #
-    import readline  # To get it in scope.
-    current = readline.get_line_buffer()
-    if len(current.split()) > 1 or current[-1] == ' ':
-        return None
-    #
-    # Complete the command.
-    #
-    global match_commands  # List of cached matching commands
-    n = len(text)
-    if state == 0:
-        match_commands = []
-        for w in all_commands:
-            if text == w[:n]:
-                match_commands += [w]
-    if state < len(match_commands):
-        return match_commands[state]
-    return None
-
-
 def main():
     global yes
     global noauth
