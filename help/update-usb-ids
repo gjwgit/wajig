@@ -1,2 +1,0 @@
-Updates the local list of USB ids from the internet master list.
-$ wajig update-usb-ids

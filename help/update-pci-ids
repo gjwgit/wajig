@@ -1,2 +1,0 @@
-Updates the local list of PCI ids from the internet master list.
-$ wajig update-pci-ids
