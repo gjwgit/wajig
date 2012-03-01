@@ -11,7 +11,9 @@ clean:
 
 install:
 	mkdir -p  $(LIBDIR) $(HLPDIR) $(MANDIR)
-	cp src/*  $(LIBDIR)/
+	cp COMMANDS $(LIBDIR)/
+	cp TUTORIAL $(LIBDIR)/
+	cp src/*    $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
 	cp wajig.sh $(BINDIR)/wajig
 	cp wajig.completion $(BCNDIR)/wajig
