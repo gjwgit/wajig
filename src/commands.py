@@ -46,29 +46,6 @@ available_file = changes.available_file
 previous_file  = changes.previous_file
 
 
-
-def do_new():
-    "Report on packages that are newly available."
-
-    print("%-24s %s" % ("Package", "Available"))
-    print("="*24 + "-" + "="*16)
-    #
-    # List each package and it's version
-    #
-    new_packages = changes.get_new_available()
-    new_packages.sort()
-    for i in range(0, len(new_packages)):
-        print("%-24s %s" % (new_packages[i],
-            changes.get_available_version(new_packages[i])))
-
-
-
-
-
-
-
-
-
 def addcdrom(args):
     """
     Add a Debian CD/DVD to APT's list of available sources
