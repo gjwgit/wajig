@@ -440,36 +440,18 @@ def select_command(command, args, verbose, dist):
     elif command == "updateavailable":
         commands.updateavailable(args)
 
-    elif command in "updatealts updatealternatives setalts setalternatives".split():
+    elif command in ["updatealts", "updatealternatives",
+                     "setalts", "setalternatives"]:
         commands.updatealternatives(args)
 
     elif command == "updatepciids":
-        if util.requires_package("pciutils", "/usr/bin/update-pciids"):
-            if util.requires_no_args(command, args):
-                perform.execute("update-pciids",
-                                 root=True)
+        commands.updatepciids(args)
 
     elif command == "updateusbids":
-        if util.requires_package("usbutils", "/usr/sbin/update-usbids") \
-        and util.requires_no_args(command, args):
-            perform.execute("update-usbids",
-                             root=True)
+        commands.updateusbids(args)
 
     elif command == "upgradesecurity":
-        sources_list = tempfile.mkstemp(".security", "wajig.", "/tmp")[1]
-        sources_file = open(sources_list, "w")
-        # check dist
-        sources_file.write("deb http://security.debian.org/ " +\
-                           "testing/updates main contrib non-free\n")
-        sources_file.close()
-        perform.execute("apt-get --no-list-cleanup --option Dir::Etc::SourceList=" +\
-                        "{0} update".format(sources_list),
-                        root=True)
-        perform.execute("apt-get --option Dir::Etc::SourceList={0} upgrade".\
-                         format(sources_list),
-                         root=True)
-        if os.path.exists(sources_list):
-            os.remove(sources_list)
+        commands.upgradesecurity(args)
 
     elif command == "verify":
         commands.verify(args)

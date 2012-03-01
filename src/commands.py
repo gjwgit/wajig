@@ -1726,6 +1726,26 @@ def updateavailable(args):
     changes.update_available()
 
 
+def updatepciids(args):
+    """
+    Updates the local list of PCI ids from the internet master list
+    $ wajig update-pci-ids
+    """
+    util.requires_package("pciutils", "/usr/bin/update-pciids")
+    util.requires_no_args(args[0], args)
+    perform.execute("update-pciids", root=True)
+
+
+def updateusbids(args):
+    """
+    Updates the local list of USB ids from the internet master list
+    $ wajig update-usb-ids
+    """
+    util.requires_package("usbutils", "/usr/sbin/update-usbids")
+    util.requires_no_args(args[0], args)
+    perform.execute("update-usbids", root=True)
+
+
 def upgrade(args, yes, noauth):
     """
     Conservative system upgrade... won't remove or install new packages
@@ -1736,7 +1756,7 @@ def upgrade(args, yes, noauth):
       -n --noauth   skip the authentication verification prompt before the upgrade
       -y --yes      purge without (yes/no) prompts; use with care!
     """
-    util.requires_no_args("upgrade", args)
+    util.requires_no_args(args[0], args)
     packages = util.upgradable()
     if packages:
         if backup:
@@ -1747,6 +1767,29 @@ def upgrade(args, yes, noauth):
         perform.execute(command, root=True)
     else:
         print('No upgradeable packages. Did you run "wajig update" first?')
+
+
+def upgradesecurity(args):
+    """
+    Do a security upgrade
+    $ wajig upgradesecurity
+    """
+    util.requires_no_args(args[0], args)
+    sources_list = tempfile.mkstemp(".security", "wajig.", "/tmp")[1]
+    sources_file = open(sources_list, "w")
+    # check dist
+    sources_file.write("deb http://security.debian.org/ " +\
+                       "testing/updates main contrib non-free\n")
+    sources_file.close()
+    command = ("apt-get --no-list-cleanup --option Dir::Etc::SourceList="
+               "{} update")
+    command = command.format(sources_list)
+    perform.execute(command, root=True)
+    command = "apt-get --option Dir::Etc::SourceList={} upgrade"
+    command = command.format(sources_list)
+    perform.execute(command, root=True)
+    if os.path.exists(sources_list):
+        os.remove(sources_list)
 
 
 def verify(args):
