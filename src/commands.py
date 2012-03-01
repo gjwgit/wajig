@@ -1157,26 +1157,20 @@ def recdownload(args):
     util.requires_args(args[0], args, "a list of packages")
     packages = args[1:]
 
-    def get_deps(package):
-        tagfile = apt_pkg.TagFile(open("/var/lib/dpkg/available", "r"))
-        deplist = []
-        for section in tagfile:
-            if section.get("Package") == package:
-                deplist = apt_pkg.parse_depends(section.get("Depends", ""))
-                break
-        realdeplist = []
-        if deplist != []:
-            for i in deplist:
-                realdeplist.append((i[0][0], i[0][1]))
-        return realdeplist
+    cache = apt.cache.Cache()
 
     def get_deps_recursively(package, packageslist):
         if not package in packageslist:
             packageslist.append(package)
-        for packageName, versionInfo in get_deps(package):
-            if packageName not in packageslist:
-                packageslist.append(packageName)
-                get_deps_recursively(packageName, packageslist)
+        try:
+            for package_name in \
+            util.extract_dependencies(cache[package], "Depends"):
+                if package_name not in packageslist:
+                    packageslist.append(package_name)
+                    get_deps_recursively(package_name, packageslist)
+        except KeyError as error:
+            print(error.args[0])  # "package does not exist in cache"
+            sys.exit(1)
         return packageslist
 
     package_names = list()
@@ -1185,6 +1179,7 @@ def recdownload(args):
         # Ignore packages with a "-" at the end so the user can workaround some
         # dependencies problems (usually in unstable)
         if package[len(package) - 1:] == "-":
+            print(package[len(package) - 1:])
             dontDownloadList.append(package[:-1])
             packages.remove(package)
 
