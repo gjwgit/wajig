@@ -26,10 +26,8 @@ import tempfile
 
 import apt
 
-import commands
 import changes
 import perform
-import const
 
 
 recommends_flag = None

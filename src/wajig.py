@@ -21,18 +21,14 @@
 #
 
 # stdlib
-import os
-import subprocess
 import sys
 import re
-import tempfile
 import argparse
 import textwrap
 
 # wajig modules
 import commands
 import changes
-import perform
 import util
 import const
 
