@@ -1157,22 +1157,6 @@ def recdownload(args):
     util.requires_args(args[0], args, "a list of packages")
     packages = args[1:]
 
-    cache = apt.cache.Cache()
-
-    def get_deps_recursively(package, packageslist):
-        if not package in packageslist:
-            packageslist.append(package)
-        try:
-            for package_name in \
-            util.extract_dependencies(cache[package], "Depends"):
-                if package_name not in packageslist:
-                    packageslist.append(package_name)
-                    get_deps_recursively(package_name, packageslist)
-        except KeyError as error:
-            print(error.args[0])  # "package does not exist in cache"
-            sys.exit(1)
-        return packageslist
-
     package_names = list()
     dontDownloadList = list()
     for package in packages:
@@ -1184,8 +1168,9 @@ def recdownload(args):
             packages.remove(package)
 
     print("Calculating all dependencies...")
+    cache = apt.cache.Cache()
     for i in packages:
-        tmp = get_deps_recursively(i, [])
+        tmp = util.get_deps_recursively(cache, i, [])
         for i in tmp:
             # We don't want dupplicated package names
             # and we don't want package in the dontDownloadList

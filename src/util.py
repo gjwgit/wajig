@@ -379,3 +379,17 @@ def do_update():
     if not perform.execute("apt-get update", root=1):
         changes.update_available()
         print("There are " + changes.count_upgrades() + " new upgrades")
+
+
+def get_deps_recursively(cache, package, packageslist):
+    if not package in packageslist:
+        packageslist.append(package)
+    try:
+        for package_name in extract_dependencies(cache[package], "Depends"):
+            if package_name not in packageslist:
+                packageslist.append(package_name)
+                get_deps_recursively(cache, package_name, packageslist)
+    except KeyError as error:
+        print(error.args[0])  # "package does not exist in cache"
+        sys.exit(1)
+    return packageslist
