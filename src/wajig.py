@@ -463,10 +463,5 @@ def select_command(command, args, verbose, dist):
         print("Command not recognised; run 'wajig commands' for a list")
 
 
-#------------------------------------------------------------------------
-#
-# Start it all
-#
-#------------------------------------------------------------------------
 if __name__ == '__main__':
     main()
