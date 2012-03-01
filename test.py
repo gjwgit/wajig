@@ -18,15 +18,15 @@ class Tests(unittest.TestCase):
     # ----
     def test_perform_normal(self):
         res = perform.execute("TEST", test=True)
-        self.assertEqual(res, "set -o noglob; TEST")
+        self.assertEqual(res, "TEST")
 
     def test_perform_root(self):
         res = perform.execute("TEST", test=True, root=True)
-        self.assertEqual(res, "set -o noglob; /usr/bin/sudo TEST")
+        self.assertEqual(res, "/usr/bin/sudo TEST")
 
     def test_perform_langC(self):
         res = perform.execute("TEST", test=True, langC=True)
-        self.assertEqual(res, "LC_ALL=C; export LC_ALL; set -o noglob; TEST")
+        self.assertEqual(res, "LC_ALL=C; export LC_ALL; TEST")
 
     # ----
     # testing util.py
