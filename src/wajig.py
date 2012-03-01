@@ -32,7 +32,6 @@ import changes
 import util
 import const
 
-backup = False
 yes = str()
 noauth = str()
 
@@ -40,7 +39,6 @@ noauth = str()
 def main():
     global yes
     global noauth
-    global backup
 
     # remove commas and insert the arguments appropriately
     oldargv = sys.argv
@@ -97,7 +95,6 @@ def main():
     parser.add_argument("args", nargs="*")
 
     result = parser.parse_args()
-    backup = result.backup
     util.fast = result.fast
     util.recommends_flag = result.recommends
     util.recommends_flag = result.norecommends
@@ -133,10 +130,10 @@ def main():
 
     # Before we do any other command make sure the right files exist.
     changes.ensure_initialised()
-    select_command(command, args, result.verbose, result.dist)
+    select_command(command, args, result.verbose, result.dist, result.backup)
 
 
-def select_command(command, args, verbose, dist):
+def select_command(command, args, verbose, dist, backup):
     "Select the appropriate command and execute it."
 
     global yes
@@ -199,10 +196,10 @@ def select_command(command, args, verbose, dist):
         commands.newdetail(args)
 
     elif command == "upgrade":
-        commands.upgrade(args, yes, noauth)
+        commands.upgrade(args, yes, noauth, backup)
 
     elif command == "distupgrade":
-        commands.distupgrade(args, yes, noauth)
+        commands.distupgrade(args, yes, noauth, backup)
 
     elif command in "doc docs documentation tutorial".split():
         commands.tutorial(args)

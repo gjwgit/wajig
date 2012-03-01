@@ -269,7 +269,7 @@ def dailyupgrade(args):
 
     note: this runs 'apt-get --show-upgraded dist-upgrade'
     """
-    util.requires_no_args("dailyupgrade", args)
+    util.requires_no_args(args[0], args)
     util.do_update()
     perform.execute("apt-get --show-upgraded dist-upgrade", root=True)
 
@@ -328,7 +328,7 @@ def describe(args, verbose):
     options:
       -v  --verbose     display long description as well
     """
-    util.requires_args("describe", args, "a list of packages")
+    util.requires_args(args[0], args, "a list of packages")
     util.do_describe(args[1:], verbose)
 
 
@@ -341,7 +341,7 @@ def describenew(args, verbose):
     util.do_describe_new(verbose)
 
 
-def distupgrade(args, yes, noauth):
+def distupgrade(args, yes, noauth, backup):
     """
     Complete system upgrade; this may remove some packages and install new ones
     $ wajig dist-upgrade
@@ -351,17 +351,16 @@ def distupgrade(args, yes, noauth):
     packages = util.upgradable(distupgrade=True)
     if not packages and len(args) < 2:
         print('No upgrades. Did you run "wajig update" beforehand?')
-    elif util.requires_opt_arg("distupgrade", args,
-                              "the distribution to upgrade to"):
-        if backup \
-        and util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack") \
-        and util.requires_package("fakeroot", "/usr/bin/fakeroot"):
-            changes.backup_before_upgrade(packages, distupgrade=True)
-        cmd = "apt-get --show-upgraded {0} {1} ".format(yes, noauth)
-        if len(args) == 2:
-            cmd += "-t " + args[1] + " "
-        cmd += "dist-upgrade"
-        perform.execute(cmd, root=True)
+    util.requires_opt_arg(args[0], args, "the distribution to upgrade to")
+    if backup:
+        util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
+        util.requires_package("fakeroot", "/usr/bin/fakeroot")
+        changes.backup_before_upgrade(packages, distupgrade=True)
+    cmd = "apt-get --show-upgraded {0} {1} ".format(yes, noauth)
+    if len(args) == 2:
+        cmd += "-t " + args[1] + " "
+    cmd += "dist-upgrade"
+    perform.execute(cmd, root=True)
 
 
 def download(args):
@@ -1089,7 +1088,7 @@ def policy(args):
 
     note: this runs 'apt-cache policy'
     """
-    util.requires_args("policy", args, "a package or packages")
+    util.requires_args(args[0], args, "a package or packages")
     perform.execute("apt-cache policy " + " ".join(args[1:]))
 
 
@@ -1104,7 +1103,7 @@ def purge(args, yes, noauth):
 
     note: this runs 'apt-get --auto-remove purge'
     """
-    util.requires_args("purge", args, "a list of packages")
+    util.requires_args(args[0], args, "a list of packages")
     command = "apt-get {0} {1} --auto-remove purge ".format(yes, noauth)
     command = command + " ".join(args[1:])
     perform.execute(command, root=True)
@@ -1117,7 +1116,7 @@ def purgeorphans(args):
     """
     # Deborphans does not require root, but dpkg does,
     # so build up the orphans list first, then pass that to dpkg.
-    util.requires_no_args("purgeorphans", args)
+    util.requires_no_args(args[0], args)
     util.requires_package("deborphan", "/usr/bin/deborphan")
     packages = ""
     for package in perform.execute("deborphan", pipe=True):
@@ -1131,7 +1130,7 @@ def purgeremoved(args):
     Purge all packages marked as deinstall
     $ wajig purge-removed
     """
-    util.requires_no_args("purgeremoved", args)
+    util.requires_no_args(args[0], args)
     packages = ""
     cmd = ("dpkg-query --show --showformat='${Package}\t${Status}\n' | "
            "grep \"deinstall ok config-files\" | cut -f 1 ")
@@ -1155,7 +1154,7 @@ def recdownload(args):
     Download a package and all its dependencies
     $ wajig recursive <package name>
     """
-    util.requires_args("recdownload", args, "a list of packages")
+    util.requires_args(args[0], args, "a list of packages")
     packages = args[1:]
 
     def get_deps(package):
@@ -1216,7 +1215,7 @@ def reconfigure(args):
 
     note: this runs 'dpkg-reconfigure'
     """
-    util.requires_args("reconfigure", args, "one or more packages")
+    util.requires_args(args[0], args, "one or more packages")
     command = "dpkg-reconfigure " + " ".join(args[1:])
     perform.execute(command, root=True)
 
@@ -1226,7 +1225,7 @@ def recommended(args):
     Display packages that were installed via Recommends and have no dependents.
     $ wajig list-recommended
     """
-    util.requires_no_args("recommended", args)
+    util.requires_no_args(args[0], args)
     command = ("aptitude search '"
               "?and( ?automatic(?reverse-recommends(?installed)), "
               "?not(?automatic(?reverse-depends(?installed))) )'")
@@ -1259,7 +1258,7 @@ def remove(args, noauth, yes):
 
     note: this runs 'apt-get --auto-remove remove'
     """
-    util.requires_args("remove", args, "a list of packages")
+    util.requires_args(args[0], args, "a list of packages")
     command = "apt-get {0} {1}--auto-remove remove " + " ".join(args[1:])
     command = command.format(yes, noauth)
     perform.execute(command, root=True)
@@ -1270,7 +1269,7 @@ def removeorphans(args):
     Remove orphaned libraries
     $ wajig remove-orphans
     """
-    util.requires_no_args("removeorphans", args)
+    util.requires_no_args(args[0], args)
     util.requires_package("deborphan", "/usr/bin/deborphan")
     packages = ""
     for package in perform.execute("deborphan", pipe=True):
@@ -1286,7 +1285,7 @@ def repackage(args):
 
     note: this runs 'fakeroot -u dpkg-repack'
     """
-    util.requires_one_arg("repackage", args, "name of an installed package")
+    util.requires_one_arg(args[0], args, "name of an installed package")
     util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
     util.requires_package("fakeroot", "/usr/bin/fakeroot")
     command = "fakeroot --unknown-is-real dpkg-repack " + args[1]
@@ -1312,7 +1311,7 @@ def rpm2deb(args):
 
     note: this runs 'alien'
     """
-    util.requires_one_arg("rpm2deb", args, "a .rpm file")
+    util.requires_one_arg(args[0], args, "a .rpm file")
     command = "alien " + args[1]
     perform.execute(command, root=True)
 
@@ -1324,8 +1323,7 @@ def rpminstall(args):
 
     note: this runs 'alien --install'
     """
-    util.requires_one_arg("rpminstall", args,
-                          "a single .rpm file")
+    util.requires_one_arg(args[0], args, "a single .rpm file")
     command = "alien --install " + args[1]
     perform.execute(command, root=True)
 
@@ -1338,7 +1336,7 @@ def search(args, verbose):
     options:
       -v --verbose  also search package descriptions
     """
-    util.requires_args("search", args, "a list of words to search for")
+    util.requires_args(args[0], args, "a list of words to search for")
     if verbose:
         command = "apt-cache search " + " ".join(args[1:])
     else:
@@ -1353,7 +1351,7 @@ def searchapt(args):
 
     note: this runs 'netselect-apt'
     """
-    util.requires_one_arg("searchapt", args, "one of stable|testing|unstable")
+    util.requires_one_arg(args[0], args, "one of stable|testing|unstable")
     util.requires_package("netselect-apt", "/usr/bin/netselect-apt")
     command = "netselect-apt " + args[1]
     perform.execute(command, root=True)
@@ -1366,7 +1364,7 @@ def showdistupgrade(args):
 
     note: this runs 'apt-get --show-upgraded --simulate dist-upgrade'
     """
-    util.requires_no_args("showdistupgrade", args)
+    util.requires_no_args(args[0], args)
     command = "apt-get --show-upgraded --simulate dist-upgrade"
     perform.execute(command, root=True)
 
@@ -1378,7 +1376,7 @@ def showinstall(args):
 
     note: this runs 'apt-get --show-upgraded --simulate install'
     """
-    util.requires_args("showinstall", args, "a list of packages")
+    util.requires_args(args[0], args, "a list of packages")
     command = "apt-get --show-upgraded --simulate install " + " ".join(args[1:])
     perform.execute(command, root=True)
 
@@ -1442,7 +1440,7 @@ def reinstall(args, noauth, yes):
 
     note: this runs 'apt-get install --reinstall'
     """
-    util.requires_args("reinstall", args, "a list of packages")
+    util.requires_args(args[0], args, "a list of packages")
     command = "apt-get install --reinstall {} {} " + " ".join(args[1:])
     command = command.format(noauth, yes)
     perform.execute(command, root=True)
@@ -1458,7 +1456,7 @@ def show(args):
                     debian/changelog for 2.0.50 release for the rationale on
                     why aptitude's version was chosen as default
     """
-    util.requires_args("show", args, "a list of packages or package file")
+    util.requires_args(args[0], args, "a list of packages or package file")
     package_names = " ".join(set(args[1:]))
     tool = "apt-cache" if util.fast else "aptitude"
     command = "{} show {}".format(tool, package_names)
@@ -1559,7 +1557,7 @@ def syslog(args):
 
     note: this runs 'cat /var/log/apt/history.log'
     """
-    util.requires_no_args("syslog", args)
+    util.requires_no_args(args[0], args)
     perform.execute("cat /var/log/apt/history.log")
 
 
@@ -1609,7 +1607,7 @@ def tutorial(args):
     Display wajig tutorial
     $ wajig tutorial
     """
-    util.requires_no_args("documentation", args)
+    util.requires_no_args(args[0], args)
     with open("/usr/share/wajig/help/TUTORIAL") as f:
         for line in f:
             print(line, end="")
@@ -1636,7 +1634,7 @@ def unofficial(args):
     Search for an unofficial Debian package at apt-get.org
     $ wajig <package name>
     """
-    util.requires_one_arg("unofficial", args, "one package name")
+    util.requires_one_arg(args[0], args, "one package name")
     util.requires_package("wget", "/usr/bin/wget")
     util.requires_package("fping", "/usr/bin/fping")
     package = args[1]
@@ -1714,7 +1712,7 @@ def updateusbids(args):
     perform.execute("update-usbids", root=True)
 
 
-def upgrade(args, yes, noauth):
+def upgrade(args, yes, noauth, backup):
     """
     Conservative system upgrade... won't remove or install new packages
     $ wajig upgrade
@@ -1765,7 +1763,7 @@ def verify(args):
     Check package md5sum
     $ wajig verify <package name(s)>
     """
-    util.requires_one_arg("verify", args, "a package name")
+    util.requires_one_arg(args[0], args, "a package name")
     util.requires_package("debsums", "/usr/bin/debsums")
     perform.execute("debsums " + args[1])
 
@@ -1793,7 +1791,7 @@ def whichpackage(args):
 
     note: if the file is not found, an attempt is made in apt-file's repository
     """
-    util.requires_one_arg("whichpackage", args, "a file name")
+    util.requires_one_arg(args[0], args, "a file name")
     out = subprocess.getstatusoutput("dpkg --search " + args[1])
     if out[0]:  # didn't find matching package, so use the slower apt-file
         util.requires_package("apt-file", "/usr/bin/apt-file")
