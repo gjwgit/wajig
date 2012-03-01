@@ -346,7 +346,7 @@ def select_command(command, args, verbose, dist):
         commands.readme(command, args)
 
     elif command == "news":
-        commands.news(command, args)
+        commands.news(args)
 
     elif command == "recommended":
         commands.recommended(args)

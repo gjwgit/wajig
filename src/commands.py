@@ -43,7 +43,7 @@ def addcdrom(args):
 
     note: this runs 'apt-cdrom add'
     """
-    util.requires_no_args("addcdrom", args)
+    util.requires_no_args(args[0], args)
     perform.execute("apt-cdrom add", root=True)
 
 
@@ -54,7 +54,7 @@ def addrepo(args):
     Google's Chromium browser:
     $ wajig addrepo ppa:chromium-daily      (add-apt-repository)
     """
-    util.requires_one_arg("addrepo", args,
+    util.requires_one_arg(args[0], args,
                          "a PPA (Personal Package Archive) repository to add")
     util.requires_package("add-apt-repository", "/usr/bin/add-apt-repository")
     perform.execute("add-apt-repository " + args[1], root=True)
@@ -67,7 +67,7 @@ def autoalts(args):
 
     note: this runs 'update-alternatives --auto'
     """
-    util.requires_one_arg("autoalts", args, "name alternative to set as auto")
+    util.requires_one_arg(args[0], args, "name alternative to set as auto")
     perform.execute("update-alternatives --auto " + args[1], root=True)
 
 
@@ -78,7 +78,7 @@ def autodownload(args, verbose):
 
     note: this runs 'apt-get -d -u -y dist-upgrade'
     """
-    util.requires_no_args("autodownload", args)
+    util.requires_no_args(args[0], args)
     if verbose:
         util.do_update()
         filter_str = ""
@@ -99,7 +99,7 @@ def autoclean(args):
 
     note: this runs 'apt-get autoclean'
     """
-    util.requires_no_args("autodownload", args)
+    util.requires_no_args(args[0], args)
     perform.execute("apt-get autoclean", root=True)
 
 
@@ -108,7 +108,7 @@ def autoremove(args):
     Remove unused dependency packages
     $ wajig autoremove
     """
-    util.requires_no_args("autoremove", args)
+    util.requires_no_args(args[0], args)
     perform.execute("apt-get autoremove", root=True)
 
 
@@ -119,7 +119,7 @@ def reportbug(args):
 
     note: this runs 'reportbug'
     """
-    util.requires_one_arg("reportbug", args, "a single named package")
+    util.requires_one_arg(args[0], args, "a single named package")
     util.requires_package("reportbug", "/usr/bin/reportbug")
     perform.execute("reportbug " + args[1])
 
@@ -136,7 +136,7 @@ def build(args, yes, noauth):
 
     note: this runs 'apt-get build-dep && apt-get source --build'
     """
-    util.requires_args("build", args, "a list of package names")
+    util.requires_args(args[0], args, "a list of package names")
     util.requires_package("sudo", "/usr/bin/sudo")
     # First make sure dependencies are met
     command = "apt-get {} {} build-dep " + " ".join(args[1:])
@@ -161,7 +161,7 @@ def builddeps(args, yes, noauth):
 
     note: this runs 'apt-get build-dep'
     """
-    util.requires_args("builddepend", args, "a list of package names")
+    util.requires_args(args[0], args, "a list of package names")
     command = "apt-get {} {} build-dep " + " ".join(args[1:])
     command = command.format(yes, noauth)
     perform.execute(command, root=True)
@@ -172,7 +172,7 @@ def rbuilddeps(args):
     Display the packages which build-depend on the given package
     $ wajig rbuilddeps PKG
     """
-    util.requires_one_arg("rbuilddeps", args, "one package name")
+    util.requires_one_arg(args[0], args, "one package name")
     util.requires_package("grep-dctrl", "/usr/bin/grep-dctrl")
     command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep "
     command = command + args[1] + " /var/lib/apt/lists/*Sources"
@@ -194,7 +194,7 @@ def changelog(args, verbose):
       -v changelog - if there's newer entries, mention failure to retrieve, and
                      proceed to display complete local changelog
     """
-    util.requires_one_arg("changelog", args, "one package name")
+    util.requires_one_arg(args[0], args, "one package name")
     package_name = args[1]
     util.package_exists(package_name)
 
@@ -247,7 +247,7 @@ def clean(args):
 
     note: this runs 'apt-get clean'
     """
-    util.requires_no_args("clean", args)
+    util.requires_no_args(args[0], args)
     perform.execute("apt-get clean", root=True)
 
 
@@ -258,7 +258,7 @@ def contents(args):
 
     note: this runs 'dpkg --contents'
     """
-    util.requires_one_arg("contents", args, "a single filename")
+    util.requires_one_arg(args[0], args, "a single filename")
     perform.execute("dpkg --contents " + args[1])
 
 
@@ -287,7 +287,7 @@ def dependents(args):
 
     $ wajig dependents <package name>
     """
-    util.requires_one_arg("dependents", args, "one package name")
+    util.requires_one_arg(args[0], args, "one package name")
     package = args[1]
 
     DEPENDENCY_TYPES = [
@@ -337,7 +337,7 @@ def describenew(args, verbose):
     One line descriptions of new packages
     $ wajig describe-new
     """
-    util.requires_no_args("describe", args)
+    util.requires_no_args(args[0], args)
     util.do_describe_new(verbose)
 
 
@@ -371,7 +371,7 @@ def download(args):
 
     note: this runs 'apt-get --reinstall --download-only install'
     """
-    util.requires_args("download", args, "a list of packages")
+    util.requires_args(args[0], args, "a list of packages")
     packages = args[1:]
 
     # Print message here since no messages are printed for the command.
@@ -391,7 +391,7 @@ def editsources(args):
 
     note: this runs 'editor /etc/apt/sources.list'
     """
-    util.requires_no_args("editsources", args)
+    util.requires_no_args(args[0], args)
     perform.execute("editor /etc/apt/sources.list", root=True)
 
 
@@ -400,8 +400,8 @@ def extract(args):
     Extract the files from a package file to a directory
     $ wajig extract <deb file> <destination directory>
     """
-    util.requires_two_args("extract", args,
-                           "a filename and directory to extract into")
+    util.requires_two_args(args[0], args,
+                          "a filename and directory to extract into")
     perform.execute("dpkg --extract {0} {1}".format(args[1], args[2]))
 
 
@@ -412,7 +412,7 @@ def fixconfigure(args):
 
     note: this runs 'dpkg --configure --pending'
     """
-    util.requires_no_args("fixconfigure", args)
+    util.requires_no_args(args[0], args)
     perform.execute("dpkg --configure --pending", root=True)
 
 
@@ -423,7 +423,7 @@ def fixinstall(args, noauth):
 
     note: this runs 'apt-get --fix-broken install
     """
-    util.requires_no_args("fixinstall", args)
+    util.requires_no_args(args[0], args)
     perform.execute("apt-get --fix-broken {} install".format(noauth),
                      root=True)
 
@@ -435,7 +435,7 @@ def fixmissing(args, noauth):
 
     note: this runs 'apt-get --ignore-missing'
     """
-    util.requires_no_args("fixmissing", args)
+    util.requires_no_args(args[0], args)
     command = "apt-get --ignore-missing {} upgrade".format(noauth)
     perform.execute(command, root=True)
 
@@ -449,7 +449,7 @@ def force(args):
           multiple packages or when a dependency is not installed for
           whatever reason.
     """
-    util.requires_args("force", args, "a package name")
+    util.requires_args(args[0], args, "a package name")
     packages = args[1:]
 
     command = "dpkg --install --force overwrite --force depends "
@@ -497,7 +497,7 @@ def help(args):
     Print usage info on commands
     $ wajig help COMMAND(s)
     """
-    util.requires_args("help", args, "wajig commands(s)")
+    util.requires_args(args[0], args, "wajig commands(s)")
     for command in args[1:]:
         command = command.replace("-", "")
         command = command.replace("_", "")
@@ -563,7 +563,7 @@ def hold(args):
     Place packages on hold (so they will not be upgraded)
     $ wajig hold <package names>
     """
-    util.requires_args("hold", args, "a list of packages to place on hold")
+    util.requires_args(args[0], args, "a list of packages to place on hold")
     for package in args[1:]:
         # The dpkg needs sudo but not the echo.
         # Do all of it as root then!
@@ -580,7 +580,7 @@ def info(args):
 
     note: this runs 'dpkg --info'
     """
-    util.requires_one_arg("info", args, "one filename")
+    util.requires_one_arg(args[0], args, "one filename")
     perform.execute("dpkg --info " + args[1])
 
 
@@ -589,7 +589,7 @@ def init(args):
     Initialise or reset wajig archive files.
     $ wajig init
     """
-    util.requires_no_args("init", args)
+    util.requires_no_args(args[0], args)
     changes.reset_files()
 
 
@@ -690,7 +690,7 @@ def installsuggested(args, yes, noauth, dist):
     Install a package and its Suggests dependencies.
     $ wajig installs <package name>
     """
-    util.requires_one_arg("installsuggested", args, "a single package name")
+    util.requires_one_arg(args[0], args, "a single package name")
     package_name = args[1]
     cache = apt.cache.Cache()
     try:
@@ -710,8 +710,7 @@ def installwithdist(args, yes, noauth, dist):
     Install a package from while specifying a suite to install from
     $ wajig install/experimental
     """
-    util.requires_args("installwithdist", args,
-                       "a list of packages, .deb files, or url")
+    util.requires_args(args[0], args, "a list of packages, .deb files, or url")
     dist = args[0].split("/")[1]
     command = "apt-get --target-release {} install " + " ".join(args[1:])
     command = command.format(dist)
@@ -725,7 +724,7 @@ def integrity(args):
 
     notes: this runs 'debsums --all --silent'
     """
-    util.requires_no_args("integrity", args)
+    util.requires_no_args(args[0], args)
     perform.execute("debsums --all --silent")
 
 
@@ -734,7 +733,7 @@ def large(args):
     List size of all large (>10MB) installed packages.
     $ wajig large
     """
-    util.requires_no_args("large", args)
+    util.requires_no_args(args[0], args)
     packages = args[1:]
     size = 10000
 
@@ -775,7 +774,7 @@ def lastupdate(args):
     Identify when an update was last performed
     $ wajig last-update
     """
-    util.requires_no_args("lastupdate", args)
+    util.requires_no_args(args[0], args)
     command = ("/bin/ls -l --full-time " + changes.available_file + " 2> "
                "/dev/null | awk '{printf \"Last update was %s %s %s\\n\""
                ", $6, $7, $8}' | sed 's|\.000000000||'")
@@ -787,7 +786,7 @@ def listcache(args):
     List the contents of the download cache
     $ wajig list-cache
     """
-    util.requires_opt_arg("listcache", args, "string to filter on")
+    util.requires_opt_arg(args[0], args, "string to filter on")
     command = "printf 'Found %d files %s in the cache.\n\n'\
            $(ls /var/cache/apt/archives/ | wc -l) \
            $(ls -sh /var/cache/apt/archives/ | head -1 | awk '{print $2}')"
@@ -804,7 +803,7 @@ def listcommands(args):
     List all the JIG commands and one line descriptions for each.
     $ wajig list-commands
     """
-    util.requires_no_args("listcommands", args)
+    util.requires_no_args(args[0], args)
     with open("/usr/share/wajig/help/COMMANDS") as f:
         print()
         for line in f:
@@ -817,7 +816,7 @@ def listalternatives(args):
     List the objects that can have alternatives configured
     $ wajig list-alternatives
     """
-    util.requires_no_args("listalternatives", args)
+    util.requires_no_args(args[0], args)
     command = ("ls /etc/alternatives/ | "
                "egrep -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
     perform.execute(command)
@@ -828,7 +827,7 @@ def listdaemons(args):
     List the daemons that wajig can start/stop/restart
     $ wajig list-daemons
     """
-    util.requires_no_args("listdaemons", args)
+    util.requires_no_args(args[0], args)
     command = ("printf 'Found %d daemons in /etc/init.d.\n\n' "
                "$(ls /etc/init.d/ | "
                "egrep -v '(~$|README|-(old|dist)|\.[0-9]*$)' | wc -l)")
@@ -844,8 +843,8 @@ def listfiles(args):
     List the files that are supplied by the named package
     $ wajig list-files
     """
-    util.requires_one_arg("listfiles", args,
-                          "the name of a single Debian package or deb file")
+    util.requires_one_arg(args[0], args,
+                         "the name of a single Debian package or deb file")
     package = args[1]
     if package.endswith("deb"):
         perform.execute("dpkg --contents " + args[1])
@@ -858,7 +857,7 @@ def listhold(args):
     List packages that are on hold (i.e. those that won't be upgraded)
     $ wajig list-hold
     """
-    util.requires_no_args("listhold", args)
+    util.requires_no_args(args[0], args)
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
 
 
@@ -867,7 +866,7 @@ def listinstalled(args):
     List installed packages
     $ wajig list-installed
     """
-    util.requires_no_args("listinstalled", args)
+    util.requires_no_args(args[0], args)
     perform.execute("dpkg --get-selections | cut -f1")
 
 
@@ -876,7 +875,7 @@ def listnames(args):
     List all known packages; optionally filter the list with a pattern
     $ wajig list-names [<pattern>]
     """
-    util.requires_opt_arg("listnames", args, "at most one argument")
+    util.requires_opt_arg(args[0], args, "at most one argument")
     util.do_listnames(args[1:])
 
 
@@ -885,7 +884,7 @@ def listpackages(args):
     List the status, version, and description of installed packages
     $ wajig list
     """
-    util.requires_opt_arg("listpackages", args, "string to filter on")
+    util.requires_opt_arg(args[0], args, "string to filter on")
     cmd = ""
     cmd += "dpkg --list '*' | grep -v 'no description avail'"
     if len(args) > 1:
@@ -898,7 +897,7 @@ def listscripts(args):
     List the control scripts of the package of deb file
     $ wajig list-scripts <.deb file>
     """
-    util.requires_one_arg("listscripts", args, "a package name or deb file")
+    util.requires_one_arg(args[0], args, "a package name or deb file")
     package = args[1]
     scripts = ["preinst", "postinst", "prerm", "postrm"]
     if re.match(".*\.deb$", package):
@@ -929,7 +928,7 @@ def listsection(args):
 
     note: Use the LIST-SECTIONS command for a list of Debian Sections
     """
-    util.requires_one_arg("listsection", args, "the name of a Debian Section")
+    util.requires_one_arg(args[0], args, "the name of a Debian Section")
     section = args[1]
     cache = apt.cache.Cache()
     for package in cache.keys():
@@ -943,7 +942,7 @@ def liststatus(args):
     Same as list but only prints first two columns, not truncated.
     $ wajig list-status
     """
-    util.requires_opt_arg("liststatus", args, "package name")
+    util.requires_opt_arg(args[0], args, "package name")
     cmd = "COLUMNS=400 "
     cmd += "dpkg --list '*' | grep -v 'no description avail'"
     cmd += " | awk '{print $1,$2}'"
@@ -957,7 +956,7 @@ def localdistupgrade(args):
     Dist-upgrade using only packages that are already downloaded
     $ wajig local-dist-upgrade
     """
-    util.requires_no_args("localdistupgrade", args)
+    util.requires_no_args(args[0], args)
     command = ("apt-get --no-download --ignore-missing "
                "--show-upgraded dist-upgrade")
     perform.execute(command, root=True)
@@ -968,7 +967,7 @@ def localupgrade(args):
     Upgrade using only packages that are already downloaded
     $ wajig local-upgrade
     """
-    util.requires_no_args("localupgrade", args)
+    util.requires_no_args(args[0], args)
     command = "apt-get --no-download --ignore-missing --show-upgraded upgrade"
     perform.execute(command, root=True)
 
@@ -978,7 +977,7 @@ def listsections(args):
     List all available sections
     $ wajig list-sections
     """
-    util.requires_no_args("listsections", args)
+    util.requires_no_args(args[0], args)
     cache = apt.cache.Cache()
     sections = list()
     for package in cache.keys():
@@ -996,7 +995,7 @@ def madison(args):
 
     note: this runs 'apt-cache madison'
     """
-    util.requires_args("madison", args, "package name(s)")
+    util.requires_args(args[0], args, "package name(s)")
     perform.execute("apt-cache madison " + " ".join(set(args[1:])))
 
 
@@ -1005,7 +1004,7 @@ def nonfree(args):
     List installed packages that do not meet the DFSG.
     $ wajig non-free
     """
-    util.requires_no_args("nonfree", args)
+    util.requires_no_args(args[0], args)
     util.requires_package("vrms", "/usr/bin/vrms")
     perform.execute("vrms")
 
@@ -1015,7 +1014,7 @@ def move(args):
     Move packages in the download cache to a local Debian mirror
     $ wajig move
     """
-    util.requires_no_args("move", args)
+    util.requires_no_args(args[0], args)
     perform.execute("apt-move update", root=True)
 
 
@@ -1024,7 +1023,7 @@ def new(args):
     List packages that became available since last update
     $ wajig new
     """
-    util.requires_opt_arg("new", args, "whether to INSTALL the new pkgs")
+    util.requires_opt_arg(args[0], args, "whether to INSTALL the new pkgs")
     if len(args) == 1:
         util.do_describe_new()
     elif args[1].lower() == "install":
@@ -1038,7 +1037,7 @@ def newdetail(args):
     Provide a detailed description of new packages
     $ wajig detail-new
     """
-    util.requires_no_args("newdetail", args)
+    util.requires_no_args(args[0], args)
     new_packages = changes.get_new_available()
     if new_packages:
         package_names = " ".join(new_packages)
@@ -1048,12 +1047,12 @@ def newdetail(args):
         print("No new packages available")
 
 
-def news(command, args):
+def news(args):
     """
     Display the NEWS file of a given package
     $ wajig news <package name>
     """
-    util.requires_one_arg(command, args, "a single package")
+    util.requires_one_arg(args[0], args, "a single package")
     util.display_sys_docs(args, "NEWS.Debian NEWS")
 
 
@@ -1062,8 +1061,7 @@ def newupgrades(args, yes, noauth):
     List packages newly available for upgrading
     $ wajig new-upgrades
     """
-    util.requires_opt_arg("newupgrades", args,
-                          "whether to INSTALL upgraded pkgs")
+    util.requires_opt_arg(args[0], args, "whether to INSTALL upgraded pkgs")
     if len(args) == 1:
         util.do_newupgrades()
     elif args[1].lower() == "install":
@@ -1079,7 +1077,7 @@ def orphans(args):
     List libraries not required by any installed package
     $ wajig orphans
     """
-    util.requires_no_args("orphans", args)
+    util.requires_no_args(args[0], args)
     util.requires_package("deborphan", "/usr/bin/deborphan")
     perform.execute("deborphan")
 
