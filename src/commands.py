@@ -35,9 +35,6 @@ import perform
 import util
 import debfile
 
-available_file = changes.available_file
-previous_file  = changes.previous_file
-
 
 def addcdrom(args):
     """
