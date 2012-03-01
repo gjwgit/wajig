@@ -803,7 +803,9 @@ def listcommands(args):
     $ wajig list-commands
     """
     util.requires_no_args(args[0], args)
-    with open("/usr/share/wajig/help/COMMANDS") as f:
+    split = os.path.split(__file__)
+    filename = os.path.join(split[0], "COMMANDS")
+    with open(filename) as f:
         print()
         for line in f:
             print(line, end=' ')
@@ -1588,7 +1590,9 @@ def tutorial(args):
     $ wajig tutorial
     """
     util.requires_no_args(args[0], args)
-    with open("/usr/share/wajig/help/TUTORIAL") as f:
+    split = os.path.split(__file__)
+    filename = os.path.join(split[0], "TUTORIAL")
+    with open(filename) as f:
         for line in f:
             print(line, end="")
 
