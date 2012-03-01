@@ -4,7 +4,6 @@
 """Test some of wajig functionality."""
 
 import unittest
-import difflib
 import sys
 
 sys.path.append("src")
