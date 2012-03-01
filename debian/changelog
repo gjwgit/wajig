@@ -58,8 +58,10 @@ wajig (2.3) unstable; urgency=low
     broken that gkdebconf never got invoked; I also think invoking GUI tools
     is real overkill.
   * RELOAD: if this fails, try FORCE-RELOAD
+  * clean-up: wajig documentation consisted of over a 100 files! They are now
+    just 2 (COMMANDS & TUTORIAL) and the rest is in code (Python docstrings)
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 29 Feb 2012 21:29:54 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 01 Mar 2012 21:35:29 +0200
 
 wajig (2.2) unstable; urgency=low
 
