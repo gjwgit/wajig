@@ -1181,7 +1181,7 @@ def recdownload(args):
         # We do this because apt-get install dont list the packages to
         # reinstall if they don't need to be upgraded
         print(i, end=' ')
-    print("\n")
+    print()
 
     command = "apt-get --download-only --reinstall -u install " + \
               " ".join(package_names)
