@@ -28,6 +28,7 @@ import apt
 
 import changes
 import perform
+import commands
 
 
 recommends_flag = None
