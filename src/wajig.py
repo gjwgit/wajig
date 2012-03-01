@@ -52,8 +52,8 @@ def main():
     for i in range(2, len(oldargv)):
         sys.argv += oldargv[i].split(",")
 
-    description = ("wajig is a simple and unified package management front-end "
-                   "for Debian and its derivatives.")
+    description = ("wajig is a simple and unified package management "
+                   "front-end for Debian and its derivatives.")
     epilog = textwrap.dedent("""\
          For a list of all commands try "wajig list-commands".
          For a tutorial, try "wajig doc".
@@ -180,7 +180,7 @@ def select_command(command, args, verbose, dist):
 
     elif command == "clean":
         commands.clean(args)
- 
+
     elif command == "contents":
         commands.contents(args)
 

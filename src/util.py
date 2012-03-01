@@ -37,6 +37,7 @@ fast = False  # Used for choosing 'apt-cache show' instead of the slower
               # 'aptitude show'; see debian/changelog for 2.0.50 why aptitude
               # was chosen as default.
 
+
 def recommends():
     if recommends_flag is None:
         return ""
@@ -44,6 +45,7 @@ def recommends():
         return "--install-recommends"
     else:
         return "--no-install-recommends"
+
 
 def requires_no_args(command, args, test=False):
     if len(args) > 1:
@@ -154,8 +156,10 @@ def extract_dependencies(package, dependency_type):
 def do_describe(packages, verbose=False):
     """Display package description(s)."""
 
-    package_files = [package for package in packages if package.endswith(".deb")]
-    package_names = [package for package in packages if not package.endswith(".deb")]
+    package_files = [package for package in packages
+                     if package.endswith(".deb")]
+    package_names = [package for package in packages
+                     if not package.endswith(".deb")]
     if package_files:
         for package_file in package_files:
             perform.execute("dpkg-deb --info " + package_file)
@@ -312,7 +316,7 @@ def do_status(packages, snapshot=False):
     # Build the command to list the status of installed packages.
     #
     available_file = changes.available_file
-    previous_file  = changes.previous_file
+    previous_file = changes.previous_file
 
     command = "dpkg --get-selections | join - " + ifile + " | " +\
               "join -a 1 - " + previous_file + " | " +\
@@ -354,6 +358,7 @@ def do_status(packages, snapshot=False):
     # Tidy up - remove the "installed file"
     if os.path.exists(ifile):
         os.remove(ifile)
+
 
 def do_listnames(pattern, pipe=False):
 

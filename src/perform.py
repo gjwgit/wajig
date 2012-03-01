@@ -55,13 +55,6 @@ if os.path.exists("/usr/bin/sudo") and user != 'root':
     #
     os.environ['PATH'] = os.environ['PATH'] + ":/sbin:/usr/sbin"
 
-#------------------------------------------------------------------------
-#
-# Interface Variables
-#
-#------------------------------------------------------------------------
-
-
 
 def execute(command, root=False, pipe=False, langC=False, test=False):
     """Ask the operating system to perform a command.

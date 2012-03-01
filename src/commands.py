@@ -40,7 +40,7 @@ def addcdrom(args):
     """
     Add a Debian CD/DVD to APT's list of available sources
     $ wajig addcdrom
-    
+
     note: this runs 'apt-cdrom add'
     """
     util.requires_no_args("addcdrom", args)
@@ -75,7 +75,7 @@ def autodownload(args, verbose):
     """
     Do an update followed by a download of all updated packages
     $ wajig autodownload
-    
+
     note: this runs 'apt-get -d -u -y dist-upgrade'
     """
     util.requires_no_args("autodownload", args)
@@ -255,7 +255,7 @@ def contents(args):
     """
     List the contents of a package file (.deb)
     $ wajig contents <deb file>
-    
+
     note: this runs 'dpkg --contents'
     """
     util.requires_one_arg("contents", args, "a single filename")
@@ -266,7 +266,7 @@ def dailyupgrade(args):
     """
     Perform an update then a dist-upgrade
     $ wajg daily-upgrade
-    
+
     note: this runs 'apt-get --show-upgraded dist-upgrade'
     """
     util.requires_no_args("dailyupgrade", args)
@@ -310,7 +310,8 @@ def dependents(args):
     for key in cache.keys():
         other_package = cache[key]
         for dependency_type, specific_dependents in dependents.items():
-            if package.shortname in util.extract_dependencies(other_package, dependency_type):
+            if package.shortname in \
+            util.extract_dependencies(other_package, dependency_type):
                 specific_dependents.append(other_package.shortname)
 
     for dependency_type, specific_dependents in dependents.items():
@@ -342,7 +343,7 @@ def describenew(args, verbose):
 
 def distupgrade(args, yes, noauth):
     """
-    Complete system upgrade; this may remove some packages if they are on the way
+    Complete system upgrade; this may remove some packages and install new ones
     $ wajig dist-upgrade
 
     note: this runs 'apt-get --show-upgraded distupgrade'
@@ -443,7 +444,7 @@ def force(args):
     """
     Install packages and ignore file overwrites and depends.
     $ wajig force <package name(s)>
-    
+
     note: This is useful when there is a conflict of the same file from
           multiple packages or when a dependency is not installed for
           whatever reason.
@@ -462,9 +463,10 @@ def force(args):
             elif os.path.exists(archives + package):
                 command += "'" + archives + package + "' "
             else:
-                print("""File `%s' not found.
-              Searched current directory and %s.
-              Please confirm the location and try again.""" % (package, archives))
+                message = ("File {} not found. "
+                           "Searched current directory and {}."
+                           "Please confirm the location and try again.")
+                print(message.format(package, archives))
                 return()
     else:
         # Package names rather than a specific deb package archive
@@ -575,7 +577,7 @@ def info(args):
     """
     List the information contained in a package file.
     $ wajig info
-    
+
     note: this runs 'dpkg --info'
     """
     util.requires_one_arg("info", args, "one filename")
@@ -760,10 +762,12 @@ def large(args):
         print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
         print("{}-{}-{}".format("="*33, "="*10, "="*12))
         for package in packages:
-            print("{:<33} {:^10} {:>12}".format(package,
-                    format(int(size_list[package]), ',d'), status_list[package]))
+            message = "{:<33} {:^10} {:>12}".format(package,
+                       format(int(size_list[package]), ',d'),
+                       status_list[package])
+            print(message)
     else:
-        print("No packages found from those known to be available or installed")
+        print("No packages of >10MB size found")
 
 
 def lastupdate(args):
@@ -916,8 +920,6 @@ def listscripts(args):
                 nlen = (72 - len(script))/2
                 print(">"*nlen, script, "<"*nlen)
                 perform.execute("cat " + fname)
-
-
 
 
 def listsection(args):
@@ -1501,8 +1503,10 @@ def sizes(args):
         print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
         print("{}-{}-{}".format("="*33, "="*10, "="*12))
         for package in packages:
-            print("{:<33} {:^10} {:>12}".format(package,
-                    format(int(size_list[package]), ',d'), status_list[package]))
+            message = "{:<33} {:^10} {:>12}".format(package,
+                       format(int(size_list[package]), ',d'),
+                       status_list[package])
+            print(message)
 
 
 def snapshot(args):
@@ -1627,7 +1631,6 @@ def unhold(args):
         perform.execute(command, root=1)
     print("The following packages are still on hold:")
     perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
-
 
 
 def unofficial(args):
@@ -1799,4 +1802,3 @@ def whichpackage(args):
         perform.execute("apt-file search " + args[1])
     else:
         print(out[1])
-
