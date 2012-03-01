@@ -247,7 +247,7 @@ def select_command(command, args, verbose, dist):
         commands.init(args)
 
     elif command in "install isntall autoinstall".split():
-        commands.install(command, args, yes, noauth, dist)
+        commands.install(args, yes, noauth, dist)
 
     elif command in "installs suggested installsuggested".split():
         commands.installsuggested(args, yes, noauth, dist)

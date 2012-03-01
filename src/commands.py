@@ -593,7 +593,7 @@ def init(args):
     changes.reset_files()
 
 
-def install(command, args, yes, noauth, dist):
+def install(args, yes, noauth, dist):
     """
     Install one or more packages or .deb files, or via a url
 
@@ -620,10 +620,10 @@ def install(command, args, yes, noauth, dist):
     Note that, unlike using 'dpkg -i', installing a deb file will also install
     its dependencies. The output is ugly though, so be not alarmed.
     """
-    util.requires_args(command, args, "packages, .deb files, or a url")
+    util.requires_args(args[0], args, "packages, .deb files, or a url")
     # kept so as not to break anyone's setup; consider it deprecated;
     # it's not even advertised no more (removed from docs)
-    if command == "autoinstall":
+    if args[0] == "autoinstall":
         yes = "--yes"
     packages = args[1:]
 
