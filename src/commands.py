@@ -24,7 +24,6 @@ import os
 import re
 import sys
 import tempfile
-import signal
 import subprocess
 
 import apt_pkg
@@ -35,12 +34,6 @@ import changes
 import perform
 import util
 import debfile
-
-# When writing to a pipe where there is no reader (e.g., when
-# output is directed to head or to less and the user exists from less
-# before reading all output) the SIGPIPE signal is generated. Capture
-# the signal and hadle it with the default handler.
-signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
 available_file = changes.available_file
 previous_file  = changes.previous_file
