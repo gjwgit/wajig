@@ -115,13 +115,7 @@ Using `su' and requiring root password. Install `sudo' to support user
 passwords. See wajig documentation (wajig doc) for details.
 """)
             command = setroot + " -c '" + command + "'"
-    #
-    # Bug#119899 from Michal Politowski <mpol@charybda.icm.edu.pl>
-    # was implemented to ensure handling Polish language okay:
-    #
-    # command = "LC_ALL=C; export LC_ALL; set -o noglob; " + command
-    command = "set -o noglob; " + command
-    #
+
     # This worked a long time until Bug#288852 from Serge Matveev
     # <serge@matveev.spb.ru> reported that locale is not handled -
     # which is correct and according to the fix of Bug#119899 the
