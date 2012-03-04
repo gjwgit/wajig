@@ -803,6 +803,8 @@ def listcommands(args):
     $ wajig list-commands
     """
     util.requires_no_args(args[0], args)
+
+    # this will only work on an installed wajig
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, "COMMANDS")
     with open(filename) as f:
