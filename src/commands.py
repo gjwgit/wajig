@@ -803,8 +803,8 @@ def listcommands(args):
     $ wajig list-commands
     """
     util.requires_no_args(args[0], args)
-    split = os.path.split(__file__)
-    filename = os.path.join(split[0], "COMMANDS")
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, "COMMANDS")
     with open(filename) as f:
         print()
         for line in f:
