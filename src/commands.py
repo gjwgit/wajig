@@ -62,7 +62,7 @@ def addrepo(args):
 
 def autoalts(args):
     """
-    Mark the Alternative to be auto-set (using set priorities).
+    Mark the Alternative to be auto-set (using set priorities)
     $ wajig autoalts <alternative name>
 
     note: this runs 'update-alternatives --auto'
@@ -150,7 +150,7 @@ def build(args, yes, noauth):
 
 def builddeps(args, yes, noauth):
     """
-    Install build-dependencies for given packages.
+    Install build-dependencies for given packages
     $ wajig builddep <package names>
 
     long form command: reverse-build-depends
@@ -429,7 +429,7 @@ def fixinstall(args, noauth):
 
 def fixmissing(args, noauth):
     """
-    Fix and install even though there are missing dependencies.
+    Fix and install even though there are missing dependencies
     $ wajig fix-missing
 
     note: this runs 'apt-get --ignore-missing'
@@ -441,7 +441,7 @@ def fixmissing(args, noauth):
 
 def force(args):
     """
-    Install packages and ignore file overwrites and depends.
+    Install packages and ignore file overwrites and depends
     $ wajig force <package name(s)>
 
     note: This is useful when there is a conflict of the same file from
@@ -574,7 +574,7 @@ def hold(args):
 
 def info(args):
     """
-    List the information contained in a package file.
+    List the information contained in a package file
     $ wajig info
 
     note: this runs 'dpkg --info'
@@ -585,7 +585,7 @@ def info(args):
 
 def init(args):
     """
-    Initialise or reset wajig archive files.
+    Initialise or reset wajig archive files
     $ wajig init
     """
     util.requires_no_args(args[0], args)
@@ -686,7 +686,7 @@ def install(args, yes, noauth, dist):
 
 def installsuggested(args, yes, noauth, dist):
     """
-    Install a package and its Suggests dependencies.
+    Install a package and its Suggests dependencies
     $ wajig installs <package name>
     """
     util.requires_one_arg(args[0], args, "a single package name")
@@ -718,7 +718,7 @@ def installwithdist(args, yes, noauth, dist):
 
 def integrity(args):
     """
-    Check the integrity of installed packages (through checksums).
+    Check the integrity of installed packages (through checksums)
     $ wajig integrity
 
     notes: this runs 'debsums --all --silent'
@@ -729,7 +729,7 @@ def integrity(args):
 
 def large(args):
     """
-    List size of all large (>10MB) installed packages.
+    List size of all large (>10MB) installed packages
     $ wajig large
     """
     util.requires_no_args(args[0], args)
@@ -799,7 +799,7 @@ def listcache(args):
 
 def listcommands(args):
     """
-    List all the wajig commands and one line descriptions for each.
+    List all the wajig commands and one line descriptions for each
     $ wajig list-commands
     """
     util.requires_no_args(args[0], args)
@@ -926,7 +926,7 @@ def listscripts(args):
 
 def listsection(args):
     """
-    List packages that belong to a specific section.
+    List packages that belong to a specific section
     $ wajig list-section <section name>
 
     note: Use the LIST-SECTIONS command for a list of Debian Sections
@@ -942,7 +942,7 @@ def listsection(args):
 
 def liststatus(args):
     """
-    Same as list but only prints first two columns, not truncated.
+    Same as list but only prints first two columns, not truncated
     $ wajig list-status
     """
     util.requires_opt_arg(args[0], args, "package name")
@@ -1004,7 +1004,7 @@ def madison(args):
 
 def nonfree(args):
     """
-    List installed packages that do not meet the DFSG.
+    List installed packages that don't meet the Debian Free Software Guidelines
     $ wajig non-free
     """
     util.requires_no_args(args[0], args)
@@ -1087,7 +1087,7 @@ def orphans(args):
 
 def policy(args):
     """
-    From preferences file show priorities/policy (available).
+    From preferences file show priorities/policy (available)
     $ wajig policy <package name>
 
     note: this runs 'apt-cache policy'
@@ -1098,7 +1098,7 @@ def policy(args):
 
 def purge(args, yes, noauth):
     """
-    Remove one or more packages and their configuration files.
+    Remove one or more packages and their configuration files
     $ wajig purge <package name(s)>
 
     options:
@@ -1115,7 +1115,7 @@ def purge(args, yes, noauth):
 
 def purgeorphans(args):
     """
-    Purge orphaned libraries (not required by installed packages).
+    Purge orphaned libraries (not required by installed packages)
     $ wajig purge-orphans
     """
     # Deborphans does not require root, but dpkg does,
@@ -1206,7 +1206,7 @@ def reconfigure(args):
 
 def recommended(args):
     """
-    Display packages that were installed via Recommends and have no dependents.
+    Display packages that were installed via Recommends and have no dependents
     $ wajig list-recommended
     """
     util.requires_no_args(args[0], args)
@@ -1264,7 +1264,7 @@ def removeorphans(args):
 
 def repackage(args):
     """
-    Generate a .deb file for an installed package.
+    Generate a .deb file for an installed package
     $ wajig repackage <package name>
 
     note: this runs 'fakeroot -u dpkg-repack'
@@ -1355,7 +1355,7 @@ def showdistupgrade(args):
 
 def showinstall(args):
     """
-    Trace the steps that an install would perform.
+    Trace the steps that an install would perform
     $ wajig showinstall <package name(s)>
 
     note: this runs 'apt-get --show-upgraded --simulate install'
@@ -1500,7 +1500,7 @@ def snapshot(args):
 
 def source(args):
     """
-    Retrieve and unpack sources for the named packages.
+    Retrieve and unpack sources for the named packages
     $ wajig source
 
     note: this runs 'apt-get source'
@@ -1756,7 +1756,7 @@ def verify(args):
 
 def versions(args):
     """
-    List version and distribution of given packages:
+    List version and distribution of given packages
     $ wajig versions <package name(s)>
 
     note: this runs 'apt-show-versions'
