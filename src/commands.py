@@ -804,14 +804,13 @@ def listcommands(args):
     """
     util.requires_no_args(args[0], args)
 
-    # this will only work on an installed wajig
-    dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, "COMMANDS")
-    with open(filename) as f:
-        print()
-        for line in f:
-            print(line, end=' ')
-        print()
+    # this whole thing is an ugly hack; there surely must be a better way
+    for name in globals():
+        if not name.startswith("_") \
+        and name not in ("os re sys tempfile subprocess apt_pkg apt "
+                         "changes perform util debfile").split():
+            doc = eval(name + ".__doc__.split('$')[0]")
+            print("{}{}".format(name.upper(), doc))
 
 
 def listalternatives(args):
