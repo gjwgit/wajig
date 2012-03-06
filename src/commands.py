@@ -799,7 +799,7 @@ def listcache(args):
 
 def listcommands(args):
     """
-    List all the JIG commands and one line descriptions for each.
+    List all the wajig commands and one line descriptions for each.
     $ wajig list-commands
     """
     util.requires_no_args(args[0], args)
