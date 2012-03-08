@@ -20,6 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
+import inspect
 import os
 import re
 import sys
@@ -804,11 +805,8 @@ def listcommands(args):
     """
     util.requires_no_args(args[0], args)
 
-    # this whole thing is an ugly hack; there surely must be a better way
     for name in globals():
-        if not name.startswith("_") \
-        and name not in ("os re sys tempfile subprocess apt_pkg apt "
-                         "changes perform util debfile").split():
+        if inspect.isfunction(eval(name)):
             doc = eval(name + ".__doc__.split('$')[0]")
             print("{}{}".format(name.upper(), doc))
 
