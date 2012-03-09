@@ -805,10 +805,10 @@ def listcommands(args):
     """
     util.requires_no_args(args[0], args)
 
-    for name in globals():
-        if inspect.isfunction(eval(name)):
-            doc = eval(name + ".__doc__.split('$')[0]")
-            print("{}{}".format(name.upper(), doc))
+    for name, value in globals().items():
+        if inspect.isfunction(value):
+            summary = value.__doc__.split("$")[0]
+            print("{}{}".format(name.upper(), summary))
 
 
 def listalternatives(args):
