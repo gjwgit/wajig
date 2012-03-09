@@ -25,6 +25,7 @@ import re
 import sys
 import tempfile
 import subprocess
+import operator
 
 import apt_pkg
 import apt
@@ -756,8 +757,7 @@ def listcommands(args):
     $ wajig list-commands
     """
     util.requires_no_args(args[0], args)
-
-    for function in COMMANDS:
+    for function in sorted(COMMANDS, key=operator.attrgetter('__name__')):
         summary = function.__doc__.split("$")[0]
         print("{}{}".format(function.__name__.upper(), summary))
 
