@@ -28,7 +28,6 @@ import apt
 
 import changes
 import perform
-import commands
 
 
 recommends_flag = None
@@ -121,15 +120,6 @@ def upgradable(distupgrade=False):
 
 def finishup(code=0):
     sys.exit(code)
-
-
-def help(command):
-    """Handles commands of the form 'wajig help install'."""
-    try:
-        help_text = eval("commands.{}.__doc__".format(command))
-        print(help_text)
-    except AttributeError:
-        print(command.upper(), "is not a wajig command")
 
 
 def local_changelog(package, tmp):

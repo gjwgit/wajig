@@ -20,7 +20,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
-import inspect
 import os
 import re
 import sys
@@ -502,60 +501,13 @@ def help(args):
         command = command.replace("-", "")
         command = command.replace("_", "")
         command = command.lower()
-        if command == "autoalternatives":
-            command = "autoalts"
-        elif command in "builddepend builddepends builddeps".split():
-            command = "builddeps"
-        elif command in "doc docs documentation".split():
-            command = "tutorial"
-        elif command in ["rbuilddep", "reversebuilddeps",
-                         "reversebuilddependencies"]:
-            command = "rbuilddeps"
-        elif command in ["findpkg", "findpackage"]:
-            command = "unofficial"
-        elif command == "available":
-            command = "policy"
-        elif command == "statussearch":
-            command = "statusmatch"
-        elif command == "size":
-            command = "sizes"
-        elif command in "updatealts setalts setalternatives".split():
-            command = "updatealternatives"
-        elif command == "rpmtodeb":
-            command = "rpm2deb"
-        elif command in "bug bugreport".split():
-            command = "reportbug"
-        elif command == "purgedepend":
-            command = "purge"
-        elif command == "commands":
-            command = "listcommands"
-        elif command == "recursive":
-            command = "recdownload"
-        elif command == "newdescribe":
-            command = "describenew"
-        elif command == "package":
-            command = "repackage"
-        elif command == "detailnew":
-            command = "newdetail"
-        elif command == "list":
-            command = "listpackages"
-        elif command == "listlog":
-            command = "syslog"
-        elif command in "orphaned listorphaned listorphans".split():
-            command = "orphans"
-        elif command == "listalts":
-            command = "listalternatives"
-        elif command == "newupgrade":
-            command = "newupgrades"
-        elif command in ["detail", "details"]:
-            command = "show"
-        elif command in "installs suggested".split():
-            command = "installsuggested"
-        elif command in ["isntall", "autoinstall"]:
-            command = "install"
-        elif command in "findfile locate filesearch whichpkg".split():
-            command = "whichpackage"
-        util.help(command)
+        for function, aliases in COMMANDS.items():
+            if command in aliases:
+                command = function
+        if isinstance(command, str):
+            print(command.upper(), "is not a wajig command")
+        else:
+            print(command.__doc__)
 
 
 def hold(args):
@@ -805,10 +757,9 @@ def listcommands(args):
     """
     util.requires_no_args(args[0], args)
 
-    for name, value in globals().items():
-        if inspect.isfunction(value):
-            summary = value.__doc__.split("$")[0]
-            print("{}{}".format(name.upper(), summary))
+    for function in COMMANDS:
+        summary = function.__doc__.split("$")[0]
+        print("{}{}".format(function.__name__.upper(), summary))
 
 
 def listalternatives(args):
@@ -1781,3 +1732,111 @@ def whichpackage(args):
         perform.execute("apt-file search " + args[1])
     else:
         print(out[1])
+
+COMMANDS = {
+    addcdrom: ["addcdrom"],
+    addrepo: ["addrepo"],
+    autoalts: "autoalts autoalternatives".split(),
+    autoclean: ["autoclean"],
+    autodownload: ["autodownload"],
+    autoremove: ["autoremove"],
+    build: ["build"],
+    builddeps: "builddeps builddepend builddepends".split(),
+    changelog: ["changelog"],
+    clean: ["clean"],
+    contents: ["contents"],
+    dailyupgrade: ["dailyupgrade"],
+    dependents: ["dependents"],
+    describe: ["describe"],
+    describenew: "describenew newdescribe".split(),
+    distupgrade: ["distupgrade"],
+    download: ["download"],
+    editsources: ["editsources"],
+    extract: ["extract"],
+    fixconfigure: ["fixconfigure"],
+    fixinstall: ["fixinstall"],
+    fixmissing: ["fixmissing"],
+    force: ["force"],
+    help: ["help"],
+    hold: ["hold"],
+    info: ["info"],
+    init: ["init"],
+    install: "install isntall autoinstall".split(),
+    installsuggested: "installsuggested installs suggested".split(),
+    installwithdist: ["installwithdist"],
+    integrity: ["integrity"],
+    large: ["large"],
+    lastupdate: ["lastupdate"],
+    listalternatives: "listalternatives listalts".split(),
+    listcache: ["listcache"],
+    listcommands: "listcommands commands".split(),
+    listdaemons: ["listdaemons"],
+    listfiles: ["listfiles"],
+    listhold: ["listhold"],
+    listinstalled: ["listinstalled"],
+    listnames: ["listnames"],
+    listpackages: "listpackages list".split(),
+    listscripts: ["listscripts"],
+    listsection: ["listsection"],
+    listsections: ["listsections"],
+    liststatus: ["liststatus"],
+    localdistupgrade: ["localdistupgrade"],
+    localupgrade: ["localupgrade"],
+    madison: ["madison"],
+    move: ["move"],
+    new: ["new"],
+    newdetail: "newdetail detailnew".split(),
+    news: ["news"],
+    newupgrades: "newupgrades newupgrade".split(),
+    nonfree: ["nonfree"],
+    orphans: "orphans orphaned listorphaned listorphans".split(),
+    policy: "policy available".split(),
+    purge: "purge purgedepend".split(),
+    purgeorphans: ["purgeorphans"],
+    purgeremoved: ["purgeremoved"],
+    rbuilddeps: "rbuilddeps rbuilddep reversebuilddeps".split(),
+    readme: ["readme"],
+    recdownload: "recdownload recursive".split(),
+    recommended: ["recommended"],
+    reconfigure: ["reconfigure"],
+    reinstall: ["reinstall"],
+    reload: ["reload"],
+    remove: ["remove"],
+    removeorphans: ["removeorphans"],
+    repackage: "repackage package".split(),
+    reportbug: "reportbug bug bugreport".split(),
+    restart: ["restart"],
+    rpm2deb: "rpm2deb rpmtodeb".split(),
+    rpminstall: ["rpminstall"],
+    search: ["search"],
+    searchapt: ["searchapt"],
+    show: "show detail details".split(),
+    showdistupgrade: ["showdistupgrade"],
+    showinstall: ["showinstall"],
+    showremove: ["showremove"],
+    showupgrade: ["showupgrade"],
+    sizes: "sizes size".split(),
+    snapshot: ["snapshot"],
+    source: ["source"],
+    start: ["start"],
+    status: ["status"],
+    statusmatch: "statusmatch statussearch".split(),
+    stop: ["stop"],
+    syslog: "syslog listlog".split(),
+    tasksel: ["tasksel"],
+    toupgrade: ["toupgrade"],
+    tutorial: "tutorial doc docs documentation".split(),
+    unhold: ["unhold"],
+    unofficial: "unofficial findpkg findpackage".split(),
+    update: ["update"],
+    updatealternatives: ("updatealternatives updatealts setalts "
+                         "setalternatives").split(),
+    updateavailable: ["updateavailable"],
+    updatepciids: ["updatepciids"],
+    updateusbids: ["updateusbids"],
+    upgrade: ["upgrade"],
+    upgradesecurity: ["upgradesecurity"],
+    verify: ["verify"],
+    versions: ["versions"],
+    whichpackage: "whichpackage findfile locate filesearch whichpkg".split()
+}
