@@ -54,8 +54,8 @@ def main():
          Full documentation is at http://www.togaware.com/wajig.""")
     usage = "%(prog)s [options] COMMAND [arguments]"
     parser = argparse.ArgumentParser(description=description, epilog=epilog,
-             formatter_class=argparse.RawDescriptionHelpFormatter,
-             prog="wajig", usage=usage)
+                     formatter_class=argparse.RawDescriptionHelpFormatter,
+                     prog="wajig", usage=usage)
 
     message = ("backup packages currently installed packages before replacing "
                "them; used in conjuntion with [DIST]UPGRADE commands")
