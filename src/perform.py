@@ -114,7 +114,7 @@ def execute(command, root=False, pipe=False, langC=False, test=False):
 Using `su' and requiring root password. Install `sudo' to support user
 passwords. See wajig documentation (wajig doc) for details.
 """)
-            command = setroot + " -c '" + command + "'"
+                command = setroot + " -c '" + command + "'"
 
     # This worked a long time until Bug#288852 from Serge Matveev
     # <serge@matveev.spb.ru> reported that locale is not handled -
