@@ -36,9 +36,10 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog="wajig",
-        description="""wajig is a simple and unified package management
-                       front-end for Debian""",
-        epilog="run 'wajig doc | pager' for a tutorial"
+        description="unified package management front-end for Debian",
+        epilog=("'wajig commands' displays available commands\n"
+                "'wajig doc' displays a tutorial"),
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
     parser_backup = argparse.ArgumentParser(add_help=False)
@@ -84,7 +85,8 @@ def main():
     parser.add_argument("-V", "--version", action="version", help=message,
                         version="%(prog)s " + const.version)
 
-    subparsers = parser.add_subparsers(title='subcommands')
+    subparsers = parser.add_subparsers(title='subcommands',
+                                       help=argparse.SUPPRESS)
 
     function = commands.addcdrom
     summary = function.__doc__
