@@ -1,89 +1,99 @@
 wajig (2.3) unstable; urgency=low
 
-  * Update to debhelper compat level 9
+  NEW
+  * TODO: new command that reads package TODO files
+
+  UI CHANGES
+  * Optional arguments should be available only to COMMANDS that use them:
+    * [ole] wajig --verbose install <package>
+    * [new] wajig install --verbose <package>
   * Add bash file completion. Useful for INSTALL command.
-  * DOWNLOAD: improve description. (Closes: #627173)
-  * FILE-INSTALL, FILE-REMOVE, FILE-DOWNLOAD: fix bugs.
   * REMOVE, PURGE: add --noauth option, to avoid cases where a package would
     be downloaded when there's an unauthenticated version available; this
     happens in a case where removing/purging a package leaves a void
     where APT want to be smart/convenient, and install a replacement.
-  * Fix some lintian warnings
-  * Replace usage of getopt with the superior argparse; this required
-    increasing minimum Python version to 3.2
-  * Remove --pager option; it's really excess, considering that user can
-    simply do "wajig COMMAND | pager" by herself
-  * Remove --pause option; it was only useful for gjig (IIRC) to avoid
-    windows from closing up automatically, in order to allow one to read
-    the output
-  * Remove ability to specify backup directory; requires too much work in
-    order to make it work with argparse; simplifies code too and there's
-    probably no one else who uses this feature anyways (not even me)
-  * Remove --quiet option: all it did was redirect output to /dev/null;
-    when the option is used, if there is, for example, a Yes/No prompt, it
-    won't be seen and it will appear like wajig is stuck; user can do own
-    redirection if she insists anyways, so let's reduce the bloat
-  * DESCRIBE: Last character in short description missing - LP: #923041
-  * DEPENDENTS: improve output
-  * INSTALLS/SUGGESTS: specifying multiple packages was broken, and too much
-    so work to fix, so limit to just one.
-  * Remove wajig shell; I doubt if anyone will miss it, and am too lazy to
-    maintain it.
-  * Remove the mini-tutorial; me wonders if it was useful to anyone.
   * Improve usability by limiting verbosity to either True or False.
-  * Remove --simulate and --teaching options:
-    * they don't don't apply to a lot wajig commands
-    * they display ugly output
-    * I doubt if anyone will miss them
   * DOWNLOAD: can't download packages listed inside a file anymore; whoever
     used that anyways?
-  * DOWNLOAD: don't make the output 'quiet'; it's extra nice when user knows
-    what actually ends up getting downloaded.
-  * FILEDOWNLOAD: remove; this was pretty much a dupe of the above command.
-  * FILEINSTALL: remove; whoever used this functionality?
-  * FILEREMOVE: remove; whoever used this functionality?
-  * SETUP: remove; it's an alias of EDITSOURCES and it appears that it was
-    added since it was the name of a long-removed Debian tool, 'apt-setup'.
-  * FINDFILE, LOCATE, FILESEARCH, WHICHPKG, WHICHPACKAGE: unify all these;
-    their goal is exactly the same.
   * INSTALL: remove ability to install packages listed in a file.
-  * LISTWIDE: remove; it's basically the same as LIST command.
-  * LISTALL: remove; it's exactly the same is LIST command.
-  * LIST-SCRIPTS: fix brokenness which was a result of porting to Py3k.
-  * MADISON: get rid of duplicates from output, if any.
-  * VERSION: Remove, since it's already provided by 'wajig --version'.
-  * BUG, BUGREPORT, and REPORTBUG are all aliases, and they run reportbug
   * Rename LISTRECOMMENDED --> RECOMMENDED
-  * RECONFIGURE: remove dependency on gkdebconf; the implementation was so
-    broken that gkdebconf never got invoked; I also think invoking GUI tools
-    is real overkill.
-  * RELOAD: if this fails, try FORCE-RELOAD
-  * clean-up: wajig documentation consisted of over a 100 files! They are now
-    just 2 (COMMANDS & TUTORIAL) and the rest is in code (Python docstrings)
-  * HELP: remove in favor of the more standard 'wajig COMMAND -h'
   * Remove the sanitation of wajig COMMANS, e.g. where 'LISTcommands',
     'list-commands', and 'li-st_COMMA-nds' would be translated to
     'listcommands'; it's too much magic (and I can't be bothered to have it
     work with argparse)
-  * AUTOINSTALL: removed; use 'wajig INSTALL --yes <package>' instead
-  * INSTALLWITHDIST: remove; use 'wajig INSTALL --dist <dist> <package>'
-    instead
-  * LISTCOMMANDS: remove: use 'wajig --help' instead
   * LISTCACHE: remove ability to filter output; user can always run grep
     themselves
   * LISTNAMES: same as LISTCACHE
   * LISTPACKAGES: same as LISTCACHE
   * LISTSTATUS: same as LISTCACHE
-  * TODO: new command that reads package TODO files
   * NEW: 'wajig new --install' replaces the less elegant 'wajig new install'
   * NEWUPGRADES: 'wajig NEWUPGRADES --install' replaces the less elegant
     'wajig NEWUPGRADES install'
-  * SHOWDISTUPGRADE: remove; all it does is simulate a DISTUPGRADE
-  * SHOWUPGRADE: same as above, but for UPGRADE command
-  * SHOWINSTALL: same as above, but for INSTALL command
-  * SHOWREMOVE: same as above, but for REMOVE command
-  * Don't run "su -c" when root (patch by  Francesco Poli;
-    Closes: #664231
+  * RELOAD: if this fails, try FORCE-RELOAD
+
+  DOC CHANGES:
+  * DOWNLOAD: improve description. (Closes: #627173)
+  * DESCRIBE: Last character in short description missing - LP: #923041
+  * DEPENDENTS: improve output
+
+  REMOVED
+  * The "--pager" option is really excess, considering that user can simply do
+    "wajig COMMAND | pager" by herself
+  * The "--pause" option was only useful for gjig (IIRC) to avoid windows from
+    closing up automatically, in order to allow one to read the output
+  * All "--quiet" option did was redirect output to /dev/null;
+    when the option is used, if there is, for example, a Yes/No prompt, it
+    won't be seen and it will appear like wajig is stuck; user can do own
+    redirection if she insists anyways, so let's reduce the bloat
+  * Remove ability to specify backup directory; requires too much work in
+    order to make it work with argparse
+  * wajig shell (interactive mode); I doubt if anyone will miss it, and am too
+    lazy to maintain it
+  * Me wonders if the mini-tutorial was useful to anyone
+  * The "--simulate" and "--teaching" options:
+    * they don't don't apply to a lot wajig commands
+    * they display ugly output
+    * I doubt if anyone will miss them
+  * FILEDOWNLOAD: this was pretty much a dupe of the above command
+  * FILEINSTALL: whoever used this functionality?
+  * FILEREMOVE: whoever used this functionality?
+  * SETUP: it's an alias of EDITSOURCES and it appears that it was
+    added since it was the name of a long-removed Debian tool, 'apt-setup'
+  * LISTWIDE: it's basically the same as LIST command
+  * LISTALL: it's exactly the same is LIST command
+  * VERSION: it's already provided by 'wajig --version'
+  * a file named COMMANDS: the content is now generated programmatically
+  * AUTOINSTALL:
+    * [ole] wajig AUTOINSTALL <package>
+    * [ole] wajig INSTALL --yes <package>
+  * INSTALLWITHDIST:
+    * [ole] wajig INSTALLWITHDIST/<dist> <package>
+    * [new] wajig INSTALL --dist <dist> <package>
+  * LISTCOMMANDS:
+    * [ole] wajig COMMANDS
+    * [new] wajig --help
+  * HELP:
+    * [ole] wajig HELP <command>
+    * [new] wajig <command> --help
+  * SHOWDISTUPGRADE: all it does is simulate DISTUPGRADE
+  * SHOWUPGRADE: all it does is simulate UPGRADE
+  * SHOWINSTALL: all it does is simulate INSTALL
+  * SHOWREMOVE: all it does is simulate REMOVE
+
+  BUGS FIXED
+  * INSTALLS/SUGGESTS: specifying multiple packages was broken, and too much
+    so work to fix, so limit to just one
+  * LIST-SCRIPTS: fix brokenness which was a result of porting to Py3k.
+  * MADISON: get rid of duplicates from output, if any.
+  * RECONFIGURE: remove dependency on gkdebconf; the implementation was so
+    broken that gkdebconf never got invoked
+  * Don't run "su -c" when root (patch by  Francesco Poli; Closes: #664231
+
+  MISC
+  * Bump minimum required Python version to 3.2 due to new dependency on
+    argparse (which replaces the less featureful optparse)
+  * Update to debhelper compat level 9
+  * Fix some lintian warnings
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 18 Mar 2012 02:36:58 +0200
 
