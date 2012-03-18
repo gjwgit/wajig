@@ -22,7 +22,7 @@ wajig (2.3) unstable; urgency=low
   * Remove --quiet option: all it did was redirect output to /dev/null;
     when the option is used, if there is, for example, a Yes/No prompt, it
     won't be seen and it will appear like wajig is stuck; user can do own
-    redirection is she insists anyways, so let's reduce the bloat
+    redirection if she insists anyways, so let's reduce the bloat
   * DESCRIBE: Last character in short description missing - LP: #923041
   * DEPENDENTS: improve output
   * INSTALLS/SUGGESTS: specifying multiple packages was broken, and too much
@@ -85,7 +85,7 @@ wajig (2.3) unstable; urgency=low
   * Don't run "su -c" when root (patch by  Francesco Poli;
     Closes: #664231
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 18 Mar 2012 02:31:39 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 18 Mar 2012 02:36:58 +0200
 
 wajig (2.2) unstable; urgency=low
 
