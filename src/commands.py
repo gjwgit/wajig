@@ -182,8 +182,7 @@ def clean(args):
 
 def contents(args):
     """List the contents of a package file (.deb)"""
-    util.requires_one_arg(args[0], args, "a single filename")
-    perform.execute("dpkg --contents " + args[1])
+    perform.execute("dpkg --contents " + args.debfile)
 
 
 def dailyupgrade(args):
@@ -539,10 +538,7 @@ def listdaemons(args):
 
 
 def listfiles(args):
-    """
-    List the files that are supplied by the named package
-    $ wajig list-files
-    """
+    """List the files that are supplied by the named package"""
     if args.package.endswith("deb"):
         perform.execute("dpkg --contents " + args.package)
     else:
@@ -1036,12 +1032,9 @@ def update(args):
 
 
 def updatealternatives(args):
-    """
-    Update default alternative for things like x-window-manager
-    $ wajig update-alts
-    """
-    util.requires_one_arg(args[0], args, "name of alternative to update")
-    perform.execute("update-alternatives --config " + args[1], root=True)
+    """Update default alternative for things like x-window-manager"""
+    command = "update-alternatives --config " + args.alternative
+    perform.execute(command, root=True)
 
 
 def updatepciids(args):

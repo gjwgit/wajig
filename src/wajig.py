@@ -84,8 +84,7 @@ def main():
     parser.add_argument("-V", "--version", action="version", help=message,
                         version="%(prog)s " + const.version)
 
-    subparsers = parser.add_subparsers(title='subcommands',
-                                       help='sub-command help')
+    subparsers = parser.add_subparsers(title='subcommands')
 
     function = commands.addcdrom
     summary = function.__doc__
@@ -156,7 +155,8 @@ def main():
 
     function = commands.changelog
     summary = function.__doc__
-    parser_changelog = subparsers.add_parser("changelog", help=summary,
+    parser_changelog = subparsers.add_parser("changelog",
+                       help=summary.split("\n")[0],
                        parents=[parser_verbose],
                        description=summary,
                        formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -187,7 +187,8 @@ def main():
 
     function = commands.dependents
     summary = function.__doc__
-    parser_dependents = subparsers.add_parser("dependents", help=summary,
+    parser_dependents = subparsers.add_parser("dependents",
+                        help=summary.split("\n")[0],
                         description=summary,
                         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_dependents.add_argument("package")
@@ -267,7 +268,8 @@ def main():
 
     function = commands.force
     summary = function.__doc__
-    parser_force = subparsers.add_parser("force", help=summary,
+    parser_force = subparsers.add_parser("force",
+                   help=summary.split("\n")[0],
                    description=summary,
                    formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_force.add_argument("packages", nargs="+")
@@ -296,7 +298,8 @@ def main():
 
     function = commands.install
     summary = function.__doc__
-    parser_install = subparsers.add_parser("install", help=summary,
+    parser_install = subparsers.add_parser("install",
+        help=summary.split("\n")[0],
         parents=[parser_recommends, parser_yesno, parser_auth, parser_dist],
         aliases="isntall autoinstall".split(),
         description=summary,
@@ -658,7 +661,8 @@ def main():
 
     function = commands.sizes
     summary = function.__doc__
-    parser_sizes = subparsers.add_parser("sizes", help=summary,
+    parser_sizes = subparsers.add_parser("sizes",
+                   help=summary.split("\n")[0],
                    aliases=["size"],
                    description=summary,
                    formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -811,14 +815,16 @@ def main():
 
     function = commands.versions
     summary = function.__doc__
-    parser_versions = subparsers.add_parser("versions", help=summary,
+    parser_versions = subparsers.add_parser("versions",
+                      help=summary.split("\n")[0],
                       description=summary)
     parser_versions.add_argument("packages", nargs="*")
     parser_versions.set_defaults(func=function)
 
     function = commands.whichpackage
     summary = function.__doc__
-    parser_whichpackage = subparsers.add_parser("whichpackage", help=summary,
+    parser_whichpackage = subparsers.add_parser("whichpackage",
+        help=summary.split("\n")[0],
         aliases="findfile locate filesearch whichpkg".split(),
         description=summary,
         formatter_class=argparse.RawDescriptionHelpFormatter)
