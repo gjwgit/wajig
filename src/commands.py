@@ -23,6 +23,7 @@
 import os
 import re
 import sys
+import inspect
 import tempfile
 import subprocess
 
@@ -47,8 +48,7 @@ def addrepo(args):
     An example that shows how to add the daily builds of
     Google's Chromium browser:
 
-    $ wajig addrepo ppa:chromium-daily
-    """
+    $ wajig addrepo ppa:chromium-daily"""
     util.requires_package("add-apt-repository", "/usr/bin/add-apt-repository")
     perform.execute("add-apt-repository " + args.ppa, root=True)
 
@@ -109,6 +109,14 @@ def builddeps(args):
     command = "apt-get {} {} build-dep " + " ".join(args.packages)
     command = command.format(args.yes, args.noauth)
     perform.execute(command, root=True)
+
+
+def listcommands(args):
+    """Display all wajig commands"""
+    for name, value in sorted(globals().items()):
+        if inspect.isfunction(value):
+            summary = value.__doc__
+            print("{}\n    {}\n".format(name.upper(), summary))
 
 
 def rbuilddeps(args):
@@ -377,8 +385,7 @@ def install(args):
     also, don't install packages Recommended by <package names>.
 
     Note that, unlike using 'dpkg -i', installing a deb file will also install
-    its dependencies. The output is ugly though, so be not alarmed.
-    """
+    its dependencies. The output is ugly though, so be not alarmed."""
     packages = args.packages
 
     # Currently we use the first argument to determine the type of all
@@ -514,7 +521,7 @@ def listcache(args):
 
 
 def listalternatives(args):
-    """List the objects that can have alternatives configured """
+    """List the objects that can have alternatives configured"""
     command = ("ls /etc/alternatives/ | "
                "egrep -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
     perform.execute(command)
@@ -588,8 +595,7 @@ def listscripts(args):
 def listsection(args):
     """List packages that belong to a specific section
 
-    note: Use the LISTSECTIONS command for a list of Debian Sections
-    """
+    note: Use the LISTSECTIONS command for a list of Debian Sections"""
     section = args.section
     cache = apt.cache.Cache()
     for package in cache.keys():
@@ -860,13 +866,11 @@ def show(args):
 
 
 def sizes(args):
-    """
-    Display installed sizes of given packages
+    """Display installed sizes of given packages
     $ wajig sizes [<package name(s)>]
 
     Display installed sizes of all packages
-    $ wajig sizes
-    """
+    $ wajig sizes"""
     packages = args.packages
 
     # Work with the list of installed packages
@@ -1085,12 +1089,7 @@ def verify(args):
 
 
 def versions(args):
-    """
-    List version and distribution of given packages
-    $ wajig versions <package name(s)>
-
-    note: this runs 'apt-show-versions'
-    """
+    """List version and distribution of given packages"""
     util.requires_package("apt-show-versions", "/usr/bin/apt-show-versions")
     if args.packages:
         for package in args.packages:

@@ -172,6 +172,13 @@ def main():
                    epilog="runs 'apt-get clean'")
     parser_clean.set_defaults(func=function)
 
+    function = commands.listcommands
+    summary = function.__doc__
+    parser_commands = subparsers.add_parser("listcommands", help=summary,
+                      aliases=["commands"],
+                      description=summary)
+    parser_commands.set_defaults(func=function)
+
     function = commands.contents
     summary = function.__doc__
     parser_contents = subparsers.add_parser("contents", help=summary,
@@ -819,7 +826,8 @@ def main():
     summary = function.__doc__
     parser_versions = subparsers.add_parser("versions",
                       help=summary.split("\n")[0],
-                      description=summary)
+                      description=summary,
+                      epilog="runs 'apt-show-versions'")
     parser_versions.add_argument("packages", nargs="*")
     parser_versions.set_defaults(func=function)
 

@@ -69,9 +69,6 @@ wajig (2.3) unstable; urgency=low
   * INSTALLWITHDIST:
     * [ole] wajig INSTALLWITHDIST/<dist> <package>
     * [new] wajig INSTALL --dist <dist> <package>
-  * LISTCOMMANDS:
-    * [ole] wajig COMMANDS
-    * [new] wajig --help
   * HELP:
     * [ole] wajig HELP <command>
     * [new] wajig <command> --help
@@ -95,7 +92,7 @@ wajig (2.3) unstable; urgency=low
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 18 Mar 2012 02:36:58 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 18 Mar 2012 11:52:02 +0200
 
 wajig (2.2) unstable; urgency=low
 
