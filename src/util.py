@@ -45,16 +45,6 @@ def recommends():
         return "--no-install-recommends"
 
 
-def requires_opt_arg(command, args, message=False):
-    if len(args) > 2:
-        if message:  # checks if this is a unit test
-            print(command.upper() + " has one optional arg: " + message)
-            finishup(1)
-        return False
-    return True
-
-
-
 def requires_package(package, path, test=False):
     if not os.path.exists(path):
         if not test:
