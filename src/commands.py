@@ -131,11 +131,11 @@ def changelog(args):
          changelog - if there's newer entries, mention failure to retrieve
       -v changelog - if there's newer entries, mention failure to retrieve, and
                      proceed to display complete local changelog"""
-    util.package_exists(args.package)
 
+    cache = apt.Cache()
+    package = util.package_exists(cache, args.package)
     changelog = "{:=^79}\n".format(" {} ".format(args.package))  # header
 
-    package = apt.Cache()[args.package]
     try:
         changelog += package.get_changelog()
     except AttributeError as e:
@@ -210,12 +210,7 @@ def dependents(args):
     ]
 
     cache = apt.cache.Cache()
-    try:
-        package = cache[args.package]
-    except KeyError as error:
-        print(error.args[0])
-        sys.exit(1)
-
+    package = util.package_exists(cache, args.package)
     dependents = { name : [] for name in DEPENDENCY_TYPES }
 
     for key in cache.keys():

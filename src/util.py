@@ -54,11 +54,9 @@ def requires_package(package, path, test=False):
     return True
 
 
-def package_exists(package, test=False):
-    cache = apt.Cache()
+def package_exists(cache, package, test=False):
     try:
-        cache[package]
-        return True
+        return cache[package]
     except KeyError as error:
         if not test:
             print(error.args[0])
