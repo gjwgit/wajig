@@ -1,6 +1,6 @@
 wajig (2.3) unstable; urgency=low
 
-  * update to debhelper compat level to 9
+  * Update to debhelper compat level 9
   * Add bash file completion. Useful for INSTALL command.
   * DOWNLOAD: improve description. (Closes: #627173)
   * FILE-INSTALL, FILE-REMOVE, FILE-DOWNLOAD: fix bugs.
@@ -8,21 +8,22 @@ wajig (2.3) unstable; urgency=low
     be downloaded when there's an unauthenticated version available; this
     happens in a case where removing/purging a package leaves a void
     where APT want to be smart/convenient, and install a replacement.
-  * fix some lintian warnings
-  * replace usage of getopt with the superior argparse; this required
+  * Fix some lintian warnings
+  * Replace usage of getopt with the superior argparse; this required
     increasing minimum Python version to 3.2
-  * rm --pager option; it's really excess, considering that user can
+  * Remove --pager option; it's really excess, considering that user can
     simply do "wajig COMMAND | pager" by herself
-  * rm --pause option; it was only useful for gjig (IIRC) to avoid
+  * Remove --pause option; it was only useful for gjig (IIRC) to avoid
     windows from closing up automatically, in order to allow one to read
     the output
-  * rm ability to specify backup directory; requires too much work in order to
-    make it work with argparse; simplifies code too and there's probably no
-    one else who uses this feature anyways (not even me)
-  * rm --quiet option: all it did was redirect output to /dev/null;
+  * Remove ability to specify backup directory; requires too much work in
+    order to make it work with argparse; simplifies code too and there's
+    probably no one else who uses this feature anyways (not even me)
+  * Remove --quiet option: all it did was redirect output to /dev/null;
     when the option is used, if there is, for example, a Yes/No prompt, it
     won't be seen and it will appear like wajig is stuck; user can do own
-    redirection is she insists anyways, so let's reduce the bloat
+    redirection is she insists anyways, so let's reduce the bloat;
+    this unwittingly Closes: #664231
   * DESCRIBE: Last character in short description missing - LP: #923041
   * DEPENDENTS: improve output
   * INSTALLS/SUGGESTS: specifying multiple packages was broken, and too much
@@ -60,8 +61,30 @@ wajig (2.3) unstable; urgency=low
   * RELOAD: if this fails, try FORCE-RELOAD
   * clean-up: wajig documentation consisted of over a 100 files! They are now
     just 2 (COMMANDS & TUTORIAL) and the rest is in code (Python docstrings)
+  * HELP: remove in favor of the more standard 'wajig COMMAND -h'
+  * Remove the sanitation of wajig COMMANS, e.g. where 'LISTcommands',
+    'list-commands', and 'li-st_COMMA-nds' would be translated to
+    'listcommands'; it's too much magic (and I can't be bothered to have it
+    work with argparse)
+  * AUTOINSTALL: removed; use 'wajig INSTALL --yes <package>' instead
+  * INSTALLWITHDIST: remove; use 'wajig INSTALL --dist <dist> <package>'
+    instead
+  * LISTCOMMANDS: remove: use 'wajig --help' instead
+  * LISTCACHE: remove ability to filter output; user can always run grep
+    themselves
+  * LISTNAMES: same as LISTCACHE
+  * LISTPACKAGES: same as LISTCACHE
+  * LISTSTATUS: same as LISTCACHE
+  * TODO: new command that reads package TODO files
+  * NEW: 'wajig new --install' replaces the less elegant 'wajig new install'
+  * NEWUPGRADES: 'wajig NEWUPGRADES --install' replaces the less elegant
+    'wajig NEWUPGRADES install'
+  * SHOWDISTUPGRADE: remove; all it does is simulate a DISTUPGRADE
+  * SHOWUPGRADE: same as above, but for UPGRADE command
+  * SHOWINSTALL: same as above, but for INSTALL command
+  * SHOWREMOVE: same as above, but for REMOVE command
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 09 Mar 2012 23:22:56 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 18 Mar 2012 02:15:25 +0200
 
 wajig (2.2) unstable; urgency=low
 

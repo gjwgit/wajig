@@ -38,38 +38,10 @@ class Tests(unittest.TestCase):
         util.recommends_flag = False
         self.assertEqual(util.recommends(), "--no-install-recommends")
 
-    def test_util_requires_args(self):
-        res = util.requires_args("", [1])
-        self.assertFalse(res)
-        res = util.requires_args("", [1, 2])
-        self.assertTrue(res)
-
-    def test_util_requires_no_args(self):
-        res = util.requires_no_args("", [1], test=True)
-        self.assertTrue(res)
-        res = util.requires_no_args("", [1, 2], test=True)
-        self.assertFalse(res)
-
     def test_util_requires_opt_arg(self):
         res = util.requires_opt_arg("", [1, 2])
         self.assertTrue(res)
         res = util.requires_opt_arg("", [1, 2, 3])
-        self.assertFalse(res)
-
-    def test_util_requires_one_arg(self):
-        res = util.requires_one_arg("", [1])
-        self.assertFalse(res)
-        res = util.requires_one_arg("", [1, 2])
-        self.assertTrue(res)
-        res = util.requires_one_arg("", [1, 2, 3])
-        self.assertFalse(res)
-
-    def test_util_requires_two_args(self):
-        res = util.requires_two_args("", [1, 2])
-        self.assertFalse(res)
-        res = util.requires_two_args("", [1, 2, 3])
-        self.assertTrue(res)
-        res = util.requires_two_args("", [1, 2, 3, 4])
         self.assertFalse(res)
 
     def test_util_requires_package(self):

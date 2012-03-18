@@ -45,33 +45,6 @@ def recommends():
         return "--no-install-recommends"
 
 
-def requires_no_args(command, args, test=False):
-    if len(args) > 1:
-        if not test:
-            print(command.upper() + " requires no further arguments")
-            finishup(1)
-        return False
-    return True
-
-
-def requires_one_arg(command, args, message=False):
-    if len(args) != 2:
-        if message:  # checks if this is a unit test
-            print(command.upper() + " requires " + message)
-            finishup(1)
-        return False
-    return True
-
-
-def requires_two_args(command, args, message=False):
-    if len(args) != 3:
-        if message:  # checks if this is a unit test
-            print(command.upper() + " requires " + message)
-            finishup(1)
-        return False
-    return True
-
-
 def requires_opt_arg(command, args, message=False):
     if len(args) > 2:
         if message:  # checks if this is a unit test
@@ -80,14 +53,6 @@ def requires_opt_arg(command, args, message=False):
         return False
     return True
 
-
-def requires_args(command, args, required=False):
-    if len(args) == 1:
-        if required:  # checks if this is a unit test
-            print("{0} requires {1}".format(command.upper(), required))
-            finishup(1)
-        return False
-    return True
 
 
 def requires_package(package, path, test=False):
@@ -212,7 +177,7 @@ def ping_host(hostname):
     return True
 
 
-def do_newupgrades(install=False):
+def do_newupgrades(install, yes, noauth):
     """Display packages that are newly upgraded."""
 
     # Load the dictionaries from file then list each one and it's version
@@ -234,13 +199,12 @@ def do_newupgrades(install=False):
             perform.execute(command, root=True)
 
 
-def display_sys_docs(args, filenames):
+def display_sys_docs(package, filenames):
     """This services README and NEWS commands"""
-    docpath = os.path.join("/usr/share/doc", args[1])
+    docpath = os.path.join("/usr/share/doc", package)
     if not os.path.exists(docpath):
         print("No docs found for '{0}'. Is it installed?".format(args[1]))
         return
-    filenames = filenames.split()
     found = False
     for filename in filenames:
         path = os.path.join(docpath, filename)
@@ -254,7 +218,7 @@ def display_sys_docs(args, filenames):
             sys.stdout.flush()
             perform.execute(cat + " " + path)
     if not found:
-        print("No {0} file found for {1}.".format(command.upper(), args[1]))
+        print("File not found")
 
 
 def do_status(packages, snapshot=False):
@@ -349,13 +313,13 @@ def do_status(packages, snapshot=False):
         os.remove(ifile)
 
 
-def do_listnames(pattern, pipe=False):
+def do_listnames(pattern=False, pipe=False):
 
     # If user can't access /etc/apt/sources.list then must do this with
     # sudo or else most packages will not be found.
     needsudo = not os.access("/etc/apt/sources.list", os.R_OK)
     if pattern:
-        command = "apt-cache pkgnames | grep -- " + pattern[0] \
+        command = "apt-cache pkgnames | grep -- " + pattern \
                 + " | sort -k 1b,1"
     else:
         command = "apt-cache pkgnames | sort -k 1b,1"
