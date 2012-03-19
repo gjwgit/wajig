@@ -47,8 +47,6 @@ wajig (2.3) unstable; urgency=low
     redirection if she insists anyways, so let's reduce the bloat
   * Remove ability to specify backup directory; requires too much work in
     order to make it work with argparse
-  * wajig shell (interactive mode); I doubt if anyone will miss it, and am too
-    lazy to maintain it
   * Me wonders if the mini-tutorial was useful to anyone
   * The "--simulate" and "--teaching" options:
     * they don't don't apply to a lot wajig commands
@@ -92,7 +90,7 @@ wajig (2.3) unstable; urgency=low
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 18 Mar 2012 11:52:02 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 19 Mar 2012 23:46:58 +0200
 
 wajig (2.2) unstable; urgency=low
 
