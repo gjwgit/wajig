@@ -205,7 +205,7 @@ def main():
                          parents=[parser_backup, parser_yesno, parser_auth],
                          description=function.__doc__,
                          epilog="runs 'apt-get --show-upgraded distupgrade'")
-    help="distribution/suite to upgrade to (e.g. unstable)"
+    help = "distribution/suite to upgrade to (e.g. unstable)"
     parser_distupgrade.add_argument("dist", nargs="*", help=help)
     parser_distupgrade.set_defaults(func=function)
 
