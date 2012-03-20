@@ -6,7 +6,6 @@ import subprocess
 import readline
 import os
 import atexit
-import rlcompleter
 
 HISTFILE = os.path.join(os.environ["HOME"], ".wajig", ".wajig-history")
 
