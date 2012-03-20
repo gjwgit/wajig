@@ -180,7 +180,7 @@ def changelog(args):
             perform.execute(command)
         with open(tmp) as f:
             for line in f:
-                sys.stdout.write(line)
+                print(line, end="")
 
 
 def clean(args):
