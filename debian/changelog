@@ -58,7 +58,7 @@ wajig (2.3) unstable; urgency=low
   * SETUP: it's an alias of EDITSOURCES and it appears that it was
     added since it was the name of a long-removed Debian tool, 'apt-setup'
   * LISTWIDE: it's basically the same as LIST command
-  * LISTALL: it's exactly the same is LIST command
+  * LISTALL: it's exactly the same as LIST command
   * VERSION: it's already provided by 'wajig --version'
   * a file named COMMANDS: the content is now generated programmatically
   * AUTOINSTALL:
@@ -67,9 +67,6 @@ wajig (2.3) unstable; urgency=low
   * INSTALLWITHDIST:
     * [ole] wajig INSTALLWITHDIST/<dist> <package>
     * [new] wajig INSTALL --dist <dist> <package>
-  * HELP:
-    * [ole] wajig HELP <command>
-    * [new] wajig <command> --help
   * SHOWDISTUPGRADE: all it does is simulate DISTUPGRADE
   * SHOWUPGRADE: all it does is simulate UPGRADE
   * SHOWINSTALL: all it does is simulate INSTALL
@@ -90,7 +87,7 @@ wajig (2.3) unstable; urgency=low
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 19 Mar 2012 23:46:58 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 20 Mar 2012 23:28:59 +0200
 
 wajig (2.2) unstable; urgency=low
 

@@ -88,6 +88,11 @@ def main():
     subparsers = parser.add_subparsers(title='subcommands',
                                        help=argparse.SUPPRESS)
 
+    def help(args):
+        args.parser.print_help()
+    parser_addcdrom = subparsers.add_parser("help")
+    parser_addcdrom.set_defaults(func=help, parser=parser)
+
     function = commands.addcdrom
     parser_addcdrom = subparsers.add_parser("addcdrom",
                       description=function.__doc__,
