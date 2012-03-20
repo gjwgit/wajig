@@ -90,8 +90,8 @@ def main():
 
     def help(args):
         args.parser.print_help()
-    parser_addcdrom = subparsers.add_parser("help")
-    parser_addcdrom.set_defaults(func=help, parser=parser)
+    parser_help = subparsers.add_parser("help")
+    parser_help.set_defaults(func=help, parser=parser)
 
     function = commands.addcdrom
     parser_addcdrom = subparsers.add_parser("addcdrom",
