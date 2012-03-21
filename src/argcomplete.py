@@ -30,28 +30,8 @@
 #* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #******************************************************************************\
 
-"""Automatic completion for optparse module.
+# adapted from optcomplete (http://hg.furius.ca/public/optcomplete/)
 
-This module provide automatic bash completion support for programs that use the
-optparse module.  The premise is that the optparse options parser specifies
-enough information (and more) for us to be able to generate completion strings
-esily.  Another advantage of this over traditional completion schemes where the
-completion strings are hard-coded in a separate bash source file, is that the
-same code that parses the options is used to generate the completions, so the
-completions is always up-to-date with the program itself.
-
-In addition, we allow you specify a list of regular expressions or code that
-define what kinds of files should be proposed as completions to this file if
-needed.  If you want to implement more complex behaviour, you can instead
-specify a function, which will be called with the current directory as an
-argument.
-
-You need to activate bash completion using the shell script function that comes
-with argcomplete (see README file for more details).
-
-"""
-
-__version__ = "$Revision$"
 __author__ = "Martin Blais <blais@furius.ca>"
 
 ## Bash Protocol Description
@@ -99,38 +79,26 @@ from argparse import ArgumentParser
 
 debugfn = None # for debugging only
 
-class DaemonCompleter:
-
-    """Completes by listing all possible files in current directory."""
-
-    def __call__(self, pwd, line, point, prefix, suffix):
-        filenames = os.listdir("/etc/init.d/")
-        filenames.remove("README")
-        return filenames
 
 class AllCompleter:
-
     """Completes by listing all possible files in current directory."""
-
     def __call__(self, pwd, line, point, prefix, suffix):
         return os.listdir(pwd)
 
+
 class NoneCompleter:
-
     """Generates empty completion list."""
-
     def __call__(self, pwd, line, point, prefix, suffix):
         return []
 
+
 class DirCompleter:
-
     """Completes by listing subdirectories only."""
-
     def __call__(self, pwd, line, point, prefix, suffix):
         return filter(isdir, os.listdir(pwd))
 
-class RegexCompleter:
 
+class RegexCompleter:
     """Completes by filtering all possible files with the given list of
     regexps."""
 
@@ -162,8 +130,8 @@ class RegexCompleter:
                 ofiles.append(fn + '/')
         return ofiles
 
-class ListCompleter:
 
+class ListCompleter:
     """Completes by filtering using a fixed list of strings."""
 
     def __init__(self, stringlist):
@@ -172,8 +140,20 @@ class ListCompleter:
     def __call__(self, pwd, line, point, prefix, suffix):
         return self.olist
 
-def extract_word(line, point):
 
+class InitCompleter(ListCompleter):
+    """Completes by listing all possible files in current directory."""
+
+    def __call__(self, pwd, line, point, prefix, suffix):
+        relevant_init_files = list()
+        cache = apt.Cache()
+        for filename in self.olist:
+            if package_exists(cache, filename):
+                relevant_init_files.append(filename)
+        return relevant_init_files
+
+
+def extract_word(line, point):
     """Return a prefix and suffix of the enclosing word.  The character under
     the cursor is the first character of the suffix."""
 
@@ -197,11 +177,12 @@ def extract_word(line, point):
 
     return line[preii : point], line[point : sufii]
 
+
 def autocomplete(parser,
-                  arg_completer=None, # means use default.
-                  opt_completer=None,
-                  subcmd_completer=None,
-                  subcommands=None):
+                 arg_completer=None, # means use default.
+                 opt_completer=None,
+                 subcmd_completer=None,
+                 subcommands=None):
 
     """Automatically detect if we are requested completing and if so generate
     completion automatically from given parser.
@@ -355,53 +336,12 @@ def autocomplete(parser,
     # is a run for completions only.)
     sys.exit(1)
 
+
 def error_override(self, msg):
     """Hack to keep ArgumentParser from writing to sys.stderr when
     calling self.exit from self.error"""
     self.exit(2, msg=None)
 
-def guess_first_nonoption(gparser, subcmds_map):
-
-    """Given a global options parser, try to guess the first non-option without
-    generating an exception. This is used for scripts that implement a
-    subcommand syntax, so that we can generate the appropriate completions for
-    the subcommand."""
-
-    import copy
-    gparser = copy.deepcopy(gparser)
-    def print_usage_nousage (self, file=None):
-        pass
-    gparser.print_usage = print_usage_nousage
-
-    prev_interspersed = gparser.allow_interspersed_args # save state to restore
-    gparser.disable_interspersed_args()
-
-    cwords = os.environ['COMP_WORDS'].split()
-
-    # save original error_func so we can put it back after the hack
-    error_func = gparser.error
-    try:
-        instancemethod = type(ArgumentParser.error)
-        # hack to keep ArgumentParser from wrinting to sys.stderr
-        gparser.error = instancemethod(error_override, gparser, ArgumentParser)
-        gopts, args = gparser.parse_args(cwords[1:])
-    except SystemExit:
-        return None
-    finally:
-        # undo the hack and restore original ArgumentParser error function
-        gparser.error = instancemethod(error_func, gparser, ArgumentParser)
-
-    value = None
-    if args:
-        subcmdname = args[0]
-        try:
-            value = subcmds_map[subcmdname]
-        except KeyError:
-            pass
-
-    gparser.allow_interspersed_args = prev_interspersed # restore state
-
-    return value # can be None, indicates no command chosen.
 
 class CmdComplete:
 
