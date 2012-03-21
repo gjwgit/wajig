@@ -21,8 +21,9 @@ def main():
         command_line = input("wajig> ")
         if command_line in "exit quit bye".split():
             return
-        command = "wajig " + command_line
-        subprocess.call(command.split())
+        if command_line:
+            command = "wajig " + command_line
+            subprocess.call(command.split())
 
 if __name__ == "__main__":
     try:
