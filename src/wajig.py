@@ -24,7 +24,6 @@ import argparse
 import sys
 
 # local modules
-import argcomplete
 import commands
 import changes
 import util
@@ -750,7 +749,6 @@ def main():
     parser_whichpackage.add_argument("pattern", help="partial/full file path")
     parser_whichpackage.set_defaults(func=function)
 
-    argcomplete.autocomplete(parser, ['.*'])
     result = parser.parse_args()
     try:
         util.fast = result.fast
