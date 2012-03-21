@@ -50,10 +50,6 @@ class Tests(unittest.TestCase):
         self.assertTrue(util.package_exists(cache, "dpkg", test=True))
         self.assertFalse(util.package_exists(cache, "no_such", test=True))
 
-    def test_util_upgradable(self):
-        # needs root access to APT cache, so ignoring
-        pass
-
 
 if __name__ == '__main__':
     unittest.main()
