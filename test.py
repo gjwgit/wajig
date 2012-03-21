@@ -10,6 +10,7 @@ sys.path.append("src")
 import perform
 import util
 
+import apt
 
 class Tests(unittest.TestCase):
 
@@ -45,8 +46,9 @@ class Tests(unittest.TestCase):
         self.assertFalse(res)
 
     def test_util_package_exists(self):
-        self.assertTrue(util.package_exists("dpkg", test=True))
-        self.assertFalse(util.package_exists("pkg_does_not_exist", test=True))
+        cache = apt.Cache()
+        self.assertTrue(util.package_exists(cache, "dpkg", test=True))
+        self.assertFalse(util.package_exists(cache, "no_such", test=True))
 
     def test_util_upgradable(self):
         # needs root access to APT cache, so ignoring
