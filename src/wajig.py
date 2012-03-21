@@ -33,8 +33,15 @@ import const
 
 def main():
 
-    # Before we do any other command make sure the right files exist.
+    # before we do any other command make sure the right files exist
     changes.ensure_initialised()
+
+    # without arguments, run a wajig shell (interactive mode)
+    if len(sys.argv) == 1:
+        import subprocess
+        command = "python3 /usr/share/wajig/shell.py"
+        subprocess.call(command.split())
+        return
 
     # if only argparse would have me avoid this hack
     for n, arg in enumerate(sys.argv):
