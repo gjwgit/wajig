@@ -15,7 +15,7 @@ install:
 	cp src/*py  $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
 	cp wajig.sh $(BINDIR)/wajig
-	cp bash-completer-harness $(CMPDIR)/wajig
+	cp bash-completion $(CMPDIR)/wajig
 
 uninstall:
 	rm -rf $(LIBDIR)

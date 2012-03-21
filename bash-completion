@@ -1,0 +1,44 @@
+have wajig &&
+_wajig()
+{
+    local cur
+
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+
+    options="-b --backup -d --dist -f --fast -h --help -n --noauth \
+             -r --recommends -R --norecommends -v --verbose \
+             -y --yes -V --version"
+
+    commands="addcdrom addrepo auto-alts auto-clean auto-download \
+              autoremove available bug bugreport build build-depend changelog clean \
+              commands contents daily-upgrade dependents describe \
+              describe-new detail detail-new dist-upgrade docs download \
+              editsources extract find-file find-pkg \
+              fix-configure fix-install fix-missing force help hold init \
+              info install install-file installs integrity large \
+              last-update list list-all list-alts list-cache list-commands \
+              list-daemons list-files list-hold list-installed list-log \
+              list-names list-orphans list-scripts list-section list-sections \
+              list-status local-dist-upgrade local-upgrade madison \
+              move new news new-upgrades non-free orphans policy purge \
+              purge-orphans purge-removed rbuilddeps readme list-recommended \
+              recursive reconfigure reinstall reload remove remove-file \
+              remove-orphans repackage reportbug reset restart rpm2deb rpmtodeb rpminstall \
+              search search-apt showdistupgrade showinstall showremove \
+              showupgrade sizes snapshot source start status status-search stop \
+              syslog tasksel toupgrade unhold update update-alts update-pci-ids \
+              update-usb-ids upgrade verify versions whatis whichpkg"
+
+    if [ "$COMP_CWORD" -ge "2" ]; then
+        COMPREPLY=($( compgen -W '$(apt-cache pkgnames)' -- "$cur" ) \
+                   $( compgen -o default -- "$cur"))
+
+    elif [[ "$cur" == -* ]]; then
+        COMPREPLY=($( compgen -W "$options" -- "$cur" ) )
+
+    else
+        COMPREPLY=($( compgen -W "$commands" -- "$cur" ) )
+    fi
+}
+complete -F _wajig wajig
