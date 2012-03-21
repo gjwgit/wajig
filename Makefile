@@ -11,7 +11,7 @@ clean:
 install:
 	mkdir -p  $(LIBDIR) $(HLPDIR) $(MANDIR)
 	cp TUTORIAL $(LIBDIR)/
-	cp src/*    $(LIBDIR)/
+	cp src/*py  $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
 	cp wajig.sh $(BINDIR)/wajig
 
