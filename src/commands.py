@@ -116,8 +116,7 @@ def listcommands(args):
     for name, value in sorted(globals().items()):
         if inspect.isfunction(value):
             summary = value.__doc__
-            print(name.upper(), end=" ")
-            #print("{}\n    {}\n".format(name.upper(), summary))
+            print("{}\n    {}\n".format(name.upper(), summary))
 
 
 def rbuilddeps(args):
