@@ -60,7 +60,7 @@ wajig (2.3) unstable; urgency=low
   * LISTWIDE: it's basically the same as LIST command
   * LISTALL: it's exactly the same as LIST command
   * VERSION: it's already provided by 'wajig --version'
-  * a file named COMMANDS: the content is now generated programmatically
+  * a file named COMMANDS: the content is now generated dynamically
   * AUTOINSTALL:
     * [ole] wajig AUTOINSTALL <package>
     * [ole] wajig INSTALL --yes <package>
@@ -87,7 +87,7 @@ wajig (2.3) unstable; urgency=low
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 20 Mar 2012 23:28:59 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 21 Mar 2012 14:54:22 +0200
 
 wajig (2.2) unstable; urgency=low
 
