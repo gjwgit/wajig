@@ -1,4 +1,3 @@
-#!/bin/sh
 # adapted from optcomplete (http://hg.furius.ca/public/optcomplete/)
 
 _wajig()
