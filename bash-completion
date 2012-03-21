@@ -6,29 +6,24 @@ _wajig()
     COMPREPLY=()
     cur=${COMP_WORDS[COMP_CWORD]}
 
-    options="-b --backup -d --dist -f --fast -h --help -n --noauth \
-             -r --recommends -R --norecommends -v --verbose \
-             -y --yes -V --version"
+    options="-h --help -V --version"
 
-    commands="addcdrom addrepo auto-alts auto-clean auto-download \
-              autoremove available bug bugreport build build-depend changelog clean \
-              commands contents daily-upgrade dependents describe \
-              describe-new detail detail-new dist-upgrade docs download \
-              editsources extract find-file find-pkg \
-              fix-configure fix-install fix-missing force help hold init \
-              info install install-file installs integrity large \
-              last-update list list-all list-alts list-cache list-commands \
-              list-daemons list-files list-hold list-installed list-log \
-              list-names list-orphans list-scripts list-section list-sections \
-              list-status local-dist-upgrade local-upgrade madison \
-              move new news new-upgrades non-free orphans policy purge \
-              purge-orphans purge-removed rbuilddeps readme list-recommended \
-              recursive reconfigure reinstall reload remove remove-file \
-              remove-orphans repackage reportbug reset restart rpm2deb rpmtodeb rpminstall \
-              search search-apt showdistupgrade showinstall showremove \
-              showupgrade sizes snapshot source start status status-search stop \
-              syslog tasksel toupgrade unhold update update-alts update-pci-ids \
-              update-usb-ids upgrade verify versions whatis whichpkg"
+    commands="ADDCDROM ADDREPO AUTOALTS AUTOCLEAN AUTODOWNLOAD AUTOREMOVE
+              BUILD BUILDDEPS CHANGELOG CLEAN CONTENTS DAILYUPGRADE
+              DEPENDENTS DESCRIBE DESCRIBENEW DISTUPGRADE DOWNLOAD EDITSOURCES
+              EXTRACT FIXCONFIGURE FIXINSTALL FIXMISSING FORCE HOLD INFO INIT
+              INSTALL INSTALLSUGGESTED INTEGRITY LARGE LASTUPDATE
+              LISTALTERNATIVES LISTCACHE LISTCOMMANDS LISTDAEMONS LISTFILES
+              LISTHOLD LISTINSTALLED LISTNAMES LISTPACKAGES LISTSCRIPTS
+              LISTSECTION LISTSECTIONS LISTSTATUS LOCALDISTUPGRADE LOCALUPGRADE
+              MADISON MOVE NEW NEWDETAIL NEWS NEWUPGRADES NONFREE ORPHANS
+              POLICY PURGE PURGEORPHANS PURGEREMOVED RBUILDDEPS README
+              RECDOWNLOAD RECOMMENDED RECONFIGURE REINSTALL RELOAD REMOVE
+              REMOVEORPHANS REPACKAGE REPORTBUG RESTART RPM2DEB RPMINSTALL
+              SEARCH SEARCHAPT SHOW SIZES SNAPSHOT SOURCE START STATUS
+              STATUSMATCH STOP SYSLOG TASKSEL TODO TOUPGRADE TUTORIAL UNHOLD
+              UNOFFICIAL UPDATE UPDATEALTERNATIVES UPDATEPCIIDS UPDATEUSBIDS
+              UPGRADE UPGRADESECURITY VERIFY VERSIONS WHICHPACKAGE"
 
     if [ "$COMP_CWORD" -ge "2" ]; then
         COMPREPLY=($( compgen -W '$(apt-cache pkgnames)' -- "$cur" ) \
