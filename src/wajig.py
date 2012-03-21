@@ -21,6 +21,7 @@
 #
 
 import argparse
+import sys
 
 # wajig modules
 import commands
@@ -33,6 +34,11 @@ def main():
 
     # Before we do any other command make sure the right files exist.
     changes.ensure_initialised()
+
+    # if only argparse would have me avoid this hack
+    for n, arg in enumerate(sys.argv):
+        if arg not in ["-V", "-R"]:
+            sys.argv[n] = arg.lower()
 
     parser = argparse.ArgumentParser(
         prog="wajig",
