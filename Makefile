@@ -4,7 +4,6 @@
 LIBDIR = $(DESTDIR)/usr/share/wajig
 BINDIR = $(DESTDIR)/usr/bin
 MANDIR = $(DESTDIR)/usr/share/man/man1
-BCNDIR = $(DESTDIR)/etc/bash_completion.d
 
 clean:
 	rm -rf src/__pycache__
@@ -15,7 +14,6 @@ install:
 	cp src/*    $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
 	cp wajig.sh $(BINDIR)/wajig
-	cp wajig.completion $(BCNDIR)/wajig
 
 uninstall:
 	rm -rf $(LIBDIR)
