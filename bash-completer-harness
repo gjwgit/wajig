@@ -1,3 +1,4 @@
+# bash completion harness for wajig
 # adapted from optcomplete (http://hg.furius.ca/public/optcomplete/)
 
 _wajig()

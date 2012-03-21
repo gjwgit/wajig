@@ -23,7 +23,8 @@
 import argparse
 import sys
 
-# wajig modules
+# local modules
+import argcomplete
 import commands
 import changes
 import util
