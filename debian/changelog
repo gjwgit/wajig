@@ -44,7 +44,7 @@ wajig (2.3) unstable; urgency=low
     when the option is used, if there is, for example, a Yes/No prompt, it
     won't be seen and it will appear like wajig is stuck; user can do own
     redirection if she insists anyways, so let's reduce the bloat
-    - this change accidentally fixed an exception: Closes #661269
+    - this change accidentally fixed an exception; Closes: #661269
   * Remove ability to specify backup directory; requires too much work in
     order to make it work with argparse
   * Me wonders if the mini-tutorial was useful to anyone
@@ -87,7 +87,7 @@ wajig (2.3) unstable; urgency=low
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 22 Mar 2012 16:30:13 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 22 Mar 2012 16:36:41 +0200
 
 wajig (2.2) unstable; urgency=low
 
