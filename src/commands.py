@@ -67,7 +67,7 @@ def autodownload(args):
                     "--assume-yes dist-upgrade " + filter_str,
                     root=True)
     util.do_describe_new(args.verbose)
-    util.do_newupgrades()
+    util.do_newupgrades(args.install, args.yes, args.noauth)
 
 
 def autoclean(args):

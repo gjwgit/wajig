@@ -91,8 +91,13 @@ def main():
     parser_auth.add_argument("-n", "--noauth", action='store_true', help=message)
 
     parser_dist = argparse.ArgumentParser(add_help=False)
-    message = ("specify a distribution to use (e.g. testing or experimental)")
+    message = "specify a distribution to use (e.g. testing or experimental)"
     parser_dist.add_argument("-d", "--dist", help=message)
+
+    parser_install = argparse.ArgumentParser(add_help=False)
+    message = "install the newly-available packages"
+    parser_install.add_argument("-i", "--install", action="store_true",
+                                 help=message)
 
     message = "show wajig version"
     parser.add_argument("-V", "--version", action="version", help=message,
@@ -136,10 +141,10 @@ def main():
 
     function = commands.autodownload
     parser_autodownload = subparsers.add_parser("autodownload",
-                          parents=[parser_verbose],
-                          description=function.__doc__,
-                          epilog=("runs 'apt-get --download-only --assume-yes "
-                                  "--show-upgraded dist-upgrade'"))
+        parents=[parser_verbose, parser_yesno, parser_auth, parser_install],
+        description=function.__doc__,
+        epilog=("runs 'apt-get --download-only --assume-yes "
+                "--show-upgraded dist-upgrade'"))
     parser_autodownload.set_defaults(func=function)
 
     function = commands.autoremove
@@ -293,13 +298,13 @@ def main():
     parser_init.set_defaults(func=function)
 
     function = commands.install
-    parser_install = subparsers.add_parser("install",
+    parser_installer = subparsers.add_parser("install",
         parents=[parser_recommends, parser_yesno, parser_auth, parser_dist],
         aliases="isntall autoinstall".split(),
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser_install.add_argument("packages", nargs="+")
-    parser_install.set_defaults(func=function)
+    parser_installer.add_argument("packages", nargs="+")
+    parser_installer.set_defaults(func=function)
 
     function = commands.installsuggested
     parser_installsuggested = subparsers.add_parser("installsuggested",
@@ -417,9 +422,8 @@ def main():
 
     function = commands.new
     parser_new = subparsers.add_parser("new",
+                 parents=[parser_install],
                  description=function.__doc__)
-    parser_new.add_argument("--install", action="store_true",
-                            help="install the newly-available packages")
     parser_new.set_defaults(func=function)
 
     function = commands.newdetail
@@ -437,10 +441,8 @@ def main():
 
     function = commands.newupgrades
     parser_newupgrades = subparsers.add_parser("newupgrades",
-                         parents=[parser_yesno, parser_auth],
+                         parents=[parser_yesno, parser_auth, parser_install],
                          description=function.__doc__)
-    parser_newupgrades.add_argument("--install", action="store_true",
-        help="install the newly-available packages")
     parser_newupgrades.set_defaults(func=function)
 
     function = commands.nonfree
