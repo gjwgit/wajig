@@ -365,7 +365,8 @@ def main():
 
     function = commands.listinstalled
     parser_listinstalled = subparsers.add_parser("listinstalled",
-                           description=function.__doc__)
+                           description=function.__doc__,
+                           epilog="runs 'dpkg --get-selections | cut -f1'")
     parser_listinstalled.set_defaults(func=function)
 
     function = commands.listnames
