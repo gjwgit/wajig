@@ -21,7 +21,6 @@ wajig (2.3) unstable; urgency=low
   * Improve usability by limiting verbosity to either True or False.
   * DOWNLOAD: can't download packages listed inside a file anymore; whoever
     used that anyways?
-  * INSTALL: remove ability to install packages listed in a file.
   * Rename LISTRECOMMENDED --> RECOMMENDED
   * Remove the sanitation of wajig COMMANS, e.g. where 'LISTcommands',
     'list-commands', and 'li-st_COMMA-nds' would be translated to
