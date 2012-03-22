@@ -5,8 +5,8 @@ wajig (2.3) unstable; urgency=low
 
   UI CHANGES
   * Optional arguments should be available only to COMMANDS that use them:
-    * [ole] wajig --verbose install <package>
-    * [new] wajig install --verbose <package>
+    - [ole] wajig --verbose install <package>
+    - [new] wajig install --verbose <package>
   * REMOVE, PURGE: add --noauth option, to avoid cases where a package would
     be downloaded when there's an unauthenticated version available; this
     happens in a case where removing/purging a package leaves a void
@@ -18,8 +18,8 @@ wajig (2.3) unstable; urgency=low
   * Rename LISTRECOMMENDED --> RECOMMENDED
   * Remove the sanitation of wajig COMMANS, e.g. where 'LISTcommands',
     'list-commands', and 'li-st_COMMA-nds' would be translated to
-    'listcommands'; it's too much magic (and I can't be bothered to have it
-    work with argparse)
+    'listcommands'; it's too much magic (and too much work to get it to work
+     with argparse)
   * LISTCACHE: remove ability to filter output; user can always run grep
     themselves
   * LISTNAMES: same as LISTCACHE
@@ -49,9 +49,9 @@ wajig (2.3) unstable; urgency=low
     order to make it work with argparse
   * Me wonders if the mini-tutorial was useful to anyone
   * The "--simulate" and "--teaching" options:
-    * they don't don't apply to a lot wajig commands
-    * they display ugly output
-    * I doubt if anyone will miss them
+    - they don't don't apply to a lot wajig commands
+    - they display ugly output
+    - I doubt if anyone will miss them
   * FILEDOWNLOAD: this was pretty much a dupe of the above command
   * FILEINSTALL: whoever used this functionality?
   * FILEREMOVE: whoever used this functionality?
@@ -62,8 +62,8 @@ wajig (2.3) unstable; urgency=low
   * VERSION: it's already provided by 'wajig --version'
   * a file named COMMANDS: the content is now generated dynamically
   * AUTOINSTALL:
-    * [ole] wajig AUTOINSTALL <package>
-    * [ole] wajig INSTALL --yes <package>
+    - [ole] wajig AUTOINSTALL <package>
+    - [ole] wajig INSTALL --yes <package>
   * INSTALLWITHDIST:
     * [ole] wajig INSTALLWITHDIST/<dist> <package>
     * [new] wajig INSTALL --dist <dist> <package>
@@ -87,7 +87,7 @@ wajig (2.3) unstable; urgency=low
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 22 Mar 2012 16:20:29 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 22 Mar 2012 16:30:13 +0200
 
 wajig (2.2) unstable; urgency=low
 
