@@ -7,7 +7,6 @@ wajig (2.3) unstable; urgency=low
   * Optional arguments should be available only to COMMANDS that use them:
     * [ole] wajig --verbose install <package>
     * [new] wajig install --verbose <package>
-  * Add bash file completion. Useful for INSTALL command.
   * REMOVE, PURGE: add --noauth option, to avoid cases where a package would
     be downloaded when there's an unauthenticated version available; this
     happens in a case where removing/purging a package leaves a void
@@ -87,7 +86,7 @@ wajig (2.3) unstable; urgency=low
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 21 Mar 2012 14:54:22 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 22 Mar 2012 15:36:58 +0200
 
 wajig (2.2) unstable; urgency=low
 
