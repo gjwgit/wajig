@@ -1,3 +1,9 @@
+wajig (2.4) unstable; urgency=low
+
+  * 
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 23 Mar 2012 00:39:53 +0200
+
 wajig (2.3) unstable; urgency=low
 
   NEW
@@ -10,7 +16,7 @@ wajig (2.3) unstable; urgency=low
   * FILEINSTALL: removed in favor of INSTALL option, -f|--fileinput:
     - [ole] wajig FILEINSTALL <filename>
     - [new] wajig INSTALL --fileinput <filenames and/or packages>
-    Note that with this new command, one can specify multiple files and
+    Note that with this new option, one can specify multiple files and
     packages on the command line.
   * FILEREMOVE: applies to REMOVE as FILEINSTALL applies to INSTALL (see above)
   * FILEDOWNLOAD: applies to DOWNLOAD as... (see above)
