@@ -99,6 +99,12 @@ def main():
     parser_install.add_argument("-i", "--install", action="store_true",
                                  help=message)
 
+    parser_fileinput = argparse.ArgumentParser(add_help=False)
+    message = ("if any of the arguments are files, assume their contents to "
+               "be packages names")
+    parser_fileinput.add_argument("-f", "--fileinput", action="store_true",
+                                   help=message)
+
     message = "show wajig version"
     parser.add_argument("-V", "--version", action="version", help=message,
                         version="%(prog)s " + const.version)
@@ -299,14 +305,12 @@ def main():
 
     function = commands.install
     parser_installer = subparsers.add_parser("install",
-        parents=[parser_recommends, parser_yesno, parser_auth, parser_dist],
+        parents=[parser_recommends, parser_yesno, parser_auth, parser_dist,
+                 parser_fileinput],
         aliases="isntall autoinstall".split(),
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_installer.add_argument("packages", nargs="+")
-    parser_installer.add_argument("-f", "--fileinput", action="store_true",
-        help=("if any of the arguments are files, assume contents to be "
-              "packages names"))
     parser_installer.set_defaults(func=function)
 
     function = commands.installsuggested
@@ -538,13 +542,10 @@ def main():
 
     function = commands.remove
     parser_remove = subparsers.add_parser("remove",
-                    parents=[parser_yesno, parser_auth],
+                    parents=[parser_yesno, parser_auth, parser_fileinput],
                     description=function.__doc__,
                     epilog="runs 'apt-get --auto-remove remove'")
     parser_remove.add_argument("packages", nargs="+")
-    parser_remove.add_argument("-f", "--fileinput", action="store_true",
-        help=("if any of the arguments are files, assume contents to be "
-              "packages names"))
     parser_remove.set_defaults(func=function)
 
     function = commands.removeorphans
