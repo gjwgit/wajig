@@ -56,7 +56,7 @@ wajig (2.3) unstable; urgency=low
     - they don't don't apply to a lot wajig commands
     - they display ugly output
     - I doubt if anyone will miss them
-  * FILEDOWNLOAD: this was pretty much a dupe of the above command
+  * FILEDOWNLOAD: same functionality exists as "wajig DOWNLOAD --fileinput"
   * SETUP: it's an alias of EDITSOURCES and it appears that it was
     added since it was the name of a long-removed Debian tool, 'apt-setup'
   * LISTWIDE: it's basically the same as LIST command
