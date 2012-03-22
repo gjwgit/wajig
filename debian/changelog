@@ -49,8 +49,8 @@ wajig (2.3) unstable; urgency=low
     won't be seen and it will appear like wajig is stuck; user can easily do
     own redirection (wajig COMMAND > /dev/null), so let's reduce the bloat
     - this change accidentally fixed an exception; Closes: #661269
-  * Remove ability to specify backup directory; requires too much work in
-    order to make it work with argparse
+  * Ability to specify backup directory; requires too much work in order to
+    make it work with argparse
   * Me wonders if the mini-tutorial was useful to anyone
   * The "--simulate" and "--teaching" options:
     - they don't don't apply to a lot wajig commands
