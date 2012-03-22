@@ -262,7 +262,8 @@ def download(args):
     """Download one or more packages without installing them"""
     print("Packages being downloaded to /var/cache/apt/archives/")
     command = "apt-get --reinstall --download-only install "
-    command = command + " ".join(args.packages)
+    packages = util.consolidate_package_names(args)
+    command = command + " ".join(packages)
     perform.execute(command, root=True)
 
 

@@ -238,8 +238,9 @@ def main():
 
     function = commands.download
     parser_download = subparsers.add_parser("download",
-                  description=function.__doc__,
-                  epilog="runs 'apt-get --reinstall --download-only install'")
+        parents=[parser_fileinput],
+        description=function.__doc__,
+        epilog="runs 'apt-get --reinstall --download-only install'")
     parser_download.add_argument("packages", nargs="+")
     parser_download.set_defaults(func=function)
 

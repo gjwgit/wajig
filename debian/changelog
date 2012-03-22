@@ -19,8 +19,6 @@ wajig (2.3) unstable; urgency=low
     happens in a case where removing/purging a package leaves a void
     where APT want to be smart/convenient, and install a replacement.
   * Improve usability by limiting verbosity to either True or False.
-  * DOWNLOAD: can't download packages listed inside a file anymore; whoever
-    used that anyways?
   * Rename LISTRECOMMENDED --> RECOMMENDED
   * Remove the sanitation of wajig COMMANS, e.g. where 'LISTcommands',
     'list-commands', and 'li-st_COMMA-nds' would be translated to
