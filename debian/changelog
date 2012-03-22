@@ -9,10 +9,11 @@ wajig (2.3) unstable; urgency=low
     - [new] wajig install --verbose <package>
   * FILEINSTALL: removed in favor of INSTALL option, -f|--fileinput:
     - [ole] wajig FILEINSTALL <filename>
-    - [new] wajig INSTALL --fileinput <filename(s)> [package(s)]
+    - [new] wajig INSTALL --fileinput <filenames and/or packages>
     Note that with this new command, one can specify multiple files and
     packages on the command line.
   * FILEREMOVE: applies to REMOVE as FILEINSTALL applies to INSTALL (see above)
+  * FILEDOWNLOAD: applies to DOWNLOAD as... (see above)
   * PURGE: for sake of consistency, give this -f|--fileinput option too
   * REMOVE, PURGE: add --noauth option, to avoid cases where a package would
     be downloaded when there's an unauthenticated version available; this
@@ -56,7 +57,6 @@ wajig (2.3) unstable; urgency=low
     - they don't don't apply to a lot wajig commands
     - they display ugly output
     - I doubt if anyone will miss them
-  * FILEDOWNLOAD: same functionality exists as "wajig DOWNLOAD --fileinput"
   * SETUP: it's an alias of EDITSOURCES and it appears that it was
     added since it was the name of a long-removed Debian tool, 'apt-setup'
   * LISTWIDE: it's basically the same as LIST command
