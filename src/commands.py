@@ -372,19 +372,7 @@ def install(args):
     * one can specify multiple files with --fileinput option
     * specifying a url will try fetch the file from the internet"""
 
-    packages = list()
-    filelist = list()
-    if args.fileinput:
-        for path in args.packages:
-            if os.path.isfile(path):
-                with open(path) as f:
-                    packages.extend(f.read().split())
-                    filelist.append(path)
-    packages.extend(args.packages)
-    # filenames are not package names; this feels like a hack
-    for filename in filelist:
-        packages.remove(filename)
-    packages = list(set(packages))
+    packages = list(util.consolidate_package_names(args))
 
     # Currently we use the first argument to determine the type of all
     # of the rest. Perhaps we should look at each one in turn?
@@ -395,7 +383,6 @@ def install(args):
     # resulting .deb if they need to.
     #
     # Currently only a single URL is allowed. Should this be generalised?
-
     if re.match("(http|ftp)://", packages[0]) \
        and util.requires_package("wget", "/usr/bin/wget"):
         if len(packages) > 1:
@@ -778,19 +765,8 @@ def reload(args):
 
 def remove(args):
     """Remove packages (see also PURGE command)"""
-    packages = list()
-    filelist = list()
-    if args.fileinput:
-        for path in args.packages:
-            if os.path.isfile(path):
-                with open(path) as f:
-                    packages.extend(f.read().split())
-                    filelist.append(path)
-    packages.extend(args.packages)
-    # filenames are not package names; this feels like a hack
-    for filename in filelist:
-        packages.remove(filename)
-    command = "apt-get {} {}--auto-remove remove " + " ".join(set(packages))
+    packages = util.consolidate_package_names(args)
+    command = "apt-get {} {}--auto-remove remove " + " ".join(packages)
     command = command.format(args.yes, args.noauth)
     perform.execute(command, root=True)
 

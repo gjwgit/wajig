@@ -335,3 +335,19 @@ def get_deps_recursively(cache, package, packageslist):
         print(error.args[0])  # "package does not exist in cache"
         sys.exit(1)
     return packageslist
+
+def consolidate_package_names(args):
+    packages = list()
+    filelist = list()
+    if args.fileinput:
+        for path in args.packages:
+            if os.path.isfile(path):
+                with open(path) as f:
+                    packages.extend(f.read().split())
+                    filelist.append(path)
+    packages.extend(args.packages)
+    # filenames are not package names; this feels like a hack
+    for filename in filelist:
+        packages.remove(filename)
+    return set(packages)
+
