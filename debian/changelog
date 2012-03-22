@@ -86,7 +86,7 @@ wajig (2.3) unstable; urgency=low
 
   MISC
   * Bump minimum required Python version to 3.2 due to new dependency on
-    argparse (which replaces the less featureful optparse)
+    argparse (which replaces the less featureful getopt)
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
