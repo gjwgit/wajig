@@ -87,23 +87,21 @@ def main():
     parser_yesno.add_argument("-y", "--yes", action='store_true', help=message)
 
     parser_auth = argparse.ArgumentParser(add_help=False)
-    message = "do not authenticate packages before installation"
-    parser_auth.add_argument("-n", "--noauth", action='store_true', help=message)
+    parser_auth.add_argument("-n", "--noauth", action='store_true',
+        help="do not authenticate packages before installation")
 
     parser_dist = argparse.ArgumentParser(add_help=False)
     message = "specify a distribution to use (e.g. testing or experimental)"
     parser_dist.add_argument("-d", "--dist", help=message)
 
     parser_install = argparse.ArgumentParser(add_help=False)
-    message = "install the newly-available packages"
     parser_install.add_argument("-i", "--install", action="store_true",
-                                 help=message)
+         help="install the newly-available packages")
 
     parser_fileinput = argparse.ArgumentParser(add_help=False)
-    message = ("if any of the arguments are files, assume their contents to "
-               "be packages names")
     parser_fileinput.add_argument("-f", "--fileinput", action="store_true",
-                                   help=message)
+        help=("if any of the arguments are files, assume their contents to "
+               "be packages names"))
 
     message = "show wajig version"
     parser.add_argument("-V", "--version", action="version", help=message,
