@@ -62,11 +62,10 @@ def autoalts(args):
 def autodownload(args):
     """Do an update followed by a download of all updated packages"""
     if args.verbose:
-        util.do_update()
         filter_str = ""
     else:
-        util.do_update()
         filter_str = '| egrep -v "(http|ftp)"'
+    util.do_update()
     perform.execute("apt-get --download-only --show-upgraded " + \
                     "--assume-yes dist-upgrade " + filter_str,
                     root=True)
