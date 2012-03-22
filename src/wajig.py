@@ -542,6 +542,9 @@ def main():
                     description=function.__doc__,
                     epilog="runs 'apt-get --auto-remove remove'")
     parser_remove.add_argument("packages", nargs="+")
+    parser_remove.add_argument("-f", "--fileinput", action="store_true",
+        help=("if any of the arguments are files, assume contents to be "
+              "packages names"))
     parser_remove.set_defaults(func=function)
 
     function = commands.removeorphans

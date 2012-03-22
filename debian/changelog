@@ -12,6 +12,7 @@ wajig (2.3) unstable; urgency=low
     - [new] wajig INSTALL --fileinput <filename(s)> [package(s)]
     Note that with this new command, one can specify multiple files and
     packages on the command line.
+  * FILEREMOVE: same as FILEINSTALL
   * REMOVE, PURGE: add --noauth option, to avoid cases where a package would
     be downloaded when there's an unauthenticated version available; this
     happens in a case where removing/purging a package leaves a void
@@ -58,7 +59,6 @@ wajig (2.3) unstable; urgency=low
     - they display ugly output
     - I doubt if anyone will miss them
   * FILEDOWNLOAD: this was pretty much a dupe of the above command
-  * FILEREMOVE: whoever used this functionality?
   * SETUP: it's an alias of EDITSOURCES and it appears that it was
     added since it was the name of a long-removed Debian tool, 'apt-setup'
   * LISTWIDE: it's basically the same as LIST command
@@ -91,7 +91,7 @@ wajig (2.3) unstable; urgency=low
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 22 Mar 2012 20:52:47 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 22 Mar 2012 21:32:41 +0200
 
 wajig (2.2) unstable; urgency=low
 

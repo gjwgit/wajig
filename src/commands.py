@@ -778,7 +778,19 @@ def reload(args):
 
 def remove(args):
     """Remove packages (see also PURGE command)"""
-    command = "apt-get {} {}--auto-remove remove " + " ".join(args.packages)
+    packages = list()
+    filelist = list()
+    if args.fileinput:
+        for path in args.packages:
+            if os.path.isfile(path):
+                with open(path) as f:
+                    packages.extend(f.read().split())
+                    filelist.append(path)
+    packages.extend(args.packages)
+    # filenames are not package names; this feels like a hack
+    for filename in filelist:
+        packages.remove(filename)
+    command = "apt-get {} {}--auto-remove remove " + " ".join(set(packages))
     command = command.format(args.yes, args.noauth)
     perform.execute(command, root=True)
 
