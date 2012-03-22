@@ -88,7 +88,7 @@ wajig (2.3) unstable; urgency=low
   * MADISON: get rid of duplicates from output, if any.
   * RECONFIGURE: remove dependency on gkdebconf; the implementation was so
     broken that gkdebconf never got invoked
-  * Don't run "su -c" when root (patch by  Francesco Poli; Closes: #664231
+  * Don't run "su -c" when root (patch by  Francesco Poli); Closes: #664231
 
   MISC
   * Bump minimum required Python version to 3.2 due to new dependency on
