@@ -12,7 +12,8 @@ wajig (2.3) unstable; urgency=low
     - [new] wajig INSTALL --fileinput <filename(s)> [package(s)]
     Note that with this new command, one can specify multiple files and
     packages on the command line.
-  * FILEREMOVE: same as FILEINSTALL
+  * FILEREMOVE: applies to REMOVE as FILEINSTALL applies to INSTALL (see above)
+  * PURGE: for sake of consistency, give this -f|--fileinput option too
   * REMOVE, PURGE: add --noauth option, to avoid cases where a package would
     be downloaded when there's an unauthenticated version available; this
     happens in a case where removing/purging a package leaves a void
@@ -91,7 +92,7 @@ wajig (2.3) unstable; urgency=low
   * Update to debhelper compat level 9
   * Fix some lintian warnings
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 22 Mar 2012 21:32:41 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 22 Mar 2012 22:21:45 +0200
 
 wajig (2.2) unstable; urgency=low
 

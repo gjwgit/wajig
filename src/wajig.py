@@ -472,7 +472,7 @@ def main():
     function = commands.purge
     parser_purge = subparsers.add_parser("purge",
                    aliases=["purgedepend"],
-                   parents=[parser_yesno, parser_auth],
+                   parents=[parser_yesno, parser_auth, parser_fileinput],
                    description=function.__doc__,
                    formatter_class=argparse.RawDescriptionHelpFormatter,
                    epilog="runs 'apt-get --auto-remove purge'")

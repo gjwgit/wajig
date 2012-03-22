@@ -678,9 +678,10 @@ def policy(args):
 
 def purge(args):
     """Remove one or more packages and their configuration files"""
+    packages = util.consolidate_package_names(args)
     command = "apt-get {} {} --auto-remove purge "
     command = command.format(args.yes, args.noauth)
-    command = command + " ".join(args.packages)
+    command = command + " ".join(packages)
     perform.execute(command, root=True)
 
 
