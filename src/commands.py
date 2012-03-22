@@ -365,24 +365,26 @@ def init(args):
 
 
 def install(args):
-    """Install one or more packages or .deb files, or via a url
+    """Package installer
 
-    $ wajig install <package name(s)>
-    $ wajig install <deb filename(s)>
-    $ wajig install http://example.com/<deb filename>
+    notes:
+    * specifying a .deb file will also try to satisfy that deb's dependencies
+    * one can specify multiple files with --fileinput option
+    * specifying a url will try fetch the file from the internet"""
 
-    example:
-    $ wajig --noauth --yes --norecommends --dist experimental <package names>
-
-    The above command installs the <package name> version from Experimental
-    suite, if available. It also disregard the situation where the package
-    can't be authenticated (e.g. the package cache is not updated or the
-    keyring isn't installed).  At the same don't prompt for confirmation, and
-    also, don't install packages Recommended by <package names>.
-
-    Note that, unlike using 'dpkg -i', installing a deb file will also install
-    its dependencies. The output is ugly though, so be not alarmed."""
-    packages = args.packages
+    packages = list()
+    filelist = list()
+    if args.fileinput:
+        for path in args.packages:
+            if os.path.isfile(path):
+                with open(path) as f:
+                    packages.extend(f.read().split())
+                    filelist.append(path)
+    packages.extend(args.packages)
+    # filenames are not package names; this feels like a hack
+    for filename in filelist:
+        packages.remove(filename)
+    packages = list(set(packages))
 
     # Currently we use the first argument to determine the type of all
     # of the rest. Perhaps we should look at each one in turn?

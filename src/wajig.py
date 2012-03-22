@@ -304,6 +304,9 @@ def main():
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_installer.add_argument("packages", nargs="+")
+    parser_installer.add_argument("-f", "--fileinput", action="store_true",
+        help=("if any of the arguments are files, assume contents to be "
+              "packages names"))
     parser_installer.set_defaults(func=function)
 
     function = commands.installsuggested
