@@ -69,6 +69,7 @@ wajig (2.3) unstable; urgency=low
   * INSTALLWITHDIST:
     * [ole] wajig INSTALLWITHDIST/<dist> <package>
     * [new] wajig INSTALL --dist <dist> <package>
+  * FILE{INSTALL,REMOVE,DOWNLOAD}: see UI CHANGES section
   * SHOWDISTUPGRADE: all it does is simulate DISTUPGRADE
   * SHOWUPGRADE: all it does is simulate UPGRADE
   * SHOWINSTALL: all it does is simulate INSTALL
