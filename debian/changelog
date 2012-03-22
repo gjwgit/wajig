@@ -36,7 +36,7 @@ wajig (2.3) unstable; urgency=low
 
   DOC CHANGES:
   * DOWNLOAD: improve description. (Closes: #627173)
-  * DESCRIBE: Last character in short description missing - LP: #923041
+  * DESCRIBE: Last character in short description missing; LP: #923041
   * DEPENDENTS: improve output
 
   REMOVED
@@ -46,8 +46,8 @@ wajig (2.3) unstable; urgency=low
     closing up automatically, in order to allow one to read the output
   * All "--quiet" option did was redirect output to /dev/null;
     when the option is used, if there is, for example, a Yes/No prompt, it
-    won't be seen and it will appear like wajig is stuck; user can do own
-    redirection if she insists anyways, so let's reduce the bloat
+    won't be seen and it will appear like wajig is stuck; user can easily do
+    own redirection (wajig COMMAND > /dev/null), so let's reduce the bloat
     - this change accidentally fixed an exception; Closes: #661269
   * Remove ability to specify backup directory; requires too much work in
     order to make it work with argparse
