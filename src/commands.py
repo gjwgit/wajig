@@ -404,25 +404,6 @@ def install(args):
     # check if DEB files were specified
     elif re.match(".*\.deb$", packages[0]):
         debfile.install(set(packages))
-    #
-    # Check if a "/+" is in a package name then use the following distribution
-    # for all packages! We might not want this previsely if there are multiple
-    # packages listed and only one has the /+ notation. So do it only for the
-    # specified one. I have introduced this notation myself, extending
-    # the apt-get "/" notation. "+" by itself won't work since "+" can
-    # appear in a package name, and it is okay if a distribution name starts
-    # with "+" since you just include two "+"'s then.
-    #
-    # TODO
-    #
-    # Currently only do this for the first package........
-    #
-#     elif re.match(".*/+.*", packages[0]):
-#         print "HI"
-#         (packages[0], release) = re.compile(r'/\+').split(packages[0])
-#       command = "apt-get --target-release %s install %s" %\
-#                   (release, util.concat(packages))
-#       perform.execute(command, root=1)
     else:
         rec = util.recommends()
         if args.dist:
