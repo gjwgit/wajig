@@ -11,8 +11,16 @@ clean:
 
 install:
 	mkdir -p  $(LIBDIR) $(HLPDIR) $(MANDIR)
+	cp src/changes.py  $(LIBDIR)/
+	cp src/commands.py  $(LIBDIR)/
+	cp src/const.py  $(LIBDIR)/
+	cp src/debfile.py  $(LIBDIR)/
+	cp src/debfile-deps.py  $(LIBDIR)/
+	cp src/perform.py  $(LIBDIR)/
+	cp src/shell.py  $(LIBDIR)/
+	cp src/util.py  $(LIBDIR)/
+	cp src/wajig.py  $(LIBDIR)/
 	cp TUTORIAL $(LIBDIR)/
-	cp src/*py  $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
 	cp wajig.sh $(BINDIR)/wajig
 	cp bash-completion $(CMPDIR)/wajig
