@@ -384,8 +384,8 @@ def install(args):
     # resulting .deb if they need to.
     #
     # Currently only a single URL is allowed. Should this be generalised?
-    if re.match("(http|ftp)://", packages[0]) \
-       and util.requires_package("wget", "/usr/bin/wget"):
+    if re.match("(http|ftp)://", packages[0]):
+        util.requires_package("wget", "/usr/bin/wget")
         if len(packages) > 1:
             print("install URL allows only one URL, not " + str(len(packages)))
             sys.exit(1)
