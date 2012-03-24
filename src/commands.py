@@ -387,7 +387,7 @@ def install(args):
     if re.match("(http|ftp)://", packages[0]):
         util.requires_package("wget", "/usr/bin/wget")
         if len(packages) > 1:
-            print("install URL allows only one URL, not " + str(len(packages)))
+            print("install URL allows only one URL")
             sys.exit(1)
         tmpdeb = tempfile.mkstemp()[1] + ".deb"
         command = "wget --output-document=" + tmpdeb + " " + packages[0]
