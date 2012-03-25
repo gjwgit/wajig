@@ -701,6 +701,13 @@ def recommended(args):
     perform.execute(command)
 
 
+def reinstall(args):
+    """Reinstall the given packages"""
+    command = "apt-get install --reinstall {} {} " + " ".join(args.packages)
+    command = command.format(args.noauth, args.yes)
+    perform.execute(command, root=True)
+
+
 def reload(args):
     """Reload system daemons (see LIST-DAEMONS for available daemons)"""
     command = "service {} reload".format(args.daemon)
@@ -777,6 +784,14 @@ def searchapt(args):
     perform.execute(command, root=True)
 
 
+def show(args):
+    """Provide a detailed description of package"""
+    package_names = " ".join(set(args.packages))
+    tool = "apt-cache" if args.fast else "aptitude"
+    command = "{} show {}".format(tool, package_names)
+    perform.execute(command)
+
+
 def start(args):
     """Start system daemons (see LIST-DAEMONS for available daemons)"""
     command = "service {} start".format(args.daemon)
@@ -787,21 +802,6 @@ def stop(args):
     """Stop system daemons (see LISTDAEMONS for available daemons)"""
     command = "service {} stop".format(args.daemon)
     perform.execute(command, root=True)
-
-
-def reinstall(args):
-    """Reinstall the given packages"""
-    command = "apt-get install --reinstall {} {} " + " ".join(args.packages)
-    command = command.format(args.noauth, args.yes)
-    perform.execute(command, root=True)
-
-
-def show(args):
-    """Provide a detailed description of package"""
-    package_names = " ".join(set(args.packages))
-    tool = "apt-cache" if args.fast else "aptitude"
-    command = "{} show {}".format(tool, package_names)
-    perform.execute(command)
 
 
 def sizes(args):
