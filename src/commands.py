@@ -103,14 +103,6 @@ def builddeps(args):
     perform.execute(command, root=True)
 
 
-def listcommands(args):
-    """Display all wajig commands"""
-    for name, value in sorted(globals().items()):
-        if inspect.isfunction(value):
-            summary = value.__doc__
-            print("{}\n    {}\n".format(name.upper(), summary))
-
-
 def rbuilddeps(args):
     """Display the packages which build-depend on the given package"""
     util.requires_package("grep-dctrl", "/usr/bin/grep-dctrl")
@@ -456,6 +448,14 @@ def listalternatives(args):
     command = ("ls /etc/alternatives/ | "
                "egrep -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
     perform.execute(command)
+
+
+def listcommands(args):
+    """Display all wajig commands"""
+    for name, value in sorted(globals().items()):
+        if inspect.isfunction(value):
+            summary = value.__doc__
+            print("{}\n    {}\n".format(name.upper(), summary))
 
 
 def listdaemons(args):
