@@ -26,34 +26,25 @@ import os
 import getpass
 import subprocess
 
-setroot = "/bin/su"
-#
-# TODO - ONLY SET TO sudo IF USER IS IN THE sudoers FILE. THUS THE
-# FALL BACK IS TO USING su EVEN IF sudo IS INSTALLED.
-#
 user = ""
 
 try:
     user = os.environ['USER']
 except:
-    pass
+    user = getpass.getuser()
 
-try:
-    if not user:
-        user = getpass.getuser()
-except:
-    user = 'unknown'
 
-if os.path.exists("/usr/bin/sudo") and user != 'root':
+if os.path.exists("/usr/bin/sudo") and user != "root" and \
+"sudo" in subprocess.check_output((["groups"]), universal_newlines=True):
     setroot = "/usr/bin/sudo"
-    #
     # In case someone is using the non-default install of sudo on
     # Debian (the default install uses a default root path for sudo
     # which includes sbin) or have added this user to the sudo group
     # (which has the effect of also using the user's path rather than
     # the root path), add the sbin directories to the PATH.
-    #
     os.environ['PATH'] = os.environ['PATH'] + ":/sbin:/usr/sbin"
+else:
+    setroot = "/bin/su"
 
 
 def execute(command, root=False, pipe=False, langC=False, test=False):
