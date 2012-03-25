@@ -30,11 +30,6 @@ import changes
 import perform
 
 
-fast = False  # Used for choosing 'apt-cache show' instead of the slower
-              # 'aptitude show'; see debian/changelog for 2.0.50 why aptitude
-              # was chosen as default.
-
-
 def requires_package(package, path, test=False):
     if not os.path.exists(path):
         if not test:

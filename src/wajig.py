@@ -26,7 +26,6 @@ import sys
 # local modules
 import commands
 import changes
-import util
 
 VERSION = "2.4"
 
@@ -760,10 +759,6 @@ def main():
     parser_whichpackage.set_defaults(func=function)
 
     result = parser.parse_args()
-    try:
-        util.fast = result.fast
-    except AttributeError:
-        pass
     try:
         result.recommends = "--install-recommends" if result.recommends else ""
     except AttributeError:

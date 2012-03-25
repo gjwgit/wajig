@@ -630,7 +630,7 @@ def newdetail(args):
     new_packages = changes.get_new_available()
     if new_packages:
         package_names = " ".join(new_packages)
-        command = "apt-cache" if util.fast else "aptitude"
+        command = "apt-cache" if args.fast else "aptitude"
         perform.execute("{} show {}".format(command, package_names))
     else:
         print("No new packages available")
@@ -828,7 +828,7 @@ def reinstall(args):
 def show(args):
     """Provide a detailed description of package"""
     package_names = " ".join(set(args.packages))
-    tool = "apt-cache" if util.fast else "aptitude"
+    tool = "apt-cache" if args.fast else "aptitude"
     command = "{} show {}".format(tool, package_names)
     perform.execute(command)
 
