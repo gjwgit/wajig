@@ -36,6 +36,9 @@ import perform
 import util
 import debfile
 
+# before we do any other command make sure the right files exist
+changes.ensure_initialised()
+
 
 def addcdrom(args):
     """Add a Debian CD/DVD to APT's list of available sources"""

@@ -23,17 +23,12 @@
 import argparse
 import sys
 
-# local modules
 import commands
-import changes
 
 VERSION = "2.4"
 
 
 def main():
-
-    # before we do any other command make sure the right files exist
-    changes.ensure_initialised()
 
     # without arguments, run a wajig shell (interactive mode)
     if len(sys.argv) == 1:
