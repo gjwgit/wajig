@@ -27,7 +27,6 @@ import inspect
 import tempfile
 import subprocess
 
-import apt_pkg
 import apt
 
 # wajig modules
