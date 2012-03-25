@@ -27,7 +27,8 @@ import sys
 import commands
 import changes
 import util
-import const
+
+VERSION = "2.4"
 
 
 def main():
@@ -105,7 +106,7 @@ def main():
 
     message = "show wajig version"
     parser.add_argument("-V", "--version", action="version", help=message,
-                        version="%(prog)s " + const.version)
+                        version="%(prog)s " + VERSION)
 
     subparsers = parser.add_subparsers(title='subcommands',
                                        help=argparse.SUPPRESS)
