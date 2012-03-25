@@ -44,7 +44,10 @@ def main(package):
         prompt = "Do you want to continue [Y/n]? "
         choice = input(prompt)
         if "y" == choice.lower() or not choice:
-            cache.commit(apt.progress.text.AcquireProgress())
+            try:
+                cache.commit(apt.progress.text.AcquireProgress())
+            except apt.cache.FetchFailedException as e:
+                print(e)
         else:
             print("Abort.")
 

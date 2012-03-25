@@ -376,42 +376,36 @@ def install(args):
     * one can specify multiple files with --fileinput option
     * specifying a url will try fetch the file from the internet"""
 
-    packages = list(util.consolidate_package_names(args))
+    packages = util.consolidate_package_names(args)
 
-    # Currently we use the first argument to determine the type of all
-    # of the rest. Perhaps we should look at each one in turn?
-    #
-    # Handle URLs first. We don't do anything smart.  Simply download
-    # the .deb file and install it.  If it fails then don't attempt to
-    # recover.  The user can do a wget themselves and install the
-    # resulting .deb if they need to.
-    #
-    # Currently only a single URL is allowed. Should this be generalised?
-    if re.match("(http|ftp)://", packages[0]):
-        util.requires_package("wget", "/usr/bin/wget")
-        if len(packages) > 1:
-            print("install URL allows only one URL")
-            sys.exit(1)
-        tmpdeb = tempfile.mkstemp()[1] + ".deb"
-        command = "wget --output-document=" + tmpdeb + " " + packages[0]
-        if not perform.execute(command):
-            command = "dpkg --install " + tmpdeb
-            perform.execute(command, root=1)
-            if os.path.exists(tmpdeb):
-                os.remove(tmpdeb)
-        else:
-            print("The location " + packages[0] +\
-                  " was not found. Check and try again.")
+    online_files = [package for package in packages
+                            if package.startswith(("http://", "ftp://"))]
+    deb_files = list()
+    for package in online_files:
+        if re.match("(http|ftp)://", package):
+            util.requires_package("wget", "/usr/bin/wget")
+            tmpdeb = tempfile.mkstemp()[1] + ".deb"
+            command = "wget --output-document=" + tmpdeb + " " + package
+            if not perform.execute(command):
+                deb_files.append(tmpdeb)
+            else:
+                message = ("The location '{}' was not found. Check and try "
+                           " again.".format(package))
+                print(message)
 
-    # check if DEB files were specified
-    elif re.match(".*\.deb$", packages[0]):
-        debfile.install(set(packages))
-    else:
-        rec = args.recommends
+    deb_files.extend([package for package in packages
+                            if package.endswith(".deb")
+                            and os.path.exists(package)])
+    if deb_files:
+        debfile.install(deb_files, args)
+
+    packages = packages.difference(online_files, deb_files)
+    if packages:
         if args.dist:
             args.dist = "--target-release " + args.dist
         command = "apt-get {} {} {} {} install " + " ".join(packages)
-        command = command.format(args.yes, args.noauth, rec, args.dist)
+        command = command.format(args.yes, args.noauth, args.recommends,
+                                 args.dist)
         perform.execute(command, root=True)
 
 

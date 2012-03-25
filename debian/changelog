@@ -4,8 +4,13 @@ wajig (2.4) unstable; urgency=low
     a given package isn't found, check if such a package even exists.
   * INSTALL, INSTALLSUGGESTED: make --recommends and --norecommends options
     conflict.
+  * INSTALL: one can now specify a mixture of installables:
+    * deb files
+    * url files
+    * normal packages
+    Previously, only one of these types could be installed at a time
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 25 Mar 2012 23:03:38 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 25 Mar 2012 23:54:32 +0200
 
 wajig (2.3) unstable; urgency=low
 

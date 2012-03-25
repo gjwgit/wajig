@@ -15,7 +15,7 @@ import sys
 import perform
 
 
-def install(package_list):
+def install(package_list, args=False):
     """Some gymnastics to try install local DEB files"""
 
     non_existent = list()
