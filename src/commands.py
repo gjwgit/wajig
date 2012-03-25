@@ -374,7 +374,13 @@ def install(args):
     notes:
     * specifying a .deb file will also try to satisfy that deb's dependencies
     * one can specify multiple files with --fileinput option
-    * specifying a url will try fetch the file from the internet"""
+    * specifying a url will try fetch the file from the internet
+
+    example:
+    $ wajig install a b_1.0_all.deb http://example.com/c_1.0_all.deb
+
+    Assuming there's no errors, the command will install 3 packages named
+    'a', 'b', and 'c''"""
 
     packages = util.consolidate_package_names(args)
 
