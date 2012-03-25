@@ -527,6 +527,18 @@ def listsection(args):
             print(package.name)
 
 
+def listsections(args):
+    """List all available sections"""
+    cache = apt.cache.Cache()
+    sections = list()
+    for package in cache.keys():
+        package = cache[package]
+        sections.append(package.section)
+    sections = set(sections)
+    for section in sections:
+        print(section)
+
+
 def liststatus(args):
     """Same as list but only prints first two columns, not truncated"""
     cmd = "COLUMNS=400 "
@@ -546,18 +558,6 @@ def localupgrade(args):
     """Upgrade using only packages that are already downloaded"""
     command = "apt-get --no-download --ignore-missing --show-upgraded upgrade"
     perform.execute(command, root=True)
-
-
-def listsections(args):
-    """List all available sections"""
-    cache = apt.cache.Cache()
-    sections = list()
-    for package in cache.keys():
-        package = cache[package]
-        sections.append(package.section)
-    sections = set(sections)
-    for section in sections:
-        print(section)
 
 
 def madison(args):
