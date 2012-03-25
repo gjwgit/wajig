@@ -83,17 +83,6 @@ def execute(command, root=False, pipe=False, langC=False, test=False):
             # it: echo package hold | dpkg --set-selections
             #
             command = setroot + " " + command.replace("|", "| %s " % setroot)
-            #
-            # Did try packaging the sudo up in a sh command. But then
-            # this loses the tuning of sudoers to just the APT commands.
-            # and also required /bin/sh to be NOPASSWD'ed if wanted
-            # password-less wajig.
-            #
-            # command = setroot + " sh -c '%s'" % command
-            #
-            # Decide to always require a password, even if sudoers
-            # says NOPASSWD. Only other alternative might be to store
-            # intermediate results in temporary files.
         else:
             if user != "root" and not test:
                 print("""
