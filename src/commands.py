@@ -437,37 +437,7 @@ def integrity(args):
 
 def large(args):
     """List size of all large (>10MB) installed packages"""
-    size = 10000
-
-    # Work with the list of installed packages
-    # (I think status has more than installed?)
-    status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"))
-    size_list = dict()
-    status_list = dict()
-
-    # Check for information in the Status list
-    for section in status:
-        package_name   = section.get("Package")
-        package_size   = section.get("Installed-Size")
-        package_status = re.split(" ", section.get("Status"))[2]
-        if package_size and int(package_size) > size:
-            if package_name not in size_list:
-                size_list[package_name] = package_size
-                status_list[package_name] = package_status
-
-    packages = list(size_list)
-    packages.sort(key=lambda x: int(size_list[x]))  # sort by size
-
-    if packages:
-        print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
-        print("{}-{}-{}".format("="*33, "="*10, "="*12))
-        for package in packages:
-            message = "{:<33} {:^10} {:>12}".format(package,
-                       format(int(size_list[package]), ',d'),
-                       status_list[package])
-            print(message)
-    else:
-        print("No packages of >10MB size found")
+    util.sizes(size=10000)
 
 
 def lastupdate(args):
@@ -842,38 +812,7 @@ def sizes(args):
 
     Display installed sizes of all packages
     $ wajig sizes"""
-    packages = args.packages
-
-    # Work with the list of installed packages
-    # (I think status has more than installed?)
-    status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"))
-    size_list = dict()
-    status_list = dict()
-
-    # Check for information in the Status list
-    for section in status:
-        if not packages or section.get("Package") in packages:
-            package_name   = section.get("Package")
-            package_size   = section.get("Installed-Size")
-            package_status = re.split(" ", section.get("Status"))[2]
-            if package_size and int(package_size) > 0:
-                if package_name not in size_list:
-                    size_list[package_name] = package_size
-                    status_list[package_name] = package_status
-
-    packages = list(size_list)
-    packages.sort(key=lambda x: int(size_list[x]))  # sort by size
-
-    if len(packages) == 0:
-        print("No packages found from those known to be available or installed")
-    else:
-        print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
-        print("{}-{}-{}".format("="*33, "="*10, "="*12))
-        for package in packages:
-            message = "{:<33} {:^10} {:>12}".format(package,
-                       format(int(size_list[package]), ',d'),
-                       status_list[package])
-            print(message)
+    util.sizes(args.packages)
 
 
 def snapshot(args):

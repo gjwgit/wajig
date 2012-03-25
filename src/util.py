@@ -23,8 +23,10 @@
 import os
 import sys
 import tempfile
+import re
 
 import apt
+import apt_pkg
 
 import changes
 import perform
@@ -336,4 +338,32 @@ def consolidate_package_names(args):
     for filename in filelist:
         packages.remove(filename)
     return set(packages)
+
+def sizes(packages=None, size=0):
+    status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"))
+    size_list = dict()
+    status_list = dict()
+
+    for section in status:
+        package_name   = section.get("Package")
+        package_size   = section.get("Installed-Size")
+        package_status = re.split(" ", section.get("Status"))[2]
+        if package_size and int(package_size) > size:
+            if package_name not in size_list:
+                size_list[package_name] = package_size
+                status_list[package_name] = package_status
+
+    packages = list(size_list)
+    packages.sort(key=lambda x: int(size_list[x]))  # sort by size
+
+    if packages:
+        print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
+        print("{}-{}-{}".format("="*33, "="*10, "="*12))
+        for package in packages:
+            message = "{:<33} {:^10} {:>12}".format(package,
+                       format(int(size_list[package]), ',d'),
+                       status_list[package])
+            print(message)
+    else:
+        print("No packages of >10MB size found")
 
