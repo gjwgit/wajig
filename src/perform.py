@@ -53,17 +53,12 @@ def execute(command, root=False, pipe=False, langC=False, test=False):
     Arguments:
 
     COMMAND     A string containing the command and command line options
-    ROOT        If non-zero then root access is required to execute command
+    ROOT        If True, root access is required to execute command
     PIPE        If True then return a file-like object.
     LANGC       If LC_TYPE=C is needed (as in join in status command)
 
-    Returns:
-
     Returns either the status of the command or a file-like object
-    if PIPE is True.
-
-    Note that the PIPE option was added as a minor modification and has not
-    been fully tested, but is extremely useful in avoiding temporary files."""
+    if PIPE is True."""
 
     if root:
         if setroot == "/usr/bin/sudo":
