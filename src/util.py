@@ -192,7 +192,7 @@ def display_sys_docs(package, filenames):
     docpath = os.path.join("/usr/share/doc", package)
     if not os.path.exists(docpath):
         if package_exists(apt.Cache(), package):
-            print("'{}' is not installed?".format(args[1]))
+            print("'{}' is not installed".format(package))
         return
     found = False
     for filename in filenames:
