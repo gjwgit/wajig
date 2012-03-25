@@ -51,7 +51,7 @@ def main():
     )
 
     parser_backup = argparse.ArgumentParser(add_help=False)
-    message = ("backup packages currently installed packages before replacing "
+    message = ("backup currently installed packages before replacing "
                "them; used in conjuntion with [DIST]UPGRADE commands")
     parser_backup.add_argument("-b", "--backup", action='store_true',
                                 help=message)
