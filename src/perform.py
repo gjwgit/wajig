@@ -47,7 +47,8 @@ else:
     setroot = "/bin/su"
 
 
-def execute(command, root=False, pipe=False, langC=False, test=False):
+def execute(command, simulate=False, root=False, pipe=False, langC=False,
+            test=False):
     """Ask the operating system to perform a command.
 
     Arguments:
@@ -99,11 +100,11 @@ def execute(command, root=False, pipe=False, langC=False, test=False):
     #
     if langC:
         command = "LC_ALL=C; export LC_ALL; " + command
-    if not test:
-        if pipe:
-            return os.popen(command)
-        else:
-            return subprocess.call(command, shell=True)
     if test:
         return command
-    return 0
+    elif simulate:
+        print(command)
+    elif pipe:
+        return os.popen(command)
+    else:
+        return subprocess.call(command, shell=True)

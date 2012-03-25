@@ -55,6 +55,11 @@ def main():
     parser_backup.add_argument("-b", "--backup", action='store_true',
                                 help=message)
 
+    parser_simulate = argparse.ArgumentParser(add_help=False)
+    message = "backup currently installed packages before replacing them"
+    parser_simulate.add_argument("-s", "--simulate", action='store_true',
+                                 help=message)
+
     parser_verbose = argparse.ArgumentParser(add_help=False)
     message = "turn on verbose output"
     parser_verbose.add_argument("-v", "--verbose", action="store_true",
@@ -296,7 +301,7 @@ def main():
     function = commands.install
     parser_installer = subparsers.add_parser("install",
         parents=[parser_recommends, parser_yesno, parser_auth, parser_dist,
-                 parser_fileinput],
+                 parser_fileinput, parser_simulate],
         aliases="isntall autoinstall".split(),
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
