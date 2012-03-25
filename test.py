@@ -32,13 +32,6 @@ class Tests(unittest.TestCase):
     # ----
     # testing util.py
     # ----
-    def test_util_recommends(self):
-        self.assertEqual(util.recommends(), "")
-        util.recommends_flag = True
-        self.assertEqual(util.recommends(), "--install-recommends")
-        util.recommends_flag = False
-        self.assertEqual(util.recommends(), "--no-install-recommends")
-
     def test_util_requires_package(self):
         res = util.requires_package("ls", "/bin/ls", test=True)
         self.assertTrue(res)

@@ -404,7 +404,7 @@ def install(args):
     elif re.match(".*\.deb$", packages[0]):
         debfile.install(set(packages))
     else:
-        rec = util.recommends()
+        rec = args.recommends
         if args.dist:
             args.dist = "--target-release " + args.dist
         command = "apt-get {} {} {} {} install " + " ".join(packages)
@@ -422,7 +422,7 @@ def installsuggested(args):
         sys.exit(1)
     dependencies = " ".join(util.extract_dependencies(package, "Suggests"))
     command = "apt-get {0} {1} {2} --show-upgraded install {3} {4}"
-    command = command.format(util.recommends(), args.yes, args.noauth,
+    command = command.format(args.recommends, args.yes, args.noauth,
                              dependencies, args.package)
     perform.execute(command, root=True)
 

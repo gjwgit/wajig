@@ -81,7 +81,7 @@ def main():
     message = ("do not install with Recommended dependencies; used in "
                "conjunction with INSTALL command")
     parser_recommends.add_argument("-R", "--norecommends",
-                                     action='store_false', help=message)
+                                     action='store_true', help=message)
 
     parser_yesno = argparse.ArgumentParser(add_help=False)
     message = "skip 'Yes/No' confirmation prompts; use with care!"
@@ -765,11 +765,11 @@ def main():
     except AttributeError:
         pass
     try:
-        util.recommends_flag = result.recommends
+        result.recommends = "--install-recommends" if result.recommends else ""
     except AttributeError:
         pass
     try:
-        util.recommends_flag = result.norecommends
+        result.recommends = "--no-install-recommends" if result.norecommends else ""
     except AttributeError:
         pass
     try:

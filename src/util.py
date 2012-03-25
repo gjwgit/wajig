@@ -30,19 +30,9 @@ import changes
 import perform
 
 
-recommends_flag = None
 fast = False  # Used for choosing 'apt-cache show' instead of the slower
               # 'aptitude show'; see debian/changelog for 2.0.50 why aptitude
               # was chosen as default.
-
-
-def recommends():
-    if recommends_flag is None:
-        return ""
-    elif recommends_flag is True:
-        return "--install-recommends"
-    else:
-        return "--no-install-recommends"
 
 
 def requires_package(package, path, test=False):
