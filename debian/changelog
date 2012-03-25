@@ -1,9 +1,11 @@
 wajig (2.4) unstable; urgency=low
 
-  * README, TODO, NEWS: if doc path (/usr/share/doc/<package name>) path for
+  * README, TODO, NEWS: if doc path (/usr/share/doc/<package name>) for
     a given package isn't found, check if such a package even exists.
+  * INSTALL, INSTALLSUGGESTED: make --recommends and --norecommends options
+    conflict.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 25 Mar 2012 21:44:50 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 25 Mar 2012 23:03:38 +0200
 
 wajig (2.3) unstable; urgency=low
 

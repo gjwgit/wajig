@@ -68,14 +68,14 @@ def main():
     parser_fast.add_argument("-f", "--fast", action='store_true', help=message)
 
     parser_recommends = argparse.ArgumentParser(add_help=False)
+    group = parser_recommends.add_mutually_exclusive_group()
     message = ("install with Recommended dependencies; used in "
                "conjunction with INSTALL command")
-    parser_recommends.add_argument("-r", "--recommends", action='store_true',
-                                    help=message)
+    group.add_argument("-r", "--recommends", action='store_true', help=message)
     message = ("do not install with Recommended dependencies; used in "
                "conjunction with INSTALL command")
-    parser_recommends.add_argument("-R", "--norecommends",
-                                     action='store_true', help=message)
+    group.add_argument("-R", "--norecommends", action='store_true',
+                        help=message)
 
     parser_yesno = argparse.ArgumentParser(add_help=False)
     message = "skip 'Yes/No' confirmation prompts; use with care!"
