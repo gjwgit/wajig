@@ -82,12 +82,6 @@ def autoremove(args):
     perform.execute("apt-get autoremove", root=True)
 
 
-def reportbug(args):
-    """Report a bug in a package using Debian BTS (Bug Tracking System)"""
-    util.requires_package("reportbug", "/usr/bin/reportbug")
-    perform.execute("reportbug " + args.package)
-
-
 def build(args):
     """Retrieve source packages, unpack them, and build binary (.deb) packages
     from them. This also installs the needed build-dependencies if needed."""
@@ -740,6 +734,12 @@ def repackage(args):
     util.requires_package("fakeroot", "/usr/bin/fakeroot")
     command = "fakeroot --unknown-is-real dpkg-repack " + args.package
     perform.execute(command, root=False)
+
+
+def reportbug(args):
+    """Report a bug in a package using Debian BTS (Bug Tracking System)"""
+    util.requires_package("reportbug", "/usr/bin/reportbug")
+    perform.execute("reportbug " + args.package)
 
 
 def restart(args):
