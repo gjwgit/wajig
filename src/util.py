@@ -191,7 +191,8 @@ def display_sys_docs(package, filenames):
     """This services README and NEWS commands"""
     docpath = os.path.join("/usr/share/doc", package)
     if not os.path.exists(docpath):
-        print("No docs found for '{0}'. Is it installed?".format(args[1]))
+        if package_exists(apt.Cache(), package):
+            print("'{}' is not installed?".format(args[1]))
         return
     found = False
     for filename in filenames:
