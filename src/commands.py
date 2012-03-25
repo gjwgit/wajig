@@ -103,14 +103,6 @@ def builddeps(args):
     perform.execute(command, root=True)
 
 
-def rbuilddeps(args):
-    """Display the packages which build-depend on the given package"""
-    util.requires_package("grep-dctrl", "/usr/bin/grep-dctrl")
-    command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep "
-    command = command + args.package + " /var/lib/apt/lists/*Sources"
-    perform.execute(command)
-
-
 def changelog(args):
     """Display Debian changelog of a package
 
@@ -653,6 +645,14 @@ def purgeremoved(args):
         packages += " " + package.strip()
     if packages:
         perform.execute("apt-get purge" + packages, root=True)
+
+
+def rbuilddeps(args):
+    """Display the packages which build-depend on the given package"""
+    util.requires_package("grep-dctrl", "/usr/bin/grep-dctrl")
+    command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep "
+    command = command + args.package + " /var/lib/apt/lists/*Sources"
+    perform.execute(command)
 
 
 def readme(args):
