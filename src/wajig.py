@@ -77,7 +77,7 @@ def main():
     message = ("install with Recommended dependencies; used in "
                "conjunction with INSTALL command")
     parser_recommends.add_argument("-r", "--recommends", action='store_true',
-                                    default=True, help=message)
+                                    help=message)
     message = ("do not install with Recommended dependencies; used in "
                "conjunction with INSTALL command")
     parser_recommends.add_argument("-R", "--norecommends",
