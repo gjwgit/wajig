@@ -138,8 +138,7 @@ def changelog(args):
       -v changelog - if there's newer entries, mention failure to retrieve, and
                      proceed to display complete local changelog"""
 
-    cache = apt.Cache()
-    package = util.package_exists(cache, args.package)
+    package = util.package_exists(apt.Cache(), args.package)
     changelog = "{:=^79}\n".format(" {} ".format(args.package))  # header
 
     try:
