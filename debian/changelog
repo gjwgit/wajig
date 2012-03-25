@@ -10,7 +10,7 @@ wajig (2.4) unstable; urgency=low
     * normal packages
     Previously, only one of these types could be installed at a time
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 25 Mar 2012 23:54:32 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 26 Mar 2012 00:34:53 +0200
 
 wajig (2.3) unstable; urgency=low
 
@@ -68,7 +68,7 @@ wajig (2.3) unstable; urgency=low
     make it work with argparse
   * Me wonders if the mini-tutorial was useful to anyone
   * The "--simulate" and "--teaching" options:
-    - they don't don't apply to a lot wajig commands
+    - they don't apply to a lot wajig commands
     - they display ugly output
     - I doubt if anyone will miss them
   * SETUP: it's an alias of EDITSOURCES and it appears that it was
