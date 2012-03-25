@@ -51,12 +51,12 @@ def main():
     )
 
     parser_backup = argparse.ArgumentParser(add_help=False)
-    message = ("backup currently installed packages before replacing them")
+    message = "backup currently installed packages before replacing them"
     parser_backup.add_argument("-b", "--backup", action='store_true',
                                 help=message)
 
     parser_verbose = argparse.ArgumentParser(add_help=False)
-    message = ("turn on verbose output")
+    message = "turn on verbose output"
     parser_verbose.add_argument("-v", "--verbose", action="store_true",
                                 help=message)
 
