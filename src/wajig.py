@@ -51,8 +51,7 @@ def main():
     )
 
     parser_backup = argparse.ArgumentParser(add_help=False)
-    message = ("backup currently installed packages before replacing "
-               "them; used in conjuntion with [DIST]UPGRADE commands")
+    message = ("backup currently installed packages before replacing them")
     parser_backup.add_argument("-b", "--backup", action='store_true',
                                 help=message)
 
@@ -63,17 +62,14 @@ def main():
 
     parser_fast = argparse.ArgumentParser(add_help=False)
     message = ("uses the faster apt-cache instead of the slower (but more "
-               "advanced) aptitude to display package info; used in "
-               "conjunction with SHOW command")
+               "advanced) aptitude to display package info")
     parser_fast.add_argument("-f", "--fast", action='store_true', help=message)
 
     parser_recommends = argparse.ArgumentParser(add_help=False)
     group = parser_recommends.add_mutually_exclusive_group()
-    message = ("install with Recommended dependencies; used in "
-               "conjunction with INSTALL command")
+    message = "install with Recommended dependencies"
     group.add_argument("-r", "--recommends", action='store_true', help=message)
-    message = ("do not install with Recommended dependencies; used in "
-               "conjunction with INSTALL command")
+    message = "do not install with Recommended dependencies"
     group.add_argument("-R", "--norecommends", action='store_true',
                         help=message)
 
