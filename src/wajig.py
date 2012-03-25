@@ -67,9 +67,9 @@ def main():
 
     parser_recommends = argparse.ArgumentParser(add_help=False)
     group = parser_recommends.add_mutually_exclusive_group()
-    message = "install with Recommended dependencies"
+    message = "install Recommend dependencies (Debian default)"
     group.add_argument("-r", "--recommends", action='store_true', help=message)
-    message = "do not install with Recommended dependencies"
+    message = "do not install Recommend dependencies"
     group.add_argument("-R", "--norecommends", action='store_true',
                         help=message)
 
