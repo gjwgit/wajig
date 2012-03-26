@@ -30,13 +30,13 @@ def install(package_list, args=False):
     cmd_install = "dpkg --install {}".format(packages)
     cmd_configure = "dpkg --configure --pending"
 
-    if perform.execute(cmd_install, args.simulate, root=True):
+    if perform.execute(cmd_install, root=True):
         curdir = os.path.dirname(__file__)
         script = os.path.join(curdir, "debfile-deps.py")
         for package in package_list:
             command = "{} {} {}".format(sys.executable, script, package)
-            perform.execute(command, args.simulate, root=True)
-    perform.execute(cmd_configure, args.simulate, root=True)
+            perform.execute(command, root=True)
+    perform.execute(cmd_configure, root=True)
 
 if __name__ == "__main__":
     install(sys.argv[1:])

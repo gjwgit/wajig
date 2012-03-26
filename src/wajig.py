@@ -24,6 +24,7 @@ import argparse
 import sys
 
 import commands
+import perform
 
 VERSION = "2.4"
 
@@ -774,6 +775,11 @@ def main():
         pass
     try:
         result.yes = " --yes " if result.yes else ""
+    except AttributeError:
+        pass
+    try:
+        if result.simulate:
+            perform.SIMULATE = True
     except AttributeError:
         pass
     result.func(result)

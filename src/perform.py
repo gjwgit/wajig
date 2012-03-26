@@ -26,6 +26,9 @@ import os
 import getpass
 import subprocess
 
+
+SIMULATE = False
+
 try:
     user = os.environ['USER']
 except:
@@ -45,8 +48,7 @@ else:
     setroot = "/bin/su"
 
 
-def execute(command, simulate=False, root=False, pipe=False, langC=False,
-            test=False):
+def execute(command, root=False, pipe=False, langC=False, test=False):
     """Ask the operating system to perform a command.
 
     Arguments:
@@ -100,7 +102,7 @@ def execute(command, simulate=False, root=False, pipe=False, langC=False,
         command = "LC_ALL=C; export LC_ALL; " + command
     if test:
         return command
-    elif simulate:
+    elif SIMULATE:
         print(command)
     elif pipe:
         return os.popen(command)

@@ -368,7 +368,7 @@ def install(args):
             util.requires_package("wget", "/usr/bin/wget")
             tmpdeb = tempfile.mkstemp()[1] + ".deb"
             command = "wget --output-document=" + tmpdeb + " " + package
-            if not perform.execute(command, args.simulate):
+            if not perform.execute(command):
                 deb_files.append(tmpdeb)
             else:
                 message = ("The location '{}' was not found. Check and try "
@@ -388,7 +388,7 @@ def install(args):
         command = "apt-get {} {} {} {} install " + " ".join(packages)
         command = command.format(args.yes, args.noauth, args.recommends,
                                  args.dist)
-        perform.execute(command, args.simulate, root=True)
+        perform.execute(command, root=True)
 
 
 def installsuggested(args):
