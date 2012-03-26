@@ -1,11 +1,7 @@
-Welcome to JIG, bringing the pieces of system
-administration together - a tool for Debian GNU/Linux.
+wajig is a Debian tool that attempts to unify Debian packagement.
 
-JIG is Copyright (c) Graham.Williams@togaware.com
-Available as GPL Open Source from any Debian archive.
-
-WAJIG commands are entered as the first argument to WAJIG. For
-example: "wajig install gnome".
+wajig commands are entered as the first argument to wajig. For
+example: "wajig INSTALL gnome".
 
 The word JIG has a couple of meanings, as WordNet and Webster's 1913
 Dictionary will confirm. It is a small machine or handy tool used to
@@ -14,34 +10,32 @@ dance involving kicking and leaping, as well as a light, humorous
 piece of writing, especially in rhyme, a farce in verse, or a ballad.
 "A jig shall be clapped at, and every rhyme praised and applauded."
 
-For WAJIG, `wa' is Japanese, indicating `harmony' and `team spirit and
-unity.'
+For wajig, 'wa' is Japanese, indicating 'harmony' and 'team spirit and unity'.
 
-Development of WAJIG is sponsored and supported by Togaware, an
+Development of wajig was historically sponsored and supported by Togaware, an
 Australian based Debian GNU/Linux company.
 
 Written in Python, wajig uses traditional Debian administration and
-user tools including apt-get, dpkg, apt-cache, wget, and others.  It
-is intended to unify and simplify common administrative tasks.
+user tools including apt-get, aptitude, dpkg, apt-cache, and others.
 
-Wajig has evolved over many years and there's an ever growing band of
-users.  It was rewritten from its original shell script to be a Python
-program.
+wajig has evolved over many years and was rewritten from its original
+shell script to be a Python program.
 
-As wajig is simply my frontend to various other commands, the goal of
-this chapter is more than simply demonstrating how to manage your
-system with wajig.  Wajig may not be the answer you are looking for
-and that is fine. Where-ever I illustrate a procedure with wajig I
+As wajig is simply a frontend to various other commands, the goal of
+this tutorial is more than simply demonstrating how to manage your
+system with wajig.  wajig may not be the answer you are looking for
+and that is fine. Wherever I illustrate a procedure with wajig I
 will often indicate the underlying commands that are being used to
 effect the wajig command.  You can then use these underlying commands
 directly if you prefer.
 
 Online information about wajig is at http://wajig.togaware.com.
-Wajig is hosted on google code at http://code.google.com/p/wajig/ using
-Mercurial. Tshepang Lekhonkhobe is the current active developer.
+wajig is hosted on google code at http://code.google.com/p/wajig/ using
+Mercurial. Tshepang Lekhonkhobe <tshepang@gmail.com> is the current active
+developer.
 
 
-HISTORY: MOTIVATIONS FOR WAJIG
+HISTORY: MOTIVATIONS FOR wajig
 
 If you've tried to remember all the different commands to get
 different information about different aspects of Debian package
@@ -58,45 +52,42 @@ the years about various commands!  Clearly I have yet to learn all
 there is.
 
 
-INSTALLING WAJIG
+INSTALLING wajig
 
-Wajig is available in the Debian distribution.  As root:
+wajig is available in the Debian distribution.  As root:
 
-  # apt-get update
   # apt-get install wajig
 
 
 THE BASIC DEBIAN TOOLS
 
 The Debian package apt-howto is a good place to start with
-understanding the apt (for Advanced Packaging Tools) suite of
+understanding the APT (for Advanced Packaging Tools) suite of
 tools. Once installed browse the file
 
-  /usr/share/doc/apt-howto/en/index.html.
+  /usr/share/doc/apt-howto/en/index.html
 
 Also, see the Debian FAQ at http://www.debian.org/doc/FAQ/.  In
-particular, Section 6 deals with the Packaging system.  The Advanced
-Package Tool (apt) is the recommended way of managing packages under
-Debian. The command line interface is apt-get but it is also used
-within wajig, dselect, and aptitude. See
-http://newbieDoc.sourceForge.net/system/apt-get-intro.html for a great
-introduction to apt-get. Also see
+particular, Section 6 deals with the Packaging system.  APT is the
+recommended way of managing packages under Debian. The command line
+interface is apt-get but it is also used within wajig, dselect, and
+aptitude.
+
+To learn how to work with APT off line, see:
 
   /usr/share/doc/apt/offline.html/index.html
 
-on your local Debian machine for using apt off line.
 
+wajig OVERVIEW
 
-WAJIG OVERVIEW
-
-Wajig is designed to run in such a way as to suit the system it is
+wajig is designed to run in such a way as to suit the system it is
 running on and the policies of the system administrators.  It can be
 run as a normal user, but once a privileged command is required it
 will use either su and ask for the root user's password, or else it
 can use sudo and rely on the normal user's password. It can also be
 run directly as root without any extra setup (i.e., without the need
 for sudo or regularly supplying passwords). Using sudo requires a
-little setting up as described below.
+little setting (see below).
 
 Try the help command for a list of common commands provided by
 wajig:
@@ -106,7 +97,7 @@ wajig:
 
 Examples commands include:
 
-  $ wajig update               (= dselect update)
+  $ wajig update               (= apt-get update)
   $ wajig install less         (= apt-get install less)
   $ wajig new                  (list new packages since last update)
   $ wajig newupgrades          (list packages upgraded since last update)
@@ -117,38 +108,18 @@ Examples commands include:
   $ wajig whatis rats          (one line description of the package "rats")
   $ wajig orphans              (list libraries not required by other pkgs)
 
-For a complete list of available commands increase the level of
-verbosity of the help command (or issue the command
-list-commands:
+For a complete list of available commands, 'wajig listcommands'.
 
-$ wajig -v help
-All wajig commands:
-
- addcdrom       Add a CD-ROM to the list of available sources of packages
- ...
-
-Command line options:
-
- -b|--backup     [DIST]UPGRADE - Backup packages before they are upgraded.
- -f|--fast       SHOW - use apt-cache's version, due to its speed.
- -h|--help       Print usage message.
- -n|--noauth     Allow packages from unathenticated archives.
- -v|--verbose=n  Increase (or set) the level of verbosity (to n).
- -r|--recommends    Used with INSTALL, to install Recommends too (this is Debian default).
- -R|--norecommends  Used with INSTALL, to NOT install Recommends.
- -y|--yes        Assume yes for any questions asked.
-
-Wajig expects a command and will call upon other Debian tools to
-perform the command.  Commands can be in mixed case and with hyphens
-and underscores, and internally these are mapped to the one command.
-Thus, the commands `Install', `INSTALL', `install' and even `in-stall'
-are interpreted identically.
+In most cases, wajig expects a command and will call upon other Debian
+tools to perform the command.  Commands can be in mixed case, and
+and internally these are mapped to the one command. Thus, the commands
+`Install', `INSTALL', `install' are interpreted identically.
 
 
 GETTING STARTED WITH SUDO
 
 The aim of wajig is to operate as much as possible as a user command
-and to do super user privileged commands as necessary (if that is how
+and to do super user privileged commands only when necessary (if that is how
 the system administrator wishes to allow a user to maintain their
 system).  The easiest way to do this is to use the sudo package which
 will ask you for your password and then run the command as the super
@@ -158,21 +129,11 @@ frequently. If `sudo' is installed but not set up for you to access
 the appropriate apt-get commands you will see a permission denied
 message.
 
-Installing sudo is straight forward. As root run the command visudo to
-edit the configration file.  Add the lines:
+In order to allow your user to use sudo, run this command as root:
 
-  Cmnd_Alias  APT = /usr/bin/apt-get, /usr/bin/apt-cache, /usr/bin/dpkg, \\
-                    /usr/sbin/dpkg-reconfigure, /usr/bin/dpkg-repack, \\
-                    /etc/init.d/*, /usr/sbin/update-alternatives, \\
-                    /usr/lib/apt-move/fetch, /usr/bin/dselect, \\
-                    /usr/bin/alien, /usr/sbin/apt-setup
-and
+# adduser <username> sudo
 
-  kayon      ALL=(ALL) APT
-
-in the appropriate places (it should be obvious looking at the file).
-The user kayon can then run apt-get and related commands as the super
-user.
+The change will take effect after logging out and in again.
 
 
 AVAILABLE PACKAGES
@@ -186,7 +147,7 @@ only need to update the list of available packages once.  The
 following command is used to update the information about what is
 available for downloading:
 
-  $ wajig update                (dselect update)
+  $ wajig update                (apt-get update)
 
 (In brackets after the wajig command is the underlying command that
 wajig calls upon to perform the operation.)
@@ -195,7 +156,7 @@ This uses entries in the file /etc/apt/sources.list to know where to
 get the list of available packages from and which release of Debian
 you wish to follow.  You can edit this file with:
 
-  $ wajig editsources           (apt-setup)
+  $ wajig editsources           (editor /etc/apt/sources.list)
 
 You need to understand the format of the file /etc/apt/sources.list as
 explained in the manual page:
@@ -208,7 +169,7 @@ section.
 If you have a Debian CD-ROM or DVD-ROM then you can tell apt what is
 available on it using:
 
-  $ wajig add-cd-rom
+  $ wajig addcdrom
 
 To add a Launchpad PPA (Personal Package Archive) repository (used by
 Ubuntu) the ADD-REPO command can be used. For example, to add the
@@ -218,18 +179,18 @@ daily builds of Google's Chromium browser, do the following:
 
 If you want to check when you last did an update then:
 
-  $ wajig last-update
+  $ wajig lastupdate
 
 There are quite a few archives available and you can test for a good
 connection to one with:
 
-  $ wajig netselect-apt
+  $ wajig searchapt
 
 This will write a candidate sources.list in the current directory,
 which you can then review and add to the system sources.list, if you
 wish, with
 
-  $ wajig edit-sources
+  $ wajig editsources
 
 
 FINDING PACKAGES
@@ -275,7 +236,7 @@ Without a list of package names all installed packages will be listed.
 A variation is to list the status of all packages with a given string
 in their name:
 
-  $ wajig status-search <string>
+  $ wajig statussearch <string>
 
 To check for a particular package for which you might guess at part of
 its name you can use:
@@ -303,7 +264,6 @@ save to file, and then restore a system to just this list of packages
 at a later stage, use:
 
   $ wajig snapshot > snapshop-12dec04
-  $ wajig restore snapshop-12dec04
 
 Each package installs some collection of files in different places on
 your system (e.g., in /usr/bin/, /usr/man/man1/ and
@@ -329,7 +289,7 @@ and for a command (e.g., most):
 For unofficial packages (i.e., you came across a package but it doesn't
 seem to be in Debian yet) search for a site with:
 
-  $ wajig search-pkg <package-name>
+  $ wajig searchpkg <package-name>
 
 
 The more detailed description of a package is available with:
@@ -345,11 +305,11 @@ The Debian changelog can be retrieved with:
 This command only displays changelog entries for upgradable packages.
 If you want to display the entire changelog, use:
 
-  $ wajig -v changelog <package name>
+  $ wajig changelog --verbose <package name>
 
 It may be more practical to run the output through a pager:
 
-  $ wajig -v changelog <package name> | pager
+  $ wajig changelog --verbose <package name> | pager
 
 
 
@@ -384,7 +344,7 @@ it:
 Sometimes you may want to install many packages by listing them in a
 file, one per line.  You can do this with:
 
-  $ wajig fileinstall <filename>        (apt-get install)
+  $ wajig install --fileinput <filename>
 
 The file of packages to install can conveniently be created from the
 list of installed packages on another system with:
@@ -398,14 +358,12 @@ You can upgrade all installed packages with:
 
   $ wajig upgrade                       (apt-get -u upgrade)
 
-The directory into which the backups will end up will be displayed.
-
 And you can upgrade all installed packages, remove those packages that
 need to be removed (for various reasons, including issues to do with
 dependencies) and install all newly required packages in the
 distribution with:
 
-  $ wajig dist-upgrade                  (apt-get -u dist-upgrade)
+  $ wajig distupgrade                  (apt-get -u dist-upgrade)
 
 Note that a dist-upgrade will potentially remove packages where
 dependency checking indicates this is necessary. Important packages
@@ -419,12 +377,10 @@ a package.
 
 To upgrade to a specific distribution (e.g., experimental) you can use:
 
-  # wajig dist-upgrade experimental
+  # wajig distupgrade --dist experimental
 
 Note that the mentioned distribution must also be mentioned in your
 /etc/apt/sources.list file.
-
-Note that the -b|--backup option is also available for dist-upgrade.
 
 
 A neat trick with wajig is the ability to upgrade a collection of
@@ -432,7 +388,7 @@ packages all with the same version number to another common version
 number:
 
   $ wajig status | grep 3.2.3-2 | grep 3.3.0-1 | cut -f1 > list
-  $ wajig install-file list
+  $ wajig installfile list
 
 
 REMOVING PACKAGES
@@ -546,7 +502,7 @@ To go one step further and also configure, compile and generate a
 default Debian .deb package from source code (useful if you need to
 compile a package for your setup specifically) then use instead:
 
-  $ wajig build <package names>         (apt-get source -b)
+  $ wajig build <package names>
 
 This conveniently installs the needed build-dependencies for you.
 
@@ -562,7 +518,7 @@ Note that for some packages, you will get permission-related build errors.
 Replace 'fakeroot' with 'sudo' in such cases.
 
 
-BUILD ARCHITECTURE OPTIMISED PACKAGES
+BUILD ARCHITECTURE-OPTIMISED PACKAGES
 
 The apt-build package, a front-end to apt-get, provides a general
 solution to build Debian packages tuned (or optimised) for your
@@ -785,7 +741,7 @@ include http://snapshot.debian.net in your package sources list and
 the name of the package you are interested in. To update your sources
 list run:
 
-  $ wajig edit-sources
+  $ wajig editsources
 
 to add the following line:
 
@@ -852,17 +808,17 @@ In fact, on your server you could use the following Python script
 saved to file /root/apt-archive.py to automate this for each of the
 hosts on the network:
 
-#!/usr/bin/env python
-import os
+    #!/usr/bin/env python
+    import os
 
-hosts = ['friend', 'cargo']
-archive = '/var/cache/apt/archives/'
+    hosts = ['friend', 'cargo']
+    archive = '/var/cache/apt/archives/'
 
-for h in hosts:
-    os.system('rsync -vr %s:%s %s' % (h, archive, archive))
-    os.system('ssh %s wajig clean' % h)
+    for h in hosts:
+        os.system('rsync -vr %s:%s %s' % (h, archive, archive))
+        os.system('ssh %s wajig clean' % h)
 
-os.system('wajig move')
+    os.system('wajig move')
 
 Then set the script up to run:
 
@@ -910,8 +866,7 @@ packages. For example:
 In this way you are able to leave the download unattended and when you
 are ready you can monitor the unpacking and setup.
 
-If things go wrong somewhere the apt may be able to help. The apt-get
---fix-broken will do its best:
+If things go wrong somewhere then apt may be able to help:
 
   # apt-get --fix-broken dist-upgrade
 

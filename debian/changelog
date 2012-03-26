@@ -22,7 +22,7 @@ wajig (2.4) unstable; urgency=low
     - [ole] wajig LOCALDISTUPGRADE
     - [new] wajig DISTUPGRADE --local
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 26 Mar 2012 23:58:43 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 00:35:42 +0200
 
 wajig (2.3) unstable; urgency=low
 
