@@ -130,7 +130,7 @@ def changelog(args):
               "ensure that it's APT pinning isn't less than 0.")
         return
     help_message = "\nTo display the local changelog, run:\n" \
-                   "wajig --verbose changelog " + args.package
+                   "wajig changelog --verbose " + args.package
     if "Failed to download the list of changes" in changelog:
         if not args.verbose:
             changelog += help_message
