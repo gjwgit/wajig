@@ -230,7 +230,8 @@ def distupgrade(args):
         util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
         util.requires_package("fakeroot", "/usr/bin/fakeroot")
         changes.backup_before_upgrade(packages, distupgrade=True)
-    cmd = "apt-get --show-upgraded {} {} ".format(args.yes, args.noauth)
+    cmd = "apt-get --show-upgraded {} {} {} ".format(args.local, args.yes,
+                                                     args.noauth)
     if args.dist:
         cmd += "--target-release " + args.dist + " "
     cmd += "dist-upgrade"
@@ -964,8 +965,8 @@ def upgrade(args):
             util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
             util.requires_package("fakeroot", "/usr/bin/fakeroot")
             changes.backup_before_upgrade(packages)
-        command = "apt-get {} {} --show-upgraded upgrade"
-        command = command.format(args.yes, args.noauth)
+        command = "apt-get {} {} {} --show-upgraded upgrade"
+        command = command.format(args.local, args.yes, args.noauth)
         perform.execute(command, root=True)
     else:
         print('No upgradeable packages. Did you run "wajig update" first?')

@@ -100,6 +100,10 @@ def main():
         help=("if any of the arguments are files, assume their contents to "
                "be packages names"))
 
+    parser_local = argparse.ArgumentParser(add_help=False)
+    parser_local.add_argument("-l", "--local", action="store_true",
+        help="use packages from local cache; don't download anything")
+
     message = "show wajig version"
     parser.add_argument("-V", "--version", action="version", help=message,
                         version="%(prog)s " + VERSION)
@@ -229,7 +233,8 @@ def main():
 
     function = commands.distupgrade
     parser_distupgrade = subparsers.add_parser("distupgrade",
-         parents=[parser_backup, parser_yesno, parser_auth, parser_simulate],
+         parents=[parser_backup, parser_yesno, parser_auth, parser_simulate,
+                  parser_local],
          description=function.__doc__,
          epilog="runs 'apt-get --show-upgraded distupgrade'")
     help = "distribution/suite to upgrade to (e.g. unstable)"
@@ -426,20 +431,6 @@ def main():
                         parents=[parser_simulate],
                         description=function.__doc__)
     parser_liststatus.set_defaults(func=function)
-
-    function = commands.localdistupgrade
-    parser_localdistupgrade = subparsers.add_parser("localdistupgrade",
-        parents=[parser_simulate],
-        description=function.__doc__,
-        epilog=("apt-get --no-download --ignore-missing --show-upgraded "
-                "dist-upgrade"))
-    parser_localdistupgrade.set_defaults(func=function)
-
-    function = commands.localupgrade
-    parser_localupgrade = subparsers.add_parser("localupgrade",
-                          parents=[parser_simulate],
-                          description=function.__doc__)
-    parser_localupgrade.set_defaults(func=function)
 
     function = commands.madison
     parser_madison = subparsers.add_parser("madison",
@@ -788,7 +779,8 @@ def main():
 
     function = commands.upgrade
     parser_upgrade = subparsers.add_parser("upgrade",
-        parents=[parser_backup, parser_yesno, parser_auth, parser_simulate],
+        parents=[parser_backup, parser_yesno, parser_auth, parser_simulate,
+                 parser_local],
         description=function.__doc__)
     parser_upgrade.set_defaults(func=function)
 
@@ -825,6 +817,10 @@ def main():
     result = parser.parse_args()
     try:
         result.recommends = "--install-recommends" if result.recommends else ""
+    except AttributeError:
+        pass
+    try:
+        result.local = "--no-download --ignore-missing" if result.local else ""
     except AttributeError:
         pass
     try:
