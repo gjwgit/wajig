@@ -12,7 +12,9 @@ wajig (2.4) unstable; urgency=low
   * make bash completer also complete lower-case COMMANDS;
     patch by "Reuben Thomas" <rrt@sc3d.org>
   * Reinstate --simulate option, but this only where it makes sense (i.e. where
-    external processes are called).
+    external processes are called). This also means the epilogs of the --help
+    option are now redundant, so they are now removed. All they did was state
+    what commands would be ran.
   * LOCALUPGRADE:
     - [ole] wajig LOCALUPGRADE
     - [new] wajig UPGRADE --local 
@@ -20,7 +22,7 @@ wajig (2.4) unstable; urgency=low
     - [ole] wajig LOCALDISTUPGRADE
     - [new] wajig DISTUPGRADE --local
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 26 Mar 2012 23:13:58 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 26 Mar 2012 23:36:37 +0200
 
 wajig (2.3) unstable; urgency=low
 

@@ -764,7 +764,7 @@ def rpm2deb(args):
 
 def rpminstall(args):
     """Install an .rpm package file"""
-    command = "alien --install " + args[1]
+    command = "alien --install " + args.rpm
     perform.execute(command, root=True)
 
 
@@ -994,7 +994,7 @@ def upgradesecurity(args):
 def verify(args):
     """Check package md5sum"""
     util.requires_package("debsums", "/usr/bin/debsums")
-    perform.execute("debsums " + args[1])
+    perform.execute("debsums " + args.package)
 
 
 def versions(args):
