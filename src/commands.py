@@ -65,9 +65,9 @@ def autodownload(args):
     """Do an update followed by a download of all updated packages"""
     filter_str = '| egrep -v "(http|ftp)"' if args.verbose else ""
     util.do_update()
-    perform.execute("apt-get --download-only --show-upgraded " + \
-                    "--assume-yes dist-upgrade " + filter_str,
-                    root=True)
+    command = ("apt-get --download-only --show-upgraded --assume-yes "
+               "dist-upgrade " + filter_str)
+    perform.execute(command, root=True)
     util.do_describe_new(args.verbose)
     util.do_newupgrades(args.install, args.yes, args.noauth)
 
