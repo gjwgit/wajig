@@ -48,7 +48,8 @@ else:
     setroot = "/bin/su"
 
 
-def execute(command, root=False, pipe=False, langC=False, test=False):
+def execute(command, root=False, pipe=False, langC=False, test=False,
+            getoutput=False):
     """Ask the operating system to perform a command.
 
     Arguments:
@@ -106,5 +107,8 @@ def execute(command, root=False, pipe=False, langC=False, test=False):
         print(command)
     elif pipe:
         return os.popen(command)
+    elif getoutput:
+        return subprocess.check_output(command, shell=True,
+                                       stderr=subprocess.STDOUT)
     else:
         return subprocess.call(command, shell=True)

@@ -1010,9 +1010,14 @@ def whichpackage(args):
     """Search for files matching a given pattern within packages
 
     note: if match isn't found, apt-file repository is checked"""
-    out = subprocess.getstatusoutput("dpkg --search " + args.pattern)
-    if out[0]:  # didn't find matching package, so use the slower apt-file
+    try:
+        out = perform.execute("dpkg --search " + args.pattern, getoutput=True)
+    except subprocess.CalledProcessError:
         util.requires_package("apt-file", "/usr/bin/apt-file")
         perform.execute("apt-file search " + args.pattern)
     else:
-        print(out[1])
+        try:
+            print(out.decode().strip())
+        # will get here when on --simulate mode
+        except AttributeError:
+            pass
