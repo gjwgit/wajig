@@ -28,6 +28,7 @@ import subprocess
 
 
 SIMULATE = False
+TEACH = False
 
 try:
     user = os.environ['USER']
@@ -105,7 +106,10 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
         return command
     elif SIMULATE:
         print(command)
-    elif pipe:
+        return
+    if TEACH:
+        print("EXECUTING: " + command)
+    if pipe:
         return os.popen(command)
     elif getoutput:
         return subprocess.check_output(command, shell=True,
