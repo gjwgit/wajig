@@ -36,7 +36,7 @@ def requires_package(package, path, test=False):
     if not os.path.exists(path):
         if not test:
             print('This command depends on "' + package + '" being installed.')
-            finishup(1)
+            sys.exit(1)
         return False
     return True
 
@@ -47,7 +47,7 @@ def package_exists(cache, package, test=False):
     except KeyError as error:
         if not test:
             print(error.args[0])
-            finishup(1)
+            sys.exit(1)
 
 
 def upgradable(distupgrade=False):
@@ -56,10 +56,6 @@ def upgradable(distupgrade=False):
     cache.upgrade(distupgrade)
     packages = [package.name for package in cache.get_changes()]
     return packages
-
-
-def finishup(code=0):
-    sys.exit(code)
 
 
 def local_changelog(package, tmp):
