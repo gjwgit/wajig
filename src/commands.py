@@ -566,12 +566,6 @@ def madison(args):
     perform.execute(command)
 
 
-def nonfree(args):
-    """List packages that don't meet the Debian Free Software Guidelines"""
-    util.requires_package("vrms", "/usr/bin/vrms")
-    perform.execute("vrms")
-
-
 def move(args):
     """Move packages in the download cache to a local Debian mirror"""
     perform.execute("apt-move update", root=True)
@@ -601,6 +595,12 @@ def news(args):
 def newupgrades(args):
     """List packages newly available for upgrading"""
     util.do_newupgrades(args.install, args.yes, args.noauth)
+
+
+def nonfree(args):
+    """List packages that don't meet the Debian Free Software Guidelines"""
+    util.requires_package("vrms", "/usr/bin/vrms")
+    perform.execute("vrms")
 
 
 def orphans(args):
