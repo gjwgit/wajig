@@ -114,12 +114,14 @@ def main():
 
     function = commands.addcdrom
     parser_addcdrom = subparsers.add_parser("addcdrom",
+                      parents=[parser_simulate],
                       description=function.__doc__,
                       epilog="runs 'apt-cdrom add'")
     parser_addcdrom.set_defaults(func=function)
 
     function = commands.addrepo
     parser_addrepo = subparsers.add_parser("addrepo",
+                     parents=[parser_simulate],
                      description=function.__doc__,
                      epilog="runs 'add-apt-repository'",
                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -128,6 +130,7 @@ def main():
 
     function = commands.autoalts
     parser_autoalts = subparsers.add_parser("autoalts",
+                      parents=[parser_simulate],
                       aliases=["autoalternatives"],
                       description=function.__doc__,
                       epilog="runs 'update-alternatives --auto'")
@@ -136,13 +139,15 @@ def main():
 
     function = commands.autoclean
     parser_autoclean = subparsers.add_parser("autoclean",
+                       parents=[parser_simulate],
                        description=function.__doc__,
                        epilog="runs 'apt-get autoclean'")
     parser_autoclean.set_defaults(func=function)
 
     function = commands.autodownload
     parser_autodownload = subparsers.add_parser("autodownload",
-        parents=[parser_verbose, parser_yesno, parser_auth, parser_install],
+        parents=[parser_verbose, parser_yesno, parser_auth, parser_install,
+                 parser_simulate],
         description=function.__doc__,
         epilog=("runs 'apt-get --download-only --assume-yes "
                 "--show-upgraded dist-upgrade'"))
@@ -150,12 +155,13 @@ def main():
 
     function = commands.autoremove
     parser_autoremove = subparsers.add_parser("autoremove",
+                        parents=[parser_simulate],
                         description=function.__doc__)
     parser_autoremove.set_defaults(func=function)
 
     function = commands.build
     parser_build = subparsers.add_parser("build",
-                   parents=[parser_yesno, parser_auth],
+                   parents=[parser_yesno, parser_auth, parser_simulate],
                    description=function.__doc__,
                    epilog="runs 'apt-get build-dep && apt-get source --build'")
     parser_build.add_argument("packages", nargs="+")
@@ -163,7 +169,7 @@ def main():
 
     function = commands.builddeps
     parser_builddeps = subparsers.add_parser("builddeps",
-                       parents=[parser_yesno, parser_auth],
+                       parents=[parser_yesno, parser_auth, parser_simulate],
                        aliases="builddepend builddepends".split(),
                        epilog="runs 'apt-get build-dep'",
                        description=function.__doc__)
@@ -172,7 +178,7 @@ def main():
 
     function = commands.changelog
     parser_changelog = subparsers.add_parser("changelog",
-                       parents=[parser_verbose],
+                       parents=[parser_verbose, parser_simulate],
                        description=function.__doc__,
                        formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_changelog.add_argument("package")
@@ -180,6 +186,7 @@ def main():
 
     function = commands.clean
     parser_clean = subparsers.add_parser("clean",
+                   parents=[parser_simulate],
                    description=function.__doc__,
                    epilog="runs 'apt-get clean'")
     parser_clean.set_defaults(func=function)
@@ -192,6 +199,7 @@ def main():
 
     function = commands.contents
     parser_contents = subparsers.add_parser("contents",
+                      parents=[parser_simulate],
                       description=function.__doc__,
                       epilog="runs 'dpkg --contents'")
     parser_contents.add_argument("debfile")
@@ -199,6 +207,7 @@ def main():
 
     function = commands.dailyupgrade
     parser_dailyupgrade = subparsers.add_parser("dailyupgrade",
+                          parents=[parser_simulate],
                           description=function.__doc__,
                           epilog="runs 'apt-get --show-upgraded dist-upgrade'")
     parser_dailyupgrade.set_defaults(func=function)
@@ -212,23 +221,23 @@ def main():
 
     function = commands.describe
     parser_describe = subparsers.add_parser("describe",
-                      parents=[parser_verbose],
+                      parents=[parser_verbose, parser_simulate],
                       description=function.__doc__)
     parser_describe.add_argument("packages", nargs="+")
     parser_describe.set_defaults(func=function)
 
     function = commands.describenew
     parser_describenew = subparsers.add_parser("describenew",
-                         parents=[parser_verbose],
+                         parents=[parser_verbose, parser_simulate],
                          aliases=["newdescribe"],
                          description=function.__doc__)
     parser_describenew.set_defaults(func=function)
 
     function = commands.distupgrade
     parser_distupgrade = subparsers.add_parser("distupgrade",
-                         parents=[parser_backup, parser_yesno, parser_auth],
-                         description=function.__doc__,
-                         epilog="runs 'apt-get --show-upgraded distupgrade'")
+         parents=[parser_backup, parser_yesno, parser_auth, parser_simulate],
+         description=function.__doc__,
+         epilog="runs 'apt-get --show-upgraded distupgrade'")
     help = "distribution/suite to upgrade to (e.g. unstable)"
     parser_distupgrade.add_argument("dist", nargs="*", help=help)
     parser_distupgrade.set_defaults(func=function)
@@ -243,12 +252,14 @@ def main():
 
     function = commands.editsources
     parser_editsources = subparsers.add_parser("editsources",
+                         parents=[parser_simulate],
                          description=function.__doc__,
                          epilog="runs 'editor /etc/apt/sources.list'")
     parser_editsources.set_defaults(func=function)
 
     function = commands.extract
     parser_extract = subparsers.add_parser("extract",
+                     parents=[parser_simulate],
                      description=function.__doc__)
     parser_extract.add_argument("debfile")
     parser_extract.add_argument("destination_directory")
@@ -256,26 +267,28 @@ def main():
 
     function = commands.fixconfigure
     parser_fixconfigure = subparsers.add_parser("fixconfigure",
-                       description=function.__doc__,
-                       epilog="runs 'dpkg --configure --pending'")
+                          parents=[parser_simulate],
+                          description=function.__doc__,
+                          epilog="runs 'dpkg --configure --pending'")
     parser_fixconfigure.set_defaults(func=function)
 
     function = commands.fixinstall
     parser_fixinstall = subparsers.add_parser("fixinstall",
-                        parents=[parser_yesno, parser_auth],
+                        parents=[parser_yesno, parser_auth, parser_simulate],
                         description=function.__doc__,
                         epilog="runs 'apt-get --fix-broken install")
     parser_fixinstall.set_defaults(func=function)
 
     function = commands.fixmissing
     parser_fixmissing = subparsers.add_parser("fixmissing",
-                        parents=[parser_yesno, parser_auth],
+                        parents=[parser_yesno, parser_auth, parser_simulate],
                         description=function.__doc__,
                         epilog="runs 'apt-get --ignore-missing'")
     parser_fixmissing.set_defaults(func=function)
 
     function = commands.force
     parser_force = subparsers.add_parser("force",
+                   parents=[parser_simulate],
                    description=function.__doc__,
                    formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_force.add_argument("packages", nargs="+")
@@ -283,12 +296,14 @@ def main():
 
     function = commands.hold
     parser_hold = subparsers.add_parser("hold",
-                       description=function.__doc__)
+                  parents=[parser_simulate],
+                  description=function.__doc__)
     parser_hold.add_argument("packages", nargs="+")
     parser_hold.set_defaults(func=function)
 
     function = commands.info
     parser_info = subparsers.add_parser("info",
+                  parents=[parser_simulate],
                   description=function.__doc__,
                   epilog="runs 'dpkg --info'")
     parser_info.add_argument("package")
@@ -311,7 +326,8 @@ def main():
 
     function = commands.installsuggested
     parser_installsuggested = subparsers.add_parser("installsuggested",
-        parents=[parser_recommends, parser_yesno, parser_auth, parser_dist],
+        parents=[parser_recommends, parser_yesno, parser_auth, parser_dist,
+                 parser_simulate],
         aliases="installs suggested".split(),
         description=function.__doc__)
     parser_installsuggested.add_argument("package")
@@ -319,6 +335,7 @@ def main():
 
     function = commands.integrity
     parser_integrity = subparsers.add_parser("integrity",
+                       parents=[parser_simulate],
                        description=function.__doc__,
                        epilog="runs 'debsums --all --silent'")
     parser_integrity.set_defaults(func=function)
@@ -330,27 +347,32 @@ def main():
 
     function = commands.lastupdate
     parser_lastupdate = subparsers.add_parser("lastupdate",
+                        parents=[parser_simulate],
                         description=function.__doc__)
     parser_lastupdate.set_defaults(func=function)
 
     function = commands.listalternatives
     parser_listalternatives = subparsers.add_parser("listalternatives",
+                              parents=[parser_simulate],
                               aliases=["listalts"],
                               description=function.__doc__)
     parser_listalternatives.set_defaults(func=function)
 
     function = commands.listcache
     parser_listcache = subparsers.add_parser("listcache",
+                       parents=[parser_simulate],
                        description=function.__doc__)
     parser_listcache.set_defaults(func=function)
 
     function = commands.listdaemons
     parser_listdaemons = subparsers.add_parser("listdaemons",
+                         parents=[parser_simulate],
                          description=function.__doc__)
     parser_listdaemons.set_defaults(func=function)
 
     function = commands.listfiles
     parser_listfiles = subparsers.add_parser("listfiles",
+                       parents=[parser_simulate],
                        description=function.__doc__)
     parser_listfiles.add_argument("package")
     parser_listfiles.set_defaults(func=function)
@@ -362,23 +384,27 @@ def main():
 
     function = commands.listinstalled
     parser_listinstalled = subparsers.add_parser("listinstalled",
+                           parents=[parser_simulate],
                            description=function.__doc__,
                            epilog="runs 'dpkg --get-selections | cut -f1'")
     parser_listinstalled.set_defaults(func=function)
 
     function = commands.listnames
     parser_listnames = subparsers.add_parser("listnames",
+                       parents=[parser_simulate],
                        description=function.__doc__)
     parser_listnames.set_defaults(func=function)
 
     function = commands.listpackages
     parser_listpackages = subparsers.add_parser("listpackages",
+                          parents=[parser_simulate],
                           aliases=["list"],
                           description=function.__doc__)
     parser_listpackages.set_defaults(func=function)
 
     function = commands.listscripts
     parser_listscripts = subparsers.add_parser("listscripts",
+                         parents=[parser_simulate],
                          description=function.__doc__)
     parser_listscripts.add_argument("debfile")
     parser_listscripts.set_defaults(func=function)
@@ -397,11 +423,13 @@ def main():
 
     function = commands.liststatus
     parser_liststatus = subparsers.add_parser("liststatus",
+                        parents=[parser_simulate],
                         description=function.__doc__)
     parser_liststatus.set_defaults(func=function)
 
     function = commands.localdistupgrade
     parser_localdistupgrade = subparsers.add_parser("localdistupgrade",
+        parents=[parser_simulate],
         description=function.__doc__,
         epilog=("apt-get --no-download --ignore-missing --show-upgraded "
                 "dist-upgrade"))
@@ -409,11 +437,13 @@ def main():
 
     function = commands.localupgrade
     parser_localupgrade = subparsers.add_parser("localupgrade",
+                          parents=[parser_simulate],
                           description=function.__doc__)
     parser_localupgrade.set_defaults(func=function)
 
     function = commands.madison
     parser_madison = subparsers.add_parser("madison",
+                     parents=[parser_simulate],
                      description=function.__doc__,
                      epilog="runs 'apt-cache madison'")
     parser_madison.add_argument("packages", nargs="+")
@@ -421,47 +451,52 @@ def main():
 
     function = commands.move
     parser_move = subparsers.add_parser("move",
+                  parents=[parser_simulate],
                   description=function.__doc__)
     parser_move.set_defaults(func=function)
 
     function = commands.new
     parser_new = subparsers.add_parser("new",
-                 parents=[parser_install],
+                 parents=[parser_install, parser_simulate],
                  description=function.__doc__)
     parser_new.set_defaults(func=function)
 
     function = commands.newdetail
     parser_newdetail = subparsers.add_parser("newdetail",
-                       parents=[parser_fast],
+                       parents=[parser_fast, parser_simulate],
                        aliases=["detailnew"],
                        description=function.__doc__)
     parser_newdetail.set_defaults(func=function)
 
     function = commands.news
     parser_news = subparsers.add_parser("news",
+                  parents=[parser_simulate],
                   description=function.__doc__)
     parser_news.add_argument("package")
     parser_news.set_defaults(func=function)
 
     function = commands.newupgrades
     parser_newupgrades = subparsers.add_parser("newupgrades",
-                         parents=[parser_yesno, parser_auth, parser_install],
-                         description=function.__doc__)
+        parents=[parser_yesno, parser_auth, parser_install, parser_simulate],
+        description=function.__doc__)
     parser_newupgrades.set_defaults(func=function)
 
     function = commands.nonfree
     parser_nonfree = subparsers.add_parser("nonfree",
+                     parents=[parser_simulate],
                      description=function.__doc__)
     parser_nonfree.set_defaults(func=function)
 
     function = commands.orphans
     parser_orphans = subparsers.add_parser("orphans",
+                     parents=[parser_simulate],
                      aliases="orphaned listorphaned listorphans".split(),
                      description=function.__doc__)
     parser_orphans.set_defaults(func=function)
 
     function = commands.policy
     parser_policy = subparsers.add_parser("policy",
+                    parents=[parser_simulate],
                     aliases=["available"],
                     description=function.__doc__,
                     epilog="runs 'apt-cache policy'")
@@ -470,27 +505,29 @@ def main():
 
     function = commands.purge
     parser_purge = subparsers.add_parser("purge",
-                   aliases=["purgedepend"],
-                   parents=[parser_yesno, parser_auth, parser_fileinput],
-                   description=function.__doc__,
-                   formatter_class=argparse.RawDescriptionHelpFormatter,
-                   epilog="runs 'apt-get --auto-remove purge'")
+       aliases=["purgedepend"],
+       parents=[parser_yesno, parser_auth, parser_fileinput, parser_simulate],
+       description=function.__doc__,
+       formatter_class=argparse.RawDescriptionHelpFormatter,
+       epilog="runs 'apt-get --auto-remove purge'")
     parser_purge.add_argument("packages", nargs="+")
     parser_purge.set_defaults(func=function)
 
     function = commands.purgeorphans
     parser_purgeorphans = subparsers.add_parser("purgeorphans",
-                          parents=[parser_yesno, parser_auth],
+                          parents=[parser_yesno, parser_auth, parser_simulate],
                           description=function.__doc__)
     parser_purgeorphans.set_defaults(func=function)
 
     function = commands.purgeremoved
     parser_purgeremoved = subparsers.add_parser("purgeremoved",
-                       description=function.__doc__)
+                          parents=[parser_simulate],
+                          description=function.__doc__)
     parser_purgeremoved.set_defaults(func=function)
 
     function = commands.rbuilddeps
     parser_rbuilddeps = subparsers.add_parser("rbuilddeps",
+                        parents=[parser_simulate],
                         aliases="rbuilddep reversebuilddeps".split(),
                         description=function.__doc__)
     parser_rbuilddeps.add_argument("package")
@@ -498,13 +535,14 @@ def main():
 
     function = commands.readme
     parser_readme = subparsers.add_parser("readme",
+                    parents=[parser_simulate],
                     description=function.__doc__)
     parser_readme.add_argument("package")
     parser_readme.set_defaults(func=function)
 
     function = commands.recdownload
     parser_recdownload = subparsers.add_parser("recdownload",
-                         parents=[parser_auth],
+                         parents=[parser_auth, parser_simulate],
                          aliases=["recursive"],
                          description=function.__doc__)
     parser_recdownload.add_argument("packages", nargs="+")
@@ -512,11 +550,13 @@ def main():
 
     function = commands.recommended
     parser_recommended = subparsers.add_parser("recommended",
+                         parents=[parser_simulate],
                          description=function.__doc__)
     parser_recommended.set_defaults(func=function)
 
     function = commands.reconfigure
     parser_reconfigure = subparsers.add_parser("reconfigure",
+                         parents=[parser_simulate],
                          description=function.__doc__,
                          epilog="runs 'dpkg-reconfigure'")
     parser_reconfigure.add_argument("packages", nargs="+")
@@ -524,7 +564,7 @@ def main():
 
     function = commands.reinstall
     parser_reinstall = subparsers.add_parser("reinstall",
-                       parents=[parser_yesno, parser_auth],
+                       parents=[parser_yesno, parser_auth, parser_simulate],
                        description=function.__doc__,
                        epilog="runs 'apt-get install --reinstall'")
     parser_reinstall.add_argument("packages", nargs="+")
@@ -532,6 +572,7 @@ def main():
 
     function = commands.reload
     parser_reload = subparsers.add_parser("reload",
+                    parents=[parser_simulate],
                     description=function.__doc__,
                     epilog="runs 'service DAEMON reload'")
     parser_reload.add_argument("daemon")
@@ -539,19 +580,21 @@ def main():
 
     function = commands.remove
     parser_remove = subparsers.add_parser("remove",
-                    parents=[parser_yesno, parser_auth, parser_fileinput],
-                    description=function.__doc__,
-                    epilog="runs 'apt-get --auto-remove remove'")
+        parents=[parser_yesno, parser_auth, parser_fileinput, parser_simulate],
+        description=function.__doc__,
+        epilog="runs 'apt-get --auto-remove remove'")
     parser_remove.add_argument("packages", nargs="+")
     parser_remove.set_defaults(func=function)
 
     function = commands.removeorphans
     parser_removeorphans = subparsers.add_parser("removeorphans",
+                           parents=[parser_simulate],
                            description=function.__doc__)
     parser_removeorphans.set_defaults(func=function)
 
     function = commands.repackage
     parser_repackage = subparsers.add_parser("repackage",
+                       parents=[parser_simulate],
                        aliases=["package"],
                        description=function.__doc__,
                        epilog="runs 'fakeroot -u dpkg-repack'")
@@ -568,6 +611,7 @@ def main():
 
     function = commands.restart
     parser_restart = subparsers.add_parser("restart",
+                     parents=[parser_simulate],
                      description=function.__doc__,
                      epilog="runs 'service DAEMON restart'")
     parser_restart.add_argument("daemon")
@@ -575,6 +619,7 @@ def main():
 
     function = commands.rpm2deb
     parser_rpm2deb = subparsers.add_parser("rpm2deb",
+                     parents=[parser_simulate],
                      aliases=["rpmtodeb"],
                      description=function.__doc__,
                      epilog="runs 'alien'")
@@ -583,6 +628,7 @@ def main():
 
     function = commands.rpminstall
     parser_rpminstall = subparsers.add_parser("rpminstall",
+                        parents=[parser_simulate],
                         description=function.__doc__,
                         epilog="runs 'alien --install'")
     parser_rpminstall.add_argument("rpm")
@@ -590,13 +636,14 @@ def main():
 
     function = commands.search
     parser_search = subparsers.add_parser("search",
-                                           parents=[parser_verbose],
-                                           description=function.__doc__)
+                    parents=[parser_verbose, parser_simulate],
+                    description=function.__doc__)
     parser_search.add_argument("patterns", nargs="+")
     parser_search.set_defaults(func=function)
 
     function = commands.searchapt
     parser_searchapt = subparsers.add_parser("searchapt",
+                       parents=[parser_simulate],
                        description=function.__doc__,
                        epilog="runs 'netselect-apt'")
     parser_searchapt.add_argument("dist")
@@ -604,7 +651,7 @@ def main():
 
     function = commands.show
     parser_show = subparsers.add_parser("show",
-                  parents=[parser_fast],
+                  parents=[parser_fast, parser_simulate],
                   aliases="detail details".split(),
                   description=function.__doc__)
     parser_show.add_argument("packages", nargs="+")
@@ -612,6 +659,7 @@ def main():
 
     function = commands.sizes
     parser_sizes = subparsers.add_parser("sizes",
+                   parents=[parser_simulate],
                    aliases=["size"],
                    description=function.__doc__,
                    formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -620,11 +668,13 @@ def main():
 
     function = commands.snapshot
     parser_snapshot = subparsers.add_parser("snapshot",
+                      parents=[parser_simulate],
                       description=function.__doc__)
     parser_snapshot.set_defaults(func=function)
 
     function = commands.source
     parser_source = subparsers.add_parser("source",
+                    parents=[parser_simulate],
                     description=function.__doc__,
                     epilog="runs 'apt-get source'")
     parser_source.add_argument("packages", nargs="+")
@@ -632,19 +682,22 @@ def main():
 
     function = commands.start
     parser_start = subparsers.add_parser("start",
-                       description=function.__doc__,
-                       epilog="runs 'service DAEMON start'")
+                   parents=[parser_simulate],
+                   description=function.__doc__,
+                   epilog="runs 'service DAEMON start'")
     parser_start.add_argument("daemon")
     parser_start.set_defaults(func=function)
 
     function = commands.status
     parser_status = subparsers.add_parser("status",
+                    parents=[parser_simulate],
                     description=function.__doc__)
     parser_status.add_argument("packages", nargs="+")
     parser_status.set_defaults(func=function)
 
     function = commands.statusmatch
     parser_statusmatch = subparsers.add_parser("statusmatch",
+                         parents=[parser_simulate],
                          aliases=["statussearch"],
                          description=function.__doc__)
     parser_statusmatch.add_argument("pattern")
@@ -652,6 +705,7 @@ def main():
 
     function = commands.stop
     parser_stop = subparsers.add_parser("stop",
+                  parents=[parser_simulate],
                   description=function.__doc__,
                   epilog="runs 'service DAEMON stop'")
     parser_stop.add_argument("daemon")
@@ -659,6 +713,7 @@ def main():
 
     function = commands.syslog
     parser_syslog = subparsers.add_parser("syslog",
+                    parents=[parser_simulate],
                     aliases=["listlog"],
                     description=function.__doc__,
                     epilog="runs 'cat /var/log/apt/history.log'")
@@ -666,13 +721,15 @@ def main():
 
     function = commands.tasksel
     parser_tasksel = subparsers.add_parser("tasksel",
+                     parents=[parser_simulate],
                      description=function.__doc__,
                      epilog="runs 'tasksel'")
     parser_tasksel.set_defaults(func=function)
 
     function = commands.todo
     parser_todo = subparsers.add_parser("todo",
-                    description=function.__doc__)
+                  parents=[parser_simulate],
+                  description=function.__doc__)
     parser_todo.add_argument("package")
     parser_todo.set_defaults(func=function)
 
@@ -689,12 +746,14 @@ def main():
 
     function = commands.unhold
     parser_unhold = subparsers.add_parser("unhold",
+                    parents=[parser_simulate],
                     description=function.__doc__)
     parser_unhold.add_argument("packages", nargs="+")
     parser_unhold.set_defaults(func=function)
 
     function = commands.unofficial
     parser_unofficial = subparsers.add_parser("unofficial",
+                        parents=[parser_simulate],
                         aliases="findpkg findpackage".split(),
                         description=function.__doc__)
     parser_unofficial.add_argument("package")
@@ -702,11 +761,13 @@ def main():
 
     function = commands.update
     parser_update = subparsers.add_parser("update",
+                    parents=[parser_simulate],
                     description=function.__doc__)
     parser_update.set_defaults(func=function)
 
     function = commands.updatealternatives
     parser_updatealternatives = subparsers.add_parser("updatealternatives",
+        parents=[parser_simulate],
         aliases="updatealts setalts setalternatives".split(),
         description=function.__doc__)
     parser_updatealternatives.add_argument("alternative")
@@ -714,34 +775,39 @@ def main():
 
     function = commands.updatepciids
     parser_updatepciids = subparsers.add_parser("updatepciids",
-                       description=function.__doc__,
-                       epilog="runs 'update-pciids'")
+                          parents=[parser_simulate],
+                          description=function.__doc__,
+                          epilog="runs 'update-pciids'")
     parser_updatepciids.set_defaults(func=function)
 
     function = commands.updateusbids
     parser_updateusbids = subparsers.add_parser("updateusbids",
+                          parents=[parser_simulate],
                           description=function.__doc__)
     parser_updateusbids.set_defaults(func=function)
 
     function = commands.upgrade
     parser_upgrade = subparsers.add_parser("upgrade",
-                     parents=[parser_backup, parser_yesno, parser_auth],
-                     description=function.__doc__)
+        parents=[parser_backup, parser_yesno, parser_auth, parser_simulate],
+        description=function.__doc__)
     parser_upgrade.set_defaults(func=function)
 
     function = commands.upgradesecurity
     parser_upgradesecurity = subparsers.add_parser("upgradesecurity",
+                             parents=[parser_simulate],
                              description=function.__doc__)
     parser_upgradesecurity.set_defaults(func=function)
 
     function = commands.verify
     parser_verify = subparsers.add_parser("verify",
+                    parents=[parser_simulate],
                     description=function.__doc__)
     parser_verify.add_argument("package")
     parser_verify.set_defaults(func=function)
 
     function = commands.versions
     parser_versions = subparsers.add_parser("versions",
+                      parents=[parser_simulate],
                       description=function.__doc__,
                       epilog="runs 'apt-show-versions'")
     parser_versions.add_argument("packages", nargs="*")
@@ -749,6 +815,7 @@ def main():
 
     function = commands.whichpackage
     parser_whichpackage = subparsers.add_parser("whichpackage",
+        parents=[parser_simulate],
         aliases="findfile locate filesearch whichpkg".split(),
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)

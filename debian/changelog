@@ -11,8 +11,10 @@ wajig (2.4) unstable; urgency=low
     Previously, only one of these types could be installed at a time
   * make bash completer also complete lower-case COMMANDS;
     patch by "Reuben Thomas" <rrt@sc3d.org>
+  * Reinstate --simulate option, but this only where it makes sense (i.e. where
+    external processes are called).
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 26 Mar 2012 13:03:38 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 26 Mar 2012 22:09:04 +0200
 
 wajig (2.3) unstable; urgency=low
 
