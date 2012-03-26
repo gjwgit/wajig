@@ -8,7 +8,7 @@ _wajig()
 
     options="-h --help -V --version"
 
-    commands="ADDCDROM ADDREPO AUTOALTS AUTOCLEAN AUTODOWNLOAD AUTOREMOVE
+    commands=(ADDCDROM ADDREPO AUTOALTS AUTOCLEAN AUTODOWNLOAD AUTOREMOVE
               BUILD BUILDDEPS CHANGELOG CLEAN CONTENTS DAILYUPGRADE
               DEPENDENTS DESCRIBE DESCRIBENEW DISTUPGRADE DOWNLOAD EDITSOURCES
               EXTRACT FIXCONFIGURE FIXINSTALL FIXMISSING FORCE HOLD INFO INIT
@@ -23,7 +23,7 @@ _wajig()
               SEARCH SEARCHAPT SHOW SIZES SNAPSHOT SOURCE START STATUS
               STATUSMATCH STOP SYSLOG TASKSEL TODO TOUPGRADE TUTORIAL UNHOLD
               UNOFFICIAL UPDATE UPDATEALTERNATIVES UPDATEPCIIDS UPDATEUSBIDS
-              UPGRADE UPGRADESECURITY VERIFY VERSIONS WHICHPACKAGE"
+              UPGRADE UPGRADESECURITY VERIFY VERSIONS WHICHPACKAGE)
 
     if [ "$COMP_CWORD" -ge "2" ]; then
         COMPREPLY=($( compgen -W '$(apt-cache pkgnames)' -- "$cur" ) \
@@ -33,7 +33,12 @@ _wajig()
         COMPREPLY=($( compgen -W "$options" -- "$cur" ) )
 
     else
-        COMPREPLY=($( compgen -W "$commands" -- "$cur" ) )
+        local option oldNoCaseMatch=$(shopt -p nocasematch)
+        shopt -s nocasematch
+        COMPREPLY=( $( for command in "${commands[@]}"; do
+            [[ ${command:0:${#cur}} == "$cur" ]] && printf '%s\n' $command
+        done ) )
+        eval "$oldNoCaseMatch" 2> /dev/null
     fi
 }
 complete -F _wajig wajig
