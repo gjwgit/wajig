@@ -26,8 +26,6 @@ import os
 import getpass
 import subprocess
 
-user = ""
-
 try:
     user = os.environ['USER']
 except:
