@@ -304,7 +304,7 @@ def do_listnames(pattern=False, pipe=False):
 def do_update():
     if not perform.execute("apt-get update", root=True):
         changes.update_available()
-        print("There are " + changes.count_upgrades() + " new upgrades")
+        print("There are {} new upgrades".format(changes.count_upgrades()))
 
 
 def get_deps_recursively(cache, package, packageslist):
