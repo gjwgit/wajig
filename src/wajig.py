@@ -191,12 +191,6 @@ def main():
                    epilog="runs 'apt-get clean'")
     parser_clean.set_defaults(func=function)
 
-    function = commands.listcommands
-    parser_commands = subparsers.add_parser("listcommands",
-                      aliases=["commands"],
-                      description=function.__doc__)
-    parser_commands.set_defaults(func=function)
-
     function = commands.contents
     parser_contents = subparsers.add_parser("contents",
                       parents=[parser_simulate],
@@ -363,6 +357,12 @@ def main():
                        parents=[parser_simulate],
                        description=function.__doc__)
     parser_listcache.set_defaults(func=function)
+
+    function = commands.listcommands
+    parser_commands = subparsers.add_parser("listcommands",
+                      aliases=["commands"],
+                      description=function.__doc__)
+    parser_commands.set_defaults(func=function)
 
     function = commands.listdaemons
     parser_listdaemons = subparsers.add_parser("listdaemons",
