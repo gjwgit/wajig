@@ -302,7 +302,7 @@ def do_listnames(pattern=False, pipe=False):
 
 
 def do_update():
-    if not perform.execute("apt-get update", root=1):
+    if not perform.execute("apt-get update", root=True):
         changes.update_available()
         print("There are " + changes.count_upgrades() + " new upgrades")
 
