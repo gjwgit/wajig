@@ -39,3 +39,8 @@ guidelines:
 * ensure that new features and changes are documented
 * ensure that user-visible changes are mentioned in "debian/changelog"; use
   debchange from within the project root directory and do your changes there
+
+
+TODO:
+* these commands should get --teaching and --simulate options:
+    UPDATE, DAILYUPGRADE, AUTODOWNLOAD, NEW, DESCRIBENEW, NEWUPGRADES

@@ -301,10 +301,11 @@ def do_listnames(pattern=False, pipe=False):
         return perform.execute(command, root=needsudo, pipe=pipe)
 
 
-def do_update():
+def do_update(simulate=False):
     if not perform.execute("apt-get update", root=True):
-        changes.update_available()
-        print("There are {} new upgrades".format(changes.count_upgrades()))
+        if not simulate:
+            changes.update_available()
+            print("There are {} new upgrades".format(changes.count_upgrades()))
 
 
 def get_deps_recursively(cache, package, packageslist):

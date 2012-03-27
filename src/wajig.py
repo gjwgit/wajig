@@ -217,7 +217,7 @@ def main():
 
     function = commands.describenew
     parser_describenew = subparsers.add_parser("describenew",
-                         parents=[parser_verbose, parser_teach],
+                         parents=[parser_verbose],
                          aliases=["newdescribe"],
                          description=function.__doc__)
     parser_describenew.set_defaults(func=function)
@@ -429,7 +429,7 @@ def main():
 
     function = commands.new
     parser_new = subparsers.add_parser("new",
-                 parents=[parser_install, parser_teach],
+                 parents=[parser_install],
                  description=function.__doc__)
     parser_new.set_defaults(func=function)
 
@@ -449,7 +449,7 @@ def main():
 
     function = commands.newupgrades
     parser_newupgrades = subparsers.add_parser("newupgrades",
-        parents=[parser_yesno, parser_auth, parser_install, parser_teach],
+        parents=[parser_yesno, parser_auth, parser_install],
         description=function.__doc__)
     parser_newupgrades.set_defaults(func=function)
 

@@ -64,12 +64,13 @@ def autoalts(args):
 def autodownload(args):
     """Do an update followed by a download of all updated packages"""
     filter_str = '| egrep -v "(http|ftp)"' if args.verbose else ""
-    util.do_update()
+    util.do_update(args.simulate)
     command = ("apt-get --download-only --show-upgraded --assume-yes "
                "dist-upgrade " + filter_str)
     perform.execute(command, root=True)
-    util.do_describe_new(args.verbose)
-    util.do_newupgrades(args.install, args.yes, args.noauth)
+    if not args.simulate:
+        util.do_describe_new(verbose=args.verbose)
+        util.do_newupgrades(args.install, args.yes, args.noauth)
 
 
 def autoclean(args):
@@ -170,7 +171,7 @@ def contents(args):
 
 def dailyupgrade(args):
     """Perform an update then a dist-upgrade"""
-    util.do_update()
+    util.do_update(args.simulate)
     perform.execute("apt-get --show-upgraded dist-upgrade", root=True)
 
 
@@ -936,7 +937,7 @@ def unofficial(args):
 
 def update(args):
     """Update the list of new and updated packages"""
-    util.do_update()
+    util.do_update(args.simulate)
 
 
 def updatealternatives(args):
