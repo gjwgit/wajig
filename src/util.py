@@ -44,10 +44,13 @@ def requires_package(package, path, test=False):
 def package_exists(cache, package, test=False):
     try:
         return cache[package]
-    except KeyError as error:
-        if not test:
-            print(error.args[0])
-            sys.exit(1)
+    except KeyError:
+        try:
+            return cache.get_providing_packages(package)[0]
+        except:
+            if not test:
+                print(error.args[0])
+                sys.exit(1)
 
 
 def upgradable(distupgrade=False):
@@ -311,14 +314,11 @@ def do_update(simulate=False):
 def get_deps_recursively(cache, package, packageslist):
     if not package in packageslist:
         packageslist.append(package)
-    try:
-        for package_name in extract_dependencies(cache[package], "Depends"):
-            if package_name not in packageslist:
-                packageslist.append(package_name)
-                get_deps_recursively(cache, package_name, packageslist)
-    except KeyError as error:
-        print(error.args[0])  # "package does not exist in cache"
-        sys.exit(1)
+    for package_name in \
+        extract_dependencies(package_exists(cache, package), "Depends"):
+        if package_name not in packageslist:
+            packageslist.append(package_name)
+            get_deps_recursively(cache, package_name, packageslist)
     return packageslist
 
 def consolidate_package_names(args):

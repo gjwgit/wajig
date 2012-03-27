@@ -669,6 +669,9 @@ def recdownload(args):
 
     print("Calculating all dependencies...")
     cache = apt.cache.Cache()
+    for package in packages:
+        util.package_exists(cache, package)
+
     for i in packages:
         tmp = util.get_deps_recursively(cache, i, [])
         for i in tmp:
