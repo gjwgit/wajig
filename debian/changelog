@@ -1,9 +1,9 @@
 wajig (2.4.1) unstable; urgency=low
 
-  * 2.4 made an assumption that if a user that isn't in sudo group
+  * 2.4 made an assumption that a user that isn't in 'sudo' group
     is not a sudoer. That's not the case (and it's a bad assumption).
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 15:28:58 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 16:07:31 +0200
 
 wajig (2.4) unstable; urgency=low
 
