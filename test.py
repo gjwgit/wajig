@@ -40,7 +40,8 @@ class Tests(unittest.TestCase):
 
     def test_util_package_exists(self):
         cache = apt.Cache()
-        self.assertTrue(util.package_exists(cache, "dpkg", test=True))
+        self.assertIsInstance(util.package_exists(cache, "dpkg"),
+                              apt.package.Package)
         self.assertFalse(util.package_exists(cache, "no_such", test=True))
 
 
