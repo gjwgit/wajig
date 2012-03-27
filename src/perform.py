@@ -80,8 +80,7 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
             # it: echo package hold | dpkg --set-selections
             #
             command = setroot + " " + command.replace("|", "| %s " % setroot)
-        else:
-            if os.getuid() and not test:
+        elif os.getuid() and not test:
                 print("Using `su' and requiring root password. Install `sudo' "
                       "to support user passwords. See wajig documentation "
                       "(wajig doc) for details.")
