@@ -21,8 +21,9 @@ wajig (2.4) unstable; urgency=low
   * LOCALDISTUPGRADE:
     - [ole] wajig LOCALDISTUPGRADE
     - [new] wajig DISTUPGRADE --local
+  * Fix an (embarassing) exception; Closes: #665887
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 00:35:42 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 10:39:20 +0200
 
 wajig (2.3) unstable; urgency=low
 

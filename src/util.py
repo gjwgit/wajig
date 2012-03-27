@@ -129,7 +129,7 @@ def do_describe_new(install=False, verbose=False):
     """Report on packages that are newly available."""
     new_packages = changes.get_new_available()
     if new_packages:
-        util.do_describe(new_packages, verbose)
+        do_describe(new_packages, verbose)
         if install:
             print("="*76)
             do_install(new_packages)
