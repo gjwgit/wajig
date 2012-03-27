@@ -61,10 +61,8 @@ if os.path.exists(tmp_dir + "/Installed"):
     os.rename(tmp_dir + "/Installed", init_dir + "/Installed")
 
 # 100104 Remove any old tmp files. Bug#563573
-
 perform.execute("rm -f " + init_dir + "/tmp*")
 
-#
 # TODO 23 Aug 2003
 #
 # Perhaps the only file that wajig needs to cache itself is
@@ -83,11 +81,10 @@ perform.execute("rm -f " + init_dir + "/tmp*")
 # TODO Work to use bzip2 files for available and previous.
 # Then bunzip2 to temporary files when needed!
 # Disk usage goes from 274K to 83K.
-#
 available_file = init_dir + "/Available"
 previous_file  = init_dir + "/Available.prv"
 
-# removes a no-longer-used log
+# removes a no-longer-used log file
 # this code should go away after Debian 7.0 is released
 log_file = init_dir + "/Log"
 if os.path.exists(log_file):
