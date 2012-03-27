@@ -672,11 +672,7 @@ def recdownload(args):
         util.package_exists(cache, package)
 
     for i in args.packages:
-        tmp = util.get_deps_recursively(cache, i, [])
-        for i in tmp:
-            # We don't want dupplicated package names
-            if i not in package_names:
-                package_names.append(i)
+        package_names.extend(util.get_deps_recursively(cache, i, []))
     print("Packages to download to /var/cache/apt/archives:")
     for i in package_names:
         # We do this because apt-get install dont list the packages to
