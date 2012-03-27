@@ -15,15 +15,15 @@ wajig (2.4) unstable; urgency=low
     are now redundant, so they are now removed. All they did was state what
     commands would be ran.
   * Reinstate --teaching (renamed to --teach) option.
-  * LOCALUPGRADE:
+  * LOCALUPGRADE remove:
     - [ole] wajig LOCALUPGRADE
     - [new] wajig UPGRADE --local 
-  * LOCALDISTUPGRADE:
+  * LOCALDISTUPGRADE remove:
     - [ole] wajig LOCALDISTUPGRADE
     - [new] wajig DISTUPGRADE --local
   * Fix an (embarassing) exception; Closes: #665887
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 11:27:17 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 11:33:11 +0200
 
 wajig (2.3) unstable; urgency=low
 
