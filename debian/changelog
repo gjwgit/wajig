@@ -1,3 +1,9 @@
+wajig (2.5~prerelease) unstable; urgency=low
+
+  * Avoid displaying a stack trace when quitting an operation (Ctrl+C).
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 19:03:06 +0200
+
 wajig (2.4.1) unstable; urgency=low
 
   * 2.4 made an assumption that a user that isn't in 'sudo' group
