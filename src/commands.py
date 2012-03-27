@@ -663,16 +663,15 @@ def readme(args):
 
 def recdownload(args):
     """Download a package and all its dependencies"""
-    packages = args.packages
 
     package_names = list()
 
     print("Calculating all dependencies...")
     cache = apt.cache.Cache()
-    for package in packages:
+    for package in args.packages:
         util.package_exists(cache, package)
 
-    for i in packages:
+    for i in args.packages:
         tmp = util.get_deps_recursively(cache, i, [])
         for i in tmp:
             # We don't want dupplicated package names
