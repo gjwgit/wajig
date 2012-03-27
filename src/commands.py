@@ -666,11 +666,11 @@ def recdownload(args):
 
     package_names = list()
 
-    print("Calculating all dependencies...")
     cache = apt.cache.Cache()
     for package in args.packages:
         util.package_exists(cache, package)
 
+    print("Calculating all dependencies...")
     for package in args.packages:
         package_names.extend(util.get_deps_recursively(cache, package, []))
     print("Packages to download to /var/cache/apt/archives:")
