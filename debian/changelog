@@ -11,10 +11,12 @@ wajig (2.4) unstable; urgency=low
     Previously, only one of these types could be installed at a time
   * make bash completer also complete lower-case COMMANDS;
     patch by "Reuben Thomas" <rrt@sc3d.org>
-  * Reinstate --simulate option. This means the epilogs of the --help option
-    are now redundant, so they are now removed. All they did was state what
-    commands would be ran.
-  * Reinstate --teaching (renamed to --teach) option.
+  * Reinstate --simulate and --teaching options:
+    - the --simulate option implies that the epilogs of the --help option
+      are now redundant so they are now removed. All they did was state what
+      commands would be ran.
+    - the --teaching option is renamed to --teach (for sake of consistency)
+    - Closes: #665729
   * LOCALUPGRADE remove:
     - [ole] wajig LOCALUPGRADE
     - [new] wajig UPGRADE --local 
@@ -23,7 +25,7 @@ wajig (2.4) unstable; urgency=low
     - [new] wajig DISTUPGRADE --local
   * Fix an (embarassing) exception; Closes: #665887
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 11:33:11 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 12:51:44 +0200
 
 wajig (2.3) unstable; urgency=low
 
