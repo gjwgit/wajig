@@ -37,7 +37,7 @@ except:
 
 
 if os.path.exists("/usr/bin/sudo") and user != "root" and \
-"sudo" in subprocess.check_output((["groups"]), universal_newlines=True):
+not subprocess.call(("sudo -v".split()), universal_newlines=True):
     setroot = "/usr/bin/sudo"
     # In case someone is using the non-default install of sudo on
     # Debian (the default install uses a default root path for sudo
