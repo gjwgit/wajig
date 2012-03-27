@@ -1,13 +1,11 @@
 JIG has evolved over several years of using and maintaining Debian
-systems.  It attempts to capture in a single command line tool (and a
-simple companion GNOME GUI) various things I commonly do that relate to
-managing the system. Many of the commands supported by wajig have been
-gleemed from hints and gossip on the mailing lists, and sometimes
-nuggets of useful information from the documentation.
+systems.  It attempts to capture in a single command line tool various
+things I commonly do that relate to managing the system. Many of the
+commands supported by wajig have been gleemed from hints and gossip on
+the mailing lists, and sometimes nuggets of useful information from
+the documentation.
 
-For a brief summary of only the most common commands try "wajig help".
-Online documentation is available at
-http://www.togaware.com/linux/survivor/wajig.shtml.
+Online documentation is available at http://wajig.togaware.com.
 
 If you experience trouble with the display, or see what would appear
 to be incomplete output from wajig, consider running the "wajig reset"
