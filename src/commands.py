@@ -671,13 +671,13 @@ def recdownload(args):
     for package in args.packages:
         util.package_exists(cache, package)
 
-    for i in args.packages:
-        package_names.extend(util.get_deps_recursively(cache, i, []))
+    for package in args.packages:
+        package_names.extend(util.get_deps_recursively(cache, package, []))
     print("Packages to download to /var/cache/apt/archives:")
-    for i in package_names:
+    for package in package_names:
         # We do this because apt-get install dont list the packages to
         # reinstall if they don't need to be upgraded
-        print(i, end=' ')
+        print(package, end=' ')
     print()
 
     command = "apt-get --download-only --reinstall -u install " + args.noauth
