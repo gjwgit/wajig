@@ -321,6 +321,7 @@ def get_deps_recursively(cache, package, packages):
             get_deps_recursively(cache, package_name, packages)
     return packages
 
+
 def consolidate_package_names(args):
     packages = list()
     filelist = list()
@@ -335,6 +336,7 @@ def consolidate_package_names(args):
     for filename in filelist:
         packages.remove(filename)
     return set(packages)
+
 
 def sizes(packages=None, size=0):
     status = apt_pkg.TagFile(open("/var/lib/dpkg/status", "r"))
@@ -363,4 +365,3 @@ def sizes(packages=None, size=0):
             print(message)
     else:
         print("No packages of >10MB size found")
-
