@@ -23,21 +23,15 @@
 #
 #------------------------------------------------------------------------
 import os
-import getpass
 import subprocess
 
 
 SIMULATE = False
 TEACH = False
 
-try:
-    user = os.environ['USER']
-except:
-    user = getpass.getuser()
-
-
-if os.path.exists("/usr/bin/sudo") and user != "root" and \
-not subprocess.call(("sudo -v".split()), universal_newlines=True):
+output = subprocess.check_output("dpkg --get-selections".split())
+output = output.decode().split()
+if "sudo" in output and not os.getuid():
     setroot = "/usr/bin/sudo"
     # In case someone is using the non-default install of sudo on
     # Debian (the default install uses a default root path for sudo
@@ -87,7 +81,7 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
             #
             command = setroot + " " + command.replace("|", "| %s " % setroot)
         else:
-            if user != "root" and not test:
+            if os.getuid() and not test:
                 print("Using `su' and requiring root password. Install `sudo' "
                       "to support user passwords. See wajig documentation "
                       "(wajig doc) for details.")
