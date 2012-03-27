@@ -311,15 +311,15 @@ def do_update(simulate=False):
             print("There are {} new upgrades".format(changes.count_upgrades()))
 
 
-def get_deps_recursively(cache, package, packageslist):
-    if not package in packageslist:
-        packageslist.append(package)
+def get_deps_recursively(cache, package, packages):
+    if not package in packages:
+        packages.append(package)
     for package_name in \
         extract_dependencies(package_exists(cache, package), "Depends"):
-        if package_name not in packageslist:
-            packageslist.append(package_name)
-            get_deps_recursively(cache, package_name, packageslist)
-    return packageslist
+        if package_name not in packages:
+            packages.append(package_name)
+            get_deps_recursively(cache, package_name, packages)
+    return packages
 
 def consolidate_package_names(args):
     packages = list()
