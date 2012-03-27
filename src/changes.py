@@ -89,7 +89,7 @@ previous_file  = init_dir + "/Available.prv"
 log_file       = init_dir + "/Log"
 
 # removes a no-longer-used log
-# this code should go away after several months (2012?)
+# this code should go away after Debian 7.0 is released
 if os.path.exists(log_file):
     os.remove(log_file)
 
