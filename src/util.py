@@ -74,7 +74,7 @@ def local_changelog(package, tmp):
         print("Package", package, "is likely broken (changelog not found)!")
 
 
-def extract_dependencies(package, dependency_type):
+def extract_dependencies(package, dependency_type="Depends"):
     """Produce all Dependencies of a particular type"""
     for dependency_list in package.candidate.get_dependencies(dependency_type):
         for dependency in dependency_list.or_dependencies:
@@ -315,7 +315,7 @@ def get_deps_recursively(cache, package, packages):
     if not package in packages:
         packages.append(package)
     for package_name in \
-        extract_dependencies(package_exists(cache, package), "Depends"):
+        extract_dependencies(package_exists(cache, package)):
         if package_name not in packages:
             packages.append(package_name)
             get_deps_recursively(cache, package_name, packages)
