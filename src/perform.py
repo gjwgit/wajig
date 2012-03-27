@@ -31,7 +31,7 @@ TEACH = False
 
 output = subprocess.check_output("dpkg --get-selections".split())
 output = output.decode().split()
-if "sudo" in output and not os.getuid():
+if "sudo" in output and os.getuid():
     setroot = "/usr/bin/sudo"
     # In case someone is using the non-default install of sudo on
     # Debian (the default install uses a default root path for sudo
