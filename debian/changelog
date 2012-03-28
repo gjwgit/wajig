@@ -1,8 +1,9 @@
 wajig (2.5~prerelease) unstable; urgency=low
 
-  * Avoid displaying a stack trace when quitting an operation (Ctrl+C).
+  * avoid displaying a stack trace when quitting an operation (Ctrl+C)
+  * the --simulate and --teaching options now display the commands in bold
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 27 Mar 2012 19:03:06 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 29 Mar 2012 00:04:44 +0200
 
 wajig (2.4.1) unstable; urgency=low
 

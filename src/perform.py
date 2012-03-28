@@ -29,6 +29,10 @@ import subprocess
 SIMULATE = False
 TEACH = False
 
+
+def highlight(text):
+    return "\x1b[1m{}\x1b[0m".format(text)
+
 output = subprocess.check_output("dpkg --get-selections".split())
 output = output.decode().split()
 if "sudo" in output and os.getuid():
@@ -98,10 +102,10 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
     if test:
         return command
     elif SIMULATE:
-        print(command)
+        print(highlight(command))
         return
     if TEACH:
-        print("EXECUTING: " + command)
+        print(highlight(command))
     if pipe:
         return os.popen(command)
     elif getoutput:
