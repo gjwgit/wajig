@@ -9,8 +9,9 @@ wajig (2.5~pre) unstable; urgency=low
     option. Seem a more sane way to have that as default, and leads to a
     less-surprising REMOVE/PURGE experience (whereby it would remove packages
     that are not related to packages being removed).
+  * {REMOVE,PURGE}ORPHANS: fix exception that happened with --simulate option
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 29 Mar 2012 17:36:55 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 29 Mar 2012 17:53:37 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
