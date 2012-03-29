@@ -61,6 +61,7 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
     Returns either the status of the command or a file-like object
     if PIPE is True."""
 
+    command = " ".join(command.split())
     if root:
         if setroot == "/usr/bin/sudo":
             #
