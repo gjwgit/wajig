@@ -633,7 +633,7 @@ def purgeorphans(args):
     for package in perform.execute("deborphan", pipe=True):
         packages += " " + package.strip()
     if packages:
-        command = "apt-get purge {} {}".format(args.yes, packages)
+        command = "apt-get --auto-remove purge {} {}".format(args.yes, packages)
         perform.execute(command, root=True)
 
 
@@ -731,7 +731,7 @@ def removeorphans(args):
     for package in perform.execute("deborphan", pipe=True):
         packages += " " + package.strip()
     if packages:
-        perform.execute("apt-get remove" + packages, root=True)
+        perform.execute("apt-get --auto-remove remove " + packages, root=True)
 
 
 def repackage(args):
