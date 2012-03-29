@@ -5,8 +5,12 @@ wajig (2.5~pre) unstable; urgency=low
   * REMOVEORPHANS, PURGEORPHANS: for the sake of consistency with REMOVE
     and PURGE subcommands, use the --auto-remove option of apt-get;
     Closes: #444150
+  * INSTALL, INSTALLSUGGESTED, NEWUPGRADES, AUTODOWNLOAD: use --auto-remove
+    option. Seem a more sane way to have that as default, and leads to a
+    less-surprising REMOVE/PURGE experience (whereby it would remove packages
+    that are not related to packages being removed).
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 29 Mar 2012 17:18:30 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 29 Mar 2012 17:36:55 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
