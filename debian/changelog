@@ -1,4 +1,4 @@
-wajig (2.5~prerelease) unstable; urgency=low
+wajig (2.5~pre) unstable; urgency=low
 
   * avoid displaying a stack trace when quitting an operation (Ctrl+C)
   * the --simulate and --teaching options now display the commands in bold
@@ -6,7 +6,7 @@ wajig (2.5~prerelease) unstable; urgency=low
     and PURGE subcommands, use the --auto-remove option of apt-get;
     Closes: #444150
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 29 Mar 2012 17:07:32 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 29 Mar 2012 17:18:30 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
