@@ -402,7 +402,7 @@ def installsuggested(args):
         print(error.args[0])
         sys.exit(1)
     dependencies = " ".join(util.extract_dependencies(package, "Suggests"))
-    command = "apt-get {0} {1} {2} --show-upgraded --auto-remove install {3} {4}"
+    command = "apt-get {} {} {} --show-upgraded --auto-remove install {} {}"
     command = command.format(args.recommends, args.yes, args.noauth,
                              dependencies, args.package)
     perform.execute(command, root=True)
