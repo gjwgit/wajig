@@ -227,16 +227,6 @@ def get_installed_version(package):
     return installed_list[package]
 
 
-def get_new_available():
-    "Obtain the packages available now but not previously."
-    load_dictionaries()
-    new_list = []
-    for package in available_list.keys():
-        if not package in previous_list:
-            new_list.append(package)
-    return new_list
-
-
 def get_new_upgrades():
     "Obtain newly-upgraded packages."
     load_dictionaries()

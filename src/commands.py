@@ -587,7 +587,7 @@ def new(args):
 
 def newdetail(args):
     """Provide a detailed description of new packages"""
-    new_packages = changes.get_new_available()
+    new_packages = util.upgradable()
     if new_packages:
         package_names = " ".join(new_packages)
         command = "apt-cache" if args.fast else "aptitude"
