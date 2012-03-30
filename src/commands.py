@@ -857,7 +857,7 @@ def todo(args):
 
 
 def toupgrade(args):
-    """List packages with newer versions available for upgrading"""
+    """List upgradable packages"""
 
     packages = util.upgradable(get_names_only=False)
     if packages:
