@@ -581,7 +581,7 @@ def move(args):
 
 
 def new(args):
-    """List packages that became available since last update"""
+    """List descriptions of upgradable packages"""
     util.do_describe_new(args.install)
 
 
@@ -859,7 +859,7 @@ def todo(args):
 
 
 def toupgrade(args):
-    """List upgradable packages"""
+    """List versions of upgradable packages"""
     if not util.show_package_versions():
         print("No upgradeable packages")
 
