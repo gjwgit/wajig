@@ -188,24 +188,6 @@ previous_list = {}
 installed_list = {}
 
 
-def load_dictionaries():
-    "Create dictionaries of avail/installed packages for in-memory tasks."
-
-    ensure_initialised()
-
-    afile = open(available_file, "r").readlines()
-    for i in range(0, len(afile)):
-        available_list[afile[i].split()[0]] = afile[i].split()[1]
-
-    pfile = open(previous_file, "r").readlines()
-    for i in range(0, len(pfile)):
-        previous_list[pfile[i].split()[0]] = pfile[i].split()[1]
-
-    ifile = perform.execute(gen_installed_command_str(), pipe=True).readlines()
-    for i in range(0, len(ifile)):
-        installed_list[ifile[i].split()[0]] = ifile[i].split()[1]
-
-
 def get_available_list():
     "Obtain the dictionary of available packages."
     return available_list
@@ -225,19 +207,6 @@ def get_installed_version(package):
     "Return, as string, the package's installed version number."
     # TODO: Make sure the dictionary has been loaded.
     return installed_list[package]
-
-
-def get_new_upgrades():
-    "Obtain newly-upgraded packages."
-    load_dictionaries()
-    upgraded_list = []
-    apt_pkg.init_system()  # Not sure why!
-    for package in installed_list.keys():
-        if package in available_list and package in previous_list \
-        and apt_pkg.version_compare(available_list[package],
-        previous_list[package]) > 0:
-            upgraded_list.append(package)
-    return upgraded_list
 
 
 def get_status(package):
