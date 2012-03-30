@@ -12,8 +12,9 @@ wajig (2.5~pre) unstable; urgency=low
     less-surprising REMOVE/PURGE experience (whereby it would remove packages
     that are not related to packages being removed).
   * {REMOVE,PURGE}ORPHANS: fix exception that happened with --simulate option
+  * TOUPGRADE: Fix an exception that occurs when one has removed ~/.wajig dir
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 30 Mar 2012 14:28:12 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 30 Mar 2012 22:31:56 +0200
 
 wajig (2.4.1) unstable; urgency=low
 

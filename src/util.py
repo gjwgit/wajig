@@ -52,11 +52,14 @@ def package_exists(cache, package, test=False):
             sys.exit(1)
 
 
-def upgradable(distupgrade=False):
+def upgradable(distupgrade=False, get_names_only=True):
     "Checks if the system is upgradable."
     cache = apt.Cache()
     cache.upgrade(distupgrade)
-    packages = [package.name for package in cache.get_changes()]
+    if get_names_only:
+        packages = [package.name for package in cache.get_changes()]
+    else:
+        packages = [package for package in cache.get_changes()]
     return packages
 
 
