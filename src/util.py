@@ -165,7 +165,7 @@ def do_newupgrades(install, yes, noauth):
         if install:
             print("="*74)
             command = "apt-get install --auto-remove {} {}"
-            command += " ".join(new_upgrades)
+            command += " ".join([package.name for package in new_upgrades])
             command = command.format(yes, noauth)
             perform.execute(command, root=True)
     else:
