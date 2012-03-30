@@ -71,12 +71,6 @@ def autodownload(args):
         util.do_describe_new(verbose=args.verbose)
         print()
         new_packages = util.show_package_versions()
-        if args.install:
-            print("="*74)
-            command = "apt-get install --auto-remove {} {}"
-            command += " ".join([package.name for package in new_packages])
-            command = command.format(args.yes, args.noauth)
-            perform.execute(command, root=True)
 
 
 def autoclean(args):
@@ -582,7 +576,7 @@ def move(args):
 
 def new(args):
     """List descriptions of upgradable packages"""
-    util.do_describe_new(args.install)
+    util.do_describe_new()
 
 
 def newdetail(args):
