@@ -69,7 +69,14 @@ def autodownload(args):
     perform.execute(command, root=True)
     if not args.simulate:
         util.do_describe_new(verbose=args.verbose)
-        util.do_newupgrades(args.install, args.yes, args.noauth)
+        print()
+        new_packages = util.show_package_versions()
+        if args.install:
+            print("="*74)
+            command = "apt-get install --auto-remove {} {}"
+            command += " ".join([package.name for package in new_packages])
+            command = command.format(args.yes, args.noauth)
+            perform.execute(command, root=True)
 
 
 def autoclean(args):
@@ -853,16 +860,8 @@ def todo(args):
 
 def toupgrade(args):
     """List upgradable packages"""
-    packages = util.upgradable(get_names_only=False)
-    if packages:
-        print("{:<24} {:<24} {}".format("Package", "Available", "Installed"))
-        for package in packages:
-            print("="*24 + "-" + "="*24 + "-" + "="*24)
-            print("{:<24} {:<24} {}".format(package.name,
-                package.candidate.version, package.installed.version))
-    else:
+    if not util.show_package_versions():
         print("No upgradeable packages")
-
 
 def tutorial(args):
     """Display wajig tutorial"""

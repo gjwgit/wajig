@@ -153,21 +153,15 @@ def ping_host(hostname):
     return True
 
 
-def do_newupgrades(install, yes, noauth):
-    """Display packages that are newly upgraded."""
-    new_upgrades = upgradable(get_names_only=False)
-    if new_upgrades:
-        print("\n{:<24} {:<24} {}".format("Package", "Available", "Installed"))
+def show_package_versions():
+    packages = upgradable(get_names_only=False)
+    if packages:
+        print("{:<24} {:<24} {}".format("Package", "Available", "Installed"))
         print("="*24 + "-" + "="*24 + "-" + "="*24)
-        for package in new_upgrades:
+        for package in packages:
             print("{:<24} {:<24} {}".format(package.name,
                 package.candidate.version, package.installed.version))
-        if install:
-            print("="*74)
-            command = "apt-get install --auto-remove {} {}"
-            command += " ".join([package.name for package in new_upgrades])
-            command = command.format(yes, noauth)
-            perform.execute(command, root=True)
+    return packages
 
 
 def display_sys_docs(package, filenames):
