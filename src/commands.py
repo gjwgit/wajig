@@ -65,7 +65,7 @@ def autodownload(args):
     """Do an update followed by a download of all updated packages"""
     util.do_update(args.simulate)
     command = ("apt-get --download-only --show-upgraded --assume-yes "
-               "dist-upgrade")
+               "--force-yes dist-upgrade")
     perform.execute(command, root=True)
     if not args.simulate:
         util.do_describe_new(verbose=args.verbose)
