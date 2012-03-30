@@ -216,11 +216,6 @@ def get_previous_list():
     return previous_list
 
 
-def get_available_version(package):
-    "Obtain the package's available version number."
-    return available_list[package]
-
-
 def get_previous_version(package):
     "Obtain the package's previously available version number."
     return previous_list[package]

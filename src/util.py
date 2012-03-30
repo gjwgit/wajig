@@ -132,7 +132,7 @@ def do_describe(packages, verbose=False):
 
 def do_describe_new(install=False, verbose=False):
     """Report on packages that are newly available."""
-    new_packages = changes.get_new_available()
+    new_packages = upgradable()
     if new_packages:
         do_describe(new_packages, verbose)
         if install:
@@ -155,24 +155,21 @@ def ping_host(hostname):
 
 def do_newupgrades(install, yes, noauth):
     """Display packages that are newly upgraded."""
-
-    # Load the dictionaries from file then list each one and it's version
-    new_upgrades = changes.get_new_upgrades()
-    if len(new_upgrades) == 0:
-        print("No new upgrades")
-    else:
-        print("%-24s %-24s %s" % ("Package", "Available", "Installed"))
+    new_upgrades = upgradable(get_names_only=False)
+    if new_upgrades:
+        print("\n{:<24} {:<24} {}".format("Package", "Available", "Installed"))
         print("="*24 + "-" + "="*24 + "-" + "="*24)
-        new_upgrades.sort()
-        for i in range(0, len(new_upgrades)):
-            print("%-24s %-24s %-24s" % (new_upgrades[i], \
-                            changes.get_available_version(new_upgrades[i]), \
-                            changes.get_installed_version(new_upgrades[i])))
+        for package in new_upgrades:
+            print("{:<24} {:<24} {}".format(package.name,
+                package.candidate.version, package.installed.version))
         if install:
             print("="*74)
-            command = "apt-get install --auto-remove {} {}" + " ".join(new_upgrades)
+            command = "apt-get install --auto-remove {} {}"
+            command += " ".join(new_upgrades)
             command = command.format(yes, noauth)
             perform.execute(command, root=True)
+    else:
+        print("No new upgrades")
 
 
 def display_sys_docs(package, filenames):
