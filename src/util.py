@@ -43,14 +43,13 @@ def requires_package(package, path, test=False):
 
 def package_exists(cache, package, test=False):
     try:
+        if cache.is_virtual_package(package):
+            return cache.get_providing_packages(package)[0]
         return cache[package]
     except KeyError:
-        try:
-            return cache.get_providing_packages(package)[0]
-        except:
-            if not test:
-                print(error.args[0])
-                sys.exit(1)
+        if not test:
+            print(error.args[0])
+            sys.exit(1)
 
 
 def upgradable(distupgrade=False):
