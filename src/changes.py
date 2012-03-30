@@ -255,19 +255,6 @@ def get_new_upgrades():
     return upgraded_list
 
 
-def get_to_upgrade():
-    "Obtain the packages with newer versions available."
-    load_dictionaries()
-    upgraded_list = []
-    apt_pkg.init_system()  # Not sure why!
-    for package in installed_list.keys():
-        if package in available_list \
-        and apt_pkg.version_compare(available_list[package],
-        installed_list[package]) > 0:
-            upgraded_list.append(package)
-    return upgraded_list
-
-
 def get_status(package):
     p = perform.execute("dpkg --status " + package, pipe=True)
     packageinfo = apt_pkg.TagFile(p)
