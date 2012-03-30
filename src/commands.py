@@ -860,11 +860,11 @@ def toupgrade(args):
     """List upgradable packages"""
     packages = util.upgradable(get_names_only=False)
     if packages:
-        print("%-24s %-24s %s" % ("Package", "Available", "Installed"))
+        print("{:<24} {:<24} {}".format("Package", "Available", "Installed"))
         for package in packages:
             print("="*24 + "-" + "="*24 + "-" + "="*24)
-            print("%-24s %-24s %s" % (package.name, package.candidate.version,
-                                      package.installed.version))
+            print("{:<24} {:<24} {}".format(package.name,
+                package.candidate.version, package.installed.version))
     else:
         print("No upgradeable packages")
 
