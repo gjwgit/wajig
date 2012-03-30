@@ -168,8 +168,6 @@ def do_newupgrades(install, yes, noauth):
             command += " ".join([package.name for package in new_upgrades])
             command = command.format(yes, noauth)
             perform.execute(command, root=True)
-    else:
-        print("No new upgrades")
 
 
 def display_sys_docs(package, filenames):
