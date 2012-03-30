@@ -2,7 +2,8 @@ wajig (2.5~pre) unstable; urgency=low
 
   * avoid displaying a stack trace when quitting an operation (Ctrl+C)
   * the --simulate and --teaching options now display the commands in bold;
-    also, have consistent spacing (single space) between strings
+    they now also have consistent spacing (single space) between
+    non-whitespace characters
   * REMOVEORPHANS, PURGEORPHANS: for the sake of consistency with REMOVE
     and PURGE subcommands, use the --auto-remove option of apt-get;
     Closes: #444150
@@ -12,7 +13,7 @@ wajig (2.5~pre) unstable; urgency=low
     that are not related to packages being removed).
   * {REMOVE,PURGE}ORPHANS: fix exception that happened with --simulate option
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 29 Mar 2012 17:57:56 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 30 Mar 2012 14:28:12 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
