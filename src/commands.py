@@ -594,11 +594,6 @@ def news(args):
     util.display_sys_docs(args.package, "NEWS.Debian NEWS".split())
 
 
-def newupgrades(args):
-    """List packages newly available for upgrading"""
-    util.do_newupgrades(args.install, args.yes, args.noauth)
-
-
 def nonfree(args):
     """List packages that don't meet the Debian Free Software Guidelines"""
     util.requires_package("vrms", "/usr/bin/vrms")

@@ -447,12 +447,6 @@ def main():
     parser_news.add_argument("package")
     parser_news.set_defaults(func=function)
 
-    function = commands.newupgrades
-    parser_newupgrades = subparsers.add_parser("newupgrades",
-        parents=[parser_yesno, parser_auth, parser_install],
-        description=function.__doc__)
-    parser_newupgrades.set_defaults(func=function)
-
     function = commands.nonfree
     parser_nonfree = subparsers.add_parser("nonfree",
                      parents=[parser_teach],
