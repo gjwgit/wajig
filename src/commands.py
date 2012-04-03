@@ -639,10 +639,10 @@ def purgeremoved(args):
     packages = ""
     cmd = ("dpkg-query --show --showformat='${Package}\t${Status}\n' | "
            "grep \"deinstall ok config-files\" | cut -f 1 ")
-    for package in perform.execute(cmd, pipe=True):
-        packages += " " + package.strip()
+    packages = perform.execute(cmd, pipe=True)
     if packages:
-        perform.execute("apt-get purge" + packages, root=True)
+        packages = " ".join(packages)
+        perform.execute("apt-get purge " + packages, root=True)
 
 
 def rbuilddeps(args):
