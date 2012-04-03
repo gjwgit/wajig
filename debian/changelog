@@ -17,7 +17,7 @@ wajig (2.5~pre) unstable; urgency=low
   * NEWUPGRADES: doesn't seem to provide much more than TOUGPRADE, so remove
   * AUTODOWNLOAD, NEW: get rid of --install option; it's overkill
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 31 Mar 2012 00:41:52 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 00:41:15 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
@@ -84,9 +84,9 @@ wajig (2.3) unstable; urgency=low
      with argparse)
   * LISTCACHE: remove ability to filter output; user can always run grep
     themselves
-  * LISTNAMES: same as LISTCACHE
-  * LISTPACKAGES: same as LISTCACHE
-  * LISTSTATUS: same as LISTCACHE
+  * LISTNAMES: also remove filtering ability
+  * LISTPACKAGES: also remove filtering ability
+  * LISTSTATUS: also remove filtering ability
   * NEW: 'wajig new --install' replaces the less elegant 'wajig new install'
   * NEWUPGRADES: 'wajig NEWUPGRADES --install' replaces the less elegant
     'wajig NEWUPGRADES install'
