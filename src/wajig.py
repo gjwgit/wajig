@@ -479,7 +479,6 @@ def main():
 
     function = commands.purgeremoved
     parser_purgeremoved = subparsers.add_parser("purgeremoved",
-                          parents=[parser_teach],
                           description=function.__doc__)
     parser_purgeremoved.set_defaults(func=function)
 

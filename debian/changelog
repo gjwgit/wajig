@@ -16,8 +16,10 @@ wajig (2.5~pre) unstable; urgency=low
     ~/.wajig dir is removed
   * NEWUPGRADES: doesn't seem to provide much more than TOUGPRADE, so remove
   * AUTODOWNLOAD, NEW: get rid of --install option; it's overkill
+  * PURGEREMOVE: remove --teaching and --simulate options; they display
+    incomplete output
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 00:50:04 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 01:56:05 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
