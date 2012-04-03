@@ -61,7 +61,6 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
     Returns either the status of the command or a file-like object
     if PIPE is True."""
 
-    command = " ".join(command.split())
     if root:
         if setroot == "/usr/bin/sudo":
             #
@@ -103,11 +102,11 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
     if test:
         return command
     elif SIMULATE:
-        print(highlight(command))
+        print(highlight(" ".join(command.split())))
         if "deborphan" not in command:
             return
     if TEACH:
-        print(highlight(command))
+        print(highlight(" ".join(command.split())))
     if pipe:
         return os.popen(command)
     elif getoutput:
