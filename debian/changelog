@@ -17,7 +17,7 @@ wajig (2.5~pre) unstable; urgency=low
   * NEWUPGRADES: doesn't seem to provide much more than TOUGPRADE, so remove
   * AUTODOWNLOAD, NEW: get rid of --install option; it's overkill
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 00:41:15 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 00:50:04 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
@@ -117,7 +117,7 @@ wajig (2.3) unstable; urgency=low
   * SETUP: it's an alias of EDITSOURCES and it appears that it was
     added since it was the name of a long-removed Debian tool, 'apt-setup'
   * LISTWIDE: it's basically the same as LIST command
-  * LISTALL: it's exactly the same as LIST command
+  * LISTALL: it's exactly the same as LIST command (future note: not true)
   * VERSION: it's already provided by 'wajig --version'
   * a file named COMMANDS: the content is now generated dynamically
   * AUTOINSTALL:
