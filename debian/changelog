@@ -8,7 +8,7 @@ wajig (2.5~pre) unstable; urgency=low
     and PURGE subcommands, use the --auto-remove option of apt-get;
     Closes: #444150
   * INSTALL, INSTALLSUGGESTED, NEWUPGRADES, AUTODOWNLOAD: use --auto-remove
-    option. Seem a more sane way to have that as default, and leads to a
+    option. Seems a more sane way to have that as default, and leads to a
     less-surprising REMOVE/PURGE experience (whereby it would remove packages
     that are not related to packages being removed).
   * {REMOVE,PURGE}ORPHANS: fix exception that happened with --simulate option
@@ -23,7 +23,7 @@ wajig (2.5~pre) unstable; urgency=low
     some people complained about the removal of the feature (in 2.3)
   * TOUPGRADE: sort the list, again
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 22:01:50 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 22:03:22 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
