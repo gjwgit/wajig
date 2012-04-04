@@ -211,7 +211,7 @@ def dependents(args):
 
 
 def describe(args):
-    """Display the short description of a package(s)"""
+    """List one line descriptions for the given packages"""
     util.do_describe(args.packages, args.verbose)
 
 
