@@ -1,44 +1,104 @@
+have grep-status && {
+_comp_dpkg_installed_packages()
+{
+    grep-status -P -e "^$1" -a -FStatus 'install ok installed' -n -s Package
+}
+} || {
+_comp_dpkg_installed_packages()
+{
+    command grep -A 1 "Package: $1" /var/lib/dpkg/status | \
+        command grep -B 1 -Ee "ok installed|half-installed|unpacked| \
+            half-configured" \
+            -Ee "^Essential: yes" | \
+        command grep "Package: $1" | cut -d\  -f2
+}
+}
+
+have grep-status && {
+_comp_dpkg_hold_packages()
+{
+    grep-status -P -e "^$1" -a -FStatus 'hold' -n -s Package
+}
+} || {
+_comp_dpkg_hold_packages()
+{
+    command grep -B 2 'hold' /var/lib/dpkg/status | \
+        command grep "Package: $1" | cut -d\  -f2
+}
+}
+
 have wajig &&
 _wajig()
 {
-    local cur
+    local cur dashoptions prev special i
 
     COMPREPLY=()
-    cur=${COMP_WORDS[COMP_CWORD]}
+    _get_comp_words_by_ref cur prev
 
-    options="-h --help -V --version"
+    dashoptions='-h --help -V --version'
 
-    commands=(ADDCDROM ADDREPO AUTOALTS AUTOCLEAN AUTODOWNLOAD AUTOREMOVE
-              BUILD BUILDDEPS CHANGELOG CLEAN CONTENTS DAILYUPGRADE
-              DEPENDENTS DESCRIBE DESCRIBENEW DISTUPGRADE DOWNLOAD EDITSOURCES
-              EXTRACT FIXCONFIGURE FIXINSTALL FIXMISSING FORCE HOLD INFO INIT
-              INSTALL INSTALLSUGGESTED INTEGRITY LARGE LASTUPDATE
-              LISTALTERNATIVES LISTCACHE LISTCOMMANDS LISTDAEMONS LISTFILES
-              LISTHOLD LISTINSTALLED LISTNAMES LISTPACKAGES LISTSCRIPTS
-              LISTSECTION LISTSECTIONS LISTSTATUS
-              MADISON MOVE NEW NEWDETAIL NEWS NEWUPGRADES NONFREE ORPHANS
-              POLICY PURGE PURGEORPHANS PURGEREMOVED RBUILDDEPS README
-              RECDOWNLOAD RECOMMENDED RECONFIGURE REINSTALL RELOAD REMOVE
-              REMOVEORPHANS REPACKAGE REPORTBUG RESTART RPM2DEB RPMINSTALL
-              SEARCH SEARCHAPT SHOW SIZES SNAPSHOT SOURCE START STATUS
-              STATUSMATCH STOP SYSLOG TASKSEL TODO TOUPGRADE TUTORIAL UNHOLD
-              UNOFFICIAL UPDATE UPDATEALTERNATIVES UPDATEPCIIDS UPDATEUSBIDS
-              UPGRADE UPGRADESECURITY VERIFY VERSIONS WHICHPACKAGE)
+    for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
+        if [[ ${COMP_WORDS[i]} == @(ADDCDROM|ADDREPO|AUTOALTS|AUTOCLEAN|AUTODOWNLOAD|AUTOREMOVE|BUILD|BUILDDEPS|CHANGELOG|CLEAN|CONTENTS|DAILYUPGRADE|DEPENDENTS|DESCRIBE|DESCRIBENEW|DISTUPGRADE|DOWNLOAD|EDITSOURCES|EXTRACT|FIXCONFIGURE|FIXINSTALL|FIXMISSING|FORCE|HOLD|INFO|INIT|INSTALL|INSTALLSUGGESTED|INTEGRITY|LARGE|LASTUPDATE|LISTALTERNATIVES|LISTCACHE|LISTCOMMANDS|LISTDAEMONS|LISTFILES|LISTHOLD|LISTINSTALLED|LISTNAMES|LISTPACKAGES|LISTSCRIPTS|LISTSECTION|LISTSECTIONS|LISTSTATUS|MADISON|MOVE|NEW|NEWDETAIL|NEWS|NEWUPGRADES|NONFREE|ORPHANS|POLICY|PURGE|PURGEORPHANS|PURGEREMOVED|RBUILDDEPS|README|RECDOWNLOAD|RECOMMENDED|RECONFIGURE|REINSTALL|RELOAD|REMOVE|REMOVEORPHANS|REPACKAGE|REPORTBUG|RESTART|RPM2DEB|RPMINSTALL|SEARCH|SEARCHAPT|SHOW|SIZES|SNAPSHOT|SOURCE|START|STATUS|STATUSMATCH|STOP|SYSLOG|TASKSEL|TODO|TOUPGRADE|TUTORIAL|UNHOLD|UNOFFICIAL|UPDATE|UPDATEALTERNATIVES|UPDATEPCIIDS|UPDATEUSBIDS|UPGRADE|UPGRADESECURITY|VERIFY|VERSIONS|WHICHPACKAGE) ]]; then
+        special=${COMP_WORDS[i]}
+        fi
+    done
 
-    if [ "$COMP_CWORD" -ge "2" ]; then
-        COMPREPLY=($( compgen -W '$(apt-cache pkgnames)' -- "$cur" ) \
-                   $( compgen -o default -- "$cur"))
+    if [[ -n "$special" ]]; then
+       case $special in
+           INSTALL|HOLD|DISTUPGRADE|DOWNLOAD|SHOW|CHANGELOG|BUILDDEPS)
+               COMPREPLY=( $( apt-cache pkgnames $cur 2> /dev/null ) )
+               return 0
+               ;;
+           PURGE|REMOVE|REINSTALL)
+               COMPREPLY=( $( _comp_dpkg_installed_packages "$cur" ) )
+               return 0
+               ;;
+           UNHOLD)
+               COMPREPLY=( $( _comp_dpkg_hold_packages "$cur" ) )
+               return 0
+               ;;
+       esac
+    fi
 
-    elif [[ "$cur" == -* ]]; then
-        COMPREPLY=($( compgen -W "$options" -- "$cur" ) )
+    case $prev in
+        # don't complete anything if these options are found
+        AUTOCLEAN|CLEAN|SEARCH|UPGRADE|UPDATE)
+            return 0
+            ;;
+        -S)
+            _filedir
+            return 0
+            ;;
+    esac
 
-    else
+    if [[ "$cur" == -* ]]; then
+        COMPREPLY=( $( compgen -W "$dashoptions" -- "$cur" ) )
+    elif [[ -z "$special" ]]; then
+        commands=(ADDCDROM ADDREPO AUTOALTS AUTOCLEAN AUTODOWNLOAD AUTOREMOVE
+            BUILD BUILDDEPS CHANGELOG CLEAN CONTENTS DAILYUPGRADE
+            DEPENDENTS DESCRIBE DESCRIBENEW DISTUPGRADE DOWNLOAD EDITSOURCES
+            EXTRACT FIXCONFIGURE FIXINSTALL FIXMISSING FORCE HOLD INFO INIT
+            INSTALL INSTALLSUGGESTED INTEGRITY LARGE LASTUPDATE
+            LISTALTERNATIVES LISTCACHE LISTCOMMANDS LISTDAEMONS LISTFILES
+            LISTHOLD LISTINSTALLED LISTNAMES LISTPACKAGES LISTSCRIPTS
+            LISTSECTION LISTSECTIONS LISTSTATUS
+            MADISON MOVE NEW NEWDETAIL NEWS NEWUPGRADES NONFREE ORPHANS
+            POLICY PURGE PURGEORPHANS PURGEREMOVED RBUILDDEPS README
+            RECDOWNLOAD RECOMMENDED RECONFIGURE REINSTALL RELOAD REMOVE
+            REMOVEORPHANS REPACKAGE REPORTBUG RESTART RPM2DEB RPMINSTALL
+            SEARCH SEARCHAPT SHOW SIZES SNAPSHOT SOURCE START STATUS
+            STATUSMATCH STOP SYSLOG TASKSEL TODO TOUPGRADE TUTORIAL UNHOLD
+            UNOFFICIAL UPDATE UPDATEALTERNATIVES UPDATEPCIIDS UPDATEUSBIDS
+            UPGRADE UPGRADESECURITY VERIFY VERSIONS WHICHPACKAGE)
+
         local option oldNoCaseMatch=$(shopt -p nocasematch)
         shopt -s nocasematch
         COMPREPLY=( $( for command in "${commands[@]}"; do
-            [[ ${command:0:${#cur}} == "$cur" ]] && printf '%s\n' $command
-        done ) )
+                [[ ${command:0:${#cur}} == "$cur" ]] && printf '%s\n' $command
+                done ) )
         eval "$oldNoCaseMatch" 2> /dev/null
     fi
+
+    return 0
 }
-complete -F _wajig wajig
+complete -F _wajig -o default wajig
