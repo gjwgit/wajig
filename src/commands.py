@@ -446,6 +446,8 @@ def listcache(args):
            $(ls -sh /var/cache/apt/archives/ | head -1 | awk '{print $2}')"
     perform.execute(command)
     command = "ls /var/cache/apt/archives/"
+    if args.pattern:
+        command = "{} | /bin/grep '{}'".format(command, args.pattern)
     command += "; echo"
     perform.execute(command)
 
@@ -497,12 +499,15 @@ def listinstalled(args):
 
 def listnames(args):
     """List all known packages; optionally filter the list with a pattern"""
-    util.do_listnames()
+    util.do_listnames(args.pattern)
 
 
 def listpackages(args):
     """List the status, version, and description of installed packages"""
-    perform.execute("dpkg --list '*' | grep -v 'no description avail'")
+    command = "dpkg --list '*' | grep -v 'no description avail'"
+    if args.pattern:
+        command += " | egrep '{}' | sort -k 1b,1".format(args.pattern)
+    perform.execute(command)
 
 
 def listscripts(args):
@@ -556,10 +561,12 @@ def listsections(args):
 
 def liststatus(args):
     """Same as list but only prints first two columns, not truncated"""
-    cmd = "COLUMNS=400 "
-    cmd += "dpkg --list '*' | grep -v 'no description avail'"
-    cmd += " | awk '{print $1,$2}'"
-    perform.execute(cmd)
+    command = "COLUMNS=400 "
+    command += "dpkg --list '*' | grep -v 'no description avail'"
+    command += " | awk '{print $1,$2}'"
+    if args.pattern:
+        command += " | egrep '{}' | sort -k 1b,1".format(args.pattern)
+    perform.execute(command)
 
 
 def localdistupgrade(args):

@@ -287,9 +287,11 @@ def do_listnames(pattern=False, pipe=False):
     else:
         command = "apt-cache pkgnames | sort -k 1b,1"
     # Start fix for Bug #292581 - pre-run command to check for no output
-    results = perform.execute(command, root=needsudo, pipe=True).readlines()
+    results = perform.execute(command, root=needsudo, pipe=True)
     if results:
-        return perform.execute(command, root=needsudo, pipe=pipe)
+        lines = results.readlines()
+        if lines:
+            return perform.execute(command, root=needsudo, pipe=pipe)
 
 
 def do_update(simulate=False):

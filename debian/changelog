@@ -19,8 +19,10 @@ wajig (2.5~pre) unstable; urgency=low
   * PURGEREMOVE: remove --teaching and --simulate options; they display
     incomplete output
   * LISTALL: this was mistakenly remove, so restore it
+  * LIST{CACHE,NAMES,PACKAGES,STATUS}: restore ability to filter on a pattern;
+    some people complained about the removal of the feature (in 2.3)
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 20:58:33 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 21:21:50 +0200
 
 wajig (2.4.1) unstable; urgency=low
 

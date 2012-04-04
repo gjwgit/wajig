@@ -347,7 +347,7 @@ def main():
 
     function = commands.listcache
     parser_listcache = subparsers.add_parser("listcache",
-                       parents=[parser_teach],
+                       parents=[parser_teach, parser_grep],
                        description=function.__doc__)
     parser_listcache.set_defaults(func=function)
 
@@ -383,13 +383,13 @@ def main():
 
     function = commands.listnames
     parser_listnames = subparsers.add_parser("listnames",
-                       parents=[parser_teach],
+                       parents=[parser_teach, parser_grep],
                        description=function.__doc__)
     parser_listnames.set_defaults(func=function)
 
     function = commands.listpackages
     parser_listpackages = subparsers.add_parser("listpackages",
-                          parents=[parser_teach],
+                          parents=[parser_teach, parser_grep],
                           aliases=["list"],
                           description=function.__doc__)
     parser_listpackages.set_defaults(func=function)
@@ -415,7 +415,7 @@ def main():
 
     function = commands.liststatus
     parser_liststatus = subparsers.add_parser("liststatus",
-                        parents=[parser_teach],
+                        parents=[parser_teach, parser_grep],
                         description=function.__doc__)
     parser_liststatus.set_defaults(func=function)
 
