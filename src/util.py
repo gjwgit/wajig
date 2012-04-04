@@ -41,12 +41,12 @@ def requires_package(package, path, test=False):
     return True
 
 
-def package_exists(cache, package, test=False):
+def package_exists(cache, package, test=False, ignore_virtual_packages=False):
     try:
-        if cache.is_virtual_package(package):
+        if cache.is_virtual_package(package) and not ignore_virtual_packages:
             return cache.get_providing_packages(package)[0]
         return cache[package]
-    except KeyError:
+    except KeyError as error:
         if not test:
             print(error.args[0])
             sys.exit(1)

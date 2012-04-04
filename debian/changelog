@@ -11,6 +11,9 @@ wajig (2.5~pre) unstable; urgency=low
     option. Seems a more sane way to have that as default, and leads to a
     less-surprising REMOVE/PURGE experience (whereby it would remove packages
     that are not related to packages being removed).
+  * INSTALLSUGGESTED: don't fail when one of the Suggested dependencies is
+    a virtual package, but instead one of the providers
+    install one the packages providers that virtual package.
   * {REMOVE,PURGE}ORPHANS: fix exception that happened with --simulate option
   * AUTODOWNLOAD, TOUPGRADE, NEWDETAIL: fix an exception that occurs when
     ~/.wajig dir is removed
@@ -23,7 +26,7 @@ wajig (2.5~pre) unstable; urgency=low
     some people complained about the removal of the feature (in 2.3)
   * TOUPGRADE: sort the list, again
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 22:03:22 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 23:35:02 +0200
 
 wajig (2.4.1) unstable; urgency=low
 

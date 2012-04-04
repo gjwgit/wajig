@@ -396,8 +396,13 @@ def install(args):
 
 def installsuggested(args):
     """Install a package and its Suggests dependencies"""
-    package = util.package_exists(apt.cache.Cache(), args.package)
-    dependencies = " ".join(util.extract_dependencies(package, "Suggests"))
+    cache = apt.cache.Cache()
+    package = util.package_exists(cache, args.package,
+                                  ignore_virtual_packages=True)
+    dependencies = list(util.extract_dependencies(package, "Suggests"))
+    for n, dependency in enumerate(dependencies):
+        dependencies[n] = util.package_exists(cache, dependency).shortname
+    dependencies = " ".join(dependencies)
     command = "apt-get {} {} {} --auto-remove install {} {}"
     command = command.format(args.recommends, args.yes, args.noauth,
                              dependencies, args.package)
