@@ -102,6 +102,10 @@ def main():
     parser_local.add_argument("-l", "--local", action="store_true",
         help="use packages from local cache; don't download anything")
 
+    parser_grep = argparse.ArgumentParser(add_help=False)
+    parser_grep.add_argument("pattern", nargs="?",
+                              help="pipe output through grep")
+
     message = "show wajig version"
     parser.add_argument("-V", "--version", action="version", help=message,
                         version="%(prog)s " + VERSION)
@@ -334,6 +338,12 @@ def main():
                               aliases=["listalts"],
                               description=function.__doc__)
     parser_listalternatives.set_defaults(func=function)
+
+    function = commands.listall
+    parser_listall = subparsers.add_parser("listall",
+                     parents=[parser_teach, parser_grep],
+                     description=function.__doc__)
+    parser_listall.set_defaults(func=function)
 
     function = commands.listcache
     parser_listcache = subparsers.add_parser("listcache",

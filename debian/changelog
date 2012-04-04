@@ -18,8 +18,9 @@ wajig (2.5~pre) unstable; urgency=low
   * AUTODOWNLOAD, NEW: get rid of --install option; it's overkill
   * PURGEREMOVE: remove --teaching and --simulate options; they display
     incomplete output
+  * LISTALL: this was mistakenly remove, so restore it
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 01:56:05 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 20:58:33 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
