@@ -428,6 +428,7 @@ def lastupdate(args):
 
 
 def listall(args):
+    """List one line descriptions for all packages"""
     command = ("apt-cache dumpavail |"
                "egrep \"^(Package|Description): \" |"
                "awk '/^Package: /{pkg=$2} /^Description: /"
