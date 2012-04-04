@@ -21,8 +21,9 @@ wajig (2.5~pre) unstable; urgency=low
   * LISTALL: this was mistakenly remove, so restore it
   * LIST{CACHE,NAMES,PACKAGES,STATUS}: restore ability to filter on a pattern;
     some people complained about the removal of the feature (in 2.3)
+  * TOUPGRADE: sort the list, again
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 21:21:50 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Apr 2012 22:01:50 +0200
 
 wajig (2.4.1) unstable; urgency=low
 

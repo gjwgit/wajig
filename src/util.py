@@ -155,7 +155,7 @@ def show_package_versions():
     if packages:
         print("{:<24} {:<24} {}".format("Package", "Available", "Installed"))
         print("="*24 + "-" + "="*24 + "-" + "="*24)
-        for package in packages:
+        for package in sorted(packages):
             print("{:<24} {:<24} {}".format(package.name,
                 package.candidate.version, package.installed.version))
     return packages
