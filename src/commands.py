@@ -396,12 +396,7 @@ def install(args):
 
 def installsuggested(args):
     """Install a package and its Suggests dependencies"""
-    cache = apt.cache.Cache()
-    try:
-        package = cache[args.package]
-    except KeyError as error:
-        print(error.args[0])
-        sys.exit(1)
+    package = util.package_exists(apt.cache.Cache(), args.package)
     dependencies = " ".join(util.extract_dependencies(package, "Suggests"))
     command = "apt-get {} {} {} --auto-remove install {} {}"
     command = command.format(args.recommends, args.yes, args.noauth,
