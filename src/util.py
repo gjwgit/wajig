@@ -292,6 +292,8 @@ def do_listnames(pattern=False, pipe=False):
         lines = results.readlines()
         if lines:
             return perform.execute(command, root=needsudo, pipe=pipe)
+    else:
+        sys.exit(1)
 
 
 def do_update(simulate=False):
