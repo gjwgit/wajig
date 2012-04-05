@@ -662,6 +662,7 @@ def purgeremoved(args):
     packages = perform.execute(cmd, pipe=True)
     if packages:
         packages = " ".join(packages)
+        packages = " ".join(packages.split())
         perform.execute("apt-get purge " + packages, root=True)
 
 
