@@ -351,6 +351,9 @@ def install(args):
     deb_files = list()
     for package in online_files:
         if package.startswith(("http://", "ftp://")):
+            if not package.endswith(".deb"):
+                print("A valied .deb file should have a '.deb' extension")
+                continue
             tmpdeb = tempfile.mkstemp()[1] + ".deb"
             try:
                 response = urllib.request.urlopen(package)
