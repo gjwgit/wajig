@@ -890,9 +890,13 @@ def unhold(args):
 
 def unofficial(args):
     """Search for an unofficial Debian package at apt-get.org"""
-    util.requires_package("fping", "/usr/bin/fping")
-    if util.ping_host("www.apt-get.org"):
-        url = "http://www.apt-get.org/search/?query=" + args.package
+    aptget_org = "http://www.apt-get.org"
+    try:
+        urllib.request.urlopen(aptget_org)
+    except urllib.error.URLError as error:
+        print("'{}' is unreachable".format(aptget_org))
+    else:
+        url = aptget_org + "/search/?query=" + args.package
         webbrowser.open(url)
 
 

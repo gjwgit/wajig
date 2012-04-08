@@ -31,11 +31,12 @@ wajig (2.5~pre) unstable; urgency=low
   * UNOFFICIAL: simply open the search results page with a web browser instead
     of scanning it and displaying suitable lines for "/etc/apt/sources.list";
     that feature was broken (and nobody complained)
-  * remove the (Suggests) dependency on wget; Python stdlib is capable enough
   * INSTALL: when installing using the url method, do keep the downloaded file;
     it will be found in "~/.wajig/$HOSTNAME/"
+  * remove the (Suggests) dependencies on fping and wget; Python stdlib is
+    capable enough
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 22:22:48 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 23:12:03 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
