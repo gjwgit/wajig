@@ -15,13 +15,12 @@ import webbrowser
 import apt
 
 # wajig modules
-import changes
 import perform
 import util
 import debfile
 
 # before we do any other command make sure the right files exist
-changes.ensure_initialised()
+util.ensure_initialised()
 
 
 def addcdrom(args):
@@ -215,7 +214,7 @@ def distupgrade(args):
     if args.backup:
         util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
         util.requires_package("fakeroot", "/usr/bin/fakeroot")
-        changes.backup_before_upgrade(packages, distupgrade=True)
+        util.backup_before_upgrade(packages, distupgrade=True)
     cmd = "apt-get --show-upgraded {} {} {} ".format(args.local, args.yes,
                                                      args.noauth)
     if args.dist:
@@ -327,7 +326,7 @@ def info(args):
 
 def init(args):
     """Initialise or reset wajig archive files"""
-    changes.reset_files()
+    util.reset_files()
 
 
 def install(args):
@@ -354,7 +353,7 @@ def install(args):
         if not package.endswith(".deb"):
             print("A valied .deb file should have a '.deb' extension")
             continue
-        filename = os.path.join(changes.init_dir, package.split("/")[-1])
+        filename = os.path.join(util.init_dir, package.split("/")[-1])
         try:
             response = urllib.request.urlopen(package)
         except urllib.error.HTTPError as error:
@@ -408,7 +407,7 @@ def large(args):
 
 def lastupdate(args):
     """Identify when an update was last performed"""
-    command = ("/bin/ls -l --full-time " + changes.available_file + " 2> "
+    command = ("/bin/ls -l --full-time " + util.available_file + " 2> "
                "/dev/null | awk '{printf \"Last update was %s %s %s\\n\""
                ", $6, $7, $8}' | sed 's|\.000000000||'")
     perform.execute(command)
@@ -930,7 +929,7 @@ def upgrade(args):
         if args.backup:
             util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
             util.requires_package("fakeroot", "/usr/bin/fakeroot")
-            changes.backup_before_upgrade(packages)
+            util.backup_before_upgrade(packages)
         command = "apt-get {} {} {} --show-upgraded upgrade"
         command = command.format(args.local, args.yes, args.noauth)
         perform.execute(command, root=True)
