@@ -47,7 +47,8 @@ def main():
         prog="wajig",
         description="unified package management front-end for Debian",
         epilog=("'wajig commands' displays available commands\n"
-                "'wajig doc' displays a tutorial"),
+                "'wajig doc' displays a tutorial\n"
+                "'wajig@googlegroups.com' is where your queries should go"),
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
