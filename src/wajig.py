@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# WAJIG - Debian Command Line System Administrator
+# wajig - Debian Command Line System Administrator
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
