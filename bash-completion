@@ -49,7 +49,7 @@ _wajig()
                COMPREPLY=( $( apt-cache pkgnames $cur 2> /dev/null ) )
                return 0
                ;;
-           PURGE|REMOVE|REINSTALL)
+           PURGE|REMOVE|REINSTALL|LISTINSTALLED)
                COMPREPLY=( $( _comp_dpkg_installed_packages "$cur" ) )
                return 0
                ;;
