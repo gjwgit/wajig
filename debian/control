@@ -12,7 +12,7 @@ Vcs-Browser: http://code.google.com/p/wajig/source/browse
 Package: wajig
 Architecture: all
 Depends: ${misc:Depends}, python3 (>= 3.2), apt, python3-apt, aptitude
-Suggests: wget, fping, debconf, reportbug, apt-move, dpkg-repack, alien, fakeroot, apt-file, locales, deborphan, vrms, sudo, apt-show-versions, dctrl-tools, debsums, netselect-apt, dpkg-dev
+Suggests: fping, debconf, reportbug, apt-move, dpkg-repack, alien, fakeroot, apt-file, locales, deborphan, vrms, sudo, apt-show-versions, dctrl-tools, debsums, netselect-apt, dpkg-dev
 Description: simple and unified package management for Debian
  Wajig is a single commandline wrapper around apt, apt-cache, dpkg,
  /etc/init.d scripts and more, intended to be easy to use and providing 

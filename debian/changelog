@@ -28,8 +28,12 @@ wajig (2.5~pre) unstable; urgency=low
   * improve bash completion, thanks again to Reuben Thomas; Closes: #597721
   * restore ability to have multiple-word commands to be separated with dashes,
     e.g. an alias for LISTINSTALLED is LIST-INSTALLED
+  * UNOFFICIAL: simply open the search results page with a web browser instead
+    of scanning it and displaying suitable lines for "/etc/apt/sources.list";
+    that feature was broken (and nobody complained)
+  * remove the (Suggests) dependency on wget; Python stdlib is capable enough
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 18:03:32 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 21:27:56 +0200
 
 wajig (2.4.1) unstable; urgency=low
 

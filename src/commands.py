@@ -10,6 +10,8 @@ import sys
 import inspect
 import tempfile
 import subprocess
+import urllib.request
+import webbrowser
 
 import apt
 
@@ -351,15 +353,14 @@ def install(args):
     deb_files = list()
     for package in online_files:
         if re.match("(http|ftp)://", package):
-            util.requires_package("wget", "/usr/bin/wget")
             tmpdeb = tempfile.mkstemp()[1] + ".deb"
-            command = "wget --output-document=" + tmpdeb + " " + package
-            if not perform.execute(command):
+            try:
+                response = urllib.request.urlopen(package)
+                with open(tmpdeb, "wb") as f:
+                    f.write(response.read())
                 deb_files.append(tmpdeb)
-            else:
-                message = ("The location '{}' was not found. Check and try "
-                           " again.".format(package))
-                print(message)
+            except urllib.error.HTTPError as error:
+                print(error)
 
     deb_files.extend([package for package in packages
                             if package.endswith(".deb")
@@ -887,34 +888,10 @@ def unhold(args):
 
 def unofficial(args):
     """Search for an unofficial Debian package at apt-get.org"""
-    util.requires_package("wget", "/usr/bin/wget")
     util.requires_package("fping", "/usr/bin/fping")
     if util.ping_host("www.apt-get.org"):
-
-        print("Lines suitable for /etc/apt/sources.list")
-        sys.stdout.flush()
-
-        # Obtain the information from the Apt-Get server
-        results = tempfile.mkstemp()[1]
-        command = "wget --timeout=60 --output-document=" + results +\
-                  " http://www.apt-get.org/" +\
-                  "search.php\?query=" + args.package +\
-                  "\&submit=\&arch%5B%5D=i386\&arch%5B%5D=all " +\
-                  "2> /dev/null"
-        perform.execute(command)
-
-        # A single page of output
-        command = "cat " + results + " | " +\
-                  "egrep '(^deb|sites and .*packages)' | " +\
-                  "perl -p -e 's|<[^>]*>||g;s|<[^>]*$||g;s|^[^<]*>||g;'" +\
-                  "| awk '/^deb/{" +\
-                  'print "\t", $0;next}/ sites and /' +\
-                  '{printf "\\n" ;' +\
-                  "print}'"
-        perform.execute(command)
-
-        if os.path.exists(results):
-            os.remove(results)
+        url = "http://www.apt-get.org/search/?query=" + args.package
+        webbrowser.open(url)
 
 
 def update(args):
