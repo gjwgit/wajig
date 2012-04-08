@@ -118,8 +118,14 @@ def main():
     parser_help = subparsers.add_parser("help")
     parser_help.set_defaults(func=help, parser=parser)
 
+    def caseless(strings):
+        li = [item.upper() for item in strings]
+        li.extend([item.lower() for item in strings])
+        return li
+
     function = commands.addcdrom
     parser_addcdrom = subparsers.add_parser("addcdrom",
+                      aliases=caseless(["add-cdrom"]),
                       parents=[parser_teach],
                       description=function.__doc__)
     parser_addcdrom.set_defaults(func=function)
@@ -134,26 +140,29 @@ def main():
 
     function = commands.autoalts
     parser_autoalts = subparsers.add_parser("autoalts",
-                      parents=[parser_teach],
-                      aliases=["autoalternatives"],
-                      description=function.__doc__)
+        parents=[parser_teach],
+        aliases=caseless("autoalternatives auto-alternatives auto-alts".split()),
+        description=function.__doc__)
     parser_autoalts.add_argument("alternative")
     parser_autoalts.set_defaults(func=function)
 
     function = commands.autoclean
     parser_autoclean = subparsers.add_parser("autoclean",
                        parents=[parser_teach],
+                       aliases=caseless(["auto-clean"]),
                        description=function.__doc__)
     parser_autoclean.set_defaults(func=function)
 
     function = commands.autodownload
     parser_autodownload = subparsers.add_parser("autodownload",
+        aliases=caseless(["auto-download"]),
         parents=[parser_verbose, parser_yesno, parser_auth, parser_teach],
         description=function.__doc__)
     parser_autodownload.set_defaults(func=function)
 
     function = commands.autoremove
     parser_autoremove = subparsers.add_parser("autoremove",
+                        aliases=caseless(["auto-remove"]),
                         parents=[parser_teach],
                         description=function.__doc__)
     parser_autoremove.set_defaults(func=function)
@@ -168,7 +177,7 @@ def main():
     function = commands.builddeps
     parser_builddeps = subparsers.add_parser("builddeps",
                        parents=[parser_yesno, parser_auth, parser_teach],
-                       aliases="builddepend builddepends".split(),
+                       aliases=caseless("builddepend builddepends".split()),
                        description=function.__doc__)
     parser_builddeps.add_argument("packages", nargs="+")
     parser_builddeps.set_defaults(func=function)
@@ -196,6 +205,7 @@ def main():
 
     function = commands.dailyupgrade
     parser_dailyupgrade = subparsers.add_parser("dailyupgrade",
+                          aliases=caseless(["daily-upgrade"]),
                           parents=[parser_teach],
                           description=function.__doc__)
     parser_dailyupgrade.set_defaults(func=function)
@@ -216,16 +226,17 @@ def main():
 
     function = commands.describenew
     parser_describenew = subparsers.add_parser("describenew",
-                         parents=[parser_verbose],
-                         aliases=["newdescribe"],
-                         description=function.__doc__)
+        parents=[parser_verbose],
+        aliases=caseless("newdescribe new-describe describe-new".split()),
+        description=function.__doc__)
     parser_describenew.set_defaults(func=function)
 
     function = commands.distupgrade
     parser_distupgrade = subparsers.add_parser("distupgrade",
-         parents=[parser_backup, parser_yesno, parser_auth, parser_teach,
-                  parser_local],
-         description=function.__doc__)
+        aliases=caseless(["dist-upgrade"]),
+        parents=[parser_backup, parser_yesno, parser_auth, parser_teach,
+              parser_local],
+        description=function.__doc__)
     help = "distribution/suite to upgrade to (e.g. unstable)"
     parser_distupgrade.add_argument("dist", nargs="*", help=help)
     parser_distupgrade.set_defaults(func=function)
@@ -239,6 +250,7 @@ def main():
 
     function = commands.editsources
     parser_editsources = subparsers.add_parser("editsources",
+                         aliases=caseless(["edit-sources"]),
                          parents=[parser_teach],
                          description=function.__doc__)
     parser_editsources.set_defaults(func=function)
@@ -253,18 +265,21 @@ def main():
 
     function = commands.fixconfigure
     parser_fixconfigure = subparsers.add_parser("fixconfigure",
+                          aliases=caseless(["fix-configure"]),
                           parents=[parser_teach],
                           description=function.__doc__)
     parser_fixconfigure.set_defaults(func=function)
 
     function = commands.fixinstall
     parser_fixinstall = subparsers.add_parser("fixinstall",
+                        aliases=caseless(["fix-install"]),
                         parents=[parser_yesno, parser_auth, parser_teach],
                         description=function.__doc__)
     parser_fixinstall.set_defaults(func=function)
 
     function = commands.fixmissing
     parser_fixmissing = subparsers.add_parser("fixmissing",
+                        aliases=caseless(["fix-missing"]),
                         parents=[parser_yesno, parser_auth, parser_teach],
                         description=function.__doc__)
     parser_fixmissing.set_defaults(func=function)
@@ -300,7 +315,7 @@ def main():
     parser_install = subparsers.add_parser("install",
         parents=[parser_recommends, parser_yesno, parser_auth, parser_dist,
                  parser_fileinput, parser_teach],
-        aliases="isntall autoinstall".split(),
+        aliases=caseless("isntall autoinstall".split()),
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_install.add_argument("packages", nargs="+")
@@ -310,7 +325,7 @@ def main():
     parser_installsuggested = subparsers.add_parser("installsuggested",
         parents=[parser_recommends, parser_yesno, parser_auth, parser_dist,
                  parser_teach],
-        aliases="installs suggested".split(),
+        aliases=caseless("installs suggested install-suggested".split()),
         description=function.__doc__)
     parser_installsuggested.add_argument("package")
     parser_installsuggested.set_defaults(func=function)
@@ -328,6 +343,7 @@ def main():
 
     function = commands.lastupdate
     parser_lastupdate = subparsers.add_parser("lastupdate",
+                        aliases=caseless(["last-update"]),
                         parents=[parser_teach],
                         description=function.__doc__)
     parser_lastupdate.set_defaults(func=function)
@@ -335,36 +351,40 @@ def main():
     function = commands.listalternatives
     parser_listalternatives = subparsers.add_parser("listalternatives",
                               parents=[parser_teach],
-                              aliases=["listalts"],
+                              aliases=caseless("listalts list-alternatives".split()),
                               description=function.__doc__)
     parser_listalternatives.set_defaults(func=function)
 
     function = commands.listall
     parser_listall = subparsers.add_parser("listall",
+                     aliases=caseless(["list-all"]),
                      parents=[parser_teach, parser_grep],
                      description=function.__doc__)
     parser_listall.set_defaults(func=function)
 
     function = commands.listcache
     parser_listcache = subparsers.add_parser("listcache",
+                       aliases=caseless(["list-cache"]),
                        parents=[parser_teach, parser_grep],
                        description=function.__doc__)
     parser_listcache.set_defaults(func=function)
 
     function = commands.listcommands
     parser_commands = subparsers.add_parser("listcommands",
-                      aliases=["commands"],
+                      aliases=caseless("commands list-commands".split()),
                       description=function.__doc__)
     parser_commands.set_defaults(func=function)
 
     function = commands.listdaemons
     parser_listdaemons = subparsers.add_parser("listdaemons",
+                         aliases=caseless(["list-daemons"]),
                          parents=[parser_teach],
                          description=function.__doc__)
     parser_listdaemons.set_defaults(func=function)
 
     function = commands.listfiles
     parser_listfiles = subparsers.add_parser("listfiles",
+                       aliases=caseless(["list-files"]),
                        parents=[parser_teach],
                        description=function.__doc__)
     parser_listfiles.add_argument("package")
@@ -372,17 +392,20 @@ def main():
 
     function = commands.listhold
     parser_listhold = subparsers.add_parser("listhold",
-                       description=function.__doc__)
+                      aliases=caseless(["list-hold"]),
+                      description=function.__doc__)
     parser_listhold.set_defaults(func=function)
 
     function = commands.listinstalled
     parser_listinstalled = subparsers.add_parser("listinstalled",
+                           aliases=caseless(["list-installed"]),
                            parents=[parser_teach],
                            description=function.__doc__)
     parser_listinstalled.set_defaults(func=function)
 
     function = commands.listnames
     parser_listnames = subparsers.add_parser("listnames",
+                       aliases=caseless(["list-names"]),
                        parents=[parser_teach, parser_grep],
                        description=function.__doc__)
     parser_listnames.set_defaults(func=function)
@@ -390,12 +413,13 @@ def main():
     function = commands.listpackages
     parser_listpackages = subparsers.add_parser("listpackages",
                           parents=[parser_teach, parser_grep],
-                          aliases=["list"],
+                          aliases=caseless("list list-packages".split()),
                           description=function.__doc__)
     parser_listpackages.set_defaults(func=function)
 
     function = commands.listscripts
     parser_listscripts = subparsers.add_parser("listscripts",
+                         aliases=caseless(["lists-cripts"]),
                          parents=[parser_teach],
                          description=function.__doc__)
     parser_listscripts.add_argument("debfile")
@@ -403,6 +427,7 @@ def main():
 
     function = commands.listsection
     parser_listsection = subparsers.add_parser("listsection",
+                         aliases=caseless(["list-section"]),
                          description=function.__doc__,
                          formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_listsection.add_argument("section")
@@ -410,11 +435,13 @@ def main():
 
     function = commands.listsections
     parser_listsections = subparsers.add_parser("listsections",
+                          aliases=caseless(["list-sections"]),
                           description=function.__doc__)
     parser_listsections.set_defaults(func=function)
 
     function = commands.liststatus
     parser_liststatus = subparsers.add_parser("liststatus",
+                        aliases=caseless(["list-status"]),
                         parents=[parser_teach, parser_grep],
                         description=function.__doc__)
     parser_liststatus.set_defaults(func=function)
@@ -439,8 +466,8 @@ def main():
 
     function = commands.newdetail
     parser_newdetail = subparsers.add_parser("newdetail",
+                       aliases=caseless("detailnew detail-new new-detail".split()),
                        parents=[parser_fast, parser_teach],
-                       aliases=["detailnew"],
                        description=function.__doc__)
     parser_newdetail.set_defaults(func=function)
 
@@ -453,6 +480,7 @@ def main():
 
     function = commands.nonfree
     parser_nonfree = subparsers.add_parser("nonfree",
+                     aliases=caseless(["non-free"]),
                      parents=[parser_teach],
                      description=function.__doc__)
     parser_nonfree.set_defaults(func=function)
@@ -460,21 +488,21 @@ def main():
     function = commands.orphans
     parser_orphans = subparsers.add_parser("orphans",
                      parents=[parser_teach],
-                     aliases="orphaned listorphaned listorphans".split(),
+                     aliases=caseless("orphaned listorphaned listorphans".split()),
                      description=function.__doc__)
     parser_orphans.set_defaults(func=function)
 
     function = commands.policy
     parser_policy = subparsers.add_parser("policy",
                     parents=[parser_teach],
-                    aliases=["available"],
+                    aliases=caseless(["available"]),
                     description=function.__doc__)
     parser_policy.add_argument("packages", nargs="+")
     parser_policy.set_defaults(func=function)
 
     function = commands.purge
     parser_purge = subparsers.add_parser("purge",
-       aliases=["purgedepend"],
+       aliases=caseless(["purgedepend"]),
        parents=[parser_yesno, parser_auth, parser_fileinput, parser_teach],
        description=function.__doc__,
        formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -483,20 +511,22 @@ def main():
 
     function = commands.purgeorphans
     parser_purgeorphans = subparsers.add_parser("purgeorphans",
+                          aliases=caseless(["purge-orphans"]),
                           parents=[parser_yesno, parser_auth, parser_teach],
                           description=function.__doc__)
     parser_purgeorphans.set_defaults(func=function)
 
     function = commands.purgeremoved
     parser_purgeremoved = subparsers.add_parser("purgeremoved",
+                          aliases=caseless(["purge-removed"]),
                           description=function.__doc__)
     parser_purgeremoved.set_defaults(func=function)
 
     function = commands.rbuilddeps
     parser_rbuilddeps = subparsers.add_parser("rbuilddeps",
-                        parents=[parser_teach],
-                        aliases="rbuilddep reversebuilddeps".split(),
-                        description=function.__doc__)
+        parents=[parser_teach],
+        aliases=caseless("rbuilddep reversebuilddeps reverse-build-deps".split()),
+        description=function.__doc__)
     parser_rbuilddeps.add_argument("package")
     parser_rbuilddeps.set_defaults(func=function)
 
@@ -510,7 +540,7 @@ def main():
     function = commands.recdownload
     parser_recdownload = subparsers.add_parser("recdownload",
                          parents=[parser_auth, parser_teach],
-                         aliases=["recursive"],
+                         aliases=caseless(["recursive"]),
                          description=function.__doc__)
     parser_recdownload.add_argument("packages", nargs="+")
     parser_recdownload.set_defaults(func=function)
@@ -530,6 +560,7 @@ def main():
 
     function = commands.reinstall
     parser_reinstall = subparsers.add_parser("reinstall",
+                       aliases=caseless(["re-install"]),
                        parents=[parser_yesno, parser_auth, parser_teach],
                        description=function.__doc__)
     parser_reinstall.add_argument("packages", nargs="+")
@@ -551,6 +582,7 @@ def main():
 
     function = commands.removeorphans
     parser_removeorphans = subparsers.add_parser("removeorphans",
+                           aliases=caseless(["remove-orphans"]),
                            parents=[parser_teach],
                            description=function.__doc__)
     parser_removeorphans.set_defaults(func=function)
@@ -558,7 +590,7 @@ def main():
     function = commands.repackage
     parser_repackage = subparsers.add_parser("repackage",
                        parents=[parser_teach],
-                       aliases=["package"],
+                       aliases=caseless(["package"]),
                        description=function.__doc__)
     parser_repackage.add_argument("package")
     parser_repackage.set_defaults(func=function)
@@ -566,7 +598,7 @@ def main():
     function = commands.reportbug
     parser_reportbug = subparsers.add_parser("reportbug",
                        parents=[parser_teach],
-                       aliases="bug bugreport".split(),
+                       aliases=caseless("bug bugreport".split()),
                        description=function.__doc__)
     parser_reportbug.add_argument("package")
     parser_reportbug.set_defaults(func=function)
@@ -581,13 +613,14 @@ def main():
     function = commands.rpm2deb
     parser_rpm2deb = subparsers.add_parser("rpm2deb",
                      parents=[parser_teach],
-                     aliases=["rpmtodeb"],
+                     aliases=caseless(["rpmtodeb"]),
                      description=function.__doc__)
     parser_rpm2deb.add_argument("rpm")
     parser_rpm2deb.set_defaults(func=function)
 
     function = commands.rpminstall
     parser_rpminstall = subparsers.add_parser("rpminstall",
+                        aliases=caseless(["rpm-install"]),
                         parents=[parser_teach],
                         description=function.__doc__)
     parser_rpminstall.add_argument("rpm")
@@ -603,6 +636,7 @@ def main():
     function = commands.searchapt
     parser_searchapt = subparsers.add_parser("searchapt",
                        parents=[parser_teach],
+                       aliases=caseless(["search-apt"]),
                        description=function.__doc__)
     parser_searchapt.add_argument("dist")
     parser_searchapt.set_defaults(func=function)
@@ -610,7 +644,7 @@ def main():
     function = commands.show
     parser_show = subparsers.add_parser("show",
                   parents=[parser_fast, parser_teach],
-                  aliases="detail details".split(),
+                  aliases=caseless("detail details".split()),
                   description=function.__doc__)
     parser_show.add_argument("packages", nargs="+")
     parser_show.set_defaults(func=function)
@@ -618,7 +652,7 @@ def main():
     function = commands.sizes
     parser_sizes = subparsers.add_parser("sizes",
                    parents=[parser_teach],
-                   aliases=["size"],
+                   aliases=caseless(["size"]),
                    description=function.__doc__,
                    formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_sizes.add_argument("packages", nargs="*")
@@ -654,7 +688,7 @@ def main():
     function = commands.statusmatch
     parser_statusmatch = subparsers.add_parser("statusmatch",
                          parents=[parser_teach],
-                         aliases=["statussearch"],
+                         aliases=caseless(["statussearch status-search status-match"]),
                          description=function.__doc__)
     parser_statusmatch.add_argument("pattern")
     parser_statusmatch.set_defaults(func=function)
@@ -669,7 +703,7 @@ def main():
     function = commands.syslog
     parser_syslog = subparsers.add_parser("syslog",
                     parents=[parser_teach],
-                    aliases=["listlog"],
+                    aliases=caseless(["listlog"]),
                     description=function.__doc__)
     parser_syslog.set_defaults(func=function)
 
@@ -688,13 +722,13 @@ def main():
 
     function = commands.toupgrade
     parser_toupgrade = subparsers.add_parser("toupgrade",
-                       aliases=["newupgrades"],
+                       aliases=caseless(["newupgrades new-upgrades to-upgrade"]),
                        description=function.__doc__)
     parser_toupgrade.set_defaults(func=function)
 
     function = commands.tutorial
     parser_tutorial = subparsers.add_parser("tutorial",
-                      aliases="doc docs documentation".split(),
+                      aliases=caseless("doc docs documentation".split()),
                       description=function.__doc__)
     parser_tutorial.set_defaults(func=function)
 
@@ -708,7 +742,7 @@ def main():
     function = commands.unofficial
     parser_unofficial = subparsers.add_parser("unofficial",
                         parents=[parser_teach],
-                        aliases="findpkg findpackage".split(),
+                        aliases=caseless("findpkg findpackage".split()),
                         description=function.__doc__)
     parser_unofficial.add_argument("package")
     parser_unofficial.set_defaults(func=function)
@@ -722,19 +756,22 @@ def main():
     function = commands.updatealternatives
     parser_updatealternatives = subparsers.add_parser("updatealternatives",
         parents=[parser_teach],
-        aliases="updatealts setalts setalternatives".split(),
+        aliases=("updatealts update-alts setalts set-alts setalternatives"
+                 "set-alternatives update-alternatives").split(),
         description=function.__doc__)
     parser_updatealternatives.add_argument("alternative")
     parser_updatealternatives.set_defaults(func=function)
 
     function = commands.updatepciids
     parser_updatepciids = subparsers.add_parser("updatepciids",
+                          aliases=caseless("update-pciids update-pci-ids".split()),
                           parents=[parser_teach],
                           description=function.__doc__)
     parser_updatepciids.set_defaults(func=function)
 
     function = commands.updateusbids
     parser_updateusbids = subparsers.add_parser("updateusbids",
+                          aliases=caseless("update-usbids update-usb-ids".split()),
                           parents=[parser_teach],
                           description=function.__doc__)
     parser_updateusbids.set_defaults(func=function)
@@ -748,6 +785,7 @@ def main():
 
     function = commands.upgradesecurity
     parser_upgradesecurity = subparsers.add_parser("upgradesecurity",
+                             aliases=caseless(["upgrade-security"]),
                              parents=[parser_teach],
                              description=function.__doc__)
     parser_upgradesecurity.set_defaults(func=function)
@@ -769,7 +807,8 @@ def main():
     function = commands.whichpackage
     parser_whichpackage = subparsers.add_parser("whichpackage",
         parents=[parser_teach],
-        aliases="findfile locate filesearch whichpkg".split(),
+        aliases=("findfile find-file locate filesearch file-search whichpkg "
+                 "which-package").split(),
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_whichpackage.add_argument("pattern", help="partial/full file path")
