@@ -356,11 +356,12 @@ def install(args):
         tmpdeb = tempfile.mkstemp()[1] + ".deb"
         try:
             response = urllib.request.urlopen(package)
+        except urllib.error.HTTPError as error:
+            print(error)
+        else:
             with open(tmpdeb, "wb") as f:
                 f.write(response.read())
             deb_files.append(tmpdeb)
-        except urllib.error.HTTPError as error:
-            print(error)
 
     deb_files.extend([package for package in packages
                             if package.endswith(".deb")
