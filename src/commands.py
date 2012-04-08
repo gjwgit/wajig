@@ -5,7 +5,6 @@
 # Do not include any function in here that does not correspond to a COMMAND
 
 import os
-import re
 import sys
 import inspect
 import tempfile
@@ -274,7 +273,7 @@ def force(args):
     archives = "/var/cache/apt/archives/"
 
     # For a .deb file we simply force install it.
-    if re.match(".*\.deb$", args.packages[0]):
+    if args.packages[0].endswith(".deb"):
         for package in args.packages:
             if os.path.exists(package):
                 command += "'" + package + "' "
@@ -351,7 +350,7 @@ def install(args):
                             if package.startswith(("http://", "ftp://"))]
     deb_files = list()
     for package in online_files:
-        if re.match("(http|ftp)://", package):
+        if package.startswith(("http://", "ftp://")):
             tmpdeb = tempfile.mkstemp()[1] + ".deb"
             try:
                 response = urllib.request.urlopen(package)
@@ -502,7 +501,7 @@ def listscripts(args):
     """List the control scripts of the package of deb file"""
     package = args.debfile
     scripts = ["preinst", "postinst", "prerm", "postrm"]
-    if re.match(".*\.deb$", package):
+    if package.endswith(".deb"):
         command = "ar p " + package + " control.tar.gz | tar ztvf -"
         pkgScripts = perform.execute(command, pipe=True).readlines()
         for script in scripts:
