@@ -357,7 +357,7 @@ def install(args):
         try:
             response = urllib.request.urlopen(package)
         except urllib.error.HTTPError as error:
-            print(error)
+            print("{}; is '{}' the correct url?".format(error.reason, package))
         else:
             with open(tmpdeb, "wb") as f:
                 f.write(response.read())
