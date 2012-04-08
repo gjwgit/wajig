@@ -269,14 +269,13 @@ def force(args):
     note: This is useful when there is a conflict of the same file from
           multiple packages or when a dependency is not installed for
           whatever reason"""
-    packages = args.packages
 
     command = "dpkg --install --force overwrite --force depends "
     archives = "/var/cache/apt/archives/"
 
     # For a .deb file we simply force install it.
-    if re.match(".*\.deb$", packages[0]):
-        for package in packages:
+    if re.match(".*\.deb$", args.packages[0]):
+        for package in args.packages:
             if os.path.exists(package):
                 command += "'" + package + "' "
             elif os.path.exists(archives + package):
@@ -290,7 +289,7 @@ def force(args):
     else:
         # Package names rather than a specific deb package archive
         # is expected.
-        for package in packages:
+        for package in args.packages:
             # Identify the latest version of the package available in
             # the download archive, if there is any there.
             lscmd = "/bin/ls " + archives
