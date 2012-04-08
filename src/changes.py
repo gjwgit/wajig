@@ -170,7 +170,7 @@ def backup_before_upgrade(packages, distupgrade=False):
      in a directory named like  ~/.wajig/hostname/backups/2010-09-21_09h21."""
 
     date = time.strftime("%Y-%m-%d_%Hh%M", time.localtime())
-    target = init_dir + "/backups/" + date
+    target = os.path.join(init_dir, "backups", date)
     if not os.path.exists(target):
         os.makedirs(target)
     os.chdir(target)
