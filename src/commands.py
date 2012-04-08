@@ -334,9 +334,10 @@ def install(args):
     """Package installer
 
     notes:
-    * specifying a .deb file will also try to satisfy that deb's dependencies
+    * specifying a .deb file will also try to satisfy that deb's dependencies;
     * one can specify multiple files with --fileinput option
-    * specifying a url will try fetch the file from the internet
+    * specifying a url will try fetch the file from the internet, and keep it
+      in "~/.wajig/$HOSTNAME"
 
     example:
     $ wajig install a b_1.0_all.deb http://example.com/c_1.0_all.deb
@@ -353,15 +354,15 @@ def install(args):
         if not package.endswith(".deb"):
             print("A valied .deb file should have a '.deb' extension")
             continue
-        tmpdeb = tempfile.mkstemp()[1] + ".deb"
+        filename = os.path.join(changes.init_dir, package.split("/")[-1])
         try:
             response = urllib.request.urlopen(package)
         except urllib.error.HTTPError as error:
             print("{}; is '{}' the correct url?".format(error.reason, package))
         else:
-            with open(tmpdeb, "wb") as f:
+            with open(filename, "wb") as f:
                 f.write(response.read())
-            deb_files.append(tmpdeb)
+            deb_files.append(filename)
 
     deb_files.extend([package for package in packages
                             if package.endswith(".deb")
