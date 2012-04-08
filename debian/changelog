@@ -25,11 +25,11 @@ wajig (2.5~pre) unstable; urgency=low
   * LIST{CACHE,NAMES,PACKAGES,STATUS}: restore ability to filter on a pattern;
     some people complained about the removal of the feature (in 2.3)
   * TOUPGRADE: sort the list, again
-  * Improve bash completion, thanks again to Reuben Thomas; Closes: #597721
+  * improve bash completion, thanks again to Reuben Thomas; Closes: #597721
   * restore ability to have multiple-word commands to be separated with dashes,
     e.g. an alias for LISTINSTALLED is LIST-INSTALLED
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 17:34:39 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 17:35:57 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
