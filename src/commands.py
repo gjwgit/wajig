@@ -479,7 +479,10 @@ def listhold(args):
 
 def listinstalled(args):
     """List installed packages"""
-    perform.execute("dpkg --get-selections | cut -f1")
+    command = "dpkg --get-selections | cut -f1"
+    if args.pattern:
+        command += " | egrep '{}' | sort -k 1b,1".format(args.pattern)
+    perform.execute(command)
 
 
 def listnames(args):

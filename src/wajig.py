@@ -399,7 +399,7 @@ def main():
     function = commands.listinstalled
     parser_listinstalled = subparsers.add_parser("listinstalled",
                            aliases=caseless(["list-installed"]),
-                           parents=[parser_teach],
+                           parents=[parser_teach, parser_grep],
                            description=function.__doc__)
     parser_listinstalled.set_defaults(func=function)
 
