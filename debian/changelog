@@ -27,7 +27,7 @@ wajig (2.5~pre) unstable; urgency=low
   * TOUPGRADE: sort the list, again
   * Improve bash completion, thanks again to Reuben Thomas; Closes: #597721
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 15:43:06 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 15:59:11 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
@@ -111,7 +111,8 @@ wajig (2.3) unstable; urgency=low
   * The "--pager" option is really excess, considering that user can simply do
     "wajig COMMAND | pager" by herself
   * The "--pause" option was only useful for gjig (IIRC) to avoid windows from
-    closing up automatically, in order to allow one to read the output
+    closing up automatically, in order to allow one to read the output;
+    this was only applicable when wajig used to have a GUI, gjig
   * All "--quiet" option did was redirect output to /dev/null;
     when the option is used, if there is, for example, a Yes/No prompt, it
     won't be seen and it will appear like wajig is stuck; user can easily do
