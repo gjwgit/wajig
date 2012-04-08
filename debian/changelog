@@ -17,17 +17,17 @@ wajig (2.5~pre) unstable; urgency=low
   * {REMOVE,PURGE}ORPHANS: fix exception that happened with --simulate option
   * AUTODOWNLOAD, TOUPGRADE, NEWDETAIL: fix an exception that occurs when
     ~/.wajig dir is removed
-  * NEWUPGRADES: doesn't seem to provide much more than TOUGPRADE, so remove
+  * NEWUPGRADES: doesn't seem to provide much more than TOUGPRADE, so alias it
   * AUTODOWNLOAD, NEW: get rid of --install option; it's overkill
   * PURGEREMOVE: remove --teaching and --simulate options; they display
     incomplete output
-  * LISTALL: this was mistakenly remove, so restore it
+  * LISTALL: this was mistakenly removed, so restore it
   * LIST{CACHE,NAMES,PACKAGES,STATUS}: restore ability to filter on a pattern;
     some people complained about the removal of the feature (in 2.3)
   * TOUPGRADE: sort the list, again
   * Improve bash completion, thanks again to Reuben Thomas; Closes: #597721
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 05 Apr 2012 00:40:30 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 15:43:06 +0200
 
 wajig (2.4.1) unstable; urgency=low
 

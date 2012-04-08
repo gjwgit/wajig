@@ -688,6 +688,7 @@ def main():
 
     function = commands.toupgrade
     parser_toupgrade = subparsers.add_parser("toupgrade",
+                       aliases=["newupgrades"],
                        description=function.__doc__)
     parser_toupgrade.set_defaults(func=function)
 
