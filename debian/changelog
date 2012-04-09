@@ -35,6 +35,7 @@ wajig (2.5~pre) unstable; urgency=low
     it will be found in "~/.wajig/$HOSTNAME/"
   * remove the (Suggests) dependencies on fping and wget; Python stdlib is
     capable enough
+  * Restoring some of the UI I broke in version 2.3 Closes: #667856
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 23:12:03 +0200
 
