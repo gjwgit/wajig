@@ -374,7 +374,7 @@ def do_status(packages, snapshot=False):
     perform.execute(gen_installed_command_str() + " > " + ifile,
                     langC=True)
     # Build the command to list the status of installed packages.
-    command = "dpkg --get-selections | join - " + ifile + " | " +\
+    command = "dpkg --get-selections | sort | join - " + ifile + " | " +\
               "join -a 1 - " + previous_file + " | " +\
               "awk 'NF==3 {print $0, \"N/A\"; next}{print}' | " +\
               "join -a 1 - " + available_file + " | " +\

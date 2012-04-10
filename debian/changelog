@@ -39,8 +39,9 @@ wajig (2.5~pre) unstable; urgency=low
   * Avoid duplicated names showing up as newly-available for upgrade;
     This is related to multi-arch changes, where APT cache would have multiple
     duplicate packages, each for a given arch; fixes LP #892410
+  * fix '"wajig status" gives warning message about stdin not sorted'; LP #978172
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 10 Apr 2012 18:59:30 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 10 Apr 2012 19:19:04 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
