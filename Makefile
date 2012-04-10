@@ -11,7 +11,6 @@ clean:
 
 install:
 	mkdir -p  $(LIBDIR) $(HLPDIR) $(MANDIR)
-	cp src/changes.py  $(LIBDIR)/
 	cp src/commands.py  $(LIBDIR)/
 	cp src/debfile.py  $(LIBDIR)/
 	cp src/debfile-deps.py  $(LIBDIR)/

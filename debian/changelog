@@ -37,9 +37,10 @@ wajig (2.5~pre) unstable; urgency=low
     capable enough
   * Restoring some of the UI I broke in version 2.3 Closes: #667856
   * fix 'displays incorrect new and upgradeable package count'; LP #892410
-  * fix '"wajig status" gives warning message about stdin not sorted'; LP #978172
+  * fix '"wajig status" gives warning message about stdin not sorted';
+    LP #978172
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 10 Apr 2012 19:20:52 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 10 Apr 2012 19:23:12 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
