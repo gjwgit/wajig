@@ -90,11 +90,15 @@ def update_available(noreport=False):
     temporary_file = tempfile.mkstemp()[1]
 
     os.rename(available_file, temporary_file)
+    # sort --unique so packages with more that one architecture are included only once.
+    # This makes the count shown by "update" consistent with the output of "toupgrade",
+    # though not necessarily with the list shown by "upgrade" (really
+    # "apt-get --show-upgraded upgrade"), which might show amd64 and i386 versions.
     command = "apt-cache dumpavail " +\
               "| egrep '^(Package|Version):' " +\
               "| tr '\n' ' '" +\
               "| perl -p -e 's|Package: |\n|g; s|Version: ||g'" +\
-              "| sort -k 1b,1 | tail -n +2 | sed 's| $||' > " + available_file
+              "| sort -u -k 1b,1 | tail -n +2 | sed 's| $||' > " + available_file
     # Use langC in the following since it uses a grep.
     perform.execute(command, langC=True)  # root is not required.
     os.rename(temporary_file, previous_file)
@@ -126,12 +130,13 @@ def update_available(noreport=False):
 
 def gen_installed_command_str():
     "Generate command to list installed packages and their status."
+    # Use sort --unique. See comment in update_available().
     command = "cat /var/lib/dpkg/status | " +\
               "egrep '^(Package|Status|Version):' | " +\
               "awk '/^Package: / {pkg=$2} " +\
               "     /^Status: / {s1=$2;s2=$3;s3=$4}" +\
               "     /^Version: / {print pkg,$2,s1,s2,s3}' | " +\
-              "grep 'ok installed' | awk '{print $1,$2}' | sort -k 1b,1"
+              "grep 'ok installed' | awk '{print $1,$2}' | sort -u -k 1b,1"
     return command
 
 

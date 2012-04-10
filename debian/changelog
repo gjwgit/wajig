@@ -36,8 +36,11 @@ wajig (2.5~pre) unstable; urgency=low
   * remove the (Suggests) dependencies on fping and wget; Python stdlib is
     capable enough
   * Restoring some of the UI I broke in version 2.3 Closes: #667856
+  * Avoid duplicated names showing up as newly-available for upgrade;
+    This is related to multi-arch changes, where APT cache would have multiple
+    duplicate packages, each for a given arch; fixes LP #892410
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 08 Apr 2012 23:12:03 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 10 Apr 2012 18:59:30 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
