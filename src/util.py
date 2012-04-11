@@ -94,7 +94,8 @@ def update_available(noreport=False):
     # only once. This makes the count shown by "update" consistent with the
     # output of "toupgrade", though not necessarily with the list shown
     # by "upgrade" (really "apt-get --show-upgraded upgrade"), which might
-    # show amd64 and i386 versions.
+    # show amd64 and i386 versions in the case of Ubuntu, or enabled
+    # architectures in the case of Debian.
     command = "apt-cache dumpavail " +\
               "| egrep '^(Package|Version):' " +\
               "| tr '\n' ' '" +\
