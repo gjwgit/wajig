@@ -39,8 +39,9 @@ wajig (2.5~pre) unstable; urgency=low
   * fix 'displays incorrect new and upgradeable package count'; LP #892410
   * fix '"wajig status" gives warning message about stdin not sorted';
     LP #978172
+  * README: improve setup instructions, thanking Graeme Hewson (from LP #892410)
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 10 Apr 2012 19:23:12 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 11 Apr 2012 10:25:20 +0200
 
 wajig (2.4.1) unstable; urgency=low
 

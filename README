@@ -23,8 +23,8 @@ suggestions over the years.
 HACKING
 
 setup:
-$ wajig install devscripts
-$ hg clone https://wajig.googlecode.com/hg
+$ wajig install devscripts debhelper
+$ hg clone https://code.google.com/p/wajig/
 $ cd wajig
 
 build + install:
