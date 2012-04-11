@@ -1,4 +1,4 @@
-wajig (2.5~pre) unstable; urgency=low
+wajig (2.5) unstable; urgency=low
 
   IMPROVEMENTS
   * improve bash completion, thanks again to Reuben Thomas; Closes: #597721
@@ -47,7 +47,7 @@ wajig (2.5~pre) unstable; urgency=low
     of scanning it and displaying suitable lines for "/etc/apt/sources.list";
     that feature was broken (and nobody complained)
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 11 Apr 2012 10:25:20 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 11 Apr 2012 13:47:02 +0200
 
 wajig (2.4.1) unstable; urgency=low
 
