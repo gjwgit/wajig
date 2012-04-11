@@ -90,10 +90,11 @@ def update_available(noreport=False):
     temporary_file = tempfile.mkstemp()[1]
 
     os.rename(available_file, temporary_file)
-    # sort --unique so packages with more that one architecture are included only once.
-    # This makes the count shown by "update" consistent with the output of "toupgrade",
-    # though not necessarily with the list shown by "upgrade" (really
-    # "apt-get --show-upgraded upgrade"), which might show amd64 and i386 versions.
+    # sort --unique so packages with more that one architecture are included
+    # only once. This makes the count shown by "update" consistent with the
+    # output of "toupgrade", though not necessarily with the list shown
+    # by "upgrade" (really "apt-get --show-upgraded upgrade"), which might
+    # show amd64 and i386 versions.
     command = "apt-cache dumpavail " +\
               "| egrep '^(Package|Version):' " +\
               "| tr '\n' ' '" +\
