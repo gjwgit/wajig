@@ -1,5 +1,7 @@
 wajig (2.5~pre) unstable; urgency=low
 
+  IMPROVEMENTS
+  * improve bash completion, thanks again to Reuben Thomas; Closes: #597721
   * avoid displaying a stack trace when quitting an operation (Ctrl+C)
   * the --simulate and --teaching options now display the commands in bold;
     they now also have consistent spacing (single space) between
@@ -11,35 +13,39 @@ wajig (2.5~pre) unstable; urgency=low
     option. Seems a more sane way to have that as default, and leads to a
     less-surprising REMOVE/PURGE experience (whereby it would remove packages
     that are not related to packages being removed).
+  * INSTALL: when installing using the url method, do keep the downloaded file;
+    it will be found in "~/.wajig/$HOSTNAME/"
+
+  BUGS FIXED
   * INSTALLSUGGESTED: don't fail when one of the Suggested dependencies is
-    a virtual package, but instead use one of the providers
-    install one the packages providers that virtual package.
+    a virtual package, but instead install one the Providers of that
+    virtual package.
   * {REMOVE,PURGE}ORPHANS: fix exception that happened with --simulate option
   * AUTODOWNLOAD, TOUPGRADE, NEWDETAIL: fix an exception that occurs when
     ~/.wajig dir is removed
-  * NEWUPGRADES: doesn't seem to provide much more than TOUGPRADE, so alias it
-  * AUTODOWNLOAD, NEW: get rid of --install option; it's overkill
-  * PURGEREMOVE: remove --teaching and --simulate options; they display
-    incomplete output
+  * fix 'displays incorrect new and upgradeable package count'; LP #892410
+  * fix '"wajig status" gives warning message about stdin not sorted';
+    LP #978172
+
+  RESTORED FUNCTIONALITY (Closes: #667856)
   * LISTALL: this was mistakenly removed, so restore it
   * LIST{CACHE,NAMES,PACKAGES,STATUS,INSTALLED}: restore ability to filter on
     a pattern; some people complained about the removal of the feature (in 2.3)
   * TOUPGRADE: sort the list, again
-  * improve bash completion, thanks again to Reuben Thomas; Closes: #597721
   * restore ability to have multiple-word commands to be separated with dashes,
     e.g. an alias for LISTINSTALLED is LIST-INSTALLED
+
+  MISC
+  * remove the (Suggests) dependencies on fping and wget; Python stdlib is
+    capable enough
+  * README: improve setup instructions, thanking Graeme Hewson (from LP #892410)
+  * NEWUPGRADES: doesn't seem to provide much more than TOUGPRADE, so alias it
+  * AUTODOWNLOAD, NEW: get rid of --install option; it's overkill
+  * PURGEREMOVE: remove --teaching and --simulate options; they display
+    incomplete output
   * UNOFFICIAL: simply open the search results page with a web browser instead
     of scanning it and displaying suitable lines for "/etc/apt/sources.list";
     that feature was broken (and nobody complained)
-  * INSTALL: when installing using the url method, do keep the downloaded file;
-    it will be found in "~/.wajig/$HOSTNAME/"
-  * remove the (Suggests) dependencies on fping and wget; Python stdlib is
-    capable enough
-  * Restoring some of the UI I broke in version 2.3 Closes: #667856
-  * fix 'displays incorrect new and upgradeable package count'; LP #892410
-  * fix '"wajig status" gives warning message about stdin not sorted';
-    LP #978172
-  * README: improve setup instructions, thanking Graeme Hewson (from LP #892410)
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 11 Apr 2012 10:25:20 +0200
 
