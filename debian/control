@@ -1,18 +1,37 @@
 Source: wajig
-Section: admin
-Priority: optional
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
 Uploaders: Tshepang Lekhonkhobe <tshepang@gmail.com>
-Homepage: http://wajig.togaware.com
-Standards-Version: 3.9.3
+Section: admin
+Priority: optional
 Build-Depends: debhelper (>= 9)
-Vcs-hg: https://wajig.googlecode.com/hg
+Standards-Version: 3.9.3
 Vcs-Browser: http://code.google.com/p/wajig/source/browse
+Vcs-Hg: https://wajig.googlecode.com/hg
+Homepage: http://wajig.togaware.com
 
 Package: wajig
 Architecture: all
-Depends: ${misc:Depends}, python3 (>= 3.2), apt, python3-apt, aptitude
-Suggests: debconf, reportbug, apt-move, dpkg-repack, alien, fakeroot, apt-file, locales, deborphan, vrms, sudo, apt-show-versions, dctrl-tools, debsums, netselect-apt, dpkg-dev
+Depends: ${misc:Depends},
+         python3 (>= 3.2),
+         apt,
+         python3-apt,
+         aptitude
+Suggests: debconf,
+          reportbug,
+          apt-move,
+          dpkg-repack,
+          alien,
+          fakeroot,
+          apt-file,
+          locales,
+          deborphan,
+          vrms,
+          sudo,
+          apt-show-versions,
+          dctrl-tools,
+          debsums,
+          netselect-apt,
+          dpkg-dev
 Description: simple and unified package management for Debian
  Wajig is a single commandline wrapper around apt, apt-cache, dpkg,
  /etc/init.d scripts and more, intended to be easy to use and providing 
@@ -21,3 +40,4 @@ Description: simple and unified package management for Debian
  With a suitable sudo(1) configuration, most (if not all) package installation
  as well as creation tasks can be done from a user shell. Wajig is also 
  suitable for general system administration.
+
