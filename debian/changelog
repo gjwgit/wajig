@@ -1,8 +1,10 @@
-wajig (2.6) unstable; urgency=low
+wajig (2.5.1~pre) unstable; urgency=low
 
   * make licence DEP-5 compliant
+  * DEPENDENTS: fix an exception that occurs when the sources.list only
+    has Wheezy in it.
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 16 Apr 2012 20:37:55 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 20 Apr 2012 10:46:03 +0200
 
 wajig (2.5) unstable; urgency=low
 
