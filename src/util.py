@@ -236,6 +236,8 @@ def local_changelog(package, tmp):
 
 def extract_dependencies(package, dependency_type="Depends"):
     """Produce all Dependencies of a particular type"""
+    if not package.candidate:
+        return
     for dependency_list in package.candidate.get_dependencies(dependency_type):
         for dependency in dependency_list.or_dependencies:
             yield dependency.name
