@@ -1,3 +1,9 @@
+wajig (2.6) unstable; urgency=low
+
+  * stop converting COMMANDS to uppercase... be like everyone else
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 22 May 2012 19:54:16 +0200
+
 wajig (2.5.1) unstable; urgency=low
 
   * make licence DEP-5 compliant

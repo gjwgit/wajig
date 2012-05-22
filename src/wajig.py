@@ -38,11 +38,6 @@ def main():
         subprocess.call(command.split())
         return
 
-    # if only argparse would have me avoid this hack
-    for n, arg in enumerate(sys.argv):
-        if arg not in ["-V", "-R"]:
-            sys.argv[n] = arg.lower()
-
     parser = argparse.ArgumentParser(
         prog="wajig",
         description="unified package management front-end for Debian",

@@ -38,22 +38,22 @@ _wajig()
     dashoptions='-h --help -V --version'
 
     for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
-        if [[ ${COMP_WORDS[i]} == @(ADDCDROM|ADDREPO|AUTOALTS|AUTOCLEAN|AUTODOWNLOAD|AUTOREMOVE|BUILD|BUILDDEPS|CHANGELOG|CLEAN|CONTENTS|DAILYUPGRADE|DEPENDENTS|DESCRIBE|DESCRIBENEW|DISTUPGRADE|DOWNLOAD|EDITSOURCES|EXTRACT|FIXCONFIGURE|FIXINSTALL|FIXMISSING|FORCE|HOLD|INFO|INIT|INSTALL|INSTALLSUGGESTED|INTEGRITY|LARGE|LASTUPDATE|LISTALTERNATIVES|LISTCACHE|LISTCOMMANDS|LISTDAEMONS|LISTFILES|LISTHOLD|LISTINSTALLED|LISTNAMES|LISTPACKAGES|LISTSCRIPTS|LISTSECTION|LISTSECTIONS|LISTSTATUS|MADISON|MOVE|NEW|NEWDETAIL|NEWS|NEWUPGRADES|NONFREE|ORPHANS|POLICY|PURGE|PURGEORPHANS|PURGEREMOVED|RBUILDDEPS|README|RECDOWNLOAD|RECOMMENDED|RECONFIGURE|REINSTALL|RELOAD|REMOVE|REMOVEORPHANS|REPACKAGE|REPORTBUG|RESTART|RPM2DEB|RPMINSTALL|SEARCH|SEARCHAPT|SHOW|SIZES|SNAPSHOT|SOURCE|START|STATUS|STATUSMATCH|STOP|SYSLOG|TASKSEL|TODO|TOUPGRADE|TUTORIAL|UNHOLD|UNOFFICIAL|UPDATE|UPDATEALTERNATIVES|UPDATEPCIIDS|UPDATEUSBIDS|UPGRADE|UPGRADESECURITY|VERIFY|VERSIONS|WHICHPACKAGE) ]]; then
+        if [[ ${COMP_WORDS[i]} == @(addcdrom|addrepo|autoalts|autoclean|autodownload|autoremove|build|builddeps|changelog|clean|contents|dailyupgrade|dependents|describe|describenew|distupgrade|download|editsources|extract|fixconfigure|fixinstall|fixmissing|force|hold|info|init|install|installsuggested|integrity|large|lastupdate|listalternatives|listcache|listcommands|listdaemons|listfiles|listhold|listinstalled|listnames|listpackages|listscripts|listsection|listsections|liststatus|madison|move|new|newdetail|news|newupgrades|nonfree|orphans|policy|purge|purgeorphans|purgeremoved|rbuilddeps|readme|recdownload|recommended|reconfigure|reinstall|reload|remove|removeorphans|repackage|reportbug|restart|rpm2deb|rpminstall|search|searchapt|show|sizes|snapshot|source|start|status|statusmatch|stop|syslog|tasksel|todo|toupgrade|tutorial|unhold|unofficial|update|updatealternatives|updatepciids|updateusbids|upgrade|upgradesecurity|verify|versions|whichpackage) ]]; then
         special=${COMP_WORDS[i]}
         fi
     done
 
     if [[ -n "$special" ]]; then
        case $special in
-           INSTALL|HOLD|DISTUPGRADE|DOWNLOAD|SHOW|CHANGELOG|BUILDDEPS)
+           install|hold|distupgrade|download|show|changelog|builddeps)
                COMPREPLY=( $( apt-cache pkgnames $cur 2> /dev/null ) )
                return 0
                ;;
-           PURGE|REMOVE|REINSTALL|LISTINSTALLED)
+           purge|remove|reinstall|listinstalled)
                COMPREPLY=( $( _comp_dpkg_installed_packages "$cur" ) )
                return 0
                ;;
-           UNHOLD)
+           unhold)
                COMPREPLY=( $( _comp_dpkg_hold_packages "$cur" ) )
                return 0
                ;;
@@ -62,7 +62,7 @@ _wajig()
 
     case $prev in
         # don't complete anything if these options are found
-        AUTOCLEAN|CLEAN|SEARCH|UPGRADE|UPDATE)
+        autoclean|clean|search|upgrade|update)
             return 0
             ;;
         -S)
@@ -74,22 +74,22 @@ _wajig()
     if [[ "$cur" == -* ]]; then
         COMPREPLY=( $( compgen -W "$dashoptions" -- "$cur" ) )
     elif [[ -z "$special" ]]; then
-        commands=(ADDCDROM ADDREPO AUTOALTS AUTOCLEAN AUTODOWNLOAD AUTOREMOVE
-            BUILD BUILDDEPS CHANGELOG CLEAN CONTENTS DAILYUPGRADE
-            DEPENDENTS DESCRIBE DESCRIBENEW DISTUPGRADE DOWNLOAD EDITSOURCES
-            EXTRACT FIXCONFIGURE FIXINSTALL FIXMISSING FORCE HOLD INFO INIT
-            INSTALL INSTALLSUGGESTED INTEGRITY LARGE LASTUPDATE
-            LISTALTERNATIVES LISTCACHE LISTCOMMANDS LISTDAEMONS LISTFILES
-            LISTHOLD LISTINSTALLED LISTNAMES LISTPACKAGES LISTSCRIPTS
-            LISTSECTION LISTSECTIONS LISTSTATUS
-            MADISON MOVE NEW NEWDETAIL NEWS NEWUPGRADES NONFREE ORPHANS
-            POLICY PURGE PURGEORPHANS PURGEREMOVED RBUILDDEPS README
-            RECDOWNLOAD RECOMMENDED RECONFIGURE REINSTALL RELOAD REMOVE
-            REMOVEORPHANS REPACKAGE REPORTBUG RESTART RPM2DEB RPMINSTALL
-            SEARCH SEARCHAPT SHOW SIZES SNAPSHOT SOURCE START STATUS
-            STATUSMATCH STOP SYSLOG TASKSEL TODO TOUPGRADE TUTORIAL UNHOLD
-            UNOFFICIAL UPDATE UPDATEALTERNATIVES UPDATEPCIIDS UPDATEUSBIDS
-            UPGRADE UPGRADESECURITY VERIFY VERSIONS WHICHPACKAGE)
+        commands=(addcdrom addrepo autoalts autoclean autodownload autoremove
+            build builddeps changelog clean contents dailyupgrade
+            dependents describe describenew distupgrade download editsources
+            extract fixconfigure fixinstall fixmissing force hold info init
+            install installsuggested integrity large lastupdate
+            listalternatives listcache listcommands listdaemons listfiles
+            listhold listinstalled listnames listpackages listscripts
+            listsection listsections liststatus
+            madison move new newdetail news newupgrades nonfree orphans
+            policy purge purgeorphans purgeremoved rbuilddeps readme
+            recdownload recommended reconfigure reinstall reload remove
+            removeorphans repackage reportbug restart rpm2deb rpminstall
+            search searchapt show sizes snapshot source start status
+            statusmatch stop syslog tasksel todo toupgrade tutorial unhold
+            unofficial update updatealternatives updatepciids updateusbids
+            upgrade upgradesecurity verify versions whichpackage)
 
         local option oldNoCaseMatch=$(shopt -p nocasematch)
         shopt -s nocasematch
