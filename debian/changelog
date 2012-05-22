@@ -1,8 +1,12 @@
 wajig (2.6) unstable; urgency=low
 
   * stop converting COMMANDS to uppercase... be like everyone else
+  * for bash auto-completion, only auto-complete:
+    - names of installed packages where no other name makes sense
+    - names of all packages where no other name makes sense
+    for everything else, only complete on filenames in current directory
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 22 May 2012 19:54:16 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 22 May 2012 20:20:35 +0200
 
 wajig (2.5.1) unstable; urgency=low
 

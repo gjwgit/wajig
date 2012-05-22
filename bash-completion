@@ -45,11 +45,11 @@ _wajig()
 
     if [[ -n "$special" ]]; then
        case $special in
-           install|hold|distupgrade|download|show|changelog|builddeps)
+           install|distupgrade|download|show|changelog|builddeps|dependents|describe|policy|recdownload)
                COMPREPLY=( $( apt-cache pkgnames $cur 2> /dev/null ) )
                return 0
                ;;
-           purge|remove|reinstall|listinstalled)
+           purge|remove|reinstall|listinstalled|hold|news|readme|recommended|reconfigure|reload|repackage|*start|status|stop|todo|verify)
                COMPREPLY=( $( _comp_dpkg_installed_packages "$cur" ) )
                return 0
                ;;
