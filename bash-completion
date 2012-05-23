@@ -47,6 +47,9 @@ _wajig()
        case $special in
            install|distupgrade|download|show|changelog|builddeps|dependents|describe|policy|recdownload)
                COMPREPLY=( $( apt-cache pkgnames $cur 2> /dev/null ) )
+               if [[ "$special" == "install" ]]; then
+                   _filedir
+               fi
                return 0
                ;;
            purge|remove|reinstall|listinstalled|hold|news|readme|recommended|reconfigure|reload|repackage|*start|status|stop|todo|verify)
@@ -56,6 +59,9 @@ _wajig()
            unhold)
                COMPREPLY=( $( _comp_dpkg_hold_packages "$cur" ) )
                return 0
+               ;;
+           contents|extract|info|rpm2deb|rpminstall)
+               _filedir
                ;;
        esac
     fi
@@ -101,4 +107,12 @@ _wajig()
 
     return 0
 }
-complete -F _wajig -o default wajig
+complete -F _wajig wajig
+
+# Local variables:
+# mode: shell-script
+# sh-basic-offset: 4
+# sh-indent-comment: t
+# indent-tabs-mode: nil
+# End:
+# ex: ts=4 sw=4 et filetype=sh

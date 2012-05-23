@@ -112,7 +112,7 @@ def changelog(args):
         # 1. The package is not available in the default Debian suite
         # 2. The suite the package belongs to is set to a pin of < 0
         print("If this package is not on your default Debian suite, " \
-              "ensure that it's APT pinning isn't less than 0.")
+              "ensure that its APT pinning isn't less than 0.")
         return
     help_message = "\nTo display the local changelog, run:\n" \
                    "wajig changelog --verbose " + args.package
@@ -579,7 +579,7 @@ def madison(args):
 
 
 def move(args):
-    """Move packages in the download cache to a local Debian mirror"""
+    """Move packages in the download cache to a local Debian mirror (apt-move)"""
     perform.execute("apt-move update", root=True)
 
 
@@ -957,7 +957,7 @@ def upgradesecurity(args):
 
 
 def verify(args):
-    """Check package md5sum"""
+    """Check package's md5sum"""
     util.requires_package("debsums", "/usr/bin/debsums")
     perform.execute("debsums " + args.package)
 
@@ -975,7 +975,7 @@ def versions(args):
 def whichpackage(args):
     """Search for files matching a given pattern within packages
 
-    note: if match isn't found, apt-file repository is checked"""
+    Note: if no match is found, the apt-file repository is checked"""
     try:
         out = perform.execute("dpkg --search " + args.pattern, getoutput=True)
     except subprocess.CalledProcessError:
