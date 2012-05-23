@@ -5,7 +5,8 @@ wajig (2.6) unstable; urgency=low
     - names of installed packages where no other name makes sense
     - names of all packages where no other name makes sense
     - names of files/directories where no other name makes sense
-    for every other COMMAND, do not auto-complete at all
+    for every other COMMAND, do not auto-complete at all (Reuben Thomas
+    helped with this one)
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 23 May 2012 22:19:10 +0200
 
