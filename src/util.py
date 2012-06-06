@@ -96,11 +96,12 @@ def update_available(noreport=False):
     # by "upgrade" (really "apt-get --show-upgraded upgrade"), which might
     # show amd64 and i386 versions in the case of Ubuntu, or enabled
     # architectures in the case of Debian.
-    command = "apt-cache dumpavail " +\
-              "| egrep '^(Package|Version):' " +\
-              "| tr '\n' ' '" +\
-              "| perl -p -e 's|Package: |\n|g; s|Version: ||g'" +\
-              "| sort -u -k 1b,1 | tail -n +2 | sed 's| $||' > " + available_file
+    command = ("apt-cache dumpavail "
+               "| egrep '^(Package|Version):' "
+               "| tr '\n' ' '"
+               "| perl -p -e 's|Package: |\n|g; s|Version: ||g'"
+               "| sort -u -k 1b,1 | tail -n +2 | sed 's| $||' > ") \
+                + available_file
     # Use langC in the following since it uses a grep.
     perform.execute(command, langC=True)  # root is not required.
     os.rename(temporary_file, previous_file)
