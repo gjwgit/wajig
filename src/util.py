@@ -147,10 +147,10 @@ def count_upgrades():
     ifile = tempfile.mkstemp()[1]
     # Use langC in the following since it uses a grep.
     perform.execute(gen_installed_command_str() + " > " + ifile, langC=True)
-    command = ("join {} {} |"
-               "awk '$2 != $3 {print}' | sort -k 1b,1 | join - {} |"
-               "awk '$4 != $3 {print}' | wc -l | awk '{print $1}' ").\
-               format(previous_file, available_file, ifile)
+    command = ("join %s %s |"
+               "awk '$2 != $3 {print}' | sort -k 1b,1 | join - %s |"
+               "awk '$4 != $3 {print}' | wc -l | awk '{print $1}' ") % \
+               (previous_file, available_file, ifile)
     # 090425 Use langC=True to work with change from coreutils 6.10 to 7.2
     count = perform.execute(command, pipe=True,
             langC=True).read().split()[0]
