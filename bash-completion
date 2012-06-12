@@ -38,8 +38,23 @@ _wajig()
     dashoptions='-h --help -V --version'
 
     for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
-        if [[ ${COMP_WORDS[i]} == @(addcdrom|addrepo|autoalts|autoclean|autodownload|autoremove|build|builddeps|changelog|clean|contents|dailyupgrade|dependents|describe|describenew|details|distupgrade|download|editsources|extract|fixconfigure|fixinstall|fixmissing|force|hold|info|init|install|installsuggested|integrity|large|lastupdate|listalternatives|listcache|listcommands|listdaemons|listfiles|listhold|listinstalled|listnames|listpackages|listscripts|listsection|listsections|liststatus|madison|move|new|newdetail|news|newupgrades|nonfree|orphans|policy|purge|purgeorphans|purgeremoved|rbuilddeps|readme|recdownload|recommended|reconfigure|reinstall|reload|remove|removeorphans|repackage|reportbug|restart|rpm2deb|rpminstall|search|searchapt|show|sizes|snapshot|source|start|status|statusmatch|stop|syslog|tasksel|todo|toupgrade|tutorial|unhold|unofficial|update|updatealternatives|updatepciids|updateusbids|upgrade|upgradesecurity|verify|versions|whichpackage) ]]; then
-        special=${COMP_WORDS[i]}
+        if [[ ${COMP_WORDS[i]} == \
+         @(addcdrom|addrepo|autoalts|autoclean|autodownload|autoremove|build|
+         builddeps|changelog|clean|contents|dailyupgrade|dependents|describe|
+         describenew|details|distupgrade|download|editsources|extract|
+         fixconfigure|fixinstall|fixmissing|force|hold|info|init|install|
+         installsuggested|integrity|large|lastupdate|listalternatives|
+         listcache|listcommands|listdaemons|listfiles|listhold|listinstalled|
+         listnames|listpackages|listscripts|listsection|listsections|
+         liststatus|madison|move|new|newdetail|news|newupgrades|nonfree|
+         orphans|policy|purge|purgeorphans|purgeremoved|rbuilddeps|readme|
+         recdownload|recommended|reconfigure|reinstall|reload|remove|
+         removeorphans|repackage|reportbug|restart|rpm2deb|rpminstall|
+         search|searchapt|show|sizes|snapshot|source|start|status|statusmatch|
+         stop|syslog|tasksel|todo|toupgrade|tutorial|unhold|unofficial|
+         update|updatealternatives|updatepciids|updateusbids|upgrade|
+         upgradesecurity|verify|versions|whichpackage) ]];
+         then special=${COMP_WORDS[i]}
         fi
     done
 
