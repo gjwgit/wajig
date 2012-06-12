@@ -38,14 +38,14 @@ _wajig()
     dashoptions='-h --help -V --version'
 
     for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
-        if [[ ${COMP_WORDS[i]} == @(addcdrom|addrepo|autoalts|autoclean|autodownload|autoremove|build|builddeps|changelog|clean|contents|dailyupgrade|dependents|describe|describenew|distupgrade|download|editsources|extract|fixconfigure|fixinstall|fixmissing|force|hold|info|init|install|installsuggested|integrity|large|lastupdate|listalternatives|listcache|listcommands|listdaemons|listfiles|listhold|listinstalled|listnames|listpackages|listscripts|listsection|listsections|liststatus|madison|move|new|newdetail|news|newupgrades|nonfree|orphans|policy|purge|purgeorphans|purgeremoved|rbuilddeps|readme|recdownload|recommended|reconfigure|reinstall|reload|remove|removeorphans|repackage|reportbug|restart|rpm2deb|rpminstall|search|searchapt|show|sizes|snapshot|source|start|status|statusmatch|stop|syslog|tasksel|todo|toupgrade|tutorial|unhold|unofficial|update|updatealternatives|updatepciids|updateusbids|upgrade|upgradesecurity|verify|versions|whichpackage) ]]; then
+        if [[ ${COMP_WORDS[i]} == @(addcdrom|addrepo|autoalts|autoclean|autodownload|autoremove|build|builddeps|changelog|clean|contents|dailyupgrade|dependents|describe|describenew|details|distupgrade|download|editsources|extract|fixconfigure|fixinstall|fixmissing|force|hold|info|init|install|installsuggested|integrity|large|lastupdate|listalternatives|listcache|listcommands|listdaemons|listfiles|listhold|listinstalled|listnames|listpackages|listscripts|listsection|listsections|liststatus|madison|move|new|newdetail|news|newupgrades|nonfree|orphans|policy|purge|purgeorphans|purgeremoved|rbuilddeps|readme|recdownload|recommended|reconfigure|reinstall|reload|remove|removeorphans|repackage|reportbug|restart|rpm2deb|rpminstall|search|searchapt|show|sizes|snapshot|source|start|status|statusmatch|stop|syslog|tasksel|todo|toupgrade|tutorial|unhold|unofficial|update|updatealternatives|updatepciids|updateusbids|upgrade|upgradesecurity|verify|versions|whichpackage) ]]; then
         special=${COMP_WORDS[i]}
         fi
     done
 
     if [[ -n "$special" ]]; then
        case $special in
-           install|distupgrade|download|show|changelog|builddeps|dependents|describe|policy|recdownload)
+           install|distupgrade|download|show|changelog|builddeps|dependents|describe|details|policy|recdownload)
                COMPREPLY=( $( apt-cache pkgnames $cur 2> /dev/null ) )
                if [[ "$special" == "install" ]]; then
                    _filedir
@@ -81,8 +81,8 @@ _wajig()
         COMPREPLY=( $( compgen -W "$dashoptions" -- "$cur" ) )
     elif [[ -z "$special" ]]; then
         commands=(addcdrom addrepo autoalts autoclean autodownload autoremove
-            build builddeps changelog clean contents dailyupgrade
-            dependents describe describenew distupgrade download editsources
+            build builddeps changelog clean contents dailyupgrade dependents
+            describe describenew details distupgrade download editsources
             extract fixconfigure fixinstall fixmissing force hold info init
             install installsuggested integrity large lastupdate
             listalternatives listcache listcommands listdaemons listfiles
