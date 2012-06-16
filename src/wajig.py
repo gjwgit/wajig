@@ -26,7 +26,7 @@ import sys
 import commands
 import perform
 
-VERSION = "2.7~pre"
+VERSION = "2.6.1"
 
 
 def main():
@@ -226,10 +226,9 @@ def main():
     parser_distupgrade = subparsers.add_parser("distupgrade",
         aliases=["dist-upgrade"],
         parents=[parser_backup, parser_yesno, parser_auth, parser_teach,
-              parser_local],
+                 parser_local, parser_dist],
         description=function.__doc__)
     help = "distribution/suite to upgrade to (e.g. unstable)"
-    parser_distupgrade.add_argument("dist", nargs="*", help=help)
     parser_distupgrade.set_defaults(func=function)
 
     function = commands.download
