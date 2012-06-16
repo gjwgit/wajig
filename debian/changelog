@@ -1,3 +1,9 @@
+wajig (2.7~pre) UNRELEASED; urgency=low
+
+  * 
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 16 Jun 2012 07:43:15 +0200
+
 wajig (2.6) unstable; urgency=low
 
   * stop converting COMMANDS to uppercase... be like everyone else
