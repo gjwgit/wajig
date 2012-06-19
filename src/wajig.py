@@ -217,9 +217,9 @@ def main():
 
     function = commands.describenew
     parser_describenew = subparsers.add_parser("describenew",
-        parents=[parser_verbose],
         aliases="newdescribe new-describe describe-new".split(),
-        description=function.__doc__)
+        description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_describenew.set_defaults(func=function)
 
     function = commands.distupgrade
@@ -451,14 +451,15 @@ def main():
 
     function = commands.new
     parser_new = subparsers.add_parser("new",
+                 parents=[parser_verbose],
                  description=function.__doc__)
     parser_new.set_defaults(func=function)
 
     function = commands.newdetail
     parser_newdetail = subparsers.add_parser("newdetail",
                        aliases="detailnew detail-new new-detail".split(),
-                       parents=[parser_fast, parser_teach],
-                       description=function.__doc__)
+                       description=function.__doc__,
+                       formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_newdetail.set_defaults(func=function)
 
     function = commands.news

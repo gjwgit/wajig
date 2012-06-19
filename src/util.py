@@ -63,6 +63,7 @@ perform.execute("rm -f " + init_dir + "/tmp*")
 # TODO Work to use bzip2 files for available and previous.
 # Then bunzip2 to temporary files when needed!
 # Disk usage goes from 274K to 83K.
+new_file = init_dir + "/New"
 available_file = init_dir + "/Available"
 previous_file  = init_dir + "/Available.prv"
 
@@ -75,6 +76,16 @@ if os.path.exists(log_file):
 # Set the temporary directory to the init_dir.
 # Large files are not generally written there so should be okay.
 tempfile.tempdir = init_dir
+
+
+def newly_available(verbose=False):
+    """display brand-new packages.. technically new package names"""
+    with open(new_file) as f:
+        for line in f:
+            if verbose:
+                perform.execute('aptitude show ' + line.strip())
+            else:
+                do_describe(new_packages, cache=cache)
 
 
 def update_available(noreport=False):
@@ -103,9 +114,9 @@ def update_available(noreport=False):
     perform.execute(command, langC=True)  # root is not required.
     os.rename(temporary_file, previous_file)
 
-    available_packages = len(open(available_file).readlines())
-    previous_packages = len(open(previous_file).readlines())
-    diff = available_packages - previous_packages
+    available_packages = open(available_file).readlines()
+    previous_packages = open(previous_file).readlines()
+    diff = len(available_packages) - len(previous_packages)
 
     # 090425 Use langC=True to work with change from coreutils 6.10 to 7.2
     command = "join -v 1 -t' '  {0} {1} | wc -l"
@@ -126,6 +137,15 @@ def update_available(noreport=False):
             print("package.")
         else:
             print("packages.")
+
+    packages = [package.split()[0] for package in available_packages]
+    old_packages = [package.split()[0] for package in previous_packages]
+    new_packages = list()
+    for package in packages:
+        if package not in old_packages:
+            new_packages.append(package)
+            with open(new_file, 'w') as f:
+                f.write(package + '\n')
 
 
 def gen_installed_command_str():
@@ -241,7 +261,7 @@ def extract_dependencies(package, dependency_type="Depends"):
             yield dependency.name
 
 
-def do_describe(packages, verbose=False):
+def do_describe(packages, verbose=False, cache=False):
     """Display package description(s)"""
 
     package_files = [package for package in packages
@@ -263,7 +283,8 @@ def do_describe(packages, verbose=False):
         print("No packages found from those known to be available/installed.")
     else:
         packageversions = list()
-        cache = apt.cache.Cache()
+        if not cache:
+            cache = apt.cache.Cache()
         for package in packages:
             try:
                 package = cache[package]
@@ -468,3 +489,5 @@ def sizes(packages=None, size=0):
             print(message)
     else:
         print("No packages of >10MB size found")
+
+

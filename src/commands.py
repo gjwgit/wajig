@@ -195,13 +195,15 @@ def dependents(args):
 
 
 def describe(args):
-    """List one line descriptions for the given packages"""
-    util.do_describe(args.packages, args.verbose)
+    """Display one-line descriptions for the given packages"""
+    util.newly_available()
 
 
 def describenew(args):
-    """One line descriptions of new packages"""
-    util.do_describe_new(args.verbose)
+    """Display one-line descriptions of newly-available packages
+
+    This produces the same output as 'wajig new'"""
+    util.newly_available()
 
 
 def distupgrade(args):
@@ -584,19 +586,15 @@ def move(args):
 
 
 def new(args):
-    """List descriptions of upgradable packages"""
-    util.do_describe_new()
+    """Display newly-available packages"""
+    util.newly_available(args.verbose)
 
 
 def newdetail(args):
-    """Provide a detailed description of new packages"""
-    new_packages = util.upgradable()
-    if new_packages:
-        package_names = " ".join(new_packages)
-        command = "apt-cache" if args.fast else "aptitude"
-        perform.execute("{} show {}".format(command, package_names))
-    else:
-        print("No new packages available")
+    """Display detailed descriptions of newly-available packages
+
+    This produces the same output as 'wajig new --verbose'"""
+    util.newly_available(verbose=True)
 
 
 def news(args):

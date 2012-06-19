@@ -1,6 +1,7 @@
 wajig (2.7~pre) UNRELEASED; urgency=low
 
-  * 
+  * NEW, DETAILNEW, and DESCRIBENEW: make them do as the commands imply;
+    Closes: #670687
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 19 Jun 2012 04:31:23 +0200
 
