@@ -90,7 +90,7 @@ def newly_available(verbose=False):
             for package in packages:
                 perform.execute('aptitude show ' + package)
         else:
-            do_describe([package.strip() for package in packages])
+            do_describe([package.strip() for package in packages], die=False)
 
 
 def update_available(noreport=False):
@@ -266,7 +266,7 @@ def extract_dependencies(package, dependency_type="Depends"):
             yield dependency.name
 
 
-def do_describe(packages, verbose=False):
+def do_describe(packages, verbose=False, die=True):
     """Display package description(s)"""
 
     package_files = [package for package in packages
@@ -293,8 +293,9 @@ def do_describe(packages, verbose=False):
             try:
                 package = cache[package]
             except KeyError as e:
-                print(str(e).strip('"'))
-                return 1
+                if die:
+                    print(str(e).strip('"'))
+                    return 1
             packageversion = package.installed
             if not packageversion:  # if package is not installed...
                 packageversion = package.candidate
