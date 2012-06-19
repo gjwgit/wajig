@@ -266,7 +266,7 @@ def extract_dependencies(package, dependency_type="Depends"):
             yield dependency.name
 
 
-def do_describe(packages, verbose=False, cache=False):
+def do_describe(packages, verbose=False):
     """Display package description(s)"""
 
     package_files = [package for package in packages
@@ -288,8 +288,7 @@ def do_describe(packages, verbose=False, cache=False):
         print("No packages found from those known to be available/installed.")
     else:
         packageversions = list()
-        if not cache:
-            cache = apt.cache.Cache()
+        cache = apt.cache.Cache()
         for package in packages:
             try:
                 package = cache[package]
