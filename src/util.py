@@ -149,8 +149,9 @@ def update_available(noreport=False):
     for package in packages:
         if package not in old_packages:
             new_packages.append(package)
-            with open(new_file, 'w') as f:
-                f.write(package + '\n')
+    if new_packages:
+        with open(new_file, 'w') as f:
+            [f.write(package + '\n') for package in new_packages]
 
 
 def gen_installed_command_str():
