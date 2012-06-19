@@ -64,6 +64,10 @@ perform.execute("rm -f " + init_dir + "/tmp*")
 # Then bunzip2 to temporary files when needed!
 # Disk usage goes from 274K to 83K.
 new_file = init_dir + "/New"
+if not os.path.exists(new_file):
+    with open(new_file, 'w'):
+        pass
+
 available_file = init_dir + "/Available"
 previous_file  = init_dir + "/Available.prv"
 
@@ -81,11 +85,12 @@ tempfile.tempdir = init_dir
 def newly_available(verbose=False):
     """display brand-new packages.. technically new package names"""
     with open(new_file) as f:
-        for line in f:
-            if verbose:
-                perform.execute('aptitude show ' + line.strip())
-            else:
-                do_describe(new_packages, cache=cache)
+        packages = f.readlines()
+        if verbose:
+            for package in packages:
+                perform.execute('aptitude show ' + package)
+        else:
+            do_describe([package.strip() for package in packages])
 
 
 def update_available(noreport=False):
