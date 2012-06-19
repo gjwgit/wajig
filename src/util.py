@@ -133,12 +133,12 @@ def update_available(noreport=False):
 def gen_installed_command_str():
     "Generate command to list installed packages and their status."
     # Use sort --unique. See comment in update_available().
-    command = "cat /var/lib/dpkg/status | " +\
-              "egrep '^(Package|Status|Version):' | " +\
-              "awk '/^Package: / {pkg=$2} " +\
-              "     /^Status: / {s1=$2;s2=$3;s3=$4}" +\
-              "     /^Version: / {print pkg,$2,s1,s2,s3}' | " +\
-              "grep 'ok installed' | awk '{print $1,$2}' | sort -u -k 1b,1"
+    command = ("cat /var/lib/dpkg/status | "
+               "egrep '^(Package|Status|Version):' | "
+               "awk '/^Package: / {pkg=$2} "
+               "     /^Status: / {s1=$2;s2=$3;s3=$4}"
+               "     /^Version: / {print pkg,$2,s1,s2,s3}' | "
+               "grep 'ok installed' | awk '{print $1,$2}' | sort -u -k 1b,1")
     return command
 
 
