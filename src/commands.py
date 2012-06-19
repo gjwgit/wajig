@@ -52,9 +52,12 @@ def autodownload(args):
                "--force-yes dist-upgrade")
     perform.execute(command, root=True)
     if not args.simulate:
-        util.do_describe_new(verbose=args.verbose)
-        print()
-        new_packages = util.show_package_versions()
+        upgradable_packages = util.upgradable()
+        if upgradable_packages:
+            util.do_describe(upgradable_packages, verbose)
+        else:
+            print("no upgradable packages")
+        util.show_package_versions()
 
 
 def autoclean(args):

@@ -314,15 +314,6 @@ def do_describe(packages, verbose=False, die=True):
                 print("%-24s %s" % (packageversion[0], packageversion[1]))
 
 
-def do_describe_new(verbose=False):
-    """Report on packages that are newly available"""
-    new_packages = upgradable()
-    if new_packages:
-        do_describe(new_packages, verbose)
-    else:
-        print("No new packages")
-
-
 def show_package_versions():
     packages = upgradable(get_names_only=False)
     if packages:
