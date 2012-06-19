@@ -1,3 +1,9 @@
+wajig (2.7~pre) UNRELEASED; urgency=low
+
+  * 
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 19 Jun 2012 04:31:23 +0200
+
 wajig (2.6.1) unstable; urgency=low
 
   * DISTUPGRADE: fix an exception triggered by specifying the --dist option

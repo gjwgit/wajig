@@ -347,35 +347,10 @@ def do_status(packages, snapshot=False):
               ("Package", "Installed", "Previous", "Now", "State"))
         print("="*23 + "-" + "="*15 + "-" + "="*15 + "-" + "="*15 + "-" + "="*5)
         sys.stdout.flush()
-    #
-    # Get status.  Previously used dpkg --list but this truncates package
-    # names to 16 characters :-(. Perhaps should now also remove the DS
-    # column as that was the "ii" thing from dpkg --list.  It is now
-    # "install" or "deinstall" from dpkg --get-selections.
-    #
-    #   command = "dpkg --list | " +\
-    #             "awk '{print $2,$1}' | " +\
-    #
+
     # Generate a temporary file of installed packages.
-    #
     ifile = tempfile.mkstemp()[1]
-    #
-    # Using langC=TRUE here makes it work for other LANG, e.g.,
-    # LANG=ru_RU.koi8r. Seems that the sorting is the key problem. To
-    # test, try:
-    #
-    #   $ wajign status | wc -l
-    #   1762
-    #   $ LANG=ru_RU.koi8r wajign status | wc -l
-    #   1762
-    #
-    # But now set it to False (the default):
-    #
-    #   $ LANG=ru_RU.koi8r wajign status | wc -l
-    #   1449
-    #
-    # See Bug#288852 and Bug#119899.
-    #
+
     perform.execute(gen_installed_command_str() + " > " + ifile,
                     langC=True)
     # Build the command to list the status of installed packages.
@@ -400,10 +375,9 @@ def do_status(packages, snapshot=False):
             print("=".join(l.split()[0:2]))
     else:
         perform.execute(command, langC=True)
-    #
+
     # Check whether the package is not in the installed list, and if not
     # list its status appropriately.
-    #
     for i in packages:
         if perform.execute("egrep '^" + i + " ' " + ifile + " >/dev/null"):
             # Package is not installed.
