@@ -194,7 +194,7 @@ def backup_before_upgrade(packages, distupgrade=False):
 def requires_package(package, path, test=False):
     if not os.path.exists(path):
         if not test:
-            print('This command depends on "' + package + '" being installed.')
+            print("This command depends on '{}' being installed".format(package))
             sys.exit(1)
         return False
     return True
