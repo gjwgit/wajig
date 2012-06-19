@@ -78,9 +78,7 @@ tempfile.tempdir = init_dir
 
 
 def update_available(noreport=False):
-    """Generate current list of available packages, backing up the old list.
-
-    noreport    If set, do not report on the number of packages.
+    """Generate current list of available packages, backing up the old list
     """
 
     if not os.path.exists(available_file):
@@ -131,7 +129,7 @@ def update_available(noreport=False):
 
 
 def gen_installed_command_str():
-    "Generate command to list installed packages and their status."
+    """Generate command to list installed packages and their status."""
     # Use sort --unique. See comment in update_available().
     command = ("cat /var/lib/dpkg/status | "
                "egrep '^(Package|Status|Version):' | "
@@ -143,7 +141,7 @@ def gen_installed_command_str():
 
 
 def count_upgrades():
-    "Return as a string the number of new upgrades since last update."
+    """Return as a string the number of new upgrades since last update."""
     ifile = tempfile.mkstemp()[1]
     # Use langC in the following since it uses a grep.
     perform.execute(gen_installed_command_str() + " > " + ifile, langC=True)
@@ -168,7 +166,7 @@ def reset_files():
 
 
 def ensure_initialised():
-    "Create the init_dir and files if they don't exist."
+    """Create the init_dir and files if they don't exist."""
     if not os.path.exists(available_file):
         reset_files()
 
@@ -223,8 +221,7 @@ def upgradable(distupgrade=False, get_names_only=True):
 
 
 def local_changelog(package, tmp):
-    "Retrieve Debian changelog from local installation."
-
+    """Retrieve Debian changelog from local installation."""
     changelog = "/usr/share/doc/" + package + "/changelog.Debian.gz"
     changelog_native = "/usr/share/doc/" + package + "/changelog.gz"
     if os.path.exists(changelog):
@@ -245,7 +242,7 @@ def extract_dependencies(package, dependency_type="Depends"):
 
 
 def do_describe(packages, verbose=False):
-    """Display package description(s)."""
+    """Display package description(s)"""
 
     package_files = [package for package in packages
                      if package.endswith(".deb")]
@@ -292,7 +289,7 @@ def do_describe(packages, verbose=False):
 
 
 def do_describe_new(verbose=False):
-    """Report on packages that are newly available."""
+    """Report on packages that are newly available"""
     new_packages = upgradable()
     if new_packages:
         do_describe(new_packages, verbose)
@@ -335,12 +332,7 @@ def display_sys_docs(package, filenames):
 
 
 def do_status(packages, snapshot=False):
-    """List status of the packages identified.
-
-    Arguments:
-    packages    List the version of installed packages
-    snapshot    Whether a snapshot is required (affects output format)
-    """
+    """List status of the packages identified"""
 
     if not snapshot:
         print("%-23s %-15s %-15s %-15s %s" % \
