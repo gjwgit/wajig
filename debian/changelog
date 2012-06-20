@@ -1,4 +1,4 @@
-wajig (2.7~pre) UNRELEASED; urgency=low
+wajig (2.7) unstable; urgency=low
 
   * NEW, DETAILNEW, and DESCRIBENEW:
     - make them do as the commands imply; Closes: #670687
