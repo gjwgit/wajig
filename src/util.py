@@ -294,7 +294,17 @@ def do_describe(packages, verbose=False, die=True):
             try:
                 package = cache[package]
             except KeyError as e:
-                if die:
+                import subprocess
+                command = 'dpkg --print-foreign-architectures'.split()
+                output = subprocess.check_output(command)
+                for arch in output.decode().split():
+                    try:
+                        package = cache["{}:{}".format(package, arch)]
+                        # to avoid noise, only consider the 1st match
+                        break
+                    except KeyError:
+                        pass
+                if not isinstance(package, apt.package.Package) and die:
                     print(str(e).strip('"'))
                     return 1
             packageversion = package.installed

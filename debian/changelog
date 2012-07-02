@@ -1,3 +1,16 @@
+wajig (2.7.1) unstable; urgency=low
+
+  * NEW, NEWDESCRIBE: fix an exception that occurs if package exists only
+    for configured foreign architectures; Closes: #679969
+  * DESCRIBE: if package does not exist for native architecture, check if it
+    does for configured foreign ones before giving up; this is closely
+    related to the above-mentioned fix
+  * Specify a minimum dpkg version (1.16.2), due to the use of
+    --print-foreign-architectures option introduced as a result of the
+    above-mentioned fixes
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 02 Jul 2012 21:04:43 +0200
+
 wajig (2.7) unstable; urgency=low
 
   * NEW, DETAILNEW, and DESCRIBENEW:

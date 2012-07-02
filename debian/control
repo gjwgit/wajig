@@ -15,7 +15,8 @@ Depends: ${misc:Depends},
          python3 (>= 3.2),
          apt,
          python3-apt,
-         aptitude
+         aptitude,
+         dpkg (>= 1.16.2)
 Suggests: debconf,
           reportbug,
           apt-move,
