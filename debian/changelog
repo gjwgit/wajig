@@ -1,3 +1,10 @@
+wajig (2.7.2) unstable; urgency=low
+
+  * For some reason, some temp/build files ended up in the source package :(
+    Thanks to RM, Adam D. Barratt, for noticing.
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 03 Jul 2012 21:03:25 +0200
+
 wajig (2.7.1) unstable; urgency=low
 
   * NEW, NEWDESCRIBE: fix an exception that occurs if package exists only
