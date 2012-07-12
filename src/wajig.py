@@ -26,7 +26,7 @@ import sys
 import commands
 import perform
 
-VERSION = "2.7.2"
+VERSION = "2.7.3"
 
 
 def main():
@@ -679,7 +679,7 @@ def main():
     function = commands.statusmatch
     parser_statusmatch = subparsers.add_parser("statusmatch",
                          parents=[parser_teach],
-                         aliases=["statussearch status-search status-match"],
+                         aliases="statussearch status-search status-match".split(),
                          description=function.__doc__)
     parser_statusmatch.add_argument("pattern")
     parser_statusmatch.set_defaults(func=function)
@@ -713,7 +713,7 @@ def main():
 
     function = commands.toupgrade
     parser_toupgrade = subparsers.add_parser("toupgrade",
-                       aliases=["newupgrades new-upgrades to-upgrade"],
+                       aliases="newupgrades new-upgrades to-upgrade".split(),
                        description=function.__doc__)
     parser_toupgrade.set_defaults(func=function)
 
