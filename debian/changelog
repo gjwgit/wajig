@@ -1,7 +1,7 @@
 wajig (2.7.3) unstable; urgency=low
 
   * NEWUPGRADES: a bug introduced in 2.5 made this subcommand illegal;
-    Closes #681309
+    Closes: #681309
   * STATUSSEARCH: same case as above
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 12 Jul 2012 12:11:46 +0200
