@@ -123,11 +123,17 @@ def update_available(noreport=False):
     previous_packages = open(previous_file).readlines()
     diff = len(available_packages) - len(previous_packages)
 
+    temporary_file = tempfile.mkstemp()[1]
     # 090425 Use langC=True to work with change from coreutils 6.10 to 7.2
-    command = "join -v 1 -t' '  {0} {1} | wc -l"
-    command = command.format(available_file, previous_file)
+    command = "join -v 1 -t' '  {0} {1} | cut -d' ' -f 1 | tee {2} | wc -l"
+    command = command.format(available_file, previous_file, temporary_file)
     newest = perform.execute(command, pipe=True, langC=True)
     newest = newest.readlines()[0].strip()
+
+    if newest != "0":
+      os.rename(temporary_file, new_file)
+    else:
+      os.remove(temporary_file)
 
     if not noreport:
         if diff < 0:
@@ -142,17 +148,6 @@ def update_available(noreport=False):
             print("package.")
         else:
             print("packages.")
-
-    packages = [package.split()[0] for package in available_packages]
-    old_packages = [package.split()[0] for package in previous_packages]
-    new_packages = list()
-    for package in packages:
-        if package not in old_packages:
-            new_packages.append(package)
-    if new_packages:
-        with open(new_file, 'w') as f:
-            [f.write(package + '\n') for package in new_packages]
-
 
 def gen_installed_command_str():
     """Generate command to list installed packages and their status."""
