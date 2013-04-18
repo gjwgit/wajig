@@ -33,12 +33,10 @@ Suggests: debconf,
           debsums,
           netselect-apt,
           dpkg-dev
-Description: simple and unified package management for Debian
- Wajig is a single commandline wrapper around apt, apt-cache, dpkg,
- /etc/init.d scripts and more, intended to be easy to use and providing 
- extensive documentation for all of its functions. 
+Description: unified package management front-end for Debian
+ A command-line wrapper around apt, apt-cache, dpkg, aptitude, and more.
+ It's goal is to ease package management by unifying the main functions
+ of these tools from one interface.
  .
- With a suitable sudo(1) configuration, most (if not all) package installation
- as well as creation tasks can be done from a user shell. Wajig is also 
- suitable for general system administration.
-
+ For a short guide, run this command:
+ $ wajig help
