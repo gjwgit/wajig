@@ -1,7 +1,7 @@
 wajig (2.7.4~pre) UNRELEASED; urgency=low
 
-  * UPDATE: Fix performance issue (patch by Robert Luberda); Closes: #705241
-  * Improve package description:
+  * UPDATE: fix performance issue (patch by Robert Luberda); Closes: #705241
+  * improve package description:
     - simpler
     - less boastful
     - add a pointer to a guide
