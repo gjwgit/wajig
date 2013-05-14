@@ -780,9 +780,9 @@ def search(args):
     if args.verbose:
         command = "apt-cache search " + " ".join(args.patterns)
     else:
-        command = "apt-cache search " + " ".join(args.patterns)
-        command += " | /bin/grep --ignore-case '{}'"
-        command = command.format("\|".join(args.patterns))
+        command = "apt-cache search {} | /bin/grep --ignore-case '{}'"
+        command = command.format(" ".join(args.patterns),
+                                 "\|".join(args.patterns))
     perform.execute(command)
 
 
