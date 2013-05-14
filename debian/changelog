@@ -6,6 +6,7 @@ wajig (2.7.4~pre) UNRELEASED; urgency=low
     - less boastful
     - add a pointer to a guide
     - tis 'wajig', not 'Wajig'
+  * SEARCH: match short package descriptions in addition to package names
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 18 Apr 2013 12:37:26 +0200
 
