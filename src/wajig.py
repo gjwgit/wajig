@@ -619,9 +619,12 @@ def main():
 
     function = commands.search
     parser_search = subparsers.add_parser("search",
-                    parents=[parser_verbose, parser_teach],
+                    parents=[parser_teach],
                     description=function.__doc__)
     parser_search.add_argument("patterns", nargs="+")
+    help=("'-v' will also search short package desciption; "
+          "'-vv' will also search the short and long decription")
+    parser_search.add_argument("-v", "--verbose", action="count", help=help)
     parser_search.set_defaults(func=function)
 
     function = commands.searchapt

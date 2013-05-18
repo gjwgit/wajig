@@ -780,12 +780,15 @@ def search(args):
     import pipes  # once python3.3 is default python3 in Debian,
                   # change this to shlex
     args.patterns = [pipes.quote(pattern) for pattern in args.patterns]
-    if args.verbose:
-        command = "apt-cache search " + " ".join(args.patterns)
-    else:
+    if not args.verbose:
+        command = "apt-cache search --names-only {}"
+        command = command.format(" ".join(args.patterns))
+    elif args.verbose == 1:
         command = "apt-cache search {} | /bin/grep --ignore-case '{}'"
         command = command.format(" ".join(args.patterns),
                                  "\|".join(args.patterns))
+    else:
+        command = "apt-cache search --full " + " ".join(args.patterns)
     perform.execute(command)
 
 
