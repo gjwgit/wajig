@@ -7,7 +7,8 @@ wajig (2.7.4~pre) UNRELEASED; urgency=low
     - add a pointer to a guide
     - tis 'wajig', not 'Wajig'
   * SEARCH:
-    - make -v|--verbose match short package descriptions in addition to package names
+    - make -v|--verbose match short package descriptions in addition to
+      package names
     - add -vv, which also searches long package descriptions and displays them;
       the former was available as -v, and the latter is new
 
