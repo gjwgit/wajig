@@ -111,9 +111,7 @@ Examples commands include:
 For a complete list of available commands, 'wajig listcommands'.
 
 In most cases, wajig expects a command and will call upon other Debian
-tools to perform the command.  Commands can be in mixed case, and
-and internally these are mapped to the one command. Thus, the commands
-`Install', `INSTALL', `install' are interpreted identically.
+tools to perform the command.
 
 
 GETTING STARTED WITH SUDO
