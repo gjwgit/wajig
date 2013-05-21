@@ -379,7 +379,7 @@ def install(args):
     if packages:
         if args.dist:
             args.dist = "--target-release " + args.dist
-        command = "apt-get {} {} {} {} install --auto-remove "
+        command = "apt-get {} {} {} {} --auto-remove install "
         command += " ".join(packages)
         command = command.format(args.yes, args.noauth, args.recommends,
                                  args.dist)
@@ -781,7 +781,7 @@ def search(args):
                   # change this to shlex
     args.patterns = [pipes.quote(pattern) for pattern in args.patterns]
     if not args.verbose:
-        command = "apt-cache search --names-only {}"
+        command = "apt-cache --names-only search {}"
         command = command.format(" ".join(args.patterns))
     elif args.verbose == 1:
         command = "apt-cache search {} | /bin/grep --ignore-case '{}'"
