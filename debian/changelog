@@ -1,4 +1,4 @@
-wajig (2.7.4~pre) UNRELEASED; urgency=low
+wajig (2.8~pre) UNRELEASED; urgency=low
 
   * UPDATE: fix performance issue (patch by Robert Luberda); Closes: #705241
   * improve package description:
