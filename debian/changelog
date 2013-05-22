@@ -161,7 +161,7 @@ wajig (2.4) unstable; urgency=low
     - Closes: #665729
   * LOCALUPGRADE remove:
     - [ole] wajig LOCALUPGRADE
-    - [new] wajig UPGRADE --local 
+    - [new] wajig UPGRADE --local
   * LOCALDISTUPGRADE remove:
     - [ole] wajig LOCALDISTUPGRADE
     - [new] wajig DISTUPGRADE --local
