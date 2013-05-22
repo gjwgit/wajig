@@ -776,11 +776,24 @@ def rpminstall(args):
 
 
 def search(args):
-    """Search for package names containing the given pattern"""
+    """Search for package names containing the given pattern
+
+    If '::' is found in the search term, use a debtags search; example:
+
+    $ wajig search implemented-in::python
+    balazar - adventure/action game Balazar -- Arkanae II, reforged scepters
+    compizconfig-settings-manager - Compizconfig Settings Manager
+    ...
+"""
     import pipes  # once python3.3 is default python3 in Debian,
                   # change this to shlex
     args.patterns = [pipes.quote(pattern) for pattern in args.patterns]
-    if not args.verbose:
+    if len(args.patterns) == 1 and '::' in args.patterns[0]:
+        util.requires_package('debtags', '/usr/bin/debtags')
+        command = 'debtags search ' + args.patterns[0]
+        if args.verbose:
+            command += ' --full'
+    elif not args.verbose:
         command = "apt-cache --names-only search {}"
         command = command.format(" ".join(args.patterns))
     elif args.verbose == 1:

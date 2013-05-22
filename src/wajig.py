@@ -620,7 +620,8 @@ def main():
     function = commands.search
     parser_search = subparsers.add_parser("search",
                     parents=[parser_teach],
-                    description=function.__doc__)
+                    description=function.__doc__,
+                    formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_search.add_argument("patterns", nargs="+")
     help=("'-v' will also search short package desciption; "
           "'-vv' will also search the short and long decription")
