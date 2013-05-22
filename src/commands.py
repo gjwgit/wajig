@@ -785,9 +785,6 @@ def search(args):
     compizconfig-settings-manager - Compizconfig Settings Manager
     ...
 """
-    import pipes  # once python3.3 is default python3 in Debian,
-                  # change this to shlex
-    args.patterns = [pipes.quote(pattern) for pattern in args.patterns]
     if len(args.patterns) == 1 and '::' in args.patterns[0]:
         util.requires_package('debtags', '/usr/bin/debtags')
         command = 'debtags search ' + args.patterns[0]
@@ -797,6 +794,9 @@ def search(args):
         command = "apt-cache --names-only search {}"
         command = command.format(" ".join(args.patterns))
     elif args.verbose == 1:
+        import pipes  # once python3.3 is default python3 in Debian,
+                      # change this to shlex
+        args.patterns = [pipes.quote(pattern) for pattern in args.patterns]
         command = "apt-cache search {} | /bin/grep --ignore-case '{}'"
         command = command.format(" ".join(args.patterns),
                                  "\|".join(args.patterns))
