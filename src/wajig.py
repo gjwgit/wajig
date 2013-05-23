@@ -503,7 +503,7 @@ def main():
     function = commands.purgeorphans
     parser_purgeorphans = subparsers.add_parser("purgeorphans",
                           aliases=["purge-orphans"],
-                          parents=[parser_yesno, parser_auth, parser_teach],
+                          parents=[parser_yesno],
                           description=function.__doc__)
     parser_purgeorphans.set_defaults(func=function)
 
@@ -574,7 +574,7 @@ def main():
     function = commands.removeorphans
     parser_removeorphans = subparsers.add_parser("removeorphans",
                            aliases=["remove-orphans"],
-                           parents=[parser_teach],
+                           parents=[parser_yesno],
                            description=function.__doc__)
     parser_removeorphans.set_defaults(func=function)
 

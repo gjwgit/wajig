@@ -741,7 +741,9 @@ def removeorphans(args):
     for package in perform.execute("deborphan", pipe=True):
         packages += " " + package.strip()
     if packages:
-        perform.execute("apt-get --auto-remove remove " + packages, root=True)
+        command = "apt-get --auto-remove remove {} {}"
+        command = command.format(args.yes, packages)
+        perform.execute(command, root=True)
 
 
 def repackage(args):

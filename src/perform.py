@@ -81,8 +81,7 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
         return command
     elif SIMULATE:
         print(highlight(" ".join(command.split())))
-        if "deborphan" not in command:
-            return
+        return
     if TEACH:
         print(highlight(" ".join(command.split())))
     if pipe:
