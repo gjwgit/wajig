@@ -12,7 +12,8 @@ wajig (2.8~pre) UNRELEASED; urgency=low
     - make -v|--verbose match short package descriptions in addition to
       package names
     - add -vv, which also searches long package descriptions and displays them;
-      the former was available as -v, and the latter is new
+      the former was available as -v, and the latter is new;
+      this functionality was suggested by Reuben Thomas
     - add debtags search; this happens if the string '::' is in the search term
 
   * SEARCH, INSTALL: fix weird bugs where package '0ad' could not be searched
@@ -31,7 +32,8 @@ wajig (2.8~pre) UNRELEASED; urgency=low
 
   * REMOVEORPHANS: add --yes option, for consistency with PURGEORPHANS
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 23 May 2013 23:59:49 +0200
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 24 May 2013 00:26:36 +0200
 
 wajig (2.7.3) unstable; urgency=low
 
