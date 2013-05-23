@@ -641,7 +641,8 @@ def purgeorphans(args):
     for package in perform.execute("deborphan", pipe=True):
         packages += " " + package.strip()
     if packages:
-        command = "apt-get --auto-remove purge {} {}".format(args.yes, packages)
+        command = "apt-get --auto-remove purge {} {}"
+        command = command.format(args.yes, packages)
         perform.execute(command, root=True)
 
 
