@@ -441,7 +441,6 @@ def listcache(args):
     command = "ls /var/cache/apt/archives/"
     if args.pattern:
         command = "{} | /bin/grep '{}'".format(command, args.pattern)
-    command += "; echo"
     perform.execute(command)
 
 
