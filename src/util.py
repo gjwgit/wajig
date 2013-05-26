@@ -210,13 +210,15 @@ def backup_before_upgrade(packages, distupgrade=False):
         perform.execute(command)
 
 
-def requires_package(package, path, test=False):
-    if not os.path.exists(path):
-        if not test:
-            print("This command depends on '{}' being installed".format(package))
-            sys.exit(1)
-        return False
-    return True
+def requires_package(package, path=None, test=False):
+    import shutil
+    if not path:
+        path = package
+    if shutil.which(path):
+        return True
+    if not test:
+        print("This command depends on '{}' being installed".format(package))
+        sys.exit(1)
 
 
 def package_exists(cache, package, test=False, ignore_virtual_packages=False):

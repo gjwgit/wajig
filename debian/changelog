@@ -32,8 +32,11 @@ wajig (2.8~pre) UNRELEASED; urgency=low
 
   * REMOVEORPHANS: add --yes option, for consistency with PURGEORPHANS
 
+  * replace internal function with a more thorough stdlib shutil.which()
+    for checking if a particular executable exists;
+    this bumps minimum Python dependency to 3.3
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 24 May 2013 00:26:36 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 26 May 2013 13:24:32 +0200
 
 wajig (2.7.3) unstable; urgency=low
 

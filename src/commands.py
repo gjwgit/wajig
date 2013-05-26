@@ -35,7 +35,7 @@ def addrepo(args):
     Google's Chromium browser:
 
     $ wajig addrepo ppa:chromium-daily"""
-    util.requires_package("add-apt-repository", "/usr/bin/add-apt-repository")
+    util.requires_package("add-apt-repository")
     perform.execute("add-apt-repository " + args.ppa, root=True)
 
 
@@ -73,7 +73,7 @@ def autoremove(args):
 def build(args):
     """Retrieve source packages, unpack them, and build binary (.deb) packages
     from them. This also installs the needed build-dependencies if needed."""
-    util.requires_package("sudo", "/usr/bin/sudo")
+    util.requires_package("sudo")
     # First make sure dependencies are met
     command = "apt-get {} {} build-dep " + " ".join(args.packages)
     command = command.format(args.yes, args.noauth)
@@ -218,8 +218,8 @@ def distupgrade(args):
         print('No upgrades. Did you run "wajig update" beforehand?')
         return
     if args.backup:
-        util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
-        util.requires_package("fakeroot", "/usr/bin/fakeroot")
+        util.requires_package("dpkg-repack")
+        util.requires_package("fakeroot")
         util.backup_before_upgrade(packages, distupgrade=True)
     cmd = "apt-get --show-upgraded {} {} {} ".format(args.local, args.yes,
                                                      args.noauth)
@@ -608,13 +608,13 @@ def news(args):
 
 def nonfree(args):
     """List packages that don't meet the Debian Free Software Guidelines"""
-    util.requires_package("vrms", "/usr/bin/vrms")
+    util.requires_package("vrms")
     perform.execute("vrms")
 
 
 def orphans(args):
     """List libraries not required by any installed package """
-    util.requires_package("deborphan", "/usr/bin/deborphan")
+    util.requires_package("deborphan")
     perform.execute("deborphan")
 
 
@@ -636,7 +636,7 @@ def purgeorphans(args):
     """Purge orphaned libraries (not required by installed packages)"""
     # Deborphans does not require root, but dpkg does,
     # so build up the orphans list first, then pass that to dpkg.
-    util.requires_package("deborphan", "/usr/bin/deborphan")
+    util.requires_package("deborphan")
     packages = ""
     for package in perform.execute("deborphan", pipe=True):
         packages += " " + package.strip()
@@ -660,7 +660,7 @@ def purgeremoved(args):
 
 def rbuilddeps(args):
     """Display the packages which build-depend on the given package"""
-    util.requires_package("grep-dctrl", "/usr/bin/grep-dctrl")
+    util.requires_package("grep-dctrl")
     command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep "
     command = command + args.package + " /var/lib/apt/lists/*Sources"
     perform.execute(command)
@@ -736,7 +736,7 @@ def remove(args):
 
 def removeorphans(args):
     """Remove orphaned libraries"""
-    util.requires_package("deborphan", "/usr/bin/deborphan")
+    util.requires_package("deborphan")
     packages = ""
     for package in perform.execute("deborphan", pipe=True):
         packages += " " + package.strip()
@@ -748,8 +748,8 @@ def removeorphans(args):
 
 def repackage(args):
     """Generate a .deb file from an installed package"""
-    util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
-    util.requires_package("fakeroot", "/usr/bin/fakeroot")
+    util.requires_package("dpkg-repack")
+    util.requires_package("fakeroot")
     command = "fakeroot --unknown-is-real dpkg-repack " + args.package
     perform.execute(command, root=False)
 
@@ -789,7 +789,7 @@ def search(args):
     ...
 """
     if len(args.patterns) == 1 and '::' in args.patterns[0]:
-        util.requires_package('debtags', '/usr/bin/debtags')
+        util.requires_package('debtags')
         command = 'debtags search ' + args.patterns[0]
         if args.verbose:
             command += ' --full'
@@ -811,7 +811,7 @@ def search(args):
 def searchapt(args):
     """Find nearby Debian archives that are suitable for
     /etc/apt/sources.list"""
-    util.requires_package("netselect-apt", "/usr/bin/netselect-apt")
+    util.requires_package("netselect-apt")
     command = "netselect-apt " + args.dist
     perform.execute(command, root=True)
 
@@ -852,7 +852,7 @@ def snapshot(args):
 
 def source(args):
     """Retrieve and unpack sources for the named packages"""
-    util.requires_package("dpkg-source", "/usr/bin/dpkg-source")
+    util.requires_package("dpkg-source")
     perform.execute("apt-get source " + " ".join(args.packages))
 
 
@@ -879,7 +879,7 @@ def syslog(args):
 
 def tasksel(args):
     """Run the task selector to install groups of packages"""
-    util.requires_package("tasksel", "/usr/bin/tasksel")
+    util.requires_package("tasksel")
     perform.execute("tasksel", root=True)
 
 
@@ -938,13 +938,13 @@ def updatealternatives(args):
 
 def updatepciids(args):
     """Updates the local list of PCI ids from the internet master list"""
-    util.requires_package("pciutils", "/usr/bin/update-pciids")
+    util.requires_package("pciutils", path="/usr/bin/update-pciids")
     perform.execute("update-pciids", root=True)
 
 
 def updateusbids(args):
     """Updates the local list of USB ids from the internet master list"""
-    util.requires_package("usbutils", "/usr/sbin/update-usbids")
+    util.requires_package("usbutils", path="/usr/sbin/update-usbids")
     perform.execute("update-usbids", root=True)
 
 
@@ -953,8 +953,8 @@ def upgrade(args):
     packages = util.upgradable()
     if packages:
         if args.backup:
-            util.requires_package("dpkg-repack", "/usr/bin/dpkg-repack")
-            util.requires_package("fakeroot", "/usr/bin/fakeroot")
+            util.requires_package("dpkg-repack")
+            util.requires_package("fakeroot")
             util.backup_before_upgrade(packages)
         command = "apt-get {} {} {} --show-upgraded upgrade"
         command = command.format(args.local, args.yes, args.noauth)
@@ -984,13 +984,13 @@ def upgradesecurity(args):
 
 def verify(args):
     """Check package's md5sum"""
-    util.requires_package("debsums", "/usr/bin/debsums")
+    util.requires_package("debsums")
     perform.execute("debsums " + args.package)
 
 
 def versions(args):
     """List version and distribution of given packages"""
-    util.requires_package("apt-show-versions", "/usr/bin/apt-show-versions")
+    util.requires_package("apt-show-versions")
     if args.packages:
         for package in args.packages:
             perform.execute("apt-show-versions " + package)
@@ -1005,7 +1005,7 @@ def whichpackage(args):
     try:
         out = perform.execute("dpkg --search " + args.pattern, getoutput=True)
     except subprocess.CalledProcessError:
-        util.requires_package("apt-file", "/usr/bin/apt-file")
+        util.requires_package("apt-file")
         perform.execute("apt-file search " + args.pattern)
     else:
         try:
