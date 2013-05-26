@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.3
 #
 # wajig - Debian Command Line System Administrator
 #

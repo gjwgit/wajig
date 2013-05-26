@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.3
 #
 # This file is part of wajig.  The copyright file is at debian/copyright.
 
