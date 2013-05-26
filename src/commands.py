@@ -39,6 +39,11 @@ def addrepo(args):
     perform.execute("add-apt-repository " + args.ppa, root=True)
 
 
+def aptlog(args):
+    """Display APT log file"""
+    perform.execute("cat /var/log/apt/history.log")
+
+
 def autoalts(args):
     """Mark the Alternative to be auto-set (using set priorities)"""
     perform.execute("update-alternatives --auto " + args.alternative,
@@ -868,11 +873,6 @@ def statusmatch(args):
         print("No packages found matching '{}'".format(args.pattern))
     else:
         util.do_status(packages)
-
-
-def syslog(args):
-    """Display APT log file"""
-    perform.execute("cat /var/log/apt/history.log")
 
 
 def tasksel(args):

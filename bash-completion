@@ -39,7 +39,7 @@ _wajig()
 
     for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
         if [[ ${COMP_WORDS[i]} == \
-         @(addcdrom|addrepo|autoalts|autoclean|autodownload|autoremove|build|
+         @(addcdrom|addrepo|aptlog|autoalts|autoclean|autodownload|autoremove|build|
          builddeps|changelog|clean|contents|dailyupgrade|dependents|describe|
          describenew|details|distupgrade|download|editsources|extract|
          fixconfigure|fixinstall|fixmissing|force|hold|info|init|install|
@@ -51,7 +51,7 @@ _wajig()
          recdownload|recommended|reconfigure|reinstall|reload|remove|
          removeorphans|repackage|reportbug|restart|rpm2deb|rpminstall|
          search|searchapt|show|sizes|snapshot|source|start|status|statusmatch|
-         stop|syslog|tasksel|todo|toupgrade|tutorial|unhold|unofficial|
+         stop|tasksel|todo|toupgrade|tutorial|unhold|unofficial|
          update|updatealternatives|updatepciids|updateusbids|upgrade|
          upgradesecurity|verify|versions|whichpackage) ]];
          then special=${COMP_WORDS[i]}
@@ -95,7 +95,7 @@ _wajig()
     if [[ "$cur" == -* ]]; then
         COMPREPLY=( $( compgen -W "$dashoptions" -- "$cur" ) )
     elif [[ -z "$special" ]]; then
-        commands=(addcdrom addrepo autoalts autoclean autodownload autoremove
+        commands=(addcdrom addrepo aptlog autoalts autoclean autodownload autoremove
             build builddeps changelog clean contents dailyupgrade dependents
             describe describenew details distupgrade download editsources
             extract fixconfigure fixinstall fixmissing force hold info init
@@ -108,7 +108,7 @@ _wajig()
             recdownload recommended reconfigure reinstall reload remove
             removeorphans repackage reportbug restart rpm2deb rpminstall
             search searchapt show sizes snapshot source start status
-            statusmatch stop syslog tasksel todo toupgrade tutorial unhold
+            statusmatch stop tasksel todo toupgrade tutorial unhold
             unofficial update updatealternatives updatepciids updateusbids
             upgrade upgradesecurity verify versions whichpackage)
 

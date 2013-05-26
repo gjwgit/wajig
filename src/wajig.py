@@ -695,12 +695,12 @@ def main():
     parser_stop.add_argument("daemon")
     parser_stop.set_defaults(func=function)
 
-    function = commands.syslog
-    parser_syslog = subparsers.add_parser("syslog",
+    function = commands.aptlog
+    parser_aptlog = subparsers.add_parser("aptlog",
                     parents=[parser_teach],
                     aliases=["listlog"],
                     description=function.__doc__)
-    parser_syslog.set_defaults(func=function)
+    parser_aptlog.set_defaults(func=function)
 
     function = commands.tasksel
     parser_tasksel = subparsers.add_parser("tasksel",
