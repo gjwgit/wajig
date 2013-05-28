@@ -1,4 +1,4 @@
-wajig (2.8~pre) UNRELEASED; urgency=low
+wajig (2.8) unstable; urgency=low
 
   * UPDATE: fix performance issue (patch by Robert Luberda); Closes: #705241
 
@@ -37,7 +37,7 @@ wajig (2.8~pre) UNRELEASED; urgency=low
     this bumps minimum Python dependency to 3.3
   * LISTLOG: add APTLOG as synonym, in place of an erroneously-added SYSLOG
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 26 May 2013 23:57:24 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 May 2013 08:35:08 +0200
 
 wajig (2.7.3) unstable; urgency=low
 
