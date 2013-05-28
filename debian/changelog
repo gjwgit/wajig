@@ -34,10 +34,11 @@ wajig (2.8) unstable; urgency=low
 
   * replace internal function with a more thorough stdlib shutil.which()
     for checking if a particular executable exists;
-    this bumps minimum Python dependency to 3.3
+    this bumps minimum Python dependency to 3.3 (as well as python-apt 0.8.9+)
+
   * LISTLOG: add APTLOG as synonym, in place of an erroneously-added SYSLOG
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 May 2013 08:35:08 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 May 2013 14:35:05 +0200
 
 wajig (2.7.3) unstable; urgency=low
 
