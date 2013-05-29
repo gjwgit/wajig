@@ -84,9 +84,9 @@ def build(args):
     command = command.format(args.yes, args.noauth)
     result = perform.execute(command, root=True)
     if not result:
-        command = "/usr/bin/apt-get {} source --build " + " ".join(args.packages)
+        command = "apt-get {} source --build " + " ".join(args.packages)
         command = command.format(args.noauth)
-        perform.execute(command, root=True)
+        perform.execute(command)
 
 
 def builddeps(args):
