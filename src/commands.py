@@ -25,7 +25,7 @@ util.ensure_initialised()
 
 def addcdrom(args):
     """Add a Debian CD/DVD to APT's list of available sources"""
-    perform.execute("apt-cdrom add", root=True)
+    perform.execute("/usr/bin/apt-cdrom add", root=True)
 
 
 def addrepo(args):
@@ -36,7 +36,7 @@ def addrepo(args):
 
     $ wajig addrepo ppa:chromium-daily"""
     util.requires_package("add-apt-repository")
-    perform.execute("add-apt-repository " + args.ppa, root=True)
+    perform.execute("/usr/bin/add-apt-repository " + args.ppa, root=True)
 
 
 def aptlog(args):
@@ -46,14 +46,14 @@ def aptlog(args):
 
 def autoalts(args):
     """Mark the Alternative to be auto-set (using set priorities)"""
-    perform.execute("update-alternatives --auto " + args.alternative,
+    perform.execute("/usr/sbin/update-alternatives --auto " + args.alternative,
                      root=True)
 
 
 def autodownload(args):
     """Do an update followed by a download of all updated packages"""
     util.do_update(args.simulate)
-    command = ("apt-get --download-only --show-upgraded --assume-yes "
+    command = ("/usr/bin/apt-get --download-only --show-upgraded --assume-yes "
                "--force-yes dist-upgrade")
     perform.execute(command, root=True)
     if not args.simulate:
@@ -67,12 +67,12 @@ def autodownload(args):
 
 def autoclean(args):
     """Remove no-longer-downloadable .deb files from the download cache"""
-    perform.execute("apt-get autoclean", root=True)
+    perform.execute("/usr/bin/apt-get autoclean", root=True)
 
 
 def autoremove(args):
     """Remove unused dependency packages"""
-    perform.execute("apt-get autoremove", root=True)
+    perform.execute("/usr/bin/apt-get autoremove", root=True)
 
 
 def build(args):
@@ -80,18 +80,18 @@ def build(args):
     from them. This also installs the needed build-dependencies if needed."""
     util.requires_package("sudo")
     # First make sure dependencies are met
-    command = "apt-get {} {} build-dep " + " ".join(args.packages)
+    command = "/usr/bin/apt-get {} {} build-dep " + " ".join(args.packages)
     command = command.format(args.yes, args.noauth)
     result = perform.execute(command, root=True)
     if not result:
-        command = "apt-get {} source --build " + " ".join(args.packages)
+        command = "/usr/bin/apt-get {} source --build " + " ".join(args.packages)
         command = command.format(args.noauth)
         perform.execute(command, root=True)
 
 
 def builddeps(args):
     """Install build-dependencies for given packages"""
-    command = "apt-get {} {} build-dep " + " ".join(args.packages)
+    command = "/usr/bin/apt-get {} {} build-dep " + " ".join(args.packages)
     command = command.format(args.yes, args.noauth)
     perform.execute(command, root=True)
 
@@ -153,7 +153,7 @@ def changelog(args):
 
 def clean(args):
     """Remove all deb files from the download cache"""
-    perform.execute("apt-get clean", root=True)
+    perform.execute("/usr/bin/apt-get clean", root=True)
 
 
 def contents(args):
@@ -164,7 +164,7 @@ def contents(args):
 def dailyupgrade(args):
     """Perform an update then a dist-upgrade"""
     util.do_update(args.simulate)
-    perform.execute("apt-get --show-upgraded dist-upgrade", root=True)
+    perform.execute("/usr/bin/apt-get --show-upgraded dist-upgrade", root=True)
 
 
 def dependents(args):
@@ -226,8 +226,8 @@ def distupgrade(args):
         util.requires_package("dpkg-repack")
         util.requires_package("fakeroot")
         util.backup_before_upgrade(packages, distupgrade=True)
-    cmd = "apt-get --show-upgraded {} {} {} ".format(args.local, args.yes,
-                                                     args.noauth)
+    cmd = "/usr/bin/apt-get --show-upgraded {} {} {} ".format(args.local, args.yes,
+                                                              args.noauth)
     if args.dist:
         cmd += "--target-release " + args.dist + " "
     cmd += "dist-upgrade"
@@ -237,7 +237,7 @@ def distupgrade(args):
 def download(args):
     """Download one or more packages without installing them"""
     print("Packages being downloaded to /var/cache/apt/archives/")
-    command = "apt-get --reinstall --download-only install "
+    command = "/usr/bin/apt-get --reinstall --download-only install "
     packages = util.consolidate_package_names(args)
     command = command + " ".join(packages)
     perform.execute(command, root=True)
@@ -245,7 +245,7 @@ def download(args):
 
 def editsources(args):
     """Edit list of Debian repository locations for packages"""
-    perform.execute("editor /etc/apt/sources.list", root=True)
+    perform.execute("/usr/bin/editor /etc/apt/sources.list", root=True)
 
 
 def extract(args):
@@ -257,18 +257,18 @@ def extract(args):
 
 def fixconfigure(args):
     """Fix an interrupted install"""
-    perform.execute("dpkg --configure --pending", root=True)
+    perform.execute("/usr/bin/dpkg --configure --pending", root=True)
 
 
 def fixinstall(args):
     """Fix an install interrupted by broken dependencies"""
-    command = "apt-get --fix-broken {} install".format(args.noauth)
+    command = "/usr/bin/apt-get --fix-broken {} install".format(args.noauth)
     perform.execute(command, root=True)
 
 
 def fixmissing(args):
     """Fix and install even though there are missing dependencies"""
-    command = "apt-get --ignore-missing {} upgrade".format(args.noauth)
+    command = "/usr/bin/apt-get --ignore-missing {} upgrade".format(args.noauth)
     perform.execute(command, root=True)
 
 
@@ -279,7 +279,7 @@ def force(args):
           multiple packages or when a dependency is not installed for
           whatever reason"""
 
-    command = "dpkg --install --force overwrite --force depends "
+    command = "/usr/bin/dpkg --install --force overwrite --force depends "
     archives = "/var/cache/apt/archives/"
 
     # For a .deb file we simply force install it.
@@ -324,7 +324,7 @@ def hold(args):
     for package in args.packages:
         # The dpkg needs sudo but not the echo.
         # Do all of it as root then!
-        command = "echo \"" + package + " hold\" | dpkg --set-selections"
+        command = "/bin/echo \"" + package + " hold\" | /usr/bin/dpkg --set-selections"
         perform.execute(command, root=True)
     print("The following packages are on hold:")
     perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1")
@@ -384,7 +384,7 @@ def install(args):
     if packages:
         if args.dist:
             args.dist = "--target-release " + args.dist
-        command = "apt-get {} {} {} {} --auto-remove install "
+        command = "/usr/bin/apt-get {} {} {} {} --auto-remove install "
         command += " ".join(packages)
         command = command.format(args.yes, args.noauth, args.recommends,
                                  args.dist)
@@ -400,7 +400,7 @@ def installsuggested(args):
     for n, dependency in enumerate(dependencies):
         dependencies[n] = util.package_exists(cache, dependency).shortname
     dependencies = " ".join(dependencies)
-    command = "apt-get {} {} {} --auto-remove install {} {}"
+    command = "/usr/bin/apt-get {} {} {} --auto-remove install {} {}"
     command = command.format(args.recommends, args.yes, args.noauth,
                              dependencies, args.package)
     perform.execute(command, root=True)
@@ -571,14 +571,14 @@ def liststatus(args):
 
 def localdistupgrade(args):
     """Dist-upgrade using only packages that are already downloaded"""
-    command = ("apt-get --no-download --ignore-missing --show-upgraded "
+    command = ("/usr/bin/apt-get --no-download --ignore-missing --show-upgraded "
                "dist-upgrade")
     perform.execute(command, root=True)
 
 
 def localupgrade(args):
     """Upgrade using only packages that are already downloaded"""
-    command = "apt-get --no-download --ignore-missing --show-upgraded upgrade"
+    command = "/usr/bin/apt-get --no-download --ignore-missing --show-upgraded upgrade"
     perform.execute(command, root=True)
 
 
@@ -590,7 +590,7 @@ def madison(args):
 
 def move(args):
     """Move packages in the download cache to a local Debian mirror (apt-move)"""
-    perform.execute("apt-move update", root=True)
+    perform.execute("/usr/bin/apt-move update", root=True)
 
 
 def new(args):
@@ -630,7 +630,7 @@ def policy(args):
 def purge(args):
     """Remove one or more packages and their configuration files"""
     packages = util.consolidate_package_names(args)
-    command = "apt-get {} {} --auto-remove purge "
+    command = "/usr/bin/apt-get {} {} --auto-remove purge "
     command = command.format(args.yes, args.noauth)
     command = command + " ".join(packages)
     perform.execute(command, root=True)
@@ -645,7 +645,7 @@ def purgeorphans(args):
     for package in perform.execute("deborphan", pipe=True):
         packages += " " + package.strip()
     if packages:
-        command = "apt-get --auto-remove purge {} {}"
+        command = "/usr/bin/apt-get --auto-remove purge {} {}"
         command = command.format(args.yes, packages)
         perform.execute(command, root=True)
 
@@ -659,7 +659,7 @@ def purgeremoved(args):
     if packages:
         packages = " ".join(packages)
         packages = " ".join(packages.split())
-        perform.execute("apt-get purge " + packages, root=True)
+        perform.execute("/usr/bin/apt-get purge " + packages, root=True)
 
 
 def rbuilddeps(args):
@@ -694,14 +694,14 @@ def recdownload(args):
         print(package, end=' ')
     print()
 
-    command = "apt-get --download-only --reinstall -u install " + args.noauth
+    command = "/usr/bin/apt-get --download-only --reinstall -u install " + args.noauth
     command += " ".join(package_names)
     perform.execute(command, root=True)
 
 
 def reconfigure(args):
     """Reconfigure package"""
-    command = "dpkg-reconfigure " + " ".join(args.packages)
+    command = "/usr/sbin/dpkg-reconfigure " + " ".join(args.packages)
     perform.execute(command, root=True)
 
 
@@ -716,24 +716,24 @@ def recommended(args):
 
 def reinstall(args):
     """Reinstall the given packages"""
-    command = "apt-get install --reinstall {} {} " + " ".join(args.packages)
+    command = "/usr/bin/apt-get install --reinstall {} {} " + " ".join(args.packages)
     command = command.format(args.noauth, args.yes)
     perform.execute(command, root=True)
 
 
 def reload(args):
     """Reload system daemons (see LIST-DAEMONS for available daemons)"""
-    command = "service {} reload".format(args.daemon)
+    command = "/usr/sbin/service {} reload".format(args.daemon)
     if perform.execute(command, root=True):
         print("attempt FORCE-RELOAD instead")
-        command = "service {} force-reload ".format(args.daemon)
+        command = "/usr/sbin/service {} force-reload ".format(args.daemon)
         perform.execute(command, root=True)
 
 
 def remove(args):
     """Remove packages (see also PURGE command)"""
     packages = util.consolidate_package_names(args)
-    command = "apt-get {} {}--auto-remove remove " + " ".join(packages)
+    command = "/usr/bin/apt-get {} {}--auto-remove remove " + " ".join(packages)
     command = command.format(args.yes, args.noauth)
     perform.execute(command, root=True)
 
@@ -745,7 +745,7 @@ def removeorphans(args):
     for package in perform.execute("deborphan", pipe=True):
         packages += " " + package.strip()
     if packages:
-        command = "apt-get --auto-remove remove {} {}"
+        command = "/usr/bin/apt-get --auto-remove remove {} {}"
         command = command.format(args.yes, packages)
         perform.execute(command, root=True)
 
@@ -766,19 +766,19 @@ def reportbug(args):
 
 def restart(args):
     """Restart system daemons (see LIST-DAEMONS for available daemons)"""
-    command = "service {} restart".format(args.daemon)
+    command = "/usr/sbin/service {} restart".format(args.daemon)
     perform.execute(command, root=True)
 
 
 def rpm2deb(args):
     """Convert an .rpm file to a Debian .deb file"""
     command = "alien " + args.rpm
-    perform.execute(command, root=True)
+    perform.execute(command)
 
 
 def rpminstall(args):
     """Install an .rpm package file"""
-    command = "alien --install " + args.rpm
+    command = "/usr/bin/alien --install " + args.rpm
     perform.execute(command, root=True)
 
 
@@ -816,7 +816,7 @@ def searchapt(args):
     /etc/apt/sources.list"""
     util.requires_package("netselect-apt")
     command = "netselect-apt " + args.dist
-    perform.execute(command, root=True)
+    perform.execute(command)
 
 
 def show(args):
@@ -829,13 +829,13 @@ def show(args):
 
 def start(args):
     """Start system daemons (see LIST-DAEMONS for available daemons)"""
-    command = "service {} start".format(args.daemon)
+    command = "/usr/sbin/service {} start".format(args.daemon)
     perform.execute(command, root=True)
 
 
 def stop(args):
     """Stop system daemons (see LISTDAEMONS for available daemons)"""
-    command = "service {} stop".format(args.daemon)
+    command = "/usr/sbin/service {} stop".format(args.daemon)
     perform.execute(command, root=True)
 
 
@@ -878,7 +878,7 @@ def statusmatch(args):
 def tasksel(args):
     """Run the task selector to install groups of packages"""
     util.requires_package("tasksel")
-    perform.execute("tasksel", root=True)
+    perform.execute("/usr/bin/tasksel", root=True)
 
 
 def todo(args):
@@ -930,20 +930,20 @@ def update(args):
 
 def updatealternatives(args):
     """Update default alternative for things like x-window-manager"""
-    command = "update-alternatives --config " + args.alternative
+    command = "/usr/sbin/update-alternatives --config " + args.alternative
     perform.execute(command, root=True)
 
 
 def updatepciids(args):
     """Updates the local list of PCI ids from the internet master list"""
     util.requires_package("pciutils", path="/usr/bin/update-pciids")
-    perform.execute("update-pciids", root=True)
+    perform.execute("/usr/bin/update-pciids", root=True)
 
 
 def updateusbids(args):
     """Updates the local list of USB ids from the internet master list"""
     util.requires_package("usbutils", path="/usr/sbin/update-usbids")
-    perform.execute("update-usbids", root=True)
+    perform.execute("/usr/sbin/update-usbids", root=True)
 
 
 def upgrade(args):
@@ -954,7 +954,7 @@ def upgrade(args):
             util.requires_package("dpkg-repack")
             util.requires_package("fakeroot")
             util.backup_before_upgrade(packages)
-        command = "apt-get {} {} {} --show-upgraded upgrade"
+        command = "/usr/bin/apt-get {} {} {} --show-upgraded upgrade"
         command = command.format(args.local, args.yes, args.noauth)
         perform.execute(command, root=True)
     else:
@@ -969,11 +969,11 @@ def upgradesecurity(args):
     sources_file.write("deb http://security.debian.org/ " +\
                        "testing/updates main contrib non-free\n")
     sources_file.close()
-    command = ("apt-get --no-list-cleanup --option Dir::Etc::SourceList="
+    command = ("/usr/bin/apt-get --no-list-cleanup --option Dir::Etc::SourceList="
                "{} update")
     command = command.format(sources_list)
     perform.execute(command, root=True)
-    command = "apt-get --option Dir::Etc::SourceList={} upgrade"
+    command = "/usr/bin/apt-get --option Dir::Etc::SourceList={} upgrade"
     command = command.format(sources_list)
     perform.execute(command, root=True)
     if os.path.exists(sources_list):
