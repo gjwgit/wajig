@@ -301,8 +301,8 @@ def force(args):
         for package in args.packages:
             # Identify the latest version of the package available in
             # the download archive, if there is any there.
-            lscmd = "/bin/ls " + archives
-            lscmd += " | egrep '^" + package + "_' | sort -k 1b,1 | tail -n -1"
+            lscmd = "ls " + archives
+            lscmd += " | grep -E '^" + package + "_' | sort -k 1b,1 | tail -n -1"
             matches = perform.execute(lscmd, pipe=True)
             debpkg = matches.readline().strip()
 
@@ -327,7 +327,7 @@ def hold(args):
         command = "echo \"" + package + " hold\" | dpkg --set-selections"
         perform.execute(command, root=True)
     print("The following packages are on hold:")
-    perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
+    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1")
 
 
 def info(args):
@@ -418,7 +418,7 @@ def large(args):
 
 def lastupdate(args):
     """Identify when an update was last performed"""
-    command = ("/bin/ls -l --full-time " + util.available_file + " 2> "
+    command = ("ls -l --full-time " + util.available_file + " 2> "
                "/dev/null | awk '{printf \"Last update was %s %s %s\\n\""
                ", $6, $7, $8}' | sed 's|\.000000000||'")
     perform.execute(command)
@@ -427,12 +427,12 @@ def lastupdate(args):
 def listall(args):
     """List one line descriptions for all packages"""
     command = ("apt-cache dumpavail |"
-               "egrep \"^(Package|Description): \" |"
+               "grep -E \"^(Package|Description): \" |"
                "awk '/^Package: /{pkg=$2} /^Description: /"
                "{printf(\"%-24s %s\\n\", pkg,"
                "substr($0,13))}' | sort -u -k 1b,1")
     if args.pattern:
-        command = "{} | /bin/grep '{}'".format(command, args.pattern)
+        command = "{} | grep -E '{}'".format(command, args.pattern)
     perform.execute(command)
 
 
@@ -445,14 +445,14 @@ def listcache(args):
     perform.execute(command)
     command = "ls /var/cache/apt/archives/"
     if args.pattern:
-        command = "{} | /bin/grep '{}'".format(command, args.pattern)
+        command = "{} | grep -E '{}'".format(command, args.pattern)
     perform.execute(command)
 
 
 def listalternatives(args):
     """List the objects that can have alternatives configured"""
     command = ("ls /etc/alternatives/ | "
-               "egrep -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
+               "grep -E -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
     perform.execute(command)
 
 
@@ -468,10 +468,10 @@ def listdaemons(args):
     """List the daemons that wajig can start, stop, restart, or reload"""
     command = ("printf 'Found %d daemons in /etc/init.d.\n\n' "
                "$(ls /etc/init.d/ | "
-               "egrep -v '(~$|README|-(old|dist)|\.[0-9]*$)' | wc -l)")
+               "grep -E -v '(~$|README|-(old|dist)|\.[0-9]*$)' | wc -l)")
     perform.execute(command)
     command = ("ls /etc/init.d/ | "
-               "egrep -v '(~$|README|-(old|dist)|\.[0-9]*$)' |"
+               "grep -E -v '(~$|README|-(old|dist)|\.[0-9]*$)' |"
                "pr --columns=3 --omit-header")
     perform.execute(command)
 
@@ -486,14 +486,14 @@ def listfiles(args):
 
 def listhold(args):
     """List packages that are on hold (i.e. those that won't be upgraded)"""
-    perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
+    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1")
 
 
 def listinstalled(args):
     """List installed packages"""
     command = "dpkg --get-selections | cut -f1"
     if args.pattern:
-        command += " | egrep '{}' | sort -k 1b,1".format(args.pattern)
+        command += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
     perform.execute(command)
 
 
@@ -504,9 +504,9 @@ def listnames(args):
 
 def listpackages(args):
     """List the status, version, and description of installed packages"""
-    command = "dpkg --list '*' | grep -v 'no description avail'"
+    command = "dpkg --list '*' | grep -E -v 'no description avail'"
     if args.pattern:
-        command += " | egrep '{}' | sort -k 1b,1".format(args.pattern)
+        command += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
     perform.execute(command)
 
 
@@ -562,10 +562,10 @@ def listsections(args):
 def liststatus(args):
     """Same as list but only prints first two columns, not truncated"""
     command = "COLUMNS=400 "
-    command += "dpkg --list '*' | grep -v 'no description avail'"
+    command += "dpkg --list '*' | grep -E -v 'no description avail'"
     command += " | awk '{print $1,$2}'"
     if args.pattern:
-        command += " | egrep '{}' | sort -k 1b,1".format(args.pattern)
+        command += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
     perform.execute(command)
 
 
@@ -654,7 +654,7 @@ def purgeremoved(args):
     """Purge all packages marked as deinstall"""
     packages = ""
     cmd = ("dpkg-query --show --showformat='${Package}\t${Status}\n' | "
-           "grep \"deinstall ok config-files\" | cut -f 1 ")
+           "grep -E \"deinstall ok config-files\" | cut -f 1 ")
     packages = perform.execute(cmd, pipe=True)
     if packages:
         packages = " ".join(packages)
@@ -803,7 +803,7 @@ def search(args):
     elif args.verbose == 1:
         import shlex
         args.patterns = [shlex.quote(pattern) for pattern in args.patterns]
-        command = "apt-cache search {} | /bin/grep --ignore-case '{}'"
+        command = "apt-cache search {} | grep -E --ignore-case '{}'"
         command = command.format(" ".join(args.patterns),
                                  "\|".join(args.patterns))
     else:
@@ -908,7 +908,7 @@ def unhold(args):
         command = "echo \"" + package + " install\" | dpkg --set-selections"
         perform.execute(command, root=1)
     print("The following packages are still on hold:")
-    perform.execute("dpkg --get-selections | egrep 'hold$' | cut -f1")
+    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1")
 
 
 def unofficial(args):
