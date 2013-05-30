@@ -755,7 +755,7 @@ def repackage(args):
     util.requires_package("dpkg-repack")
     util.requires_package("fakeroot")
     command = "fakeroot --unknown-is-real dpkg-repack " + args.package
-    perform.execute(command, root=False)
+    perform.execute(command)
 
 
 def reportbug(args):
