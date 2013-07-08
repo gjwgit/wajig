@@ -409,7 +409,7 @@ def main():
 
     function = commands.listscripts
     parser_listscripts = subparsers.add_parser("listscripts",
-                         aliases=["lists-cripts"],
+                         aliases=["list-scripts"],
                          parents=[parser_teach],
                          description=function.__doc__)
     parser_listscripts.add_argument("debfile")
