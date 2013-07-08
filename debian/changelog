@@ -1,6 +1,8 @@
 wajig (2.9~pre) UNRELEASED; urgency=low
 
   * minimum version for python-apt is now 0.8.9+, due to python3.3 support
+  * restore dashes in subcommands in bash completion; suggestion and
+    initial patch by Reuben Thomas
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 28 May 2013 18:36:31 +0200
 
