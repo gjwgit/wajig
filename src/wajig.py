@@ -168,7 +168,7 @@ def main():
     function = commands.builddeps
     parser_builddeps = subparsers.add_parser("builddeps",
                        parents=[parser_yesno, parser_auth, parser_teach],
-                       aliases="builddepend builddepends".split(),
+                       aliases="builddepend builddepends build-deps".split(),
                        description=function.__doc__)
     parser_builddeps.add_argument("packages", nargs="+")
     parser_builddeps.set_defaults(func=function)
@@ -531,7 +531,7 @@ def main():
     function = commands.recdownload
     parser_recdownload = subparsers.add_parser("recdownload",
                          parents=[parser_auth, parser_teach],
-                         aliases=["recursive"],
+                         aliases="recursive rec-download".split(),
                          description=function.__doc__)
     parser_recdownload.add_argument("packages", nargs="+")
     parser_recdownload.set_defaults(func=function)
