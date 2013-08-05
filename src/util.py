@@ -71,12 +71,6 @@ if not os.path.exists(new_file):
 available_file = init_dir + "/Available"
 previous_file  = init_dir + "/Available.prv"
 
-# removes a no-longer-used log file
-# this code should go away after Debian 7.0 is released
-log_file = init_dir + "/Log"
-if os.path.exists(log_file):
-    os.remove(log_file)
-
 # Set the temporary directory to the init_dir.
 # Large files are not generally written there so should be okay.
 tempfile.tempdir = init_dir
