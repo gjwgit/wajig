@@ -4,7 +4,7 @@ Uploaders: Tshepang Lekhonkhobe <tshepang@gmail.com>
 Section: admin
 Priority: optional
 Build-Depends: debhelper (>= 9)
-Standards-Version: 3.9.3
+Standards-Version: 3.9.4
 Vcs-Browser: http://code.google.com/p/wajig/source/browse
 Vcs-Hg: https://wajig.googlecode.com/hg
 Homepage: http://wajig.togaware.com
