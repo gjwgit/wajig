@@ -51,7 +51,7 @@ _wajig()
          rec-download|recommended|reconfigure|reinstall|reload|remove|
          remove-orphans|repackage|reportbug|restart|rpm2deb|rpminstall|
          search|searchapt|show|sizes|snapshot|source|start|status|status-match|
-         stop|syslog|tasksel|todo|toupgrade|tutorial|unhold|unofficial|
+         stop|tasksel|todo|toupgrade|tutorial|unhold|unofficial|
          update|update-alternatives|update-pci-ids|update-usb-ids|upgrade|
          upgrade-security|verify|versions|which-package) ]];
          then special=${COMP_WORDS[i]}
@@ -108,7 +108,7 @@ _wajig()
             rec-download recommended reconfigure reinstall reload remove
             remove-orphans repackage reportbug restart rpm2deb rpminstall
             search searchapt show sizes snapshot source start status
-            status-match stop syslog tasksel todo toupgrade tutorial unhold
+            status-match stop tasksel todo toupgrade tutorial unhold
             unofficial update update-alternatives update-pci-ids update-usb-ids
             upgrade upgrade-security verify versions which-package)
 
