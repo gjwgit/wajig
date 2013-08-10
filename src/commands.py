@@ -76,8 +76,8 @@ def autoremove(args):
 
 
 def build(args):
-    """Retrieve source packages, unpack them, and build binary (.deb) packages
-    from them. This also installs the needed build-dependencies if needed."""
+    """Get source packages, unpack them, and build binary packages from them.
+    This also installs the needed build-dependencies if needed."""
     util.requires_package("sudo")
     # First make sure dependencies are met
     if not builddeps(args):
@@ -214,8 +214,10 @@ def describenew(args):
 
 
 def distupgrade(args):
-    """Complete system upgrade; this may remove some packages and install new
-      ones; for a safer upgrade, use UPGRADE command"""
+    """A comprehensive upgrade of all installed packages
+
+    This may remove some packages and install new ones; for a safer
+    upgrade, use UPGRADE command"""
     packages = util.upgradable(distupgrade=True)
     if not packages and not args.dist:
         print('No upgrades. Did you run "wajig update" beforehand?')
@@ -458,8 +460,8 @@ def listcommands(args):
     """Display all wajig commands"""
     for name, value in sorted(globals().items()):
         if inspect.isfunction(value):
-            summary = value.__doc__
-            print("{}\n    {}\n".format(name.upper(), summary))
+            summary = value.__doc__.split('\n')[0]
+            print("{:<18} {}".format(name, summary))
 
 
 def listdaemons(args):
@@ -710,8 +712,7 @@ def reconfigure(args):
 
 
 def recommended(args):
-    """Display packages that were installed via Recommends dependency
-    and have no dependents"""
+    """Display packages installed as Recommends and have no dependents"""
     command = ("aptitude search '"
               "?and( ?automatic(?reverse-recommends(?installed)), "
               "?not(?automatic(?reverse-depends(?installed))) )'")
@@ -816,8 +817,7 @@ def search(args):
 
 
 def searchapt(args):
-    """Find nearby Debian archives that are suitable for
-    /etc/apt/sources.list"""
+    """Find nearby Debian package repositories"""
     util.requires_package("netselect-apt")
     command = "netselect-apt " + args.dist
     perform.execute(command)

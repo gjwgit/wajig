@@ -5,8 +5,10 @@ wajig (2.9~pre) UNRELEASED; urgency=low
   * restore dashes in subcommands in bash completion; suggestion and
     initial patch by Reuben Thomas
   * LIST-LOG: restore wajig log; Karl Schmidt insisted very strongly
+  * COMMANDS: make it one-line per command as it was before;
+    Karl insisted strongly on this one too
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 10 Aug 2013 02:47:22 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 10 Aug 2013 23:56:44 +0200
 
 wajig (2.8) unstable; urgency=low
 
