@@ -216,7 +216,7 @@ def describenew(args):
 def distupgrade(args):
     """A comprehensive upgrade of all installed packages
 
-    This may remove some packages and install new ones; for a safer
+    This may remove some packages and install new ones. For a safer
     upgrade, use UPGRADE command"""
     packages = util.upgradable(distupgrade=True)
     if not packages and not args.dist:

@@ -227,6 +227,7 @@ def main():
         aliases=["dist-upgrade"],
         parents=[parser_backup, parser_yesno, parser_auth, parser_teach,
                  parser_local, parser_dist],
+        formatter_class=argparse.RawDescriptionHelpFormatter,
         description=function.__doc__)
     help = "distribution/suite to upgrade to (e.g. unstable)"
     parser_distupgrade.set_defaults(func=function)
