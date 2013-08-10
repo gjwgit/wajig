@@ -1,4 +1,4 @@
-wajig (2.9~pre) UNRELEASED; urgency=low
+wajig (2.9) unstable; urgency=low
 
   * bump Standards-Version to 3.9.4: no changes needed
   * minimum version for python-apt is now 0.8.9+, due to python3.3 support
@@ -8,7 +8,7 @@ wajig (2.9~pre) UNRELEASED; urgency=low
   * COMMANDS: make it one-line per command as it was before;
     Karl insisted strongly on this one too
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 10 Aug 2013 23:56:44 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 11 Aug 2013 00:10:06 +0200
 
 wajig (2.8) unstable; urgency=low
 
