@@ -1,10 +1,10 @@
 wajig (2.9~pre) UNRELEASED; urgency=low
 
+  * bump Standards-Version to 3.9.4: no changes needed
   * minimum version for python-apt is now 0.8.9+, due to python3.3 support
   * restore dashes in subcommands in bash completion; suggestion and
     initial patch by Reuben Thomas
-  * restore wajig log; Karl Schmidt insisted very strongly
-  * bump Standards-Version to 3.9.4: no changes needed
+  * LIST-LOG: restore wajig log; Karl Schmidt insisted very strongly
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 10 Aug 2013 02:47:22 +0200
 
