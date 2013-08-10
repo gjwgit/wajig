@@ -45,7 +45,7 @@ _wajig()
          fix-configure|fix-install|fix-missing|force|hold|info|init|install|
          install-suggested|integrity|large|lastupdate|list-alternatives|
          list-cache|list-commands|list-daemons|list-files|list-hold|list-installed|
-         list-names|list-packages|list-scripts|list-section|list-sections|
+         list-log|list-names|list-packages|list-scripts|list-section|list-sections|
          list-status|madison|move|new|new-detail|news|new-upgrades|nonfree|
          orphans|policy|purge|purge-orphans|purge-removed|rbuilddeps|readme|
          rec-download|recommended|reconfigure|reinstall|reload|remove|
@@ -101,7 +101,7 @@ _wajig()
             extract fix-configure fix-install fix-missing force hold info init
             install install-suggested integrity large lastupdate list-alternatives
             list-cache list-commands list-daemons list-files list-hold list-installed
-            list-names list-packages list-scripts
+            list-log list-names list-packages list-scripts
             list-section list-sections list-status
             madison move new new-detail news new-upgrades nonfree orphans
             policy purge purge-orphans purge-removed rbuilddeps readme

@@ -7,7 +7,7 @@ import sys
 import tempfile
 import re
 import socket
-import datetime
+from datetime import datetime
 import time
 
 import apt
@@ -489,3 +489,39 @@ def sizes(packages=None, size=0):
         print("No packages of >10MB size found")
 
 
+old_log = tempfile.mkstemp()[1]
+log_file = os.path.join(init_dir, 'Log')
+
+def start_log():
+    "Write a list of installed packages to a tmp file."
+    perform.execute(gen_installed_command_str() + " > " + old_log,
+                    langC=True)
+
+
+def finish_log():
+    ts = datetime.strftime(datetime.now(), '%Y-%M-%dT%H:%M:%S')
+    # Generate new list of installed and compare to old
+    lf = open(log_file, "a")
+    new_iter = perform.execute(gen_installed_command_str(),
+                               langC=True, pipe=True)
+    old_iter = open(old_log)
+    for o in old_iter:
+        o = o.strip().split(" ")
+        n = new_iter.__next__().strip().split(" ")
+        while o[0] != n[0]:
+            if o[0] < n[0]:
+                lf.write("{0} {1} {2} {3}\n".format(ts, "remove", o[0], o[1]))
+                o = old_iter.__next__().strip().split(" ")
+            elif o[0] > n[0]:
+                lf.write("{0} {1} {2} {3}\n".format(ts, "install", n[0], n[1]))
+                n = new_iter.__next__().strip().split(" ")
+
+        if o[1] != n[1]:
+            old_version = o[1].split(".")  # for a more accurate comparison
+            new_version = n[1].split(".")  # same
+            if old_version > new_version:
+                lf.write("{0} {1} {2} {3}\n".format(ts, "downgrade", n[0], n[1]))
+            else:
+                lf.write("{0} {1} {2} {3}\n".format(ts, "upgrade", n[0], n[1]))
+
+    os.remove(old_log)

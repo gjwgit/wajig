@@ -72,7 +72,7 @@ def autoclean(args):
 
 def autoremove(args):
     """Remove unused dependency packages"""
-    perform.execute("/usr/bin/apt-get autoremove", root=True)
+    perform.execute("/usr/bin/apt-get autoremove", root=True, log=True)
 
 
 def build(args):
@@ -82,7 +82,7 @@ def build(args):
     # First make sure dependencies are met
     command = "/usr/bin/apt-get {} {} build-dep " + " ".join(args.packages)
     command = command.format(args.yes, args.noauth)
-    result = perform.execute(command, root=True)
+    result = perform.execute(command, root=True, log=True)
     if not result:
         command = "apt-get {} source --build " + " ".join(args.packages)
         command = command.format(args.noauth)
@@ -93,7 +93,7 @@ def builddeps(args):
     """Install build-dependencies for given packages"""
     command = "/usr/bin/apt-get {} {} build-dep " + " ".join(args.packages)
     command = command.format(args.yes, args.noauth)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def changelog(args):
@@ -164,7 +164,8 @@ def contents(args):
 def dailyupgrade(args):
     """Perform an update then a dist-upgrade"""
     util.do_update(args.simulate)
-    perform.execute("/usr/bin/apt-get --show-upgraded dist-upgrade", root=True)
+    perform.execute("/usr/bin/apt-get --show-upgraded dist-upgrade",
+                    root=True, log=True)
 
 
 def dependents(args):
@@ -231,7 +232,7 @@ def distupgrade(args):
     if args.dist:
         cmd += "--target-release " + args.dist + " "
     cmd += "dist-upgrade"
-    perform.execute(cmd, root=True)
+    perform.execute(cmd, root=True, log=True)
 
 
 def download(args):
@@ -263,13 +264,13 @@ def fixconfigure(args):
 def fixinstall(args):
     """Fix an install interrupted by broken dependencies"""
     command = "/usr/bin/apt-get --fix-broken {} install".format(args.noauth)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def fixmissing(args):
     """Fix and install even though there are missing dependencies"""
     command = "/usr/bin/apt-get --ignore-missing {} upgrade".format(args.noauth)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def force(args):
@@ -316,7 +317,7 @@ def force(args):
             # Force install the package from the download archive.
             command += "'" + archives + debpkg + "' "
 
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def hold(args):
@@ -388,7 +389,7 @@ def install(args):
         command += " ".join(packages)
         command = command.format(args.yes, args.noauth, args.recommends,
                                  args.dist)
-        perform.execute(command, root=True)
+        perform.execute(command, root=True, log=True)
 
 
 def installsuggested(args):
@@ -403,7 +404,7 @@ def installsuggested(args):
     command = "/usr/bin/apt-get {} {} {} --auto-remove install {} {}"
     command = command.format(args.recommends, args.yes, args.noauth,
                              dependencies, args.package)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def integrity(args):
@@ -497,6 +498,11 @@ def listinstalled(args):
     perform.execute(command)
 
 
+def listlog(args):
+    """Display wajig log file"""
+    perform.execute("cat " + util.log_file)
+
+
 def listnames(args):
     """List all known packages; optionally filter the list with a pattern"""
     util.do_listnames(args.pattern)
@@ -573,13 +579,13 @@ def localdistupgrade(args):
     """Dist-upgrade using only packages that are already downloaded"""
     command = ("/usr/bin/apt-get --no-download --ignore-missing --show-upgraded "
                "dist-upgrade")
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def localupgrade(args):
     """Upgrade using only packages that are already downloaded"""
     command = "/usr/bin/apt-get --no-download --ignore-missing --show-upgraded upgrade"
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def madison(args):
@@ -633,7 +639,7 @@ def purge(args):
     command = "/usr/bin/apt-get {} {} --auto-remove purge "
     command = command.format(args.yes, args.noauth)
     command = command + " ".join(packages)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def purgeorphans(args):
@@ -647,7 +653,7 @@ def purgeorphans(args):
     if packages:
         command = "/usr/bin/apt-get --auto-remove purge {} {}"
         command = command.format(args.yes, packages)
-        perform.execute(command, root=True)
+        perform.execute(command, root=True, log=True)
 
 
 def purgeremoved(args):
@@ -659,7 +665,8 @@ def purgeremoved(args):
     if packages:
         packages = " ".join(packages)
         packages = " ".join(packages.split())
-        perform.execute("/usr/bin/apt-get purge " + packages, root=True)
+        perform.execute("/usr/bin/apt-get purge " + packages,
+                        root=True, log=True)
 
 
 def rbuilddeps(args):
@@ -718,7 +725,7 @@ def reinstall(args):
     """Reinstall the given packages"""
     command = "/usr/bin/apt-get install --reinstall {} {} " + " ".join(args.packages)
     command = command.format(args.noauth, args.yes)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def reload(args):
@@ -735,7 +742,7 @@ def remove(args):
     packages = util.consolidate_package_names(args)
     command = "/usr/bin/apt-get {} {}--auto-remove remove " + " ".join(packages)
     command = command.format(args.yes, args.noauth)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def removeorphans(args):
@@ -747,7 +754,7 @@ def removeorphans(args):
     if packages:
         command = "/usr/bin/apt-get --auto-remove remove {} {}"
         command = command.format(args.yes, packages)
-        perform.execute(command, root=True)
+        perform.execute(command, root=True, log=True)
 
 
 def repackage(args):
@@ -779,7 +786,7 @@ def rpm2deb(args):
 def rpminstall(args):
     """Install an .rpm package file"""
     command = "/usr/bin/alien --install " + args.rpm
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
 
 
 def search(args):
@@ -878,7 +885,7 @@ def statusmatch(args):
 def tasksel(args):
     """Run the task selector to install groups of packages"""
     util.requires_package("tasksel")
-    perform.execute("/usr/bin/tasksel", root=True)
+    perform.execute("/usr/bin/tasksel", root=True, log=True)
 
 
 def todo(args):
@@ -956,7 +963,7 @@ def upgrade(args):
             util.backup_before_upgrade(packages)
         command = "/usr/bin/apt-get {} {} {} --show-upgraded upgrade"
         command = command.format(args.local, args.yes, args.noauth)
-        perform.execute(command, root=True)
+        perform.execute(command, root=True, log=True)
     else:
         print('No upgradeable packages. Did you run "wajig update" first?')
 
@@ -975,7 +982,7 @@ def upgradesecurity(args):
     perform.execute(command, root=True)
     command = "/usr/bin/apt-get --option Dir::Etc::SourceList={} upgrade"
     command = command.format(sources_list)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, log=True)
     if os.path.exists(sources_list):
         os.remove(sources_list)
 

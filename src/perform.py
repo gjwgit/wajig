@@ -26,7 +26,7 @@ else:
 
 
 def execute(command, root=False, pipe=False, langC=False, test=False,
-            getoutput=False):
+            getoutput=False, log=False):
     """Ask the operating system to perform a command.
 
     Arguments:
@@ -90,4 +90,10 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
         return subprocess.check_output(command, shell=True,
                                        stderr=subprocess.STDOUT)
     else:
-        return subprocess.call(command, shell=True)
+        if log:
+            import util
+            util.start_log()
+        result = subprocess.call(command, shell=True)
+        if log:
+            util.finish_log()
+        return result

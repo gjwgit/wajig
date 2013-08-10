@@ -698,9 +698,15 @@ def main():
     function = commands.aptlog
     parser_aptlog = subparsers.add_parser("aptlog",
                     parents=[parser_teach],
-                    aliases=["listlog"],
                     description=function.__doc__)
     parser_aptlog.set_defaults(func=function)
+
+    function = commands.listlog
+    parser_listlog = subparsers.add_parser("listlog",
+                     aliases=["list-log"],
+                     parents=[parser_teach],
+                     description=function.__doc__)
+    parser_listlog.set_defaults(func=function)
 
     function = commands.tasksel
     parser_tasksel = subparsers.add_parser("tasksel",
