@@ -489,16 +489,15 @@ def sizes(packages=None, size=0):
         print("No packages of >10MB size found")
 
 
-old_log = tempfile.mkstemp()[1]
 log_file = os.path.join(init_dir, 'Log')
 
-def start_log():
+def start_log(old_log):
     "Write a list of installed packages to a tmp file."
     perform.execute(gen_installed_command_str() + " > " + old_log,
                     langC=True)
 
 
-def finish_log():
+def finish_log(old_log):
     ts = datetime.strftime(datetime.now(), '%Y-%m-%dT%H:%M:%S')
     # Generate new list of installed and compare to old
     lf = open(log_file, "a")

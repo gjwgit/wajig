@@ -91,9 +91,11 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
                                        stderr=subprocess.STDOUT)
     else:
         if log:
+            import tempfile
             import util
-            util.start_log()
+            temp = tempfile.mkstemp()[1]
+            util.start_log(temp)
         result = subprocess.call(command, shell=True)
         if log:
-            util.finish_log()
+            util.finish_log(temp)
         return result
