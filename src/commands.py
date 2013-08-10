@@ -80,10 +80,7 @@ def build(args):
     from them. This also installs the needed build-dependencies if needed."""
     util.requires_package("sudo")
     # First make sure dependencies are met
-    command = "/usr/bin/apt-get {} {} build-dep " + " ".join(args.packages)
-    command = command.format(args.yes, args.noauth)
-    result = perform.execute(command, root=True, log=True)
-    if not result:
+    if not builddeps(args):
         command = "apt-get {} source --build " + " ".join(args.packages)
         command = command.format(args.noauth)
         perform.execute(command)
@@ -93,7 +90,7 @@ def builddeps(args):
     """Install build-dependencies for given packages"""
     command = "/usr/bin/apt-get {} {} build-dep " + " ".join(args.packages)
     command = command.format(args.yes, args.noauth)
-    perform.execute(command, root=True, log=True)
+    return perform.execute(command, root=True, log=True)
 
 
 def changelog(args):
