@@ -93,7 +93,7 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
         if log:
             import tempfile
             import util
-            temp = tempfile.mkstemp()[1]
+            temp = tempfile.mkstemp(dir='/tmp', prefix='wajig_')[1]
             util.start_log(temp)
         result = subprocess.call(command, shell=True)
         if log:
