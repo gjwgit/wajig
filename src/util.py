@@ -499,7 +499,7 @@ def start_log():
 
 
 def finish_log():
-    ts = datetime.strftime(datetime.now(), '%Y-%M-%dT%H:%M:%S')
+    ts = datetime.strftime(datetime.now(), '%Y-%m-%dT%H:%M:%S')
     # Generate new list of installed and compare to old
     lf = open(log_file, "a")
     new_iter = perform.execute(gen_installed_command_str(),
