@@ -461,6 +461,10 @@ def listcommands(args):
     for name, value in sorted(globals().items()):
         if inspect.isfunction(value):
             summary = value.__doc__.split('\n')[0]
+            if args.pattern:
+                if args.pattern not in summary and \
+                   args.pattern not in name:
+                    continue
             print("{:<18} {}".format(name, summary))
 
 

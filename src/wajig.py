@@ -100,7 +100,7 @@ def main():
 
     parser_grep = argparse.ArgumentParser(add_help=False)
     parser_grep.add_argument("pattern", nargs="?",
-                              help="pipe output through grep")
+                              help="filter output, somewhat like grep")
 
     message = "show wajig version"
     parser.add_argument("-V", "--version", action="version", help=message,
@@ -363,6 +363,7 @@ def main():
     function = commands.listcommands
     parser_commands = subparsers.add_parser("listcommands",
                       aliases="commands list-commands".split(),
+                      parents=[parser_grep],
                       description=function.__doc__)
     parser_commands.set_defaults(func=function)
 
