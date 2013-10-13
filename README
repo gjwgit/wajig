@@ -24,7 +24,7 @@ HACKING
 
 setup:
 $ wajig install devscripts debhelper
-$ hg clone https://code.google.com/p/wajig/
+$ debcheckout wajig
 $ cd wajig
 
 build + install:
