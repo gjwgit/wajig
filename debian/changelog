@@ -1,9 +1,9 @@
-wajig (2.10~pre) UNRELEASED; urgency=low
+wajig (2.10) unstable; urgency=low
 
-  * LIST-COMMANDS: accept an optional argument, to filter the output,
-    an equivalent of running 'wajig list-commands | grep <pattern>'
+  * LIST-COMMANDS: accept an optional argument to filter the output;
+    this is equivalent to 'wajig list-commands | grep <pattern>'
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 13 Aug 2013 00:18:12 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 13 Oct 2013 08:21:30 +0200
 
 wajig (2.9) unstable; urgency=low
 
