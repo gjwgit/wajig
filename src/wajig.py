@@ -783,6 +783,7 @@ def main():
     parser_upgrade = subparsers.add_parser("upgrade",
         parents=[parser_backup, parser_yesno, parser_auth, parser_teach,
                  parser_local],
+        formatter_class=argparse.RawDescriptionHelpFormatter,
         description=function.__doc__)
     parser_upgrade.set_defaults(func=function)
 

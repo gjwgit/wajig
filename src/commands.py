@@ -214,10 +214,12 @@ def describenew(args):
 
 
 def distupgrade(args):
-    """A comprehensive upgrade of all installed packages
+    """Comprehensive system upgrade
 
-    This may remove some packages. For a safer
-    upgrade, use UPGRADE command"""
+    This may remove some packages in order to ensure no package is
+    left stale. Use the more conservative 'upgrade' command to avoid
+    that.
+    """
     packages = util.upgradable(distupgrade=True)
     if not packages and not args.dist:
         print('No upgrades. Did you run "wajig update" beforehand?')
@@ -955,7 +957,12 @@ def updateusbids(args):
 
 
 def upgrade(args):
-    """Conservative system upgrade... won't remove packages"""
+    """Conservative system upgrade
+
+    This will not go as far remove packages in order to fulfill the
+    upgrade, so may leave stale packages around. Use 'dist-upgrade' to
+    avoid that.
+    """
     packages = util.upgradable()
     if packages:
         if args.backup:
