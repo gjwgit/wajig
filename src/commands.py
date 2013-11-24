@@ -216,7 +216,7 @@ def describenew(args):
 def distupgrade(args):
     """A comprehensive upgrade of all installed packages
 
-    This may remove some packages and install new ones. For a safer
+    This may remove some packages. For a safer
     upgrade, use UPGRADE command"""
     packages = util.upgradable(distupgrade=True)
     if not packages and not args.dist:
@@ -955,14 +955,14 @@ def updateusbids(args):
 
 
 def upgrade(args):
-    """Conservative system upgrade... won't remove or install new packages"""
+    """Conservative system upgrade... won't remove packages"""
     packages = util.upgradable()
     if packages:
         if args.backup:
             util.requires_package("dpkg-repack")
             util.requires_package("fakeroot")
             util.backup_before_upgrade(packages)
-        command = "/usr/bin/apt-get {} {} {} --show-upgraded upgrade"
+        command = "/usr/bin/apt-get {} {} {} --show-upgraded --with-new-pkgs upgrade"
         command = command.format(args.local, args.yes, args.noauth)
         perform.execute(command, root=True, log=True)
     else:

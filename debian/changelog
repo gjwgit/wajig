@@ -1,3 +1,9 @@
+wajig (2.11~pre) UNRELEASED; urgency=low
+
+  * UPGRADE: Use the new --with-new-pkgs option of 'apt-get upgrade'
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 24 Nov 2013 15:25:15 +0200
+
 wajig (2.10) unstable; urgency=low
 
   * LIST-COMMANDS: accept an optional argument to filter the output;
