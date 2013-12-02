@@ -154,7 +154,10 @@ This uses entries in the file /etc/apt/sources.list to know where to
 get the list of available packages from and which release of Debian
 you wish to follow.  You can edit this file with:
 
-  $ wajig editsources           (editor /etc/apt/sources.list)
+  $ wajig editsources           (<configured editor> /etc/apt/sources.list)
+
+It will check if $VISUAL and $EDITOR are defined, and use the editors
+defined there. If not, it will simply use /usr/bin/sensible-editor.
 
 You need to understand the format of the file /etc/apt/sources.list as
 explained in the manual page:
