@@ -247,7 +247,12 @@ def download(args):
 
 def editsources(args):
     """Edit list of Debian repository locations for packages"""
-    perform.execute("/usr/bin/editor /etc/apt/sources.list", root=True)
+    editor = (
+        os.environ.get('VISUAL') or
+        os.environ.get('EDITOR') or
+        '/usr/bin/sensible-editor'
+    )
+    perform.execute(editor + ' /etc/apt/sources.list', root=True)
 
 
 def extract(args):
