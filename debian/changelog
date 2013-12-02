@@ -619,20 +619,20 @@ wajig (2.0.33) unstable; urgency=low
   * SHOW, DESCRIBE, LISTSECTIONS, LISTSECTION, DEPENDENTS, INSTALLS all
     stopped working with new version of Python apt_pkg which uses mmap for
     ParseTagFile and so could no longer handle pipes. Fixed by saving
-    dumpavail output to temporary file. Bug reported by Anthony Campbell, 
+    dumpavail output to temporary file. Bug reported by Anthony Campbell,
     with suggested fix using new apt from Michael Vogt. (Closes: #366678)
 
  -- Graham Williams <Graham.Williams@togaware.com>  Sun, 25 May 2006 08:56:11 +1000
 
 wajig (2.0.32) unstable; urgency=low
 
-  * EDITSOURCES now calls the editor rather than apt-setup because 	
+  * EDITSOURCES now calls the editor rather than apt-setup because
     the latter is now in a udeb and not generally available.
 
   * Introduce the --noauth option, which for a DISTUPGRADE will use the
-    --allow-unauthenticated option. This is particularly for the case 
+    --allow-unauthenticated option. This is particularly for the case
     where an archive you trust has no signed Release file, but you want
-    that archive to supply packages ahead of those that are formally 
+    that archive to supply packages ahead of those that are formally
     signed. E.g., a local package archive you maintain. The option applies
     to specific commands (not checked): INSTALL, DISTUPGRADE, UPGRADE.
 
@@ -643,7 +643,7 @@ wajig (2.0.32) unstable; urgency=low
     longer works for removed packages. Reported by David Lionthooth
     (Closes: #362632)
 
-  * CHANGELOG and NEWS updated to use the 
+  * CHANGELOG and NEWS updated to use the
     http://packages.debian.org/changelog:pkg as suggested by David
     Liontooth. (Closes: #364227)
 	
