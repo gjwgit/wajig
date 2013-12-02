@@ -58,22 +58,24 @@ wajig is available in the Debian distribution.  As root:
 
   # apt-get install wajig
 
+Alternatively, if you already have sudo configured:
+
+  $ sudo apt-get install wajig
+
 
 THE BASIC DEBIAN TOOLS
 
 The Debian package apt-howto is a good place to start with
 understanding the APT (for Advanced Packaging Tools) suite of
-tools. Once installed browse the file
+tools. Once installed browse this file:
 
   /usr/share/doc/apt-howto/en/index.html
 
 Also, see the Debian FAQ at http://www.debian.org/doc/FAQ/.  In
 particular, Section 6 deals with the Packaging system.  APT is the
-recommended way of managing packages under Debian. The command line
-interface is apt-get but it is also used within wajig, dselect, and
-aptitude.
+recommended way of managing packages under Debian.
 
-To learn how to work with APT off line, see:
+To learn how to work with APT off-line, see:
 
   /usr/share/doc/apt/offline.html/index.html
 
@@ -108,7 +110,7 @@ Examples commands include:
   $ wajig whatis rats          (one line description of the package "rats")
   $ wajig orphans              (list libraries not required by other pkgs)
 
-For a complete list of available commands, 'wajig listcommands'.
+For a complete list of available commands, 'wajig list-commands'.
 
 In most cases, wajig expects a command and will call upon other Debian
 tools to perform the command.
