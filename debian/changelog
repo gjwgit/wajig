@@ -1,3 +1,9 @@
+wajig (2.12~pre) UNRELEASED; urgency=low
+
+  * bump Standards-Version to 3.9.5: no changes needed
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Dec 2013 02:45:08 +0200
+
 wajig (2.11) unstable; urgency=low
 
   * UPGRADE: Use the new --with-new-pkgs option of 'apt-get upgrade'
