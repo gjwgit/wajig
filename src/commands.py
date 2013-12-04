@@ -689,7 +689,8 @@ def rbuilddeps(args):
 
 def readme(args):
     """Display the README file of a given package"""
-    util.display_sys_docs(args.package, "README README.Debian USAGE".split())
+    matches = 'README README.Debian README.rst USAGE'
+    util.display_sys_docs(args.package, matches.split())
 
 
 def recdownload(args):
