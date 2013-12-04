@@ -688,7 +688,12 @@ def rbuilddeps(args):
 
 
 def readme(args):
-    """Display the README file of a given package"""
+    """Display the README file(s) of a given package
+
+    This will display README, README.Debian, README.rst, and USAGE
+    files of a package. It will also decompress them if they are
+    postfixed with .gz.
+    """
     matches = 'README README.Debian README.rst USAGE'
     util.display_sys_docs(args.package, matches.split())
 

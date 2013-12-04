@@ -526,6 +526,7 @@ def main():
     function = commands.readme
     parser_readme = subparsers.add_parser("readme",
                     parents=[parser_teach],
+                    formatter_class=argparse.RawDescriptionHelpFormatter,
                     description=function.__doc__)
     parser_readme.add_argument("package")
     parser_readme.set_defaults(func=function)
