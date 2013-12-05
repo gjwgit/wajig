@@ -29,10 +29,11 @@ will often indicate the underlying commands that are being used to
 effect the wajig command.  You can then use these underlying commands
 directly if you prefer.
 
-Online information about wajig is at http://wajig.togaware.com.
-wajig is hosted on google code at http://code.google.com/p/wajig/ using
-Mercurial. Tshepang Lekhonkhobe <tshepang@gmail.com> is the current active
-developer, but rather send your queries to wajig@googlegroups.com.
+Online information about wajig is at http://wajig.togaware.com.  wajig
+is hosted on Bitbucket at
+https://bitbucket.org/tshepang/wajig/src. Tshepang Lekhonkhobe
+<tshepang@gmail.com> is the current active developer, but rather send
+your queries to wajig@googlegroups.com.
 
 
 HISTORY: MOTIVATIONS FOR wajig

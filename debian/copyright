@@ -1,9 +1,9 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: wajig
-Source: http://code.google.com/p/wajig/source/browse/
+Source: https://bitbucket.org/tshepang/wajig/src
 
 Files: *
-Copyright: Copyright 2001-2012 Graham J Williams <Graham.Williams@togaware.com>
+Copyright: Copyright 2001-2013 Graham J Williams <Graham.Williams@togaware.com>
 License: GPL-2+
  This program is free software; you can redistribute it
  and/or modify it under the terms of the GNU General Public
