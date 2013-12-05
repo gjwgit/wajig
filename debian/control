@@ -5,8 +5,8 @@ Section: admin
 Priority: optional
 Build-Depends: debhelper (>= 9)
 Standards-Version: 3.9.5
-Vcs-Browser: http://code.google.com/p/wajig/source/browse
-Vcs-Hg: https://wajig.googlecode.com/hg
+Vcs-Browser: https://bitbucket.org/tshepang/wajig/src
+Vcs-Hg: https://bitbucket.org/tshepang/wajig
 Homepage: http://wajig.togaware.com
 
 Package: wajig
