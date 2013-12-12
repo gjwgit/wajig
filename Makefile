@@ -10,17 +10,11 @@ clean:
 	rm -rf src/__pycache__
 
 install:
-	mkdir -p  $(LIBDIR) $(HLPDIR) $(MANDIR)
-	cp src/commands.py  $(LIBDIR)/
-	cp src/debfile.py  $(LIBDIR)/
-	cp src/debfile-deps.py  $(LIBDIR)/
-	cp src/perform.py  $(LIBDIR)/
-	cp src/shell.py  $(LIBDIR)/
-	cp src/util.py  $(LIBDIR)/
-	cp src/wajig.py  $(LIBDIR)/
+	install -d  $(LIBDIR) $(MANDIR) $(CMPDIR)
+	cp src/*.py  $(LIBDIR)/
 	cp TUTORIAL $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
-	cp wajig.sh $(BINDIR)/wajig
+	install -D wajig.sh $(BINDIR)/wajig
 	cp bash-completion $(CMPDIR)/wajig
 
 uninstall:
