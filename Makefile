@@ -9,6 +9,9 @@ CMPDIR = $(DESTDIR)/etc/bash_completion.d
 clean:
 	rm -rf src/__pycache__
 
+test:
+	python3 test.py
+
 install:
 	install -d  $(LIBDIR) $(MANDIR) $(CMPDIR)
 	cp src/*.py  $(LIBDIR)/
