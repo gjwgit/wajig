@@ -546,7 +546,7 @@ def listscripts(args):
         for script in scripts:
             fname = root + package + "." + script
             if os.path.exists(fname):
-                nlen = (72 - len(script))/2
+                nlen = int((72 - len(script))/2)
                 print(">"*nlen, script, "<"*nlen)
                 perform.execute("cat " + fname)
 
