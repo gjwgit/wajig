@@ -2,8 +2,12 @@ wajig (2.12~pre) UNRELEASED; urgency=low
 
   * bump Standards-Version to 3.9.5: no changes needed
   * README: also read /usr/share/doc/<package name>/README.rst files
+  * modernise packaging... use dh-python; work done by Sergey Romanov
+  * LIST-SCRIPTS: fix Py3k conversion error; no one saw/reported this
+    since it was introduced in version 2.2, until Sergey Romanov, who
+    also submitted a fix
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Wed, 04 Dec 2013 09:09:12 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Fri, 13 Dec 2013 19:43:03 +0200
 
 wajig (2.11) unstable; urgency=low
 
