@@ -912,13 +912,10 @@ def toupgrade(args):
     if not util.show_package_versions():
         print("No upgradeable packages")
 
+
 def tutorial(args):
     """Display wajig tutorial"""
-    split = os.path.split(__file__)
-    filename = os.path.join(split[0], "TUTORIAL")
-    with open(filename) as f:
-        for line in f:
-            print(line, end="")
+    perform.execute('zcat /usr/share/doc/wajig/TUTORIAL')
 
 
 def unhold(args):

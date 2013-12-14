@@ -15,7 +15,6 @@ test:
 install:
 	install -d  $(LIBDIR) $(MANDIR) $(CMPDIR)
 	cp src/*.py  $(LIBDIR)/
-	cp TUTORIAL $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
 	install -D wajig.sh $(BINDIR)/wajig
 	cp bash-completion $(CMPDIR)/wajig
