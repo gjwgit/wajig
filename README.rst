@@ -39,9 +39,6 @@ hacking
 howto release
 -------------
 
-* Run ``./test.py``; it's pitiful (5 tests), but that's better than
-  nothing
-
 * Ensure that version string on ``src/wajig.py`` matches that of
   latest changelog
 
