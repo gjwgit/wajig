@@ -25,7 +25,7 @@ else:
     setroot = "/bin/su"
 
 
-def execute(command, root=False, pipe=False, langC=False, test=False,
+def execute(command, root=False, pipe=False, langC=False,
             getoutput=False, log=False):
     """Ask the operating system to perform a command.
 
@@ -62,7 +62,7 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
             # it: echo package hold | dpkg --set-selections
             #
             command = setroot + " " + command.replace("|", "| %s " % setroot)
-        elif os.getuid() and not test:
+        elif os.getuid():
                 print("Using `su' and requiring root password. Install `sudo' "
                       "to support user passwords. See wajig documentation "
                       "(wajig doc) for details.")
@@ -77,8 +77,6 @@ def execute(command, root=False, pipe=False, langC=False, test=False,
     #
     if langC:
         command = "LC_ALL=C; export LC_ALL; " + command
-    if test:
-        return command
     elif SIMULATE:
         print(highlight(" ".join(command.split())))
         return

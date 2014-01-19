@@ -204,26 +204,24 @@ def backup_before_upgrade(packages, distupgrade=False):
         perform.execute(command)
 
 
-def requires_package(package, path=None, test=False):
+def requires_package(package, path=None):
     import shutil
     if not path:
         path = package
     if shutil.which(path):
         return True
-    if not test:
-        print("This command depends on '{}' being installed".format(package))
-        sys.exit(1)
+    print("This command depends on '{}' being installed".format(package))
+    sys.exit(1)
 
 
-def package_exists(cache, package, test=False, ignore_virtual_packages=False):
+def package_exists(cache, package, ignore_virtual_packages=False):
     try:
         if cache.is_virtual_package(package) and not ignore_virtual_packages:
             return cache.get_providing_packages(package)[0]
         return cache[package]
     except KeyError as error:
-        if not test:
-            print(error.args[0])
-            sys.exit(1)
+        print(error.args[0])
+        sys.exit(1)
 
 
 def upgradable(distupgrade=False, get_names_only=True):

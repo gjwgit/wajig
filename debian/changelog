@@ -1,3 +1,10 @@
+wajig (2.13) unstable; urgency=medium
+
+  * Remove unit tests... only had 5 tests, and the code isn't really ready
+    for it without 'too' much effort; Closes: #735821
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 19 Jan 2014 15:59:53 +0200
+
 wajig (2.12) unstable; urgency=low
 
   * bump Standards-Version to 3.9.5: no changes needed
