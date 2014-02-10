@@ -1,3 +1,9 @@
+wajig (2.14~pre) UNRELEASED; urgency=medium
+
+  * SOURCE: Auto-complete package names
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 10 Feb 2014 21:22:11 +0200
+
 wajig (2.13) unstable; urgency=medium
 
   * Remove unit tests... only had 5 tests, and the code isn't really ready

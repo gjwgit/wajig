@@ -60,7 +60,7 @@ _wajig()
 
     if [[ -n "$special" ]]; then
        case $special in
-           install|distupgrade|download|show|changelog|builddeps|dependents|describe|details|policy|recdownload)
+           install|distupgrade|download|show|changelog|builddeps|dependents|describe|details|policy|recdownload|source)
                COMPREPLY=( $( apt-cache pkgnames $cur 2> /dev/null ) )
                if [[ "$special" == "install" ]]; then
                    _filedir
