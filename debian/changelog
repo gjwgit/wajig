@@ -1,6 +1,6 @@
 wajig (2.14~pre) UNRELEASED; urgency=medium
 
-  * SOURCE: Auto-complete package names
+  * SOURCE: Auto-complete package names (suggested by Reuben Thomas)
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 10 Feb 2014 21:22:11 +0200
 
