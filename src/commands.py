@@ -669,7 +669,7 @@ def purgeorphans(args):
 def purgeremoved(args):
     """Purge all packages marked as deinstall"""
     packages = ""
-    cmd = ("dpkg-query --show --showformat='${Package}\t${Status}\n' | "
+    cmd = ("dpkg-query --show --showformat='${Package}:${Architecture}\t${Status}\n' | "
            "grep -E \"deinstall ok config-files\" | cut -f 1 ")
     packages = perform.execute(cmd, pipe=True)
     if packages:

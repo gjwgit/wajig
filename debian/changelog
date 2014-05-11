@@ -1,8 +1,12 @@
-wajig (2.14~pre) UNRELEASED; urgency=medium
+wajig (2.14) unstable; urgency=low
 
   * SOURCE: Auto-complete package names (suggested by Reuben Thomas)
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 10 Feb 2014 21:22:11 +0200
+  * PURGE-REMOVED: If one removed (not purged) a foreign arch package, and
+    then ran 'wajig purge-removed', it would attempt to remove package
+    with the same name but on the current architecture; Closes: #691857
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 11 May 2014 09:47:20 +0200
 
 wajig (2.13) unstable; urgency=medium
 
