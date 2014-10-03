@@ -491,7 +491,7 @@ def listdaemons(args):
 
 def listfiles(args):
     """List the files that are supplied by the named package"""
-    if args.package.endswith("deb"):
+    if args.package.endswith(".deb"):
         perform.execute("dpkg --contents " + args.package)
     else:
         perform.execute("dpkg --listfiles " + args.package)
