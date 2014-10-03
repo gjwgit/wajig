@@ -205,7 +205,6 @@ def backup_before_upgrade(packages, distupgrade=False):
 
 
 def requires_package(package, path=None):
-    import shutil
     if not path:
         path = package
     if shutil.which(path):

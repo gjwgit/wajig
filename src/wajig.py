@@ -811,7 +811,6 @@ def main():
 
     function = commands.whichpackage
     parser_whichpackage = subparsers.add_parser("whichpackage",
-        parents=[parser_teach],
         aliases=("findfile find-file locate filesearch file-search whichpkg "
                  "which-package").split(),
         description=function.__doc__,

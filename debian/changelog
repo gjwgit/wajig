@@ -1,6 +1,10 @@
 wajig (2.15~pre) UNRELEASED; urgency=low
 
-  * next!
+  * WHICHPACKAGE: do not do the sneaky thing where apt-file is only used
+    when there are no results from 'dpkg search'; instead, display
+    installed matches in one list and uninstalled matches in another;
+    also get rid of '--simulate' and '--teach' CLI options... they'd be a
+    lie here, given the extra logic
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 04 Oct 2014 00:24:08 +0200
 
