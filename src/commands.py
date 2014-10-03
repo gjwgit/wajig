@@ -247,6 +247,7 @@ def download(args):
 
 def editsources(args):
     """Edit list of Debian repository locations for packages"""
+    # stolen from http://selenic.com/hg/file/889789a2ca9f/mercurial/ui.py#l836
     editor = (
         os.environ.get('VISUAL') or
         os.environ.get('EDITOR') or
