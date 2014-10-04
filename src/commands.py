@@ -1038,6 +1038,7 @@ def whichpackage(args):
         output = perform.execute(
             "dpkg --search " + args.pattern, getoutput=True
         ).decode()
+    # 'dpkg --search' returns a failing error code if it does not find matches
     except subprocess.CalledProcessError:
         installed_matches = []
     else:
