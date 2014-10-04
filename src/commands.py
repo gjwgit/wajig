@@ -493,8 +493,17 @@ def listfiles(args):
     """List the files that are supplied by the named package"""
     if args.package.endswith(".deb"):
         perform.execute("dpkg --contents " + args.package)
+        return
+    try:
+        output = perform.execute(
+            "dpkg --listfiles " + args.package, getoutput=True
+        )
+    except subprocess.CalledProcessError:
+        if shutil.which("apt-file"):
+            perform.execute("apt-file list --regexp ^{}$".format(args.package))
     else:
-        perform.execute("dpkg --listfiles " + args.package)
+        for line in output.decode().strip().split('\n'):
+            print(line)
 
 
 def listhold(args):
