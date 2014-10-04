@@ -377,7 +377,6 @@ def main():
     function = commands.listfiles
     parser_listfiles = subparsers.add_parser("listfiles",
                        aliases=["list-files"],
-                       parents=[parser_teach],
                        description=function.__doc__)
     parser_listfiles.add_argument("package")
     parser_listfiles.set_defaults(func=function)
