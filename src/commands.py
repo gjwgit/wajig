@@ -1037,26 +1037,29 @@ def whichpackage(args):
     try:
         output = perform.execute(
             "dpkg --search " + args.pattern, getoutput=True
-        )
+        ).decode()
     except subprocess.CalledProcessError:
-        output = ""
-    installed_matches = output.decode().strip().split('\n')
-    header = "INSTALLED MATCHES (x{})".format(len(installed_matches))
-    print(header)
-    print('-' * len(header))
-    for line in installed_matches:
-        print(line)
-    print()
+        installed_matches = []
+    else:
+        installed_matches = output.strip().split('\n')
+        header = "INSTALLED MATCHES (x{})".format(len(installed_matches))
+        print(header)
+        print('-' * len(header))
+        for line in installed_matches:
+            print(line)
+        print()
     if shutil.which("apt-file"):
         output = perform.execute(
             "apt-file search " + args.pattern, getoutput=True
-        )
-        all_matches = output.decode().strip().split('\n')
-        uninstalled_matches = set(all_matches) - set(installed_matches)
-        header = "UNINSTALLED MATCHES (x{})".format(len(uninstalled_matches))
-        print(header)
-        print('-' * len(header))
-        for line in uninstalled_matches:
-            print(line)
+        ).decode()
+        all_matches = output.strip()
+        if all_matches:
+            all_matches = all_matches.split('\n')
+            uninstalled_matches = set(all_matches) - set(installed_matches)
+            header = "UNINSTALLED MATCHES (x{})".format(len(uninstalled_matches))
+            print(header)
+            print('-' * len(header))
+            for line in uninstalled_matches:
+                print(line)
     else:
         print("NOTE: install apt-file in order to display uninstalled matches")
