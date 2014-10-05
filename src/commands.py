@@ -417,6 +417,7 @@ def installsuggested(args):
 
 def integrity(args):
     """Check the integrity of installed packages (through checksums)"""
+    util.requires_package("debsums")
     perform.execute("debsums --all --silent")
 
 
