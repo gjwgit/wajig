@@ -480,14 +480,8 @@ def listcommands(args):
 
 def listdaemons(args):
     """List the daemons that wajig can start, stop, restart, or reload"""
-    command = ("printf 'Found %d daemons in /etc/init.d.\n\n' "
-               "$(ls /etc/init.d/ | "
-               "grep -E -v '(~$|README|-(old|dist)|\.[0-9]*$)' | wc -l)")
-    perform.execute(command)
-    command = ("ls /etc/init.d/ | "
-               "grep -E -v '(~$|README|-(old|dist)|\.[0-9]*$)' |"
-               "pr --columns=3 --omit-header")
-    perform.execute(command)
+    util.requires_package("chkconfig")
+    perform.execute("chkconfig")
 
 
 def listfiles(args):

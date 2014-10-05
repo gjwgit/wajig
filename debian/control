@@ -34,6 +34,7 @@ Suggests: debconf,
           debsums,
           netselect-apt,
           dpkg-dev,
+          chkconfig,
           debtags
 Description: unified package management front-end for Debian
  A command-line wrapper around apt, apt-cache, dpkg, aptitude, and more.

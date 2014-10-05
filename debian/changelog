@@ -10,6 +10,9 @@ wajig (2.15~pre) UNRELEASED; urgency=low
     installed; also, as with WHICHPACKAGE above, remove '--simulate' and
     '--teach' options, for the same reason
 
+  * LIST-DAEMONS: use chkconfig instead of some overlong command line to
+    display these sysv services
+
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 04 Oct 2014 00:24:08 +0200
 
 wajig (2.14) unstable; urgency=low
