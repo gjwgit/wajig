@@ -4,7 +4,7 @@
 LIBDIR = $(DESTDIR)/usr/share/wajig
 BINDIR = $(DESTDIR)/usr/bin
 MANDIR = $(DESTDIR)/usr/share/man/man1
-CMPDIR = $(DESTDIR)/etc/bash_completion.d
+CMPDIR = $(DESTDIR)/usr/share/bash-completion/completions
 
 clean:
 	rm -rf src/__pycache__

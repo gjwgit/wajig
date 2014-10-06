@@ -1,4 +1,4 @@
-have grep-status && {
+_have grep-status && {
 _comp_dpkg_installed_packages()
 {
     grep-status -P -e "^$1" -a -FStatus 'install ok installed' -n -s Package
@@ -14,7 +14,7 @@ _comp_dpkg_installed_packages()
 }
 }
 
-have grep-status && {
+_have grep-status && {
 _comp_dpkg_hold_packages()
 {
     grep-status -P -e "^$1" -a -FStatus 'hold' -n -s Package
@@ -27,7 +27,7 @@ _comp_dpkg_hold_packages()
 }
 }
 
-have wajig &&
+_have wajig &&
 _wajig()
 {
     local cur dashoptions prev special i
