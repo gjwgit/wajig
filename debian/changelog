@@ -16,6 +16,8 @@ wajig (2.15~pre) UNRELEASED; urgency=low
   * Move completions file from /etc/bash_completions.d/ to a modern location;
     suggestion by Reuben Thomas
 
+  * LARGE: avoid ValueError exception; Closes: #758129
+
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sat, 04 Oct 2014 00:24:08 +0200
 
 wajig (2.14) unstable; urgency=low

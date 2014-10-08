@@ -467,7 +467,7 @@ def sizes(packages=None, size=0):
         package_name   = section.get("Package")
         package_size   = section.get("Installed-Size")
         package_status = re.split(" ", section.get("Status"))[2]
-        if package_size and int(package_size) > size:
+        if package_size and float(package_size) > size:
             if package_name not in size_list:
                 size_list[package_name] = package_size
                 status_list[package_name] = package_status
