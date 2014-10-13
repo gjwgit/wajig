@@ -1,3 +1,9 @@
+wajig (2.16~pre) UNRELEASED; urgency=medium
+
+  *
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 13 Oct 2014 23:32:19 +0200
+
 wajig (2.15) unstable; urgency=low
 
   * WHICHPACKAGE: do not do the sneaky thing where apt-file is only used
