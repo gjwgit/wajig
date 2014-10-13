@@ -12,7 +12,7 @@ wajig (2.15) unstable; urgency=low
     also get rid of '--simulate' and '--teach' CLI options... they'd be a
     lie here, given the extra logic
 
-  * LISTFILES: display contents of uninstalled packages if apt-file is;
+  * LISTFILES: display contents of uninstalled packages if apt-file is
     installed; also, as with WHICHPACKAGE above, remove '--simulate' and
     '--teach' options, for the same reason
 
