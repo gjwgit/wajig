@@ -19,9 +19,6 @@ wajig (2.15) unstable; urgency=low
   * LIST-DAEMONS: use chkconfig instead of some overlong command line to
     display these sysv services
 
-  * Move completions file from /etc/bash_completions.d/ to a modern location;
-    suggestion by Reuben Thomas
-
   * LARGE: avoid ValueError exception; Closes: #758129
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 13 Oct 2014 22:12:04 +0200
