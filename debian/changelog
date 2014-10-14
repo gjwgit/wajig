@@ -1,6 +1,6 @@
 wajig (2.16~pre) UNRELEASED; urgency=medium
 
-  *
+  * bump Standards-Version to 3.9.6: no changes needed
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 13 Oct 2014 23:32:19 +0200
 
