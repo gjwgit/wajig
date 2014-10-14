@@ -1,6 +1,7 @@
 wajig (2.16~pre) UNRELEASED; urgency=medium
 
   * bump Standards-Version to 3.9.6: no changes needed
+  * Remove the needless debian/dirs directory; Makefile takes care of such
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 13 Oct 2014 23:32:19 +0200
 
