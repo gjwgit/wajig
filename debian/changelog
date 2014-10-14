@@ -1,9 +1,9 @@
-wajig (2.16~pre) UNRELEASED; urgency=medium
+wajig (2.16) unstable; urgency=low
 
   * bump Standards-Version to 3.9.6: no changes needed
   * Remove the needless debian/dirs directory; Makefile takes care of such
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 13 Oct 2014 23:32:19 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 14 Oct 2014 07:17:51 +0200
 
 wajig (2.15) unstable; urgency=low
 
