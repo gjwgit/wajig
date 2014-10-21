@@ -1,6 +1,6 @@
 wajig (2.16.1~pre) UNRELEASED; urgency=low
 
-  *
+  * WHICHPACKAGE: update --help description
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 21 Oct 2014 08:13:30 +0200
 

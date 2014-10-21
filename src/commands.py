@@ -1028,7 +1028,9 @@ def versions(args):
 def whichpackage(args):
     """Search for files matching a given pattern within packages
 
-    Note: if no match is found, the apt-file repository is checked"""
+    Note: also searches files for uninstalled packages if apt-file is
+    installed
+    """
     try:
         output = perform.execute(
             "dpkg --search " + args.pattern, getoutput=True
