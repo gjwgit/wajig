@@ -35,7 +35,8 @@ def addrepo(args):
     An example that shows how to add the daily builds of
     Google's Chromium browser:
 
-    $ wajig addrepo ppa:chromium-daily"""
+    $ wajig addrepo ppa:chromium-daily
+    """
     util.requires_package("add-apt-repository")
     perform.execute("/usr/bin/add-apt-repository " + args.ppa, root=True)
 
@@ -78,7 +79,9 @@ def autoremove(args):
 
 def build(args):
     """Get source packages, unpack them, and build binary packages from them.
-    This also installs the needed build-dependencies if needed."""
+
+    Note: This also installs the needed build-dependencies if needed
+    """
     util.requires_package("sudo")
     # First make sure dependencies are met
     if not builddeps(args):
@@ -105,7 +108,8 @@ def changelog(args):
     network off:
          changelog - if there's newer entries, mention failure to retrieve
       -v changelog - if there's newer entries, mention failure to retrieve, and
-                     proceed to display complete local changelog"""
+                     proceed to display complete local changelog
+    """
 
     package = util.package_exists(apt.Cache(), args.package)
     changelog = "{:=^79}\n".format(" {} ".format(args.package))  # header
@@ -174,7 +178,8 @@ def dependents(args):
     * Recommends
     * Suggests
     * Replaces
-    * Enhances"""
+    * Enhances
+    """
 
     DEPENDENCY_TYPES = [
         "Depends",
@@ -210,7 +215,8 @@ def describe(args):
 def describenew(args):
     """Display one-line descriptions of newly-available packages
 
-    This produces the same output as 'wajig new'"""
+    This produces the same output as 'wajig new'
+    """
     util.newly_available()
 
 
@@ -284,9 +290,10 @@ def fixmissing(args):
 def force(args):
     """Install packages and ignore file overwrites and depends
 
-    note: This is useful when there is a conflict of the same file from
+    Note: This is useful when there is a conflict of the same file from
           multiple packages or when a dependency is not installed for
-          whatever reason"""
+          whatever reason
+    """
 
     command = "/usr/bin/dpkg --install --force overwrite --force depends "
     archives = "/var/cache/apt/archives/"
@@ -362,7 +369,8 @@ def install(args):
     $ wajig install a b_1.0_all.deb http://example.com/c_1.0_all.deb
 
     Assuming there's no errors, the command will install 3 packages named
-    'a', 'b', and 'c''"""
+    'a', 'b', and 'c''
+    """
 
     packages = util.consolidate_package_names(args)
 
@@ -560,7 +568,8 @@ def listscripts(args):
 def listsection(args):
     """List packages that belong to a specific section
 
-    note: Use the LISTSECTIONS command for a list of Debian Sections"""
+    Note: Use the LISTSECTIONS command for a list of Debian Sections
+    """
     section = args.section
     cache = apt.cache.Cache()
     for package in cache.keys():
@@ -623,7 +632,8 @@ def new(args):
 def newdetail(args):
     """Display detailed descriptions of newly-available packages
 
-    This produces the same output as 'wajig new --verbose'"""
+    This produces the same output as 'wajig new --verbose'
+    """
     util.newly_available(verbose=True)
 
 
@@ -819,7 +829,7 @@ def search(args):
     balazar - adventure/action game Balazar -- Arkanae II, reforged scepters
     compizconfig-settings-manager - Compizconfig Settings Manager
     ...
-"""
+    """
     if len(args.patterns) == 1 and '::' in args.patterns[0]:
         util.requires_package('debtags')
         command = 'debtags search ' + args.patterns[0]
@@ -868,10 +878,10 @@ def stop(args):
 
 def sizes(args):
     """Display installed sizes of given packages
-    $ wajig sizes [<package name(s)>]
 
-    Display installed sizes of all packages
-    $ wajig sizes"""
+    To display sizes of all packages, do not use any argument:
+    $ wajig sizes
+    """
     util.sizes(args.packages)
 
 

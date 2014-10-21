@@ -161,7 +161,8 @@ def main():
     function = commands.build
     parser_build = subparsers.add_parser("build",
                    parents=[parser_yesno, parser_auth, parser_teach],
-                   description=function.__doc__)
+                   description=function.__doc__,
+                   formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_build.add_argument("packages", nargs="+")
     parser_build.set_defaults(func=function)
 
