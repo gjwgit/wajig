@@ -635,6 +635,7 @@ def madison(args):
 
 def move(args):
     """Move packages in the download cache to a local Debian mirror"""
+    util.requires_package("apt-move")
     perform.execute("/usr/bin/apt-move update", root=True)
 
 

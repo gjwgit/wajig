@@ -7,6 +7,7 @@ wajig (2.16.1~pre) UNRELEASED; urgency=low
   * WHICHPACKAGE: update --help description
   * CHANGELOG: avoid an exception that occurs when piping the output to
     a pager, and then quitting without reading all of that output
+  * MOVE: check if apt-move is installed before trying to use it
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 21 Oct 2014 08:13:30 +0200
 
