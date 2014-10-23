@@ -1,5 +1,9 @@
 wajig (2.16.1~pre) UNRELEASED; urgency=low
 
+  * AUTO-ALTS, UPDATE_ALTERNATIVES: update update-alternatives binary
+    location (/usr/sbin -> /usr/bin);
+    this has since been changed in a 2013-07-26 dpkg upload, which could
+    mean no one uses these subcommands :(
   * WHICHPACKAGE: update --help description
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 21 Oct 2014 08:13:30 +0200

@@ -48,7 +48,7 @@ def aptlog(args):
 def autoalts(args):
     """Mark the Alternative to be auto-set (using set priorities)"""
     perform.execute(
-        "/usr/sbin/update-alternatives --auto " + args.alternative, root=True
+        "/usr/bin/update-alternatives --auto " + args.alternative, root=True
     )
 
 
@@ -979,7 +979,7 @@ def update(args):
 
 def updatealternatives(args):
     """Update default alternative for things like x-window-manager"""
-    command = "/usr/sbin/update-alternatives --config " + args.alternative
+    command = "/usr/bin/update-alternatives --config " + args.alternative
     perform.execute(command, root=True)
 
 
