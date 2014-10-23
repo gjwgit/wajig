@@ -61,7 +61,7 @@ def autodownload(args):
     if not args.simulate:
         upgradable_packages = util.upgradable()
         if upgradable_packages:
-            util.do_describe(upgradable_packages, verbose)
+            util.do_describe(upgradable_packages, args.verbose)
         else:
             print("no upgradable packages")
         util.show_package_versions()
