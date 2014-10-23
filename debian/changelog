@@ -5,6 +5,8 @@ wajig (2.16.1~pre) UNRELEASED; urgency=low
     this has since been changed in a 2013-07-26 dpkg upload, which could
     mean no one uses these subcommands :(
   * WHICHPACKAGE: update --help description
+  * CHANGELOG: avoid an exception that occurs when piping the output to
+    a pager, and then quitting without reading all of that output
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 21 Oct 2014 08:13:30 +0200
 

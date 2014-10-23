@@ -150,7 +150,10 @@ def changelog(args):
             perform.execute(command)
         with open(tmp) as f:
             for line in f:
-                print(line, end="")
+                try:
+                    print(line, end="")
+                except BrokenPipeError:
+                    return
 
 
 def clean(args):
