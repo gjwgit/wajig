@@ -9,6 +9,7 @@ wajig (2.16.1~pre) UNRELEASED; urgency=low
     a pager, and then quitting without reading all of that output
   * MOVE: check if apt-move is installed before trying to use it
   * Bash completion was broken in 2.16; so careless!
+  * A whole bunch of code clean-up, largely assisted by Pylint
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Tue, 21 Oct 2014 08:13:30 +0200
 
