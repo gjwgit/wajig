@@ -405,7 +405,7 @@ def install(args):
         and os.path.exists(package)
     ])
     if deb_files:
-        debfile.install(deb_files, args)
+        debfile.install(deb_files)
 
     packages = packages.difference(online_files, deb_files)
     if packages:

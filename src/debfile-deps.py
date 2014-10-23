@@ -16,21 +16,21 @@ def show_dependencies(debfile):
     if unauthenticated:
         # me not know what should happen here
         # awaiting bug report :)
-        print ("The following are UNAUTHENTICATED: ", end="")
+        print("The following are UNAUTHENTICATED: ", end="")
         for package_name in unauthenticated:
             print(package_name + " ", end=" ")
         print()
 
     if remove:
-        print ("{} {}, the following is to be REMOVED: ".format(
-                prefix, debfile.pkgname), end="")
+        message = "{} {}, the following is to be REMOVED: "
+        print(message.format(prefix, debfile.pkgname), end="")
         for package_name in remove:
             print(package_name + " ", end=" ")
         print()
 
     if install:
-        print ("{} {}, the following is to be INSTALLED: ".format(
-                prefix, debfile.pkgname), end="")
+        message = "{} {}, the following is to be INSTALLED: "
+        print(message.format(prefix, debfile.pkgname), end="")
         for package_name in install:
             print(package_name, end=" ")
         print()

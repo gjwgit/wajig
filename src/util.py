@@ -69,7 +69,7 @@ if not os.path.exists(new_file):
         pass
 
 available_file = init_dir + "/Available"
-previous_file  = init_dir + "/Available.prv"
+previous_file = init_dir + "/Available.prv"
 
 # Set the temporary directory to the init_dir.
 # Large files are not generally written there so should be okay.
@@ -125,9 +125,9 @@ def update_available(noreport=False):
     newest = newest.readlines()[0].strip()
 
     if newest != "0":
-      os.rename(temporary_file, new_file)
+        os.rename(temporary_file, new_file)
     else:
-      os.remove(temporary_file)
+        os.remove(temporary_file)
 
     if not noreport:
         if diff < 0:
@@ -165,8 +165,9 @@ def count_upgrades():
                "awk '$4 != $3 {print}' | wc -l | awk '{print $1}' ") % \
                (previous_file, available_file, ifile)
     # 090425 Use langC=True to work with change from coreutils 6.10 to 7.2
-    count = perform.execute(command, pipe=True,
-            langC=True).read().split()[0]
+    count = perform.execute(
+        command, pipe=True, langC=True
+    ).read().split()[0]
     if os.path.exists(ifile):
         os.remove(ifile)
     return count
@@ -186,7 +187,7 @@ def ensure_initialised():
         reset_files()
 
 
-def backup_before_upgrade(packages, distupgrade=False):
+def backup_before_upgrade(packages):
     """Backup packages before a (dist)upgrade.
 
      This optional functionality helps recovery in case of trouble caused
@@ -299,8 +300,10 @@ def do_describe(packages, verbose=False, die=True):
             packageversion = package.installed
             if not packageversion:  # if package is not installed...
                 packageversion = package.candidate
-            packageversions.append((package.shortname, packageversion.summary,
-                                packageversion.description))
+            packageversions.append((
+                package.shortname, packageversion.summary,
+                packageversion.description
+            ))
         packageversions = set(packageversions)
         if verbose:
             for packageversion in packageversions:
@@ -320,8 +323,12 @@ def show_package_versions():
         print("{:<24} {:<24} {}".format("Package", "Available", "Installed"))
         print("="*24 + "-" + "="*24 + "-" + "="*24)
         for package in sorted(packages):
-            print("{:<24} {:<24} {}".format(package.name,
-                package.candidate.version, package.installed.version))
+            message = "{:<24} {:<24} {}".format(
+                package.name,
+                package.candidate.version,
+                package.installed.version,
+            )
+            print(message)
     return packages
 
 
@@ -464,8 +471,8 @@ def sizes(packages=None, size=0):
     status_list = dict()
 
     for section in status:
-        package_name   = section.get("Package")
-        package_size   = section.get("Installed-Size")
+        package_name = section.get("Package")
+        package_size = section.get("Installed-Size")
         package_status = re.split(" ", section.get("Status"))[2]
         if package_size and float(package_size) > size:
             if package_name not in size_list:
@@ -479,9 +486,11 @@ def sizes(packages=None, size=0):
         print("{:<33} {:^10} {:>12}".format("Package", "Size (KB)", "Status"))
         print("{}-{}-{}".format("="*33, "="*10, "="*12))
         for package in packages:
-            message = "{:<33} {:^10} {:>12}".format(package,
-                       format(int(size_list[package]), ',d'),
-                       status_list[package])
+            message = "{:<33} {:^10} {:>12}".format(
+                package,
+                format(int(size_list[package]), ',d'),
+                status_list[package],
+            )
             print(message)
     else:
         print("No packages of >10MB size found")
@@ -517,7 +526,9 @@ def finish_log(old_log):
             old_version = o[1].split(".")  # for a more accurate comparison
             new_version = n[1].split(".")  # same
             if old_version > new_version:
-                lf.write("{0} {1} {2} {3}\n".format(ts, "downgrade", n[0], n[1]))
+                lf.write(
+                    "{0} {1} {2} {3}\n".format(ts, "downgrade", n[0], n[1])
+                )
             else:
                 lf.write("{0} {1} {2} {3}\n".format(ts, "upgrade", n[0], n[1]))
 

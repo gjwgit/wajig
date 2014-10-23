@@ -63,10 +63,12 @@ def execute(command, root=False, pipe=False, langC=False,
             #
             command = setroot + " " + command.replace("|", "| %s " % setroot)
         elif os.getuid():
-                print("Using `su' and requiring root password. Install `sudo' "
-                      "to support user passwords. See wajig documentation "
-                      "(wajig doc) for details.")
-                command = "{} -c '{}'".format(setroot, command)
+            print(
+                "Using `su' and requiring root password. Install `sudo' "
+                "to support user passwords. See wajig documentation "
+                "(wajig doc) for details."
+            )
+            command = "{} -c '{}'".format(setroot, command)
 
     # This worked a long time until Bug#288852 from Serge Matveev
     # <serge@matveev.spb.ru> reported that locale is not handled -
