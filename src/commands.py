@@ -5,7 +5,6 @@
 # Do not include any function in here that does not correspond to a COMMAND
 
 import os
-import sys
 import inspect
 import tempfile
 import subprocess
@@ -48,8 +47,9 @@ def aptlog(args):
 
 def autoalts(args):
     """Mark the Alternative to be auto-set (using set priorities)"""
-    perform.execute("/usr/sbin/update-alternatives --auto " + args.alternative,
-                     root=True)
+    perform.execute(
+        "/usr/sbin/update-alternatives --auto " + args.alternative, root=True
+    )
 
 
 def autodownload(args):
@@ -116,7 +116,7 @@ def changelog(args):
 
     try:
         changelog += package.get_changelog()
-    except AttributeError as e:
+    except AttributeError:
         # This is caught so as to avoid an ugly python-apt trace; it's a bug
         # that surfaces when:
         # 1. The package is not available in the default Debian suite
@@ -191,7 +191,7 @@ def dependents(args):
 
     cache = apt.cache.Cache()
     package = util.package_exists(cache, args.package)
-    dependents = { name : [] for name in DEPENDENCY_TYPES }
+    dependents = {name : [] for name in DEPENDENCY_TYPES}
 
     for key in cache.keys():
         other_package = cache[key]
@@ -202,8 +202,9 @@ def dependents(args):
 
     for dependency_type, specific_dependents in dependents.items():
         if specific_dependents:
-            output = dependency_type.upper(), " ".join(specific_dependents)
-            print("{}: {}".format(*output))
+            print("{}: {}".format(
+                dependency_type.upper(), " ".join(specific_dependents)
+            ))
 
 
 def describe(args):
@@ -235,8 +236,9 @@ def distupgrade(args):
         util.requires_package("dpkg-repack")
         util.requires_package("fakeroot")
         util.backup_before_upgrade(packages, distupgrade=True)
-    cmd = "/usr/bin/apt-get --show-upgraded {} {} {} ".format(args.local, args.yes,
-                                                              args.noauth)
+    cmd = "/usr/bin/apt-get --show-upgraded {} {} {} ".format(
+        args.local, args.yes, args.noauth
+    )
     if args.dist:
         cmd += "--target-release " + args.dist + " "
     cmd += "dist-upgrade"
@@ -317,15 +319,17 @@ def force(args):
         for package in args.packages:
             # Identify the latest version of the package available in
             # the download archive, if there is any there.
-            lscmd = "ls " + archives
-            lscmd += " | grep -E '^" + package + "_' | sort -k 1b,1 | tail -n -1"
+            lscmd = "ls {} | grep -E '^{}_' | sort -k 1b,1 | tail -n -1"
+            lscmd = lscmd.format(archives, package)
             matches = perform.execute(lscmd, pipe=True)
             debpkg = matches.readline().strip()
 
             if not debpkg:
-                dlcmd = "apt-get --quiet=2 --reinstall --download-only "
-                dlcmd += "install '" + package + "'"
-                perform.execute(dlcmd, root=1)
+                dlcmd = (
+                    "apt-get --quiet=2 --reinstall --download-only "
+                    "install '{}'"
+                ).format(package)
+                perform.execute(dlcmd, root=True)
                 matches = perform.execute(lscmd, pipe=True)
                 debpkg = matches.readline().strip()
 
@@ -340,8 +344,8 @@ def hold(args):
     for package in args.packages:
         # The dpkg needs sudo but not the echo.
         # Do all of it as root then!
-        command = "/bin/echo \"" + package + " hold\" | /usr/bin/dpkg --set-selections"
-        perform.execute(command, root=True)
+        command = '/bin/echo "{} hold" | /usr/bin/dpkg --set-selections'
+        perform.execute(command.format(package), root=True)
     print("The following packages are on hold:")
     perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1")
 
@@ -374,8 +378,10 @@ def install(args):
 
     packages = util.consolidate_package_names(args)
 
-    online_files = [package for package in packages
-                            if package.startswith(("http://", "ftp://"))]
+    online_files = [
+        package for package in packages if
+        package.startswith(("http://", "ftp://"))
+    ]
     deb_files = list()
     for package in online_files:
         if not package.endswith(".deb"):
@@ -391,9 +397,10 @@ def install(args):
                 f.write(response.read())
             deb_files.append(filename)
 
-    deb_files.extend([package for package in packages
-                            if package.endswith(".deb")
-                            and os.path.exists(package)])
+    deb_files.extend([
+        package for package in packages if package.endswith(".deb")
+        and os.path.exists(package)
+    ])
     if deb_files:
         debfile.install(deb_files, args)
 
@@ -570,11 +577,10 @@ def listsection(args):
 
     Note: Use the LISTSECTIONS command for a list of Debian Sections
     """
-    section = args.section
     cache = apt.cache.Cache()
     for package in cache.keys():
         package = cache[package]
-        if(package.section == args.section):
+        if package.section == args.section:
             print(package.name)
 
 
@@ -602,14 +608,19 @@ def liststatus(args):
 
 def localdistupgrade(args):
     """Dist-upgrade using only packages that are already downloaded"""
-    command = ("/usr/bin/apt-get --no-download --ignore-missing --show-upgraded "
-               "dist-upgrade")
+    command = (
+        "/usr/bin/apt-get --no-download --ignore-missing "
+        "--show-upgraded dist-upgrade"
+    )
     perform.execute(command, root=True, log=True)
 
 
 def localupgrade(args):
     """Upgrade using only packages that are already downloaded"""
-    command = "/usr/bin/apt-get --no-download --ignore-missing --show-upgraded upgrade"
+    command = (
+        "/usr/bin/apt-get --no-download --ignore-missing "
+        "--show-upgraded upgrade"
+    )
     perform.execute(command, root=True, log=True)
 
 
@@ -620,7 +631,7 @@ def madison(args):
 
 
 def move(args):
-    """Move packages in the download cache to a local Debian mirror (apt-move)"""
+    """Move packages in the download cache to a local Debian mirror"""
     perform.execute("/usr/bin/apt-move update", root=True)
 
 
@@ -685,8 +696,11 @@ def purgeorphans(args):
 def purgeremoved(args):
     """Purge all packages marked as deinstall"""
     packages = ""
-    cmd = ("dpkg-query --show --showformat='${Package}:${Architecture}\t${Status}\n' | "
-           "grep -E \"deinstall ok config-files\" | cut -f 1 ")
+    cmd = (
+        "dpkg-query --show "
+        "--showformat='${Package}:${Architecture}\t${Status}\n' | "
+        "grep -E \"deinstall ok config-files\" | cut -f 1 "
+    )
     packages = perform.execute(cmd, pipe=True)
     if packages:
         packages = " ".join(packages)
@@ -733,8 +747,8 @@ def recdownload(args):
         print(package, end=' ')
     print()
 
-    command = "/usr/bin/apt-get --download-only --reinstall -u install " + args.noauth
-    command += " ".join(package_names)
+    command = "/usr/bin/apt-get --download-only --reinstall -u install {} {}"
+    command = command.format(args.noauth, " ".join(package_names))
     perform.execute(command, root=True)
 
 
@@ -746,16 +760,17 @@ def reconfigure(args):
 
 def recommended(args):
     """Display packages installed as Recommends and have no dependents"""
-    command = ("aptitude search '"
-              "?and( ?automatic(?reverse-recommends(?installed)), "
-              "?not(?automatic(?reverse-depends(?installed))) )'")
-    perform.execute(command)
+    perform.execute(
+        "aptitude search "
+        "'?and( ?automatic(?reverse-recommends(?installed)), "
+        "?not(?automatic(?reverse-depends(?installed))) )'"
+    )
 
 
 def reinstall(args):
     """Reinstall the given packages"""
-    command = "/usr/bin/apt-get install --reinstall {} {} " + " ".join(args.packages)
-    command = command.format(args.noauth, args.yes)
+    command = "/usr/bin/apt-get install --reinstall {} {} {}"
+    command = command.format(args.noauth, args.yes, " ".join(args.packages))
     perform.execute(command, root=True, log=True)
 
 
@@ -940,7 +955,7 @@ def unhold(args):
         # The dpkg needs sudo but not the echo.
         # Do all of it as root then.
         command = "echo \"" + package + " install\" | dpkg --set-selections"
-        perform.execute(command, root=1)
+        perform.execute(command, root=True)
     print("The following packages are still on hold:")
     perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1")
 
@@ -993,7 +1008,9 @@ def upgrade(args):
             util.requires_package("dpkg-repack")
             util.requires_package("fakeroot")
             util.backup_before_upgrade(packages)
-        command = "/usr/bin/apt-get {} {} {} --show-upgraded --with-new-pkgs upgrade"
+        command = (
+            "/usr/bin/apt-get {} {} {} --show-upgraded --with-new-pkgs upgrade"
+        )
         command = command.format(args.local, args.yes, args.noauth)
         perform.execute(command, root=True, log=True)
     else:
@@ -1008,8 +1025,10 @@ def upgradesecurity(args):
     sources_file.write("deb http://security.debian.org/ " +\
                        "testing/updates main contrib non-free\n")
     sources_file.close()
-    command = ("/usr/bin/apt-get --no-list-cleanup --option Dir::Etc::SourceList="
-               "{} update")
+    command = (
+        "/usr/bin/apt-get --no-list-cleanup --option Dir::Etc::SourceList="
+        "{} update"
+    )
     command = command.format(sources_list)
     perform.execute(command, root=True)
     command = "/usr/bin/apt-get --option Dir::Etc::SourceList={} upgrade"
@@ -1064,7 +1083,9 @@ def whichpackage(args):
         if all_matches:
             all_matches = all_matches.split('\n')
             uninstalled_matches = set(all_matches) - set(installed_matches)
-            header = "UNINSTALLED MATCHES (x{})".format(len(uninstalled_matches))
+            header = "UNINSTALLED MATCHES (x{})".format(
+                len(uninstalled_matches)
+            )
             print(header)
             print('-' * len(header))
             for line in uninstalled_matches:
