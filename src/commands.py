@@ -609,15 +609,6 @@ def liststatus(args):
     perform.execute(command)
 
 
-def localdistupgrade(args):
-    """Dist-upgrade using only packages that are already downloaded"""
-    command = (
-        "/usr/bin/apt-get --no-download --ignore-missing "
-        "--show-upgraded dist-upgrade"
-    )
-    perform.execute(command, root=True, log=True)
-
-
 def localupgrade(args):
     """Upgrade using only packages that are already downloaded"""
     command = (
