@@ -1,7 +1,7 @@
 wajig has evolved over several years of using and maintaining Debian
 systems.  It attempts to capture in a single command line tool various
 things I commonly do that relate to managing the system. Many of the
-commands supported by wajig have been gleemed from hints and gossip on
+commands supported by wajig have been gleaned from hints and gossip on
 the mailing lists, and sometimes nuggets of useful information from
 the documentation.
 
