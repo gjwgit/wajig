@@ -2,8 +2,9 @@ wajig (2.18~pre) UNRELEASED; urgency=low
 
   * WHICHPACKAGE: handle subprocess.CalledProcessError exception; Closes #820778
   * fix typo on tutorial; Closes #799588
+  * bump Standards-Version from 3.9.6 to 3.9.8
 
- -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 07 Nov 2016 01:24:32 +0200
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 07 Nov 2016 01:32:08 +0200
 
 wajig (2.17) unstable; urgency=low
 
