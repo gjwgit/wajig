@@ -1,6 +1,6 @@
 wajig (2.18~pre) UNRELEASED; urgency=low
 
-  *
+  * WHICHPACKAGE: handle subprocess.CalledProcessError exception
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 07 May 2015 22:50:08 +0200
 

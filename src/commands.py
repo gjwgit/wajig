@@ -1071,19 +1071,22 @@ def whichpackage(args):
             print(line)
         print()
     if shutil.which("apt-file"):
-        output = perform.execute(
-            "apt-file search " + args.pattern, getoutput=True
-        ).decode()
-        all_matches = output.strip()
-        if all_matches:
-            all_matches = all_matches.split('\n')
-            uninstalled_matches = set(all_matches) - set(installed_matches)
-            header = "UNINSTALLED MATCHES (x{})".format(
-                len(uninstalled_matches)
-            )
-            print(header)
-            print('-' * len(header))
-            for line in uninstalled_matches:
-                print(line)
+        try:
+            output = perform.execute(
+                "apt-file search " + args.pattern, getoutput=True
+            ).decode()
+            all_matches = output.strip()
+            if all_matches:
+                all_matches = all_matches.split('\n')
+                uninstalled_matches = set(all_matches) - set(installed_matches)
+                header = "UNINSTALLED MATCHES (x{})".format(
+                    len(uninstalled_matches)
+                )
+                print(header)
+                print('-' * len(header))
+                for line in uninstalled_matches:
+                    print(line)
+        except subprocess.CalledProcessError:
+            print("No paths found matching '{}'".format(args.pattern))
     else:
         print("NOTE: install apt-file in order to display uninstalled matches")
