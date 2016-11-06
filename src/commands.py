@@ -1086,7 +1086,10 @@ def whichpackage(args):
                 print('-' * len(header))
                 for line in uninstalled_matches:
                     print(line)
-        except subprocess.CalledProcessError:
-            print("No paths found matching '{}'".format(args.pattern))
+        except subprocess.CalledProcessError as error:
+            if error.returncode == 3:
+                print("Cache found empty... be sure to run 'apt-file update'")
+            else:
+                print("No results found matching '{}'".format(args.pattern))
     else:
         print("NOTE: install apt-file in order to display uninstalled matches")
