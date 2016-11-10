@@ -1,7 +1,13 @@
+wajig (2.18.1) unstable; urgency=low
+
+  * handle "possible-missing-colon-in-closes" changelog lint
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 10 Nov 2016 05:05:38 +0200
+
 wajig (2.18) unstable; urgency=low
 
-  * WHICHPACKAGE: handle subprocess.CalledProcessError exception; Closes #820778
-  * fix typo on tutorial; Closes #799588
+  * WHICHPACKAGE: handle subprocess.CalledProcessError exception; Closes: #820778
+  * fix typo on tutorial; Closes: #799588
   * bump Standards-Version from 3.9.6 to 3.9.8
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Mon, 07 Nov 2016 01:46:52 +0200
