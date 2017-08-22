@@ -432,7 +432,7 @@ def do_listnames(pattern=False, pipe=False):
 
 
 def do_update(simulate=False):
-    if not perform.execute("apt-get update", root=True):
+    if not perform.execute("apt update", root=True):
         if not simulate:
             update_available()
             print("There are {} new upgrades".format(count_upgrades()))

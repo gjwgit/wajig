@@ -280,7 +280,7 @@ def main():
     function = commands.distupgrade
     parser_distupgrade = subparsers.add_parser(
         "distupgrade",
-        aliases=["dist-upgrade"],
+        aliases=["dist-upgrade", "full-upgrade"],
         parents=[
             parser_backup, parser_yesno, parser_auth, parser_teach,
             parser_local, parser_dist

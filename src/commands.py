@@ -74,7 +74,7 @@ def autoclean(args):
 
 def autoremove(args):
     """Remove unused dependency packages"""
-    perform.execute("/usr/bin/apt-get autoremove", root=True, log=True)
+    perform.execute("/usr/bin/apt autoremove", root=True, log=True)
 
 
 def build(args):
@@ -169,7 +169,7 @@ def contents(args):
 def dailyupgrade(args):
     """Perform an update then a dist-upgrade"""
     util.do_update(args.simulate)
-    perform.execute("/usr/bin/apt-get --show-upgraded dist-upgrade",
+    perform.execute("/usr/bin/apt --show-upgraded dist-upgrade",
                     root=True, log=True)
 
 
@@ -239,12 +239,12 @@ def distupgrade(args):
         util.requires_package("dpkg-repack")
         util.requires_package("fakeroot")
         util.backup_before_upgrade(packages, distupgrade=True)
-    cmd = "/usr/bin/apt-get --show-upgraded {} {} {} ".format(
+    cmd = "/usr/bin/apt --show-upgraded {} {} {} ".format(
         args.local, args.yes, args.noauth
     )
     if args.dist:
         cmd += "--target-release " + args.dist + " "
-    cmd += "dist-upgrade"
+    cmd += "full-upgrade"
     perform.execute(cmd, root=True, log=True)
 
 
@@ -259,13 +259,7 @@ def download(args):
 
 def editsources(args):
     """Edit list of Debian repository locations for packages"""
-    # stolen from http://selenic.com/hg/file/889789a2ca9f/mercurial/ui.py#l836
-    editor = (
-        os.environ.get('VISUAL') or
-        os.environ.get('EDITOR') or
-        '/usr/bin/sensible-editor'
-    )
-    perform.execute(editor + ' /etc/apt/sources.list', root=True)
+    perform.execute("/usr/bin/apt edit-source", root=True)
 
 
 def extract(args):
@@ -388,7 +382,7 @@ def install(args):
     deb_files = list()
     for package in online_files:
         if not package.endswith(".deb"):
-            print("A valied .deb file should have a '.deb' extension")
+            print("A valid .deb file should have a '.deb' extension")
             continue
         filename = os.path.join(util.init_dir, package.split("/")[-1])
         try:
@@ -411,7 +405,7 @@ def install(args):
     if packages:
         if args.dist:
             args.dist = "--target-release " + args.dist
-        command = "/usr/bin/apt-get {} {} {} {} --auto-remove install "
+        command = "/usr/bin/apt {} {} {} {} --auto-remove install "
         command += " ".join(packages)
         command = command.format(args.yes, args.noauth, args.recommends,
                                  args.dist)
@@ -764,7 +758,7 @@ def recommended(args):
 
 def reinstall(args):
     """Reinstall the given packages"""
-    command = "/usr/bin/apt-get install --reinstall {} {} {}"
+    command = "/usr/bin/apt install --reinstall {} {} {}"
     command = command.format(args.noauth, args.yes, " ".join(args.packages))
     perform.execute(command, root=True, log=True)
 
@@ -781,7 +775,7 @@ def reload(args):
 def remove(args):
     """Remove packages (see also PURGE command)"""
     packages = util.consolidate_package_names(args)
-    command = "/usr/bin/apt-get {} {}--auto-remove remove " + " ".join(packages)
+    command = "/usr/bin/apt {} {} --auto-remove remove " + " ".join(packages)
     command = command.format(args.yes, args.noauth)
     perform.execute(command, root=True, log=True)
 
@@ -846,16 +840,16 @@ def search(args):
         if args.verbose:
             command += ' --full'
     elif not args.verbose:
-        command = "apt-cache --names-only search {}"
+        command = "apt --names-only search {}"
         command = command.format(" ".join(args.patterns))
     elif args.verbose == 1:
         import shlex
         args.patterns = [shlex.quote(pattern) for pattern in args.patterns]
-        command = "apt-cache search {} | grep -E --ignore-case '{}'"
+        command = "apt search {} | grep -E --ignore-case '{}'"
         command = command.format(" ".join(args.patterns),
                                  "\|".join(args.patterns))
     else:
-        command = "apt-cache search --full " + " ".join(args.patterns)
+        command = "apt search --full " + " ".join(args.patterns)
     perform.execute(command)
 
 
@@ -869,7 +863,7 @@ def searchapt(args):
 def show(args):
     """Provide a detailed description of package"""
     package_names = " ".join(set(args.packages))
-    tool = "apt-cache" if args.fast else "aptitude"
+    tool = "apt-cache" if args.fast else "apt"
     command = "{} show {}".format(tool, package_names)
     perform.execute(command)
 
