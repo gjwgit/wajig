@@ -1,5 +1,8 @@
 wajig (2.18~pre) UNRELEASED; urgency=low
 
+  * WHICHPACKAGE: handle subprocess.CalledProcessError exception; Closes #820778
+  * fix typo on tutorial; Closes #799588
+  * bump Standards-Version from 3.9.6 to 3.9.8
   * Use apt binary where that makes sense.
 
  -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Thu, 07 May 2015 22:50:08 +0200

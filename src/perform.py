@@ -86,16 +86,15 @@ def execute(command, root=False, pipe=False, langC=False,
         print(highlight(" ".join(command.split())))
     if pipe:
         return os.popen(command)
-    elif getoutput:
+    if getoutput:
         return subprocess.check_output(command, shell=True,
                                        stderr=subprocess.STDOUT)
-    else:
-        if log:
-            import tempfile
-            import util
-            temp = tempfile.mkstemp(dir='/tmp', prefix='wajig_')[1]
-            util.start_log(temp)
-        result = subprocess.call(command, shell=True)
-        if log:
-            util.finish_log(temp)
-        return result
+    if log:
+        import tempfile
+        import util
+        temp = tempfile.mkstemp(dir='/tmp', prefix='wajig_')[1]
+        util.start_log(temp)
+    result = subprocess.call(command, shell=True)
+    if log:
+        util.finish_log(temp)
+    return result

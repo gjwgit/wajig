@@ -277,7 +277,7 @@ even just view the list of files installed. The command to use is:
   $ wajig listfiles <package name>      (dpkg --listfiles )
 
 
-To list a one line dscription for a package use:
+To list a one-line description for a package use:
 
   $ wajig whatis <package name>
 
