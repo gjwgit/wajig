@@ -67,8 +67,12 @@ upgrade-security|verify|versions|which-package) ]];
                fi
                return 0
                ;;
-           purge|remove|reinstall|listinstalled|hold|news|readme|recommended|reconfigure|reload|repackage|*start|status|stop|todo|verify)
+           purge|remove|reinstall|listinstalled|hold|news|readme|recommended|reconfigure|repackage|todo|verify)
                COMPREPLY=( $( _comp_dpkg_installed_packages "$cur" ) )
+               return 0
+               ;;
+           reload|*start|status|stop)
+               _services "$cur"
                return 0
                ;;
            unhold)
