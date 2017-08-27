@@ -845,11 +845,11 @@ def search(args):
     elif args.verbose == 1:
         import shlex
         args.patterns = [shlex.quote(pattern) for pattern in args.patterns]
-        command = "apt search {} | grep -E --ignore-case '{}'"
+        command = "apt-cache search {} | grep -E --ignore-case '{}'"
         command = command.format(" ".join(args.patterns),
                                  "\|".join(args.patterns))
     else:
-        command = "apt search --full " + " ".join(args.patterns)
+        command = "apt-cache search --full " + " ".join(args.patterns)
     perform.execute(command)
 
 
