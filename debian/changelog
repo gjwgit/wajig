@@ -1,3 +1,9 @@
+wajig (2.18.2~pre) UNRELEASED; urgency=low
+
+  * Use apt binary where that makes sense. (by "Reuben Thomas" <rrt@sc3d.org>)
+
+ -- Tshepang Lekhonkhobe <tshepang@gmail.com>  Sun, 16 Sep 2018 20:56:30 +0200
+
 wajig (2.18.1) unstable; urgency=low
 
   * handle "possible-missing-colon-in-closes" changelog lint
