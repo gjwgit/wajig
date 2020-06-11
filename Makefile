@@ -2,7 +2,7 @@
 #
 # Generic Makefile
 #
-# Time-stamp: <Thursday 2020-06-11 10:27:51 AEST Graham Williams>
+# Time-stamp: <Thursday 2020-06-11 11:29:14 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -10,8 +10,8 @@
 #
 ########################################################################
 
-APP=myapp
-VER=0.0.0
+APP=wajig
+VER=3.0.0
 
 INC_BASE    = $(HOME)/.local/share/make
 INC_CLEAN   = $(INC_BASE)/clean.mk
@@ -53,10 +53,10 @@ ifneq ("$(wildcard $(INC_MLHUB))","")
 endif
 
 define HELP
-Local:
+wajig:
 
-  target	Description
-  target	Description
+  install	Install the current source version of wajig into ~/.local
+  uninstall	Remove the local source installed version from ~/.local
 
 endef
 export HELP
@@ -67,20 +67,21 @@ help::
 # modified from a version found at:
 # savetheions.com/2010/01/20/packaging-python-applicationsmodules-for-debian/
 
-PREFIX ?= /usr
+DESTDIR ?= /home/$(USER)
+PREFIX ?= /.local
 
 LIBDIR = $(DESTDIR)$(PREFIX)/share/wajig
 BINDIR = $(DESTDIR)$(PREFIX)/bin
 MANDIR = $(DESTDIR)$(PREFIX)/share/man/man1
 
 wajig:
-	sed -e 's|PREFIX|$(PREFIX)|g' < wajig.sh.in > wajig.sh
+	sed -e 's|PREFIX|$(DESTDIR)$(PREFIX)|g' < wajig.sh.in > wajig.sh
 
 clean::
 	rm -rf src/__pycache__
 
 install: wajig
-	install -d  $(LIBDIR) $(MANDIR) $(CMPDIR)
+	install -d  $(LIBDIR) $(BINDIR) $(MANDIR)
 	cp src/*.py  $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
 	install -D wajig.sh $(BINDIR)/wajig
