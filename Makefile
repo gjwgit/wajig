@@ -2,7 +2,7 @@
 #
 # Generic Makefile
 #
-# Time-stamp: <Thursday 2020-06-11 11:29:14 AEST Graham Williams>
+# Time-stamp: <Thursday 2020-06-11 17:17:55 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -58,6 +58,7 @@ wajig:
   install	Install the current source version of wajig into ~/.local
   uninstall	Remove the local source installed version from ~/.local
 
+  wajig		Create wajig.sh. Update version from Makefile version number.
 endef
 export HELP
 
@@ -76,9 +77,7 @@ MANDIR = $(DESTDIR)$(PREFIX)/share/man/man1
 
 wajig:
 	sed -e 's|PREFIX|$(DESTDIR)$(PREFIX)|g' < wajig.sh.in > wajig.sh
-
-clean::
-	rm -rf src/__pycache__
+	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' src/wajig.py
 
 install: wajig
 	install -d  $(LIBDIR) $(BINDIR) $(MANDIR)
@@ -90,3 +89,7 @@ uninstall:
 	rm -rf $(LIBDIR)
 	rm -f $(MANDIR)/wajig.1
 	rm -f $(BINDIR)/wajig
+
+clean::
+	rm -rf src/__pycache__
+
