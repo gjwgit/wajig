@@ -26,7 +26,7 @@ import sys
 import commands
 import perform
 
-VERSION = "2.18.2~pre"
+VERSION = "3.0.0"
 
 
 def main():
