@@ -1,18 +1,18 @@
-wajig System Administrator
-==========================
+Debian/Ubuntu System Administrator using Wajig
+==============================================
 
-wajig has evolved over 20 years to support using and maintaining
+Wajig has evolved over 20 years to support using and maintaining
 Debian and Ubuntu systems.  It attempts to capture in a single command
 line tool various common tasks related to managing a Linux system.
 Many of the commands supported by wajig have been gleaned from mailing
 lists, website tips and tricks, and sometimes nuggets of useful
 information from the documentation.
 
-The home of wajig is at https://wajig.togaware.com. AN extensive guide
+The home of wajig is at https://wajig.togaware.com. An extensive guide
 to using Debian/Ubuntu GNU/Linux is also available from Togaware at
 https://togaware.com/gnulinux/
 
-Wajig was implemented and is maintained by Graham Williams, Dirk
+Wajig was implemented and is maintained by Graham Williams. Dirk
 Eddelbuettel and Tshepang Lekhonkhobe have been incredibly helpful in
 sponsoring wajig for inclusion in Debian and in suggesting new
 commands. Tshepang also maintained and improved wajig over many
@@ -24,18 +24,19 @@ Hacking
 -------
 
 * Setup::
-
-   wajig install devscripts debhelper
-   debcheckout wajig
-   cd wajig
-
+```console
+$ wajig install devscripts debhelper
+$ debcheckout wajig
+$ cd wajig
+```
 * Build::
-
-   debuild -us -uc
-
+```console
+$ debuild -us -uc
+```
 * Install::
-
-   sudo debi
+```console
+$ sudo debi
+```
 
 * Ensure that user-visible changes are mentioned in
   ``debian/changelog``; use ``/usr/bin/debchange`` from within the
@@ -110,6 +111,8 @@ Hit:1 https://brave-browser-apt-release.s3.brave.com stable InRelease
 [...]
 ```
 
+Sometimes the underlying commands can be complex and quite long.
+
 Online information about wajig is at https://wajig.togaware.com.
 wajig is hosted on github at https://github.com/gjwgit/wajig. Stack
 Overflow (https://stackoverflow.com/) is monitored for questions
@@ -173,9 +176,10 @@ To learn how to work with APT off-line, see:
   /usr/share/doc/apt/offline.html/index.html
 
 
-wajig OVERVIEW
+Overview
+--------
 
-wajig is designed to run in such a way as to suit the system it is
+Wajig is designed to run in such a way as to suit the system it is
 running on and the policies of the system administrators.  It can be
 run as a normal user, but once a privileged command is required it
 will use either su and ask for the root user's password, or else it
@@ -186,50 +190,57 @@ little setting (see below).
 
 Try the help command for a list of common commands provided by
 wajig:
-
-  $ wajig help
-
+```console
+$ wajig help
+```
 
 Examples commands include:
+```console
+$ wajig update               (= apt-get update)
+$ wajig install less         (= apt-get install less)
+$ wajig new                  (list new packages since last update)
+$ wajig newupgrades          (list packages upgraded since last update)
+$ wajig updatealts editor    (update the default "editor")
+$ wajig restart apache       (restart the apache daemon)
+$ wajig listfiles less       (list the files supplied by the "less" pkg)
+$ wajig whichpkg stdio.h     (what package supplies this header file)
+$ wajig whatis rats          (one line description of the package "rats")
+$ wajig orphans              (list libraries not required by other pkgs)
+```
 
-  $ wajig update               (= apt-get update)
-  $ wajig install less         (= apt-get install less)
-  $ wajig new                  (list new packages since last update)
-  $ wajig newupgrades          (list packages upgraded since last update)
-  $ wajig updatealts editor    (update the default "editor")
-  $ wajig restart apache       (restart the apache daemon)
-  $ wajig listfiles less       (list the files supplied by the "less" pkg)
-  $ wajig whichpkg stdio.h     (what package supplies this header file)
-  $ wajig whatis rats          (one line description of the package "rats")
-  $ wajig orphans              (list libraries not required by other pkgs)
-
-For a complete list of available commands, 'wajig list-commands'.
+For a complete list of available commands:
+```console
+$ wajig list-commands
+```
 
 In most cases, wajig expects a command and will call upon other Debian
 tools to perform the command.
 
 
-GETTING STARTED WITH SUDO
+Getting Started With Sudo
+-------------------------
 
 The aim of wajig is to operate as much as possible as a user command
-and to do super user privileged commands only when necessary (if that is how
-the system administrator wishes to allow a user to maintain their
-system).  The easiest way to do this is to use the sudo package which
-will ask you for your password and then run the command as the super
-user. If you don't have sudo installed then wajig will use `su' to run
-as super user, but you will need to enter the super user password
-frequently. If `sudo' is installed but not set up for you to access
-the appropriate apt-get commands you will see a permission denied
-message.
+and to do super user privileged commands only when necessary (if that
+is how the system administrator wishes to allow a user to maintain
+their system).  The easiest way to do this is to use the sudo package
+which will ask you for your password and then run the command as the
+super user. If you don't have sudo installed then wajig will use su to
+run as super user, but you will need to enter the super user password
+frequently. If sudo is installed but not set up for you to access the
+appropriate apt-get commands you will see a permission denied message.
 
 In order to allow your user to use sudo, run this command as root:
 
+```console
 # adduser <username> sudo
+```
 
 The change will take effect after logging out and in again.
 
 
-AVAILABLE PACKAGES
+Available Packages
+------------------
 
 The Debian packaging system relies on your local system having some
 idea of what packages are available. This is initialised when you
@@ -240,7 +251,9 @@ only need to update the list of available packages once.  The
 following command is used to update the information about what is
 available for downloading:
 
-  $ wajig update                (apt-get update)
+```console
+$ wajig update                (apt update)
+```
 
 (In brackets after the wajig command is the underlying command that
 wajig calls upon to perform the operation.)
