@@ -40,12 +40,15 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog="wajig",
-        description="Unified package management front-end for Debian",
+        # usage="wajig [-h] [-V] [<command>] [--help] [--teach] [--simulate] [<options>]",
+        description="Unified package management front-end for Debian/Ubuntu.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
-            "'wajig commands' displays available commands\n"
-            "'wajig doc | most' displays a tutorial\n"
-            "'https://stackoverflow.com/' is where your queries should go"
+            "'wajig commands' to display available commands.\n"
+            "'wajig <command> --help' for command sepcific help.\n"
+            "'wajig doc | most' to display a tutorial.\n\n"
+            "See what's happening with --teach or --simulate.\n\n"
+            "Please direct queries to https://stackoverflow.com/."
         ),
     )
 
@@ -676,6 +679,14 @@ def main():
     )
     parser_readme.add_argument("package")
     parser_readme.set_defaults(func=function)
+
+    function = commands.reboot
+    parser_reboot = subparsers.add_parser(
+        "reboot",
+        parents=[parser_teach],
+        description=function.__doc__,
+    )
+    parser_reboot.set_defaults(func=function)
 
     function = commands.recdownload
     parser_recdownload = subparsers.add_parser(
