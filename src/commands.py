@@ -487,7 +487,7 @@ def listcommands(args):
                 if args.pattern not in summary and \
                    args.pattern not in name:
                     continue
-            print("{:<18} {}".format(name, summary))
+            print(f"{name:<18} {summary}")
 
 
 def listdaemons(args):
@@ -716,6 +716,18 @@ def readme(args):
     matches = 'README README.Debian README.rst USAGE'
     util.display_sys_docs(args.package, matches.split())
 
+def reboot(args):
+    """Check if a reboot is required"""
+
+    REBOOT = "/var/run/reboot-required"
+    command = f"test -f {REBOOT}"
+    result = perform.execute(command)
+    if result == 0:
+        command = f"cat {REBOOT}"
+        perform.execute(command)
+        print('To reboot use "sudo reboot"')
+    else:
+        print('A reboot is not required.')
 
 def recdownload(args):
     """Download a package and all its dependencies"""
