@@ -48,7 +48,7 @@ def main():
             "'wajig <command> --help' for command sepcific help.\n"
             "'wajig doc | most' to display a tutorial.\n\n"
             "See what's happening with --teach or --simulate.\n\n"
-            "Please direct queries to https://stackoverflow.com/."
+            "Please direct queries to https://stackoverflow.com/ and tag as wajig."
         ),
     )
 
