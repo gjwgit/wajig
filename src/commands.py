@@ -19,6 +19,8 @@ import perform
 import util
 import debfile
 
+from wajig import APP, VERSION
+
 # before we do any other command make sure the right files exist
 util.ensure_initialised()
 
@@ -1043,6 +1045,11 @@ def verify(args):
     """Check package's md5sum"""
     util.requires_package("debsums")
     perform.execute("debsums " + args.package)
+
+    
+def version(args):
+    """Report wajig version"""
+    print(f"{APP} {VERSION}")
 
 
 def versions(args):
