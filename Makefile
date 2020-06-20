@@ -2,7 +2,7 @@
 #
 # Generic Makefile
 #
-# Time-stamp: <Thursday 2020-06-11 17:17:55 AEST Graham Williams>
+# Time-stamp: <Saturday 2020-06-20 18:04:32 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -11,7 +11,7 @@
 ########################################################################
 
 APP=wajig
-VER=3.0.0
+VER=$(shell head -1 debian/changelog | perl -pe 's|^.*\((.*)\).*|$$1|')
 
 INC_BASE    = $(HOME)/.local/share/make
 INC_CLEAN   = $(INC_BASE)/clean.mk
@@ -27,29 +27,14 @@ INC_MLHUB   = $(INC_BASE)/mlhub.mk
 ifneq ("$(wildcard $(INC_CLEAN))","")
   include $(INC_CLEAN)
 endif
-ifneq ("$(wildcard $(INC_R))","")
-  include $(INC_R)
-endif
-ifneq ("$(wildcard $(INC_KNITR))","")
-  include $(INC_KNITR)
-endif
 ifneq ("$(wildcard $(INC_PANDOC))","")
   include $(INC_PANDOC)
 endif
 ifneq ("$(wildcard $(INC_GIT))","")
   include $(INC_GIT)
 endif
-ifneq ("$(wildcard $(INC_AZURE))","")
-  include $(INC_AZURE)
-endif
 ifneq ("$(wildcard $(INC_LATEX))","")
   include $(INC_LATEX)
-endif
-ifneq ("$(wildcard $(INC_DOCKER))","")
-  include $(INC_DOCKER)
-endif
-ifneq ("$(wildcard $(INC_MLHUB))","")
-  include $(INC_MLHUB)
 endif
 
 define HELP
@@ -59,6 +44,7 @@ wajig:
   uninstall	Remove the local source installed version from ~/.local
 
   wajig		Create wajig.sh. Update version from Makefile version number.
+  deb		Create the debian package - not yet functional.
 endef
 export HELP
 
@@ -90,6 +76,19 @@ uninstall:
 	rm -f $(MANDIR)/wajig.1
 	rm -f $(BINDIR)/wajig
 
+# dch -v 3.0.0 will update version in changelog and allow entry.
+# Might be some way to do this purely command line.
+
+deb: wajig
+	dpkg-buildpackage -us -uc
+	mv ../$(APP)_$(VER)_all.deb .
+	mv ../$(APP)_$(VER)_amd64.buildinfo .
+	mv ../$(APP)_$(VER)_amd64.changes .
+	mv ../$(APP)_$(VER).dsc .
+	mv ../$(APP)_$(VER).tar.xz .
+
 clean::
 	rm -rf src/__pycache__
 
+realclean::
+	rm -f $(APP)_$(VER)*
