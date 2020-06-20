@@ -2,7 +2,7 @@
 #
 # Generic Makefile
 #
-# Time-stamp: <Saturday 2020-06-20 18:04:32 AEST Graham Williams>
+# Time-stamp: <Sunday 2020-06-21 09:01:02 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -11,7 +11,7 @@
 ########################################################################
 
 APP=wajig
-VER=$(shell head -1 debian/changelog | perl -pe 's|^.*\((.*)\).*|$$1|')
+VER=3.0.0
 
 INC_BASE    = $(HOME)/.local/share/make
 INC_CLEAN   = $(INC_BASE)/clean.mk
@@ -43,7 +43,7 @@ wajig:
   install	Install the current source version of wajig into ~/.local
   uninstall	Remove the local source installed version from ~/.local
 
-  wajig		Create wajig.sh. Update version from Makefile version number.
+  version	Update version from Makefile version number.
   deb		Create the debian package - not yet functional.
 endef
 export HELP
@@ -61,11 +61,14 @@ LIBDIR = $(DESTDIR)$(PREFIX)/share/wajig
 BINDIR = $(DESTDIR)$(PREFIX)/bin
 MANDIR = $(DESTDIR)$(PREFIX)/share/man/man1
 
-wajig:
-	sed -e 's|PREFIX|$(DESTDIR)$(PREFIX)|g' < wajig.sh.in > wajig.sh
-	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' src/wajig.py
+wajig.sh: wajig.sh.in
+	sed -e 's|PREFIX|$(DESTDIR)$(PREFIX)|g' < $^ > $@
 
-install: wajig
+version:
+	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' src/wajig.py
+	sed -i -e 's|^APP = ".*"|APP = "$(APP)"|' src/wajig.py
+
+install: wajig.sh
 	install -d  $(LIBDIR) $(BINDIR) $(MANDIR)
 	cp src/*.py  $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
@@ -79,7 +82,7 @@ uninstall:
 # dch -v 3.0.0 will update version in changelog and allow entry.
 # Might be some way to do this purely command line.
 
-deb: wajig
+deb: version wajig.sh
 	dpkg-buildpackage -us -uc
 	mv ../$(APP)_$(VER)_all.deb .
 	mv ../$(APP)_$(VER)_amd64.buildinfo .
