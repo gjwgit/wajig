@@ -24,10 +24,13 @@ import argparse
 import sys
 
 import commands
-import perform
 
-VERSION = "3.0.0"
+from perform import SIMULATE, TEACH
 
+# Define application constants.
+
+APP = "wajig"
+VERSION = "3.0.1"
 
 def main():
 
@@ -39,7 +42,7 @@ def main():
         return
 
     parser = argparse.ArgumentParser(
-        prog="wajig",
+        prog=APP,
         # usage="wajig [-h] [-V] [<command>] [--help] [--teach] [--simulate] [<options>]",
         description="Unified package management front-end for Debian/Ubuntu.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1035,6 +1038,13 @@ def main():
     parser_verify.add_argument("package")
     parser_verify.set_defaults(func=function)
 
+    function = commands.version
+    parser_version = subparsers.add_parser(
+        "version",
+        description=function.__doc__,
+    )
+    parser_version.set_defaults(func=function)
+
     function = commands.versions
     parser_versions = subparsers.add_parser(
         "versions",
@@ -1083,12 +1093,12 @@ def main():
         pass
     try:
         if result.simulate:
-            perform.SIMULATE = True
+            SIMULATE = True
     except AttributeError:
         pass
     try:
         if result.teach:
-            perform.TEACH = True
+            TEACH = True
     except AttributeError:
         pass
     result.func(result)
