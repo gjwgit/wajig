@@ -40,12 +40,12 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog="wajig",
-        description="unified package management front-end for Debian",
+        description="Unified package management front-end for Debian",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "'wajig commands' displays available commands\n"
-            "'wajig doc' displays a tutorial\n"
-            "'wajig@googlegroups.com' is where your queries should go"
+            "'wajig doc | most' displays a tutorial\n"
+            "'https://stackoverflow.com/' is where your queries should go"
         ),
     )
 
