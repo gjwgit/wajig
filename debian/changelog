@@ -1,4 +1,11 @@
-wajig (2.18.2~pre) UNRELEASED; urgency=low
+wajig (3.0.0) unreleased; urgency=low
+
+  * Kickstart wajig refresh.
+  * Add REBOOT command.
+
+ -- Graham Williams <gjw@togaware.com>  Sat, 20 Jun 2020 08:51:12 +1000
+
+wajig (2.18.2~pre) unreleased; urgency=low
 
   * Use apt binary where that makes sense. (by "Reuben Thomas" <rrt@sc3d.org>)
 
