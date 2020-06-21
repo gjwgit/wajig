@@ -904,6 +904,14 @@ def main():
     parser_stop.add_argument("daemon")
     parser_stop.set_defaults(func=function)
 
+    function = commands.sysinfo
+    parser_sysinfo = subparsers.add_parser(
+        "sysinfo",
+        parents=[parser_teach],
+        description=function.__doc__,
+    )
+    parser_sysinfo.set_defaults(func=function)
+
     function = commands.aptlog
     parser_aptlog = subparsers.add_parser(
         "aptlog",
