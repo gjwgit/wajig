@@ -936,14 +936,27 @@ def sysinfo(args):
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
     print(f"Hostname:   {result}")
 
+    command = "grep DMI: /var/log/kern.log* | uniq | sed 's|^.*DMI: ||'"
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Computer:   {result}")
+
     command = "cat /proc/cpuinfo | grep 'name'| uniq | sed 's|^model name	: ||'"
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
-    print(f"CPU:        {result}")
-
     command = "cat /proc/cpuinfo | grep 'process'| wc -l"
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
-    print(f"Processors: {result}")
+    count   = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Processor:  {result} x {count}")
 
+    command =  'GPU=$(lspci | grep VGA | cut -d ":" -f3); '
+    command += 'RAM=$(cardid=$(lspci | grep VGA |cut -d " " -f1); '
+    command += 'lspci -v -s $cardid | grep " prefetchable"| cut -d "=" -f2 | tr -d "\]"); '
+    command += 'echo $GPU $RAM'
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Video:      {result}")
+    
+    command =  'lspci | grep "Audio device:" | sed "s|^.*Audio device: ||"'
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Audio:      {result}")
+    
     command = "cat /proc/cpuinfo | grep bogomips | uniq | sed 's|bogomips\t:||'"
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
     print(f"BogoMIPS:   {result}")
@@ -951,6 +964,12 @@ def sysinfo(args):
     command = "cat /proc/meminfo | grep MemTotal | awk '{print $2/(1024*1024)}'"
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
     print(f"RAM:        {round(float(result))}GB")
+
+    command = "cat /etc/*release | grep '^NAME=' | cut -d '\"' -f2"
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    command = "cat /etc/*release | grep '^VERSION=' | cut -d '\"' -f2"
+    ver  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Base OS:    {result} {ver}")
 
     command = "uname -r"
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
