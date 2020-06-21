@@ -2,7 +2,7 @@
 #
 # Generic Makefile
 #
-# Time-stamp: <Sunday 2020-06-21 21:49:10 AEST Graham Williams>
+# Time-stamp: <Monday 2020-06-22 08:31:48 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -11,7 +11,7 @@
 ########################################################################
 
 APP=wajig
-VER=3.0.2
+VER=3.0.3
 
 INC_BASE    = $(HOME)/.local/share/make
 INC_CLEAN   = $(INC_BASE)/clean.mk

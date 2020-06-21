@@ -30,7 +30,7 @@ from perform import SIMULATE, TEACH
 # Define application constants.
 
 APP = "wajig"
-VERSION = "3.0.1"
+VERSION = "3.0.3"
 
 def main():
 
