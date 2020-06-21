@@ -929,6 +929,32 @@ def statusmatch(args):
     else:
         util.do_status(packages)
 
+def sysinfo(args):
+    """Print information about your system"""
+
+    command = "hostname"
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Hostname:   {result}")
+
+    command = "cat /proc/cpuinfo | grep 'name'| uniq | sed 's|^model name	: ||'"
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"CPU:        {result}")
+
+    command = "cat /proc/cpuinfo | grep 'process'| wc -l"
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Processors: {result}")
+
+    command = "cat /proc/cpuinfo | grep bogomips | uniq | sed 's|bogomips\t:||'"
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"BogoMIPS:   {result}")
+
+    command = "cat /proc/meminfo | grep MemTotal | awk '{print $2/(1024*1024)}'"
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"RAM:        {round(float(result))}GB")
+
+    command = "uname -r"
+    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Kernel:     {result}")
 
 def tasksel(args):
     """Run the task selector to install groups of packages"""
