@@ -2,7 +2,7 @@
 #
 # Generic Makefile
 #
-# Time-stamp: <Sunday 2020-06-21 21:48:27 AEST Graham Williams>
+# Time-stamp: <Sunday 2020-06-21 21:49:10 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -68,7 +68,7 @@ version:
 	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' src/wajig.py
 	sed -i -e 's|^APP = ".*"|APP = "$(APP)"|' src/wajig.py
 
-install: wajig.sh
+install: version wajig.sh
 	install -d  $(LIBDIR) $(BINDIR) $(MANDIR)
 	cp src/*.py  $(LIBDIR)/
 	cp wajig.1  $(MANDIR)/
