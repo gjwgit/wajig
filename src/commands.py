@@ -19,7 +19,7 @@ import perform
 import util
 import debfile
 
-from wajig import APP, VERSION
+from constants import APP, VERSION
 
 # before we do any other command make sure the right files exist
 util.ensure_initialised()
