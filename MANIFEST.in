@@ -1,0 +1,3 @@
+include wajig/bash_completion.d/wajig.bash
+include docs/README.md
+include LICENSE
