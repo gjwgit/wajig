@@ -1,24 +1,21 @@
-Debian/Ubuntu System Administrator using Wajig
-==============================================
+# Debian/Ubuntu System Administration using Wajig
 
-Wajig has evolved over 20 years to support using and maintaining
-Debian and Ubuntu systems.  It attempts to capture in a single command
-line tool various common tasks related to managing a Linux system.
-Many of the commands supported by wajig have been gleaned from mailing
-lists, website tips and tricks, and sometimes nuggets of useful
-information from the documentation.
+Wajig has evolved over 20 years to support the general user and
+administrators alike in using and maintaining Debian and Ubuntu based
+systems.  It captures in a single command line tool many common tasks
+for managing a GNU/Linux system.
 
-The home of wajig is at https://wajig.togaware.com. An extensive guide
-to using Debian/Ubuntu GNU/Linux is also available from Togaware at
-https://togaware.com/gnulinux/
+The home of wajig is <https://wajig.togaware.com>. An extensive guide
+to using Debian and Ubuntu GNU/Linux is also available from Togaware
+at <https://togaware.com/gnulinux/>.
 
-Wajig was implemented and is maintained by Graham Williams. Dirk
-Eddelbuettel and Tshepang Lekhonkhobe have been incredibly helpful in
-sponsoring wajig for inclusion in Debian and in suggesting new
-commands. Tshepang also maintained and improved wajig over many
-years. Also, many thanks to other users of wajig who have made
-contributions over the years, with a special thanks to Reuben Thomas
-for his direct contributions.
+Wajig was implemented by Graham Williams. Dirk Eddelbuettel and
+Tshepang Lekhonkhobe have been incredibly helpful in sponsoring wajig
+for inclusion in Debian and in suggesting new commands. Tshepang
+maintained and improved wajig over many years with contributions also
+from users of wajig over the years, with a special thanks to Reuben
+Thomas for his many suggestions and contributions. Graham resumed
+maintenance and development in 2020.
 
 Hacking
 -------
