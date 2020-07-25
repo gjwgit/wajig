@@ -1,8 +1,8 @@
 ########################################################################
 #
-# Generic Makefile
+# Makefile for wajig command line. 
 #
-# Time-stamp: <Monday 2020-06-22 08:35:02 AEST Graham Williams>
+# Time-stamp: <Sunday 2020-07-26 08:40:58 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -10,22 +10,50 @@
 #
 ########################################################################
 
+# App version numbers
+#   Major release
+#   Minor update
+#   Bug fix
+
 APP=wajig
 VER=3.0.3
+DATE=$(shell date +%Y-%m-%d)
+
+TAR_GZ = dist/$(APP)-$(VER).tar.gz
+
+BASH_COMPLETION = $(APP)/bash_completion.d/$(APP).bash
+
+SOURCE = setup.py			\
+	 docs/README.md			\
+	 setup.cfg			\
+	 MANIFEST.in			\
+	 LICENSE			\
+	 src/constants.py		\
+	 src/commands.py		\
+	 src/debfile-deps.py		\
+	 src/debfiles.py		\
+	 src/perform.py			\
+	 src/shell.py			\
+	 src/util.py			\
+	 src/__init__.py		\
+	 src/bash_completion.d/wajig.bash \
+
+# Required modules.
 
 INC_BASE    = $(HOME)/.local/share/make
 INC_CLEAN   = $(INC_BASE)/clean.mk
-INC_R       = $(INC_BASE)/r.mk
-INC_KNITR   = $(INC_BASE)/knitr.mk
 INC_PANDOC  = $(INC_BASE)/pandoc.mk
 INC_GIT     = $(INC_BASE)/git.mk
-INC_AZURE   = $(INC_BASE)/azure.mk
 INC_LATEX   = $(INC_BASE)/latex.mk
-INC_DOCKER  = $(INC_BASE)/docker.mk
-INC_MLHUB   = $(INC_BASE)/mlhub.mk
 
 ifneq ("$(wildcard $(INC_CLEAN))","")
   include $(INC_CLEAN)
+endif
+ifneq ("$(wildcard $(INC_R))","")
+  include $(INC_R)
+endif
+ifneq ("$(wildcard $(INC_KNITR))","")
+  include $(INC_KNITR)
 endif
 ifneq ("$(wildcard $(INC_PANDOC))","")
   include $(INC_PANDOC)
@@ -33,8 +61,20 @@ endif
 ifneq ("$(wildcard $(INC_GIT))","")
   include $(INC_GIT)
 endif
+ifneq ("$(wildcard $(INC_AZURE))","")
+  include $(INC_AZURE)
+endif
 ifneq ("$(wildcard $(INC_LATEX))","")
   include $(INC_LATEX)
+endif
+ifneq ("$(wildcard $(INC_PDF))","")
+  include $(INC_PDF)
+endif
+ifneq ("$(wildcard $(INC_DOCKER))","")
+  include $(INC_DOCKER)
+endif
+ifneq ("$(wildcard $(INC_MLHUB))","")
+  include $(INC_MLHUB)
 endif
 
 define HELP
@@ -42,9 +82,9 @@ $(APP):
 
   install	Install the current source version of $(APP) into ~/.local
   uninstall	Remove the local source installed version from ~/.local
-
   version	Update version from Makefile version number.
   deb		Create the debian package - not yet functional.
+
 endef
 export HELP
 
@@ -64,9 +104,10 @@ MANDIR = $(DESTDIR)$(PREFIX)/share/man/man1
 $(APP).sh: $(APP).sh.in
 	sed -e 's|PREFIX|$(DESTDIR)$(PREFIX)|g' < $^ > $@
 
+.PHONY: .version
 version:
-	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' src/$(APP).py
-	sed -i -e 's|^APP = ".*"|APP = "$(APP)"|' src/$(APP).py
+	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' src/constants.py
+	sed -i -e 's|^APP = ".*"|APP = "$(APP)"|' src/constants.py
 
 install: version $(APP).sh
 	install -d  $(LIBDIR) $(BINDIR) $(MANDIR)
@@ -78,6 +119,16 @@ uninstall:
 	rm -rf $(LIBDIR)
 	rm -f $(MANDIR)/$(APP).1
 	rm -f $(BINDIR)/$(APP)
+
+$(TAR_GZ): $(SOURCE)
+	python3 setup.py sdist
+
+.PHONY: tgz
+tgz: $(TAR_GZ)
+
+.PHONY: pypi
+pypi: docs/README.md version tgz
+	twine upload $(TAR_GZ)
 
 # dch -v 3.0.0 will update version in changelog and allow entry.
 # Might be some way to do this purely command line.
