@@ -25,12 +25,8 @@ import sys
 
 import commands
 
+from constants import APP, VERSION
 from perform import SIMULATE, TEACH
-
-# Define application constants.
-
-APP = "wajig"
-VERSION = "3.0.3"
 
 def main():
 
