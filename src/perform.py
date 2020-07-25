@@ -3,10 +3,7 @@
 import os
 import subprocess
 
-
-SIMULATE = False
-TEACH = False
-
+from constants import SIMULATE, TEACH
 
 def highlight(text):
     return "\x1b[1m{}\x1b[0m".format(text)
