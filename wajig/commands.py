@@ -734,6 +734,7 @@ def reboot(args):
             print("\nThe following packages necessitate the reboot:")
             cmd = f"cat {PKGS} | perl -p -e 's|^|  |'"
             perform.execute(cmd)
+            print()
         print('To reboot use "sudo reboot"')
     else:
         print('A reboot is not required.')
