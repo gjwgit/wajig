@@ -936,7 +936,7 @@ def sysinfo(args):
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
     print(f"Hostname:   {result}")
 
-    command = "grep DMI: /var/log/kern.log* | uniq | sed 's|^.*DMI: ||'"
+    command = "zgrep DMI: /var/log/kern.log* | uniq | sed 's|^.*DMI: ||' | head -1"
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
     print(f"Computer:   {result}")
 
