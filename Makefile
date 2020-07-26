@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Sunday 2020-07-26 16:54:33 AEST Graham Williams>
+# Time-stamp: <Sunday 2020-07-26 17:14:56 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -83,7 +83,7 @@ $(APP):
   install	Install the current source version of $(APP) into ~/.local
   uninstall	Remove the local source installed version from ~/.local
   version	Update version from Makefile version number.
-  deb		Create the debian package - not yet functional.
+  pypi          Install onto PyPI for pip3 installation.
 
 endef
 export HELP
@@ -112,8 +112,9 @@ version:
 
 
 install: version $(APP).sh
-	install -d  $(LIBDIR) $(BINDIR) $(MANDIR)
-	cp $(APP)/*.py  $(LIBDIR)/
+	install -d  $(LIBDIR)/wajig $(BINDIR) $(MANDIR)
+	cp $(APP)/*.py  $(LIBDIR)/wajig/
+	mv $(LIBDIR)/wajig/__init__.py $(LIBDIR)
 	cp $(APP).1  $(MANDIR)/
 	install -D $(APP).sh $(BINDIR)/$(APP)
 
