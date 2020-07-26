@@ -11,7 +11,7 @@
 # Define application constants.
 
 APP = "wajig"
-VERSION = "3.0.8"
+VERSION = "3.0.9"
 
 SIMULATE = False
 TEACH = False
