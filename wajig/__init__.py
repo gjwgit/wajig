@@ -234,6 +234,15 @@ def main():
     )
     parser_clean.set_defaults(func=function)
 
+    function = commands.commands
+    parser_commands = subparsers.add_parser(
+        "commands",
+        aliases="listcommands list-commands".split(),
+        parents=[parser_grep],
+        description=function.__doc__,
+    )
+    parser_commands.set_defaults(func=function)
+
     function = commands.contents
     parser_contents = subparsers.add_parser(
         "contents",
@@ -460,15 +469,6 @@ def main():
         description=function.__doc__,
     )
     parser_listcache.set_defaults(func=function)
-
-    function = commands.listcommands
-    parser_commands = subparsers.add_parser(
-        "listcommands",
-        aliases="commands list-commands".split(),
-        parents=[parser_grep],
-        description=function.__doc__,
-    )
-    parser_commands.set_defaults(func=function)
 
     function = commands.listdaemons
     parser_listdaemons = subparsers.add_parser(
