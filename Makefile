@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Sunday 2020-07-26 08:46:11 AEST Graham Williams>
+# Time-stamp: <Sunday 2020-07-26 16:54:33 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -16,7 +16,7 @@
 #   Bug fix
 
 APP=wajig
-VER=3.0.4
+VER=3.0.7
 DATE=$(shell date +%Y-%m-%d)
 
 TAR_GZ = dist/$(APP)-$(VER).tar.gz
@@ -28,15 +28,15 @@ SOURCE = setup.py			\
 	 setup.cfg			\
 	 MANIFEST.in			\
 	 LICENSE			\
-	 src/constants.py		\
-	 src/commands.py		\
-	 src/debfile-deps.py		\
-	 src/debfiles.py		\
-	 src/perform.py			\
-	 src/shell.py			\
-	 src/util.py			\
-	 src/__init__.py		\
-	 src/bash_completion.d/wajig.bash \
+	 $(APP)/constants.py		\
+	 $(APP)/commands.py		\
+	 $(APP)/debfile-deps.py		\
+	 $(APP)/debfile.py			\
+	 $(APP)/perform.py			\
+	 $(APP)/shell.py			\
+	 $(APP)/util.py			\
+	 $(APP)/__init__.py		\
+	 $(APP)/bash_completion.d/wajig.bash \
 
 # Required modules.
 
@@ -106,12 +106,14 @@ $(APP).sh: $(APP).sh.in
 
 .PHONY: .version
 version:
-	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' src/constants.py
-	sed -i -e 's|^APP = ".*"|APP = "$(APP)"|' src/constants.py
+	sed -i -e "s|^    version='.*'|    version='$(VER)'|" setup.py 
+	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' $(APP)/constants.py
+	sed -i -e 's|^APP = ".*"|APP = "$(APP)"|' $(APP)/constants.py
+
 
 install: version $(APP).sh
 	install -d  $(LIBDIR) $(BINDIR) $(MANDIR)
-	cp src/*.py  $(LIBDIR)/
+	cp $(APP)/*.py  $(LIBDIR)/
 	cp $(APP).1  $(MANDIR)/
 	install -D $(APP).sh $(BINDIR)/$(APP)
 
@@ -142,7 +144,7 @@ deb: version $(APP).sh
 	mv ../$(APP)_$(VER).tar.xz .
 
 clean::
-	rm -rf src/__pycache__
+	rm -rf $(APP)/__pycache__
 
 realclean::
 	rm -f $(APP)_$(VER)*

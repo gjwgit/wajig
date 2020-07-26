@@ -13,7 +13,7 @@ import time
 import apt
 import apt_pkg
 
-import perform
+import wajig.perform as perform
 
 
 #------------------------------------------------------------------------

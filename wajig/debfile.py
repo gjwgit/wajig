@@ -12,7 +12,7 @@ $ python3 /path/to/debfile.py <DEB file>
 
 import os
 import sys
-import perform
+import wajig.perform as perform
 
 
 def install(package_list):

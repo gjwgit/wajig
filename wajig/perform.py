@@ -3,7 +3,7 @@
 import os
 import subprocess
 
-from constants import SIMULATE, TEACH
+from wajig.constants import SIMULATE, TEACH
 
 def highlight(text):
     return "\x1b[1m{}\x1b[0m".format(text)

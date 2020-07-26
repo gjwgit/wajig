@@ -15,11 +15,11 @@ import shutil
 import apt
 
 # wajig modules
-import perform
-import util
-import debfile
+import wajig.perform as perform
+import wajig.util as util
+import wajig.debfile as debfile
 
-from constants import APP, VERSION
+from wajig.constants import APP, VERSION
 
 # before we do any other command make sure the right files exist
 util.ensure_initialised()

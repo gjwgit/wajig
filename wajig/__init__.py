@@ -23,10 +23,10 @@
 import argparse
 import sys
 
-import commands
+import wajig.commands as commands
 
-from constants import APP, VERSION
-from perform import SIMULATE, TEACH
+from wajig.constants import APP, VERSION
+from wajig.perform import SIMULATE, TEACH
 
 def main():
 
