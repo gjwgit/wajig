@@ -722,11 +722,18 @@ def reboot(args):
     """Check if a reboot is required"""
 
     REBOOT = "/var/run/reboot-required"
-    command = f"test -f {REBOOT}"
-    result = perform.execute(command)
+    PKGS = "/var/run/reboot-required.pkgs"
+    cmd = f"test -f {REBOOT}"
+    result = perform.execute(cmd)
     if result == 0:
-        command = f"cat {REBOOT}"
-        perform.execute(command)
+        cmd = f"cat {REBOOT}"
+        perform.execute(cmd)
+        cmd = f"test -f {PKGS}"
+        result = perform.execute(cmd)
+        if result == 0:
+            print("\nThe following packages necessitate the reboot:")
+            cmd = f"cat {PKGS} | perl -p -e 's|^|  |'"
+            perform.execute(cmd)
         print('To reboot use "sudo reboot"')
     else:
         print('A reboot is not required.')
