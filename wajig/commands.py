@@ -163,6 +163,18 @@ def clean(args):
     perform.execute("/usr/bin/apt-get clean", root=True)
 
 
+def commands(args):
+    """Display all wajig commands"""
+    for name, value in sorted(globals().items()):
+        if inspect.isfunction(value):
+            summary = value.__doc__.split('\n')[0]
+            if args.pattern:
+                if args.pattern not in summary and \
+                   args.pattern not in name:
+                    continue
+            print(f"{name:<18} {summary}")
+
+
 def contents(args):
     """List the contents of a package file (.deb)"""
     perform.execute("dpkg --contents " + args.debfile)
@@ -478,18 +490,6 @@ def listalternatives(args):
     command = ("ls /etc/alternatives/ | "
                "grep -E -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
     perform.execute(command)
-
-
-def listcommands(args):
-    """Display all wajig commands"""
-    for name, value in sorted(globals().items()):
-        if inspect.isfunction(value):
-            summary = value.__doc__.split('\n')[0]
-            if args.pattern:
-                if args.pattern not in summary and \
-                   args.pattern not in name:
-                    continue
-            print(f"{name:<18} {summary}")
 
 
 def listdaemons(args):
