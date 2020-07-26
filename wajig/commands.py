@@ -731,7 +731,7 @@ def reboot(args):
         cmd = f"test -f {PKGS}"
         result = perform.execute(cmd)
         if result == 0:
-            print("\nThe following packages necessitate the reboot:")
+            print("\nThe following packages necessitate the reboot:\n")
             cmd = f"cat {PKGS} | perl -p -e 's|^|  |'"
             perform.execute(cmd)
             print()
