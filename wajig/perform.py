@@ -88,7 +88,7 @@ def execute(command, root=False, pipe=False, langC=False,
                                        stderr=subprocess.STDOUT)
     if log:
         import tempfile
-        import util
+        import wajig.util as util
         temp = tempfile.mkstemp(dir='/tmp', prefix='wajig_')[1]
         util.start_log(temp)
     result = subprocess.call(command, shell=True)
