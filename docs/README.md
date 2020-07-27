@@ -1,21 +1,48 @@
 # Debian/Ubuntu System Administration using Wajig
 
-Wajig has evolved over 20 years to support the general user and
+Wajig has evolved over more than 20 years to support general users and
 administrators alike in using and maintaining Debian and Ubuntu based
 systems.  It captures in a single command line tool many common tasks
-for managing a GNU/Linux system.
+for managing a GNU/Linux system. It is a single and more comprehensive
+alternative to anm otherwise large suite of tools, starting with
+apt-get and apt.
 
 The home of wajig is <https://wajig.togaware.com>. An extensive guide
 to using Debian and Ubuntu GNU/Linux is also available from Togaware
-at <https://togaware.com/gnulinux/>.
+at <https://togaware.com/gnulinux/>. The source code is available from
+[github](https://github.com/gjwgit/wajig) and it can be installed from
+the [Ubuntu repository](https://packages.ubuntu.com/focal/wajig) or through
+[PyPI](https://pypi.org/project/wajig/).
 
 Wajig was implemented by Graham Williams. Dirk Eddelbuettel and
-Tshepang Lekhonkhobe have been incredibly helpful in sponsoring wajig
-for inclusion in Debian and in suggesting new commands. Tshepang
-maintained and improved wajig over many years with contributions also
-from users of wajig over the years, with a special thanks to Reuben
-Thomas for his many suggestions and contributions. Graham resumed
-maintenance and development in 2020.
+Tshepang Lekhonkhobe have sponsored wajig for inclusion in Debian.
+Tshepang maintained and improved wajig over many years with
+contributions also from users of wajig, with a special thanks to
+Reuben Thomas for his many suggestions and contributions. Graham has
+resumed maintenance and development.
+
+Installing
+----------
+
+Wajig is available in the Debian and Ubuntu repositories. On Ubuntu,
+where sudo is set up by default
+
+```consoles
+$ sudo apt-get install wajig
+```
+
+It is also available on [PyPI](https://pypi.org/project/wajig/) from
+where it can be installed with:
+
+```console
+$ pip3 install wajig
+```
+
+If sudo is not set up (see instructions below) then as root:
+
+```console
+# apt-get install wajig
+```
 
 Hacking
 -------
@@ -47,10 +74,10 @@ HowTo Release
 
 * Ensure that debuild does not emit any lintian errors/warnings.
 
-Guide to Using wajig
+Guide to Wajig
 ====================
 
-wajig is a Debian tool that attempts to unify Debian
+Wajig is a Debian tool that attempts to unify Debian
 management. Ubuntu is built using the same Debian management tools.
 
 wajig commands are entered as the first argument to wajig. For
@@ -59,14 +86,15 @@ example: "wajig INSTALL gnome".
 The Name
 --------
 
-The word JIG has a couple of meanings, as WordNet and Webster's 1913
+The word 'jig' has a couple of meanings, as WordNet and Webster's 1913
 Dictionary will confirm. It is a small machine or handy tool used to
 guide other tools. It is also a quick dance, generally an old rustic
 dance involving kicking and leaping, as well as a light, humorous
 piece of writing, especially in rhyme, a farce in verse, or a ballad.
 "A jig shall be clapped at, and every rhyme praised and applauded."
 
-For wajig, 'wa' is Japanese, indicating 'harmony' and 'team spirit and unity'.
+The 'wa' in 'wajig' is Japanese, indicating 'harmony' and 'team spirit
+and unity'.
 
 History
 -------
@@ -75,11 +103,11 @@ Development of wajig has been sponsored sponsored and supported by
 Togaware Pty Ltd, supporting open source software since the 1980's.
 
 Written in Python, wajig uses traditional Debian administration and
-user tools including apt-get, aptitude, dpkg, apt-cache, and others.
+user tools including apt-get, aptitude, dpkg, apt-cache, and very many
+others.
 
-wajig has evolved over many years and was rewritten from its original
-shell script to be a Python program soon after the development of
-Python.
+Wajig has evolved over many years and was rewritten from its original
+shell script to be a fully fledged Python program.
 
 Philosophy
 ----------
@@ -133,27 +161,6 @@ This Python script simply collects together shortcuts to various
 commands!  Clearly no everything is covered, but as new capabilities
 are understood they get added to the toolkit.
 
-
-Installing
-----------
-
-wajig is available in the Debian and Ubuntu distributions.  As root:
-
-```console
-  # apt-get install wajig
-```
-
-Alternatively, if you already have sudo configured:
-
-```consoles
-$ sudo apt-get install wajig
-```
-
-It is also soon coming to PyPi where it will be installable as:
-
-```console
-$ pip3 install wajig
-```
 
 The Basic Debian Tools
 ----------------------
