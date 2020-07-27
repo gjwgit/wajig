@@ -5,6 +5,7 @@
 # Do not include any function in here that does not correspond to a COMMAND
 
 import os
+import re
 import inspect
 import tempfile
 import subprocess
@@ -954,7 +955,9 @@ def sysinfo(args):
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
     command = "cat /proc/cpuinfo | grep 'process'| wc -l"
     count   = perform.execute(command, getoutput=True).decode("utf-8").strip()
-    print(f"Processor:  {result} x {count}")
+    command = "cat /proc/cpuinfo | grep bogomips | uniq | sed 's|bogomips\t:||'"
+    bogomip = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Processor:  {result} x {count} = {bogomip} bogomips")
 
     command =  'GPU=$(lspci | grep VGA | cut -d ":" -f3); '
     command += 'RAM=$(cardid=$(lspci | grep VGA |cut -d " " -f1); '
@@ -967,24 +970,26 @@ def sysinfo(args):
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
     print(f"Audio:      {result}")
     
-    command = "cat /proc/cpuinfo | grep bogomips | uniq | sed 's|bogomips\t:||'"
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
-    print(f"BogoMIPS:   {result}")
-
     command = "cat /proc/meminfo | grep MemTotal | awk '{print $2/(1024*1024)}'"
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
-    print(f"RAM:        {round(float(result))}GB")
+    print(f"Memory:     {round(float(result))}GB RAM")
 
     command = "cat /etc/*release | grep '^NAME=' | cut -d '\"' -f2"
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
     command = "cat /etc/*release | grep '^VERSION=' | cut -d '\"' -f2"
     ver  = perform.execute(command, getoutput=True).decode("utf-8").strip()
-    print(f"Base OS:    {result} {ver}")
+    print(f"OS:         {result} {ver}")
 
     command = "uname -r"
     result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
     print(f"Kernel:     {result}")
 
+    command = "uptime --pretty"
+    up  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    command = "uptime --since"
+    since  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    print(f"Uptime:     {up} since {since}")
+    
 def tasksel(args):
     """Run the task selector to install groups of packages"""
     util.requires_package("tasksel")
