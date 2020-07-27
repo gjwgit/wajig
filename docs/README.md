@@ -10,7 +10,7 @@ apt-get and apt.
 The home of wajig is [Togaware](https://wajig.togaware.com). A basic
 introduction to wajig is also available on [Read The
 Docs](https://wajig.readthedocs.io/en/latest/) with extensive
-documentation available from the [GNU/Linux Survival
+documentation available from the [GNU/Linux Desktop Survival
 Guide](https://togaware.com/linux/survivor/wajig.html). To support the
 project together with the extensive guide to using Debian and Ubuntu
 GNU/Linux visit [Togaware](https://togaware.com/gnulinux/). The source
@@ -19,12 +19,11 @@ it can be installed from the [Ubuntu
 repository](https://packages.ubuntu.com/wajig) or through
 [PyPI](https://pypi.org/project/wajig/).
 
-Wajig was implemented by Graham Williams. Dirk Eddelbuettel and
-Tshepang Lekhonkhobe have sponsored wajig for inclusion in Debian.
-Tshepang maintained and improved wajig over many years with
-contributions also from users of wajig, with a special thanks to
-Reuben Thomas for his many suggestions and contributions. Graham has
-resumed maintenance and development.
+Wajig was implemented by Graham Williams. It has been supported by
+Dirk Eddelbuettel and Tshepang Lekhonkhobe, with Tshepang maintaining
+and improving wajig for a few years. Contributions also from users of
+wajig, with a special thanks to Reuben Thomas for his many suggestions
+and contributions. Graham has resumed maintenance and development.
 
 Installing
 ----------
