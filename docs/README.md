@@ -7,12 +7,14 @@ for managing a GNU/Linux system. It is a single and more comprehensive
 alternative to anm otherwise large suite of tools, starting with
 apt-get and apt.
 
-The home of wajig is <https://wajig.togaware.com>. An extensive guide
-to using Debian and Ubuntu GNU/Linux is also available from Togaware
-at <https://togaware.com/gnulinux/>. The source code is available from
+The home of wajig is <https://wajig.togaware.com> with this
+documentation on [Read The
+Docs](https://wajig.readthedocs.io/en/latest/). An extensive guide to
+using Debian and Ubuntu GNU/Linux is also available from Togaware at
+<https://togaware.com/gnulinux/>. The source code is available from
 [github](https://github.com/gjwgit/wajig) and it can be installed from
-the [Ubuntu repository](https://packages.ubuntu.com/focal/wajig) or through
-[PyPI](https://pypi.org/project/wajig/).
+the [Ubuntu repository](https://packages.ubuntu.com/focal/wajig) or
+through [PyPI](https://pypi.org/project/wajig/).
 
 Wajig was implemented by Graham Williams. Dirk Eddelbuettel and
 Tshepang Lekhonkhobe have sponsored wajig for inclusion in Debian.
