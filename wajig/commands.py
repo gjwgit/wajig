@@ -24,6 +24,8 @@ from wajig.constants import APP, VERSION
 # before we do any other command make sure the right files exist
 util.ensure_initialised()
 
+NO_UPGRADES = 'No packages need to be upgraded. Run "wajig update" to update from the repository.'
+
 
 def addcdrom(args):
     """Add a Debian CD/DVD to APT's list of available sources"""
@@ -247,7 +249,7 @@ def distupgrade(args):
     """
     packages = util.upgradable(distupgrade=True)
     if not packages and not args.dist:
-        print('No upgrades. Did you run "wajig update" beforehand?')
+        print(NO_UPGRADES)
         return
     if args.backup:
         util.requires_package("dpkg-repack")
@@ -997,7 +999,7 @@ def todo(args):
 def toupgrade(args):
     """List versions of upgradable packages"""
     if not util.show_package_versions():
-        print("No upgradeable packages")
+        print("No upgradeable packages.")
 
 
 def tutorial(args):
@@ -1029,7 +1031,7 @@ def unofficial(args):
 
 
 def update(args):
-    """Update the list of new and updated packages"""
+    """Update the list of new and updated packages available from the repository"""
     util.do_update(args.simulate)
 
 
@@ -1070,7 +1072,7 @@ def upgrade(args):
         command = command.format(args.local, args.yes, args.noauth)
         perform.execute(command, root=True, log=True)
     else:
-        print('No upgradeable packages. Did you run "wajig update" first?')
+        print(NO_UPGRADES)
 
 
 def upgradesecurity(args):
