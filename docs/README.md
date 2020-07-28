@@ -1,10 +1,11 @@
 # Debian/Ubuntu System Administration using Wajig
 
-Wajig is a Debian tool that simplifies Debian and Ubuntu
-management. Ubuntu is built using the same Debian management tools.
+Wajig is a system support tool for Debian and Ubuntu.  Wajig commands
+are entered as the first argument to wajig. For example
 
-Wajig commands are entered as the first argument to wajig. For
-example: "wajig install most".
+```console
+$ wajig install emacs
+```
 
 Wajig has evolved over more than 20 years to support general users and
 administrators alike in using and maintaining Debian and Ubuntu based
@@ -12,18 +13,6 @@ systems.  It captures in a single command line tool many common tasks
 for managing a GNU/Linux system. It is a single and more comprehensive
 alternative to anm otherwise large suite of tools, starting with
 apt-get and apt.
-
-The home of wajig is [Togaware](https://wajig.togaware.com). A basic
-introduction to wajig is also available on [Read The
-Docs](https://wajig.readthedocs.io/en/latest/) with extensive
-documentation available from the [GNU/Linux Desktop Survival
-Guide](https://togaware.com/linux/survivor/wajig.html). To support the
-project together with the extensive guide to using Debian and Ubuntu
-GNU/Linux visit [Togaware](https://togaware.com/gnulinux/). The source
-code is available from [github](https://github.com/gjwgit/wajig) and
-it can be installed from the [Ubuntu
-repository](https://packages.ubuntu.com/wajig) or through
-[PyPI](https://pypi.org/project/wajig/).
 
 Wajig was implemented by Graham Williams. It has been supported by
 Dirk Eddelbuettel and Tshepang Lekhonkhobe, with Tshepang maintaining
@@ -53,6 +42,17 @@ If sudo is not set up (see instructions below) then as root:
 ```console
 # apt-get install wajig
 ```
+
+Resources
+---------
+
+* [Home](https://wajig.togaware.com)
+* [Read The Docs](https://wajig.readthedocs.io/en/latest/)
+* [Documentation](https://togaware.com/linux/survivor/wajig.html)
+* [Support Wajig](https://togaware.com/gnulinux/)
+* [GitHub](https://github.com/gjwgit/wajig)
+* [Ubuntu](https://packages.ubuntu.com/wajig)
+* [PyPI](https://pypi.org/project/wajig/).
 
 The Name
 --------
