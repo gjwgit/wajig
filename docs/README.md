@@ -1,5 +1,11 @@
 # Debian/Ubuntu System Administration using Wajig
 
+Wajig is a Debian tool that simplifies Debian and Ubuntu
+management. Ubuntu is built using the same Debian management tools.
+
+Wajig commands are entered as the first argument to wajig. For
+example: "wajig install most".
+
 Wajig has evolved over more than 20 years to support general users and
 administrators alike in using and maintaining Debian and Ubuntu based
 systems.  It captures in a single command line tool many common tasks
@@ -48,45 +54,6 @@ If sudo is not set up (see instructions below) then as root:
 # apt-get install wajig
 ```
 
-Hacking
--------
-
-* Setup::
-```console
-$ wajig install devscripts debhelper
-$ debcheckout wajig
-$ cd wajig
-```
-* Build::
-```console
-$ debuild -us -uc
-```
-* Install::
-```console
-$ sudo debi
-```
-
-* Ensure that user-visible changes are mentioned in
-  ``debian/changelog``; use ``/usr/bin/debchange`` from within the
-  project root directory and do your changes there.
-
-HowTo Release
--------------
-
-* Ensure that the version string in ``src/wajig.py`` as updated from
-  the Makefil matches that of latest changelog.
-
-* Ensure that debuild does not emit any lintian errors/warnings.
-
-Guide to Wajig
-====================
-
-Wajig is a Debian tool that attempts to unify Debian
-management. Ubuntu is built using the same Debian management tools.
-
-wajig commands are entered as the first argument to wajig. For
-example: "wajig INSTALL gnome".
-
 The Name
 --------
 
@@ -106,12 +73,15 @@ History
 Development of wajig has been sponsored sponsored and supported by
 Togaware Pty Ltd, supporting open source software since the 1980's.
 
-Written in Python, wajig uses traditional Debian administration and
-user tools including apt-get, aptitude, dpkg, apt-cache, and very many
-others.
+Written in Python, wajig uses traditional Debian/Ubuntu administration
+and user tools including apt-get, aptitude, dpkg, apt-cache, and very
+many others.
 
 Wajig has evolved over many years and was rewritten from its original
 shell script to be a fully fledged Python program.
+
+Guide to Wajig
+====================
 
 Philosophy
 ----------
@@ -246,6 +216,36 @@ In order to allow your user to use sudo, run this command as root:
 
 The change will take effect after logging out and in again.
 
+
+Hacking
+-------
+
+* Setup::
+```console
+$ wajig install devscripts debhelper
+$ debcheckout wajig
+$ cd wajig
+```
+* Build::
+```console
+$ debuild -us -uc
+```
+* Install::
+```console
+$ sudo debi
+```
+
+* Ensure that user-visible changes are mentioned in
+  ``debian/changelog``; use ``/usr/bin/debchange`` from within the
+  project root directory and do your changes there.
+
+HowTo Release
+-------------
+
+* Ensure that the version string in ``src/wajig.py`` as updated from
+  the Makefil matches that of latest changelog.
+
+* Ensure that debuild does not emit any lintian errors/warnings.
 
 Available Packages
 ------------------
