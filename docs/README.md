@@ -54,6 +54,13 @@ Resources
 * [Ubuntu](https://packages.ubuntu.com/wajig)
 * [PyPI](https://pypi.org/project/wajig/).
 
+Other Guides:
+
+* [LinOxide 2019](https://linoxide.com/tools/wajig-package-management-debian/)
+* [Unix Folk 2017](https://www.unixmen.com/wajig-alternative-apt-package-manager/)
+* [Source Digit 2015](https://sourcedigit.com/16708-install-wajig-alternative-to-apt-package-manager-on-linux-ubuntu-15-04/)
+* [Link Sprite 2014](https://learn.linksprite.com/pcduino/linux-applications/wajig-simplyfying-ubuntu-debian-administration/)
+
 The Name
 --------
 
