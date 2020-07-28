@@ -27,7 +27,7 @@ Wajig is available in the Debian and Ubuntu repositories. On Ubuntu,
 where sudo is set up by default
 
 ```consoles
-$ sudo apt-get install wajig
+$ sudo apt install wajig
 ```
 
 It is also available on [PyPI](https://pypi.org/project/wajig/) from
