@@ -47,15 +47,16 @@ Resources
 ---------
 
 * [Home](https://wajig.togaware.com)
-* [Read The Docs](https://wajig.readthedocs.io/en/latest/)
-* [Documentation](https://togaware.com/linux/survivor/wajig.html)
 * [Support Wajig](https://togaware.com/gnulinux/)
 * [GitHub](https://github.com/gjwgit/wajig)
 * [Ubuntu](https://packages.ubuntu.com/wajig)
 * [PyPI](https://pypi.org/project/wajig/).
 
-Other Guides:
+Guides
+------
 
+* [Togaware](https://togaware.com/linux/survivor/wajig.html)
+* [Read The Docs](https://wajig.readthedocs.io/en/latest/)
 * [LinOxide 2019](https://linoxide.com/tools/wajig-package-management-debian/)
 * [Unix Folk 2017](https://www.unixmen.com/wajig-alternative-apt-package-manager/)
 * [Source Digit 2015](https://sourcedigit.com/16708-install-wajig-alternative-to-apt-package-manager-on-linux-ubuntu-15-04/)
