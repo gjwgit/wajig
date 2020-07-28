@@ -80,9 +80,6 @@ many others.
 Wajig has evolved over many years and was rewritten from its original
 shell script to be a fully fledged Python program.
 
-Guide to Wajig
-====================
-
 Philosophy
 ----------
 
@@ -136,26 +133,8 @@ commands!  Clearly no everything is covered, but as new capabilities
 are understood they get added to the toolkit.
 
 
-The Basic Debian Tools
-----------------------
-
-The Debian package apt-howto is a good place to start with
-understanding the APT (for Advanced Packaging Tools) suite of
-tools. Once installed browse this file:
-
-  /usr/share/doc/apt-howto/en/index.html
-
-Also, see the Debian FAQ at http://www.debian.org/doc/FAQ/.  In
-particular, Section 6 deals with the Packaging system.  APT is the
-recommended way of managing packages under Debian.
-
-To learn how to work with APT off-line, see:
-
-  /usr/share/doc/apt/offline.html/index.html
-
-
-Overview
---------
+Basics
+------
 
 Wajig is designed to run in such a way as to suit the system it is
 running on and the policies of the system administrators.  It can be
