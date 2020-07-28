@@ -152,7 +152,7 @@ def main():
     function = commands.addrepo
     parser_addrepo = subparsers.add_parser(
         "addrepo",
-        parents=[parser_teach],
+        parents=[parser_yesno, parser_teach],
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
