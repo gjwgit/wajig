@@ -26,7 +26,6 @@ import sys
 import wajig.commands as commands
 
 from wajig.constants import APP, VERSION
-from wajig.perform import SIMULATE, TEACH
 
 def main():
 
@@ -39,14 +38,14 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog=APP,
-        # usage="wajig [-h] [-V] [<command>] [--help] [--teach] [--simulate] [<options>]",
+        # usage="wajig [-h] [-V] [<command>] [--help] [--teach] [--noop] [<options>]",
         description="Unified package management front-end for Debian/Ubuntu.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "'wajig commands' to display available commands.\n"
             "'wajig <command> --help' for command sepcific help.\n"
             "'wajig doc | most' to display a tutorial.\n\n"
-            "See what's happening with --teach or --simulate.\n\n"
+            "See what's happening with --teach or --noop.\n\n"
             "Please direct queries to https://stackoverflow.com/ and tag as wajig."
         ),
     )
@@ -60,8 +59,8 @@ def main():
     parser_teach = argparse.ArgumentParser(add_help=False)
     group = parser_teach.add_mutually_exclusive_group()
     group.add_argument(
-        "-s", "--simulate", action='store_true',
-        help="simulate command execution"
+        "-s", "--noop", action='store_true',
+        help="simulate command execution but do not perform"
     )
     group.add_argument(
         "-t", "--teach", action='store_true',
@@ -1093,16 +1092,6 @@ def main():
         pass
     try:
         result.yes = " --yes " if result.yes else ""
-    except AttributeError:
-        pass
-    try:
-        if result.simulate:
-            SIMULATE = True
-    except AttributeError:
-        pass
-    try:
-        if result.teach:
-            TEACH = True
     except AttributeError:
         pass
     result.func(result)
