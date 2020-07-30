@@ -59,11 +59,11 @@ def autoalts(args):
 
 def autodownload(args):
     """Do an update followed by a download of all updated packages"""
-    util.do_update(args.simulate)
+    util.do_update(args.noop)
     command = ("/usr/bin/apt-get --download-only --show-upgraded --assume-yes "
                "--force-yes dist-upgrade")
     perform.execute(command, root=True)
-    if not args.simulate:
+    if not args.noop:
         upgradable_packages = util.upgradable()
         if upgradable_packages:
             util.do_describe(upgradable_packages, args.verbose)
@@ -185,7 +185,7 @@ def contents(args):
 
 def dailyupgrade(args):
     """Perform an update then a dist-upgrade"""
-    util.do_update(args.simulate)
+    util.do_update(args.noop)
     perform.execute("/usr/bin/apt --show-upgraded dist-upgrade",
                     root=True, log=True, teach=args.teach, noop=args.noop)
 
@@ -1037,7 +1037,7 @@ def unofficial(args):
 
 def update(args):
     """Update the list of new and updated packages available from the repository"""
-    util.do_update(args.simulate)
+    util.do_update(args.noop)
 
 
 def updatealternatives(args):
