@@ -30,7 +30,7 @@ NO_UPGRADES = 'No packages need to be upgraded. Run "wajig update" to update fro
 
 def addcdrom(args):
     """Add a Debian CD/DVD to APT's list of available sources"""
-    perform.execute("/usr/bin/apt-cdrom add", root=True)
+    perform.execute("/usr/bin/apt-cdrom add", root=True, teach=args.teach, noop=args.noop)
 
 
 def addrepo(args):
@@ -42,7 +42,7 @@ def addrepo(args):
     $ wajig addrepo ppa:chromium-daily
     """
     util.requires_package("add-apt-repository")
-    perform.execute("/usr/bin/add-apt-repository " + args.ppa, root=True)
+    perform.execute("/usr/bin/add-apt-repository " + args.ppa, root=True, teach=args.teach, noop=args.noop)
 
 
 def aptlog(args):
@@ -53,7 +53,7 @@ def aptlog(args):
 def autoalts(args):
     """Mark the Alternative to be auto-set (using set priorities)"""
     perform.execute(
-        "/usr/bin/update-alternatives --auto " + args.alternative, root=True
+        "/usr/bin/update-alternatives --auto " + args.alternative, root=True, teach=args.teach, noop=args.noop
     )
 
 
@@ -74,12 +74,12 @@ def autodownload(args):
 
 def autoclean(args):
     """Remove no-longer-downloadable .deb files from the download cache"""
-    perform.execute("/usr/bin/apt-get autoclean", root=True)
+    perform.execute("/usr/bin/apt-get autoclean", root=True, teach=args.teach, noop=args.noop)
 
 
 def autoremove(args):
     """Remove unused dependency packages"""
-    perform.execute("/usr/bin/apt autoremove", root=True, log=True)
+    perform.execute("/usr/bin/apt autoremove", root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def build(args):
@@ -99,7 +99,7 @@ def builddeps(args):
     """Install build-dependencies for given packages"""
     command = "/usr/bin/apt-get {} {} build-dep " + " ".join(args.packages)
     command = command.format(args.yes, args.noauth)
-    return perform.execute(command, root=True, log=True)
+    return perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def changelog(args):
@@ -163,7 +163,7 @@ def changelog(args):
 
 def clean(args):
     """Remove all deb files from the download cache"""
-    perform.execute("/usr/bin/apt-get clean", root=True)
+    perform.execute("/usr/bin/apt-get clean", root=True, teach=args.teach, noop=args.noop)
 
 
 def commands(args):
@@ -180,14 +180,14 @@ def commands(args):
 
 def contents(args):
     """List the contents of a package file (.deb)"""
-    perform.execute("dpkg --contents " + args.debfile)
+    perform.execute("dpkg --contents " + args.debfile, teach=args.teach, noop=args.noop)
 
 
 def dailyupgrade(args):
     """Perform an update then a dist-upgrade"""
     util.do_update(args.simulate)
     perform.execute("/usr/bin/apt --show-upgraded dist-upgrade",
-                    root=True, log=True)
+                    root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def dependents(args):
@@ -262,7 +262,7 @@ def distupgrade(args):
     if args.dist:
         cmd += "--target-release " + args.dist + " "
     cmd += "full-upgrade"
-    perform.execute(cmd, root=True, log=True)
+    perform.execute(cmd, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def download(args):
@@ -271,36 +271,36 @@ def download(args):
     command = "/usr/bin/apt-get --reinstall --download-only install "
     packages = util.consolidate_package_names(args)
     command = command + " ".join(packages)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
 
 def editsources(args):
     """Edit list of Debian repository locations for packages"""
-    perform.execute("/usr/bin/apt edit-source", root=True)
+    perform.execute("/usr/bin/apt edit-source", root=True, teach=args.teach, noop=args.noop)
 
 
 def extract(args):
     """Extract the files from a package file to a directory"""
     command = "dpkg --extract {} {}"
     command = command.format(args.debfile, args.destination_directory)
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def fixconfigure(args):
     """Fix an interrupted install"""
-    perform.execute("/usr/bin/dpkg --configure --pending", root=True)
+    perform.execute("/usr/bin/dpkg --configure --pending", root=True, teach=args.teach, noop=args.noop)
 
 
 def fixinstall(args):
     """Fix an install interrupted by broken dependencies"""
     command = "/usr/bin/apt-get --fix-broken {} install".format(args.noauth)
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def fixmissing(args):
     """Fix and install even though there are missing dependencies"""
     command = "/usr/bin/apt-get --ignore-missing {} upgrade".format(args.noauth)
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def force(args):
@@ -350,7 +350,7 @@ def force(args):
             # Force install the package from the download archive.
             command += "'" + archives + debpkg + "' "
 
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def hold(args):
@@ -359,14 +359,14 @@ def hold(args):
         # The dpkg needs sudo but not the echo.
         # Do all of it as root then!
         command = '/bin/echo "{} hold" | /usr/bin/dpkg --set-selections'
-        perform.execute(command.format(package), root=True)
+        perform.execute(command.format(package), root=True, teach=args.teach, noop=args.noop)
     print("The following packages are on hold:")
-    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1")
+    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1", teach=args.teach, noop=args.noop)
 
 
 def info(args):
     """List the information contained in a package file"""
-    perform.execute("dpkg --info " + args.package)
+    perform.execute("dpkg --info " + args.package, teach=args.teach, noop=args.noop)
 
 
 def init(args):
@@ -426,7 +426,7 @@ def install(args):
         command += " ".join(packages)
         command = command.format(args.yes, args.noauth, args.recommends,
                                  args.dist)
-        perform.execute(command, root=True, log=True)
+        perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def installsuggested(args):
@@ -441,13 +441,13 @@ def installsuggested(args):
     command = "/usr/bin/apt-get {} {} {} --auto-remove install {} {}"
     command = command.format(args.recommends, args.yes, args.noauth,
                              dependencies, args.package)
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def integrity(args):
     """Check the integrity of installed packages (through checksums)"""
     util.requires_package("debsums")
-    perform.execute("debsums --all --silent")
+    perform.execute("debsums --all --silent", teach=args.teach, noop=args.noop)
 
 
 def large(args):
@@ -460,7 +460,7 @@ def lastupdate(args):
     command = ("ls -l --full-time " + util.available_file + " 2> "
                "/dev/null | awk '{printf \"Last update was %s %s %s\\n\""
                ", $6, $7, $8}' | sed 's|\.000000000||'")
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def listall(args):
@@ -472,7 +472,7 @@ def listall(args):
                "substr($0,13))}' | sort -u -k 1b,1")
     if args.pattern:
         command = "{} | grep -E '{}'".format(command, args.pattern)
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 
@@ -485,34 +485,34 @@ def listcache(args):
     command = "ls /var/cache/apt/archives/"
     if args.pattern:
         command = "{} | grep -E '{}'".format(command, args.pattern)
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def listalternatives(args):
     """List the objects that can have alternatives configured"""
     command = ("ls /etc/alternatives/ | "
                "grep -E -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def listdaemons(args):
     """List the daemons that wajig can start, stop, restart, or reload"""
     util.requires_package("chkconfig")
-    perform.execute("chkconfig")
+    perform.execute("chkconfig", teach=args.teach, noop=args.noop)
 
 
 def listfiles(args):
     """List the files that are supplied by the named package"""
     if args.package.endswith(".deb"):
-        perform.execute("dpkg --contents " + args.package)
+        perform.execute("dpkg --contents " + args.package, teach=args.teach, noop=args.noop)
         return
     try:
         output = perform.execute(
-            "dpkg --listfiles " + args.package, getoutput=True
+            "dpkg --listfiles " + args.package, getoutput=True, teach=args.teach, noop=args.noop
         )
     except subprocess.CalledProcessError:
         if shutil.which("apt-file"):
-            perform.execute("apt-file list --regexp ^{}$".format(args.package))
+            perform.execute("apt-file list --regexp ^{}$".format(args.package), teach=args.teach, noop=args.noop)
     else:
         for line in output.decode().strip().split('\n'):
             print(line)
@@ -520,7 +520,7 @@ def listfiles(args):
 
 def listhold(args):
     """List packages that are on hold (i.e. those that won't be upgraded)"""
-    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1")
+    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1", teach=args.teach, noop=args.noop)
 
 
 def listinstalled(args):
@@ -528,17 +528,17 @@ def listinstalled(args):
     command = "dpkg --get-selections | cut -f1"
     if args.pattern:
         command += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def listlog(args):
     """Display wajig log file"""
-    perform.execute("cat " + util.log_file)
+    perform.execute("cat " + util.log_file, teach=args.teach, noop=args.noop)
 
 
 def listnames(args):
     """List all known packages; optionally filter the list with a pattern"""
-    util.do_listnames(args.pattern)
+    util.do_listnames(args.pattern, teach=args.teach, noop=args.noop)
 
 
 def listpackages(args):
@@ -546,7 +546,7 @@ def listpackages(args):
     command = "dpkg --list '*' | grep -E -v 'no description avail'"
     if args.pattern:
         command += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def listscripts(args):
@@ -563,7 +563,7 @@ def listscripts(args):
                 command = "ar p " + package + " control.tar.gz |" +\
                           "tar zxvf - -O ./" + script +\
                           " 2>/dev/null"
-                perform.execute(command)
+                perform.execute(command, teach=args.teach, noop=args.noop)
     else:
         root = "/var/lib/dpkg/info/"
         for script in scripts:
@@ -571,7 +571,7 @@ def listscripts(args):
             if os.path.exists(fname):
                 nlen = int((72 - len(script))/2)
                 print(">"*nlen, script, "<"*nlen)
-                perform.execute("cat " + fname)
+                perform.execute("cat " + fname, teach=args.teach, noop=args.noop)
 
 
 def listsection(args):
@@ -605,7 +605,7 @@ def liststatus(args):
     command += " | awk '{print $1,$2}'"
     if args.pattern:
         command += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def localupgrade(args):
@@ -614,19 +614,19 @@ def localupgrade(args):
         "/usr/bin/apt-get --no-download --ignore-missing "
         "--show-upgraded upgrade"
     )
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def madison(args):
     """Runs the madison command of apt-cache"""
     command = "apt-cache madison " + " ".join(set(args.packages))
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def move(args):
     """Move packages in the download cache to a local Debian mirror"""
     util.requires_package("apt-move")
-    perform.execute("/usr/bin/apt-move update", root=True)
+    perform.execute("/usr/bin/apt-move update", root=True, teach=args.teach, noop=args.noop)
 
 
 def new(args):
@@ -650,18 +650,18 @@ def news(args):
 def nonfree(args):
     """List packages that don't meet the Debian Free Software Guidelines"""
     util.requires_package("vrms")
-    perform.execute("vrms")
+    perform.execute("vrms", teach=args.teach, noop=args.noop)
 
 
 def orphans(args):
     """List libraries not required by any installed package """
     util.requires_package("deborphan")
-    perform.execute("deborphan")
+    perform.execute("deborphan", teach=args.teach, noop=args.noop)
 
 
 def policy(args):
     """From preferences file show priorities/policy (available)"""
-    perform.execute("apt-cache policy " + " ".join(args.packages))
+    perform.execute("apt-cache policy " + " ".join(args.packages), teach=args.teach, noop=args.noop)
 
 
 def purge(args):
@@ -670,7 +670,7 @@ def purge(args):
     command = "/usr/bin/apt-get {} {} --auto-remove purge "
     command = command.format(args.yes, args.noauth)
     command = command + " ".join(packages)
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def purgeorphans(args):
@@ -684,7 +684,7 @@ def purgeorphans(args):
     if packages:
         command = "/usr/bin/apt-get --auto-remove purge {} {}"
         command = command.format(args.yes, packages)
-        perform.execute(command, root=True, log=True)
+        perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def purgeremoved(args):
@@ -695,12 +695,12 @@ def purgeremoved(args):
         "--showformat='${Package}:${Architecture}\t${Status}\n' | "
         "grep -E \"deinstall ok config-files\" | cut -f 1 "
     )
-    packages = perform.execute(cmd, pipe=True)
+    packages = perform.execute(cmd, pipe=True, teach=args.teach, noop=args.noop)
     if packages:
         packages = " ".join(packages)
         packages = " ".join(packages.split())
         perform.execute("/usr/bin/apt-get purge " + packages,
-                        root=True, log=True)
+                        root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def rbuilddeps(args):
@@ -708,7 +708,7 @@ def rbuilddeps(args):
     util.requires_package("grep-dctrl")
     command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep "
     command = command + args.package + " /var/lib/apt/lists/*Sources"
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def readme(args):
@@ -763,13 +763,13 @@ def recdownload(args):
 
     command = "/usr/bin/apt-get --download-only --reinstall -u install {} {}"
     command = command.format(args.noauth, " ".join(package_names))
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
 
 def reconfigure(args):
     """Reconfigure package"""
     command = "/usr/sbin/dpkg-reconfigure " + " ".join(args.packages)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
 
 def recommended(args):
@@ -777,7 +777,7 @@ def recommended(args):
     perform.execute(
         "aptitude search "
         "'?and( ?automatic(?reverse-recommends(?installed)), "
-        "?not(?automatic(?reverse-depends(?installed))) )'"
+        "?not(?automatic(?reverse-depends(?installed))) )'", teach=args.teach, noop=args.noop
     )
 
 
@@ -785,7 +785,7 @@ def reinstall(args):
     """Reinstall the given packages"""
     command = "/usr/bin/apt install --reinstall {} {} {}"
     command = command.format(args.noauth, args.yes, " ".join(args.packages))
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def reload(args):
@@ -794,7 +794,7 @@ def reload(args):
     if perform.execute(command, root=True):
         print("attempt FORCE-RELOAD instead")
         command = "/usr/sbin/service {} force-reload ".format(args.daemon)
-        perform.execute(command, root=True)
+        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
 
 def remove(args):
@@ -802,7 +802,7 @@ def remove(args):
     packages = util.consolidate_package_names(args)
     command = "/usr/bin/apt {} {} --auto-remove remove " + " ".join(packages)
     command = command.format(args.yes, args.noauth)
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def removeorphans(args):
@@ -814,7 +814,7 @@ def removeorphans(args):
     if packages:
         command = "/usr/bin/apt-get --auto-remove remove {} {}"
         command = command.format(args.yes, packages)
-        perform.execute(command, root=True, log=True)
+        perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def repackage(args):
@@ -822,31 +822,31 @@ def repackage(args):
     util.requires_package("dpkg-repack")
     util.requires_package("fakeroot")
     command = "fakeroot --unknown-is-real dpkg-repack " + args.package
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def reportbug(args):
     """Report a bug in a package using Debian BTS (Bug Tracking System)"""
     util.requires_package("reportbug", "/usr/bin/reportbug")
-    perform.execute("reportbug " + args.package)
+    perform.execute("reportbug " + args.package, teach=args.teach, noop=args.noop)
 
 
 def restart(args):
     """Restart system daemons (see LIST-DAEMONS for available daemons)"""
     command = "/usr/sbin/service {} restart".format(args.daemon)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
 
 def rpm2deb(args):
     """Convert an .rpm file to a Debian .deb file"""
     command = "alien " + args.rpm
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def rpminstall(args):
     """Install an .rpm package file"""
     command = "/usr/bin/alien --install " + args.rpm
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def search(args):
@@ -875,14 +875,14 @@ def search(args):
                                  "\|".join(args.patterns))
     else:
         command = "apt-cache search --full " + " ".join(args.patterns)
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def searchapt(args):
     """Find nearby Debian package repositories"""
     util.requires_package("netselect-apt")
     command = "netselect-apt " + args.dist
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def show(args):
@@ -890,19 +890,19 @@ def show(args):
     package_names = " ".join(set(args.packages))
     tool = "apt-cache" if args.fast else "apt"
     command = "{} show {}".format(tool, package_names)
-    perform.execute(command)
+    perform.execute(command, teach=args.teach, noop=args.noop)
 
 
 def start(args):
     """Start system daemons (see LIST-DAEMONS for available daemons)"""
     command = "/usr/sbin/service {} start".format(args.daemon)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
 
 def stop(args):
     """Stop system daemons (see LISTDAEMONS for available daemons)"""
     command = "/usr/sbin/service {} stop".format(args.daemon)
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
 
 def sizes(args):
@@ -922,7 +922,7 @@ def snapshot(args):
 def source(args):
     """Retrieve and unpack sources for the named packages"""
     util.requires_package("dpkg-source")
-    perform.execute("apt-get source " + " ".join(args.packages))
+    perform.execute("apt-get source " + " ".join(args.packages), teach=args.teach, noop=args.noop)
 
 
 def status(args):
@@ -944,56 +944,56 @@ def sysinfo(args):
     """Print information about your system"""
 
     command = "hostname"
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Hostname:   {result}")
 
     command = "zgrep DMI: /var/log/kern.log* | grep kernel: | uniq | sed 's|^.*DMI: ||' | head -1"
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Computer:   {result}")
 
     command = "cat /proc/cpuinfo | grep 'name'| uniq | sed 's|^model name	: ||'"
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     command = "cat /proc/cpuinfo | grep 'process'| wc -l"
-    count   = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    count   = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     command = "cat /proc/cpuinfo | grep bogomips | uniq | sed 's|bogomips\t:||'"
-    bogomip = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    bogomip = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Processor:  {result} x {count} = {bogomip} bogomips")
 
     command =  'GPU=$(lspci | grep VGA | cut -d ":" -f3); '
     command += 'RAM=$(cardid=$(lspci | grep VGA |cut -d " " -f1); '
     command += 'lspci -v -s $cardid | grep " prefetchable"| cut -d "=" -f2 | tr -d "\]"); '
     command += 'echo $GPU $RAM'
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Video:      {result}")
     
     command =  'lspci | grep "Audio device:" | sed "s|^.*Audio device: ||"'
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Audio:      {result}")
     
     command = "cat /proc/meminfo | grep MemTotal | awk '{print $2/(1024*1024)}'"
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Memory:     {round(float(result))}GB RAM")
 
     command = "cat /etc/*release | grep '^NAME=' | cut -d '\"' -f2"
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     command = "cat /etc/*release | grep '^VERSION=' | cut -d '\"' -f2"
-    ver  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    ver  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"OS:         {result} {ver}")
 
     command = "uname -r"
-    result  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Kernel:     {result}")
 
     command = "uptime --pretty"
-    up  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    up  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     command = "uptime --since"
-    since  = perform.execute(command, getoutput=True).decode("utf-8").strip()
+    since  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Uptime:     {up} since {since}")
     
 def tasksel(args):
     """Run the task selector to install groups of packages"""
     util.requires_package("tasksel")
-    perform.execute("/usr/bin/tasksel", root=True, log=True)
+    perform.execute("/usr/bin/tasksel", root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def todo(args):
@@ -1009,7 +1009,7 @@ def toupgrade(args):
 
 def tutorial(args):
     """Display wajig tutorial"""
-    perform.execute('zcat /usr/share/doc/wajig/TUTORIAL')
+    perform.execute('zcat /usr/share/doc/wajig/TUTORIAL', teach=args.teach, noop=args.noop)
 
 
 def unhold(args):
@@ -1020,7 +1020,7 @@ def unhold(args):
         command = "echo \"" + package + " install\" | dpkg --set-selections"
         perform.execute(command, root=True)
     print("The following packages are still on hold:")
-    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1")
+    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1", teach=args.teach, noop=args.noop)
 
 
 def unofficial(args):
@@ -1043,19 +1043,19 @@ def update(args):
 def updatealternatives(args):
     """Update default alternative for things like x-window-manager"""
     command = "/usr/bin/update-alternatives --config " + args.alternative
-    perform.execute(command, root=True)
+    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
 
 def updatepciids(args):
     """Updates the local list of PCI ids from the internet master list"""
     util.requires_package("pciutils", path="/usr/bin/update-pciids")
-    perform.execute("/usr/bin/update-pciids", root=True)
+    perform.execute("/usr/bin/update-pciids", root=True, teach=args.teach, noop=args.noop)
 
 
 def updateusbids(args):
     """Updates the local list of USB ids from the internet master list"""
     util.requires_package("usbutils", path="/usr/sbin/update-usbids")
-    perform.execute("/usr/sbin/update-usbids", root=True)
+    perform.execute("/usr/sbin/update-usbids", root=True, teach=args.teach, noop=args.noop)
 
 
 def upgrade(args):
@@ -1075,7 +1075,7 @@ def upgrade(args):
             "/usr/bin/apt-get {} {} {} --show-upgraded --with-new-pkgs upgrade"
         )
         command = command.format(args.local, args.yes, args.noauth)
-        perform.execute(command, root=True, log=True)
+        perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
     else:
         print(NO_UPGRADES)
 
@@ -1096,7 +1096,7 @@ def upgradesecurity(args):
     perform.execute(command, root=True)
     command = "/usr/bin/apt-get --option Dir::Etc::SourceList={} upgrade"
     command = command.format(sources_list)
-    perform.execute(command, root=True, log=True)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
     if os.path.exists(sources_list):
         os.remove(sources_list)
 
@@ -1104,7 +1104,7 @@ def upgradesecurity(args):
 def verify(args):
     """Check package's md5sum"""
     util.requires_package("debsums")
-    perform.execute("debsums " + args.package)
+    perform.execute("debsums " + args.package, teach=args.teach, noop=args.noop)
 
     
 def version(args):
@@ -1117,9 +1117,9 @@ def versions(args):
     util.requires_package("apt-show-versions")
     if args.packages:
         for package in args.packages:
-            perform.execute("apt-show-versions " + package)
+            perform.execute("apt-show-versions " + package, teach=args.teach, noop=args.noop)
     else:
-        perform.execute("apt-show-versions")
+        perform.execute("apt-show-versions", teach=args.teach, noop=args.noop)
 
 
 def whichpackage(args):
@@ -1130,7 +1130,7 @@ def whichpackage(args):
     """
     try:
         output = perform.execute(
-            "dpkg --search " + args.pattern, getoutput=True
+            "dpkg --search " + args.pattern, getoutput=True, teach=args.teach, noop=args.noop
         ).decode()
     # 'dpkg --search' returns a failing error code if it does not find matches
     except subprocess.CalledProcessError:
