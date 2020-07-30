@@ -3,8 +3,6 @@
 import os
 import subprocess
 
-from wajig.constants import SIMULATE, TEACH
-
 def highlight(text):
     return "\x1b[1m{}\x1b[0m".format(text)
 
@@ -23,7 +21,7 @@ else:
 
 
 def execute(command, root=False, pipe=False, langC=False,
-            getoutput=False, log=False):
+            getoutput=False, log=False, teach=False, noop=False):
     """Ask the operating system to perform a command.
 
     Arguments:
@@ -76,10 +74,10 @@ def execute(command, root=False, pipe=False, langC=False,
     #
     if langC:
         command = "LC_ALL=C; export LC_ALL; " + command
-    elif SIMULATE:
+    if noop:
         print(highlight(" ".join(command.split())))
         return
-    if TEACH:
+    if teach:
         print(highlight(" ".join(command.split())))
     if pipe:
         return os.popen(command)
