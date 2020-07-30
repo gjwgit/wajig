@@ -12,6 +12,3 @@
 
 APP = "wajig"
 VERSION = "3.0.12"
-
-SIMULATE = False
-TEACH = False
