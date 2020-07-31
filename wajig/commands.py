@@ -922,7 +922,8 @@ def snapshot(args):
 def source(args):
     """Retrieve and unpack sources for the named packages"""
     util.requires_package("dpkg-source")
-    perform.execute("apt-get source " + " ".join(args.packages), teach=args.teach, noop=args.noop)
+    perform.execute("apt-get source " + " ".join(args.packages), teach=args.teach,
+                    noop=args.noop)
 
 
 def status(args):
@@ -944,58 +945,76 @@ def sysinfo(args):
     """Print information about your system"""
 
     command = "hostname"
-    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
     print(f"Hostname:   {result}")
 
     file = "/var/log/kern.log"
     if os.path.isfile(file) and os.access(file, os.R_OK):
-        command = "zgrep DMI: /var/log/kern.log* | grep kernel: | uniq | sed 's|^.*DMI: ||' | head -1"
-        result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+        command  = "zgrep DMI: /var/log/kern.log* | grep kernel: | "
+        command += "uniq | sed 's|^.*DMI: ||' | head -1"
+        result  = perform.execute(command, getoutput=True, teach=args.teach,
+                                  noop=args.noop).decode("utf-8").strip()
         print(f"Computer:   {result}")
+    else:
+        print(f"Computer:   '{file}' not accessisble")
 
     command = "cat /proc/cpuinfo | grep 'name'| uniq | sed 's|^model name	: ||'"
-    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
     command = "cat /proc/cpuinfo | grep 'process'| wc -l"
-    count   = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    count   = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
     command = "cat /proc/cpuinfo | grep bogomips | uniq | sed 's|bogomips\t:||'"
-    bogomip = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    bogomip = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
     print(f"Processor:  {result} x {count} = {bogomip} bogomips")
 
     command =  'GPU=$(lspci | grep VGA | cut -d ":" -f3); '
     command += 'RAM=$(cardid=$(lspci | grep VGA |cut -d " " -f1); '
     command += 'lspci -v -s $cardid | grep " prefetchable"| cut -d "=" -f2 | tr -d "\]"); '
     command += 'echo $GPU $RAM'
-    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
     print(f"Video:      {result}")
     
     command =  'lspci | grep "Audio device:" | sed "s|^.*Audio device: ||"'
-    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
     print(f"Audio:      {result}")
     
     command = "cat /proc/meminfo | grep MemTotal | awk '{print $2/(1024*1024)}'"
-    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
     print(f"Memory:     {round(float(result))}GB RAM")
 
     command = "cat /etc/*release | grep '^NAME=' | cut -d '\"' -f2"
-    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
     command = "cat /etc/*release | grep '^VERSION=' | cut -d '\"' -f2"
-    ver  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    ver  = perform.execute(command, getoutput=True, teach=args.teach,
+                           noop=args.noop).decode("utf-8").strip()
     print(f"OS:         {result} {ver}")
 
     command = "uname -r"
-    result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    result  = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
     print(f"Kernel:     {result}")
 
     command = "uptime --pretty"
-    up  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    up  = perform.execute(command, getoutput=True, teach=args.teach,
+                          noop=args.noop).decode("utf-8").strip()
     command = "uptime --since"
-    since  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
+    since  = perform.execute(command, getoutput=True, teach=args.teach,
+                             noop=args.noop).decode("utf-8").strip()
     print(f"Uptime:     {up} since {since}")
-    
+
+
 def tasksel(args):
     """Run the task selector to install groups of packages"""
     util.requires_package("tasksel")
-    perform.execute("/usr/bin/tasksel", root=True, log=True, teach=args.teach, noop=args.noop)
+    perform.execute("/usr/bin/tasksel", root=True, log=True, teach=args.teach,
+                    noop=args.noop)
 
 
 def todo(args):
@@ -1011,7 +1030,8 @@ def toupgrade(args):
 
 def tutorial(args):
     """Display wajig tutorial"""
-    perform.execute('zcat /usr/share/doc/wajig/TUTORIAL', teach=args.teach, noop=args.noop)
+    perform.execute('zcat /usr/share/doc/wajig/TUTORIAL',
+                    teach=args.teach, noop=args.noop)
 
 
 def unhold(args):
@@ -1022,7 +1042,8 @@ def unhold(args):
         command = "echo \"" + package + " install\" | dpkg --set-selections"
         perform.execute(command, root=True)
     print("The following packages are still on hold:")
-    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1", teach=args.teach, noop=args.noop)
+    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1",
+                    teach=args.teach, noop=args.noop)
 
 
 def unofficial(args):
