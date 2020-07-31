@@ -957,7 +957,7 @@ def sysinfo(args):
                                   noop=args.noop).decode("utf-8").strip()
         print(f"Computer:   {result}")
     else:
-        print(f"Computer:   '{file}' not accessisble")
+        print(f"Computer:   '{file}' not accessible")
 
     command = "cat /proc/cpuinfo | grep 'name'| uniq | sed 's|^model name	: ||'"
     result  = perform.execute(command, getoutput=True, teach=args.teach,
