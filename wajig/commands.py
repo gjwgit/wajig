@@ -947,6 +947,9 @@ def sysinfo(args):
     result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Hostname:   {result}")
 
+    file = "/var/log/kern.log"
+    assert os.path.isfile(file) and os.access(file, os.R_OK), \
+       "File {} doesn't exist or isn't readable".format(file)
     command = "zgrep DMI: /var/log/kern.log* | grep kernel: | uniq | sed 's|^.*DMI: ||' | head -1"
     result  = perform.execute(command, getoutput=True, teach=args.teach, noop=args.noop).decode("utf-8").strip()
     print(f"Computer:   {result}")
