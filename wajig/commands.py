@@ -957,7 +957,7 @@ def sysinfo(args):
                                   noop=args.noop).decode("utf-8").strip()
         print(f"Computer:   {result}")
     else:
-        print(f"Computer:   '{file}' not accessible")
+        print(f"Computer:   <{file} not accessible>")
 
     command = "cat /proc/cpuinfo | grep 'name'| uniq | sed 's|^model name	: ||'"
     result  = perform.execute(command, getoutput=True, teach=args.teach,
@@ -970,18 +970,24 @@ def sysinfo(args):
                               noop=args.noop).decode("utf-8").strip()
     print(f"Processor:  {result} x {count} = {bogomip} bogomips")
 
-    command =  'GPU=$(lspci | grep VGA | cut -d ":" -f3); '
-    command += 'RAM=$(cardid=$(lspci | grep VGA |cut -d " " -f1); '
-    command += 'lspci -v -s $cardid | grep " prefetchable"| cut -d "=" -f2 | tr -d "\]"); '
-    command += 'echo $GPU $RAM'
-    result  = perform.execute(command, getoutput=True, teach=args.teach,
+    lspci = perform.execute("lspci|head -1", getoutput=True)
+    if lspci:
+        command  =  'GPU=$(lspci | grep VGA | cut -d ":" -f3); '
+        command += 'RAM=$(cardid=$(lspci | grep VGA |cut -d " " -f1); '
+        command += 'lspci -v -s $cardid | grep " prefetchable"| '
+        command += 'cut -d "=" -f2 | tr -d "\]"); '
+        command += 'echo $GPU $RAM'
+        result  = perform.execute(command, getoutput=True, teach=args.teach,
+                                  noop=args.noop).decode("utf-8").strip()
+        print(f"Video:      {result}")
+
+        command =  'lspci | grep "Audio device:" | sed "s|^.*Audio device: ||"'
+        result  = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
-    print(f"Video:      {result}")
-    
-    command =  'lspci | grep "Audio device:" | sed "s|^.*Audio device: ||"'
-    result  = perform.execute(command, getoutput=True, teach=args.teach,
-                              noop=args.noop).decode("utf-8").strip()
-    print(f"Audio:      {result}")
+        print(f"Audio:      {result}")
+    else:
+        print("Video:      <lspci produces no output>")
+        print("Audio:      <lspci produces no output>")
     
     command = "cat /proc/meminfo | grep MemTotal | awk '{print $2/(1024*1024)}'"
     result  = perform.execute(command, getoutput=True, teach=args.teach,
