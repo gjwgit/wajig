@@ -988,7 +988,7 @@ def sysinfo(args):
                               noop=args.noop).decode("utf-8").strip()
         if result:
             print(f"Audio:      {result}")
-        else
+        else:
             print(f"Audio:      <lspci found no audio device>")
     else:
         print("Video:      <lspci produces no output>")
