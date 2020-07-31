@@ -941,6 +941,8 @@ def statusmatch(args):
     else:
         util.do_status(packages)
 
+# SYSINFO
+        
 def sysinfo(args):
     """Print information about your system"""
 
@@ -984,7 +986,10 @@ def sysinfo(args):
         command =  'lspci | grep "Audio device:" | sed "s|^.*Audio device: ||"'
         result  = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
-        print(f"Audio:      {result}")
+        if result:
+            print(f"Audio:      {result}")
+        else
+            print(f"Audio:      <lspci found no audio device>")
     else:
         print("Video:      <lspci produces no output>")
         print("Audio:      <lspci produces no output>")
@@ -1015,7 +1020,8 @@ def sysinfo(args):
                              noop=args.noop).decode("utf-8").strip()
     print(f"Uptime:     {up} since {since}")
 
-
+# TASKSEL
+    
 def tasksel(args):
     """Run the task selector to install groups of packages"""
     util.requires_package("tasksel")
