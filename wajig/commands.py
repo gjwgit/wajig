@@ -535,11 +535,13 @@ def listlog(args):
     """Display wajig log file"""
     perform.execute("cat " + util.log_file, teach=args.teach, noop=args.noop)
 
+# LISTNAMES
 
 def listnames(args):
     """List all known packages; optionally filter the list with a pattern"""
-    util.do_listnames(args.pattern, teach=args.teach, noop=args.noop)
+    util.do_listnames(args.pattern)
 
+# LISTPACKAGES
 
 def listpackages(args):
     """List the status, version, and description of installed packages"""
