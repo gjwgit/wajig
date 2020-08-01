@@ -23,6 +23,7 @@
 import argparse
 import sys
 
+import wajig.util as util
 import wajig.commands as commands
 
 from wajig.constants import APP, VERSION
@@ -139,6 +140,8 @@ def main():
     parser_help = subparsers.add_parser("help")
     parser_help.set_defaults(func=help, parser=parser)
 
+    # ADDCDROM
+    
     function = commands.addcdrom
     parser_addcdrom = subparsers.add_parser(
         "addcdrom",
@@ -148,6 +151,8 @@ def main():
     )
     parser_addcdrom.set_defaults(func=function)
 
+    # ADDREPO
+    
     function = commands.addrepo
     parser_addrepo = subparsers.add_parser(
         "addrepo",
@@ -668,6 +673,8 @@ def main():
     parser_rbuilddeps.add_argument("package")
     parser_rbuilddeps.set_defaults(func=function)
 
+    # README
+    
     function = commands.readme
     parser_readme = subparsers.add_parser(
         "readme",
@@ -678,6 +685,8 @@ def main():
     parser_readme.add_argument("package")
     parser_readme.set_defaults(func=function)
 
+    # REBOOT
+    
     function = commands.reboot
     parser_reboot = subparsers.add_parser(
         "reboot",
@@ -899,6 +908,8 @@ def main():
     parser_stop.add_argument("daemon")
     parser_stop.set_defaults(func=function)
 
+    # SYSINFO
+    
     function = commands.sysinfo
     parser_sysinfo = subparsers.add_parser(
         "sysinfo",
@@ -1041,6 +1052,8 @@ def main():
     parser_verify.add_argument("package")
     parser_verify.set_defaults(func=function)
 
+    # VERSION
+    
     function = commands.version
     parser_version = subparsers.add_parser(
         "version",
@@ -1048,6 +1061,8 @@ def main():
     )
     parser_version.set_defaults(func=function)
 
+    # VERSIONS
+    
     function = commands.versions
     parser_versions = subparsers.add_parser(
         "versions",
@@ -1057,6 +1072,8 @@ def main():
     parser_versions.add_argument("packages", nargs="*")
     parser_versions.set_defaults(func=function)
 
+    # WHICHPKG
+    
     function = commands.whichpackage
     parser_whichpackage = subparsers.add_parser(
         "whichpackage",
@@ -1068,7 +1085,26 @@ def main():
     parser_whichpackage.add_argument("pattern", help="partial/full file path")
     parser_whichpackage.set_defaults(func=function)
 
+    #-----------------------------------------------------------------------
+    # HANDLE FUZZY COMMANDS
+    #-----------------------------------------------------------------------
+    
+    # Get the first positional argument - the command - and consider replacing.
+    
+    pos_args = [(i, arg) for i, arg in enumerate(sys.argv[1:]) if not arg.startswith('-')]
+    cmd_index, cmd = pos_args[0] if len(pos_args) != 0 else (None, None)
+    if cmd:
+        choices = commands.commands(None, True)
+        matched_cmd = util.get_misspelled_command(cmd, choices)
+        if matched_cmd is not None:
+            sys.argv[cmd_index + 1] = matched_cmd
+
+    #-----------------------------------------------------------------------
+    # PARSE COMMAND LINE
+    #-----------------------------------------------------------------------
+
     result = parser.parse_args()
+
     try:
         result.recommends = "--install-recommends" if result.recommends else ""
     except AttributeError:
@@ -1094,6 +1130,7 @@ def main():
         result.yes = " --yes " if result.yes else ""
     except AttributeError:
         pass
+
     result.func(result)
 
 if __name__ == '__main__':
