@@ -160,23 +160,29 @@ def changelog(args):
                 except BrokenPipeError:
                     return
 
+# CLEAN
 
 def clean(args):
     """Remove all deb files from the download cache"""
     perform.execute("/usr/bin/apt-get clean", root=True, teach=args.teach, noop=args.noop)
 
+# COMMANDS
 
-def commands(args):
+def commands(args, result=False):
     """Display all wajig commands"""
+    cmds = []
     for name, value in sorted(globals().items()):
         if inspect.isfunction(value):
-            summary = value.__doc__.split('\n')[0]
-            if args.pattern:
-                if args.pattern not in summary and \
-                   args.pattern not in name:
-                    continue
-            print(f"{name:<18} {summary}")
-
+            if result:
+                cmds.append(name)
+            else:
+                summary = value.__doc__.split('\n')[0]
+                if args.pattern:
+                    if args.pattern not in summary and \
+                       args.pattern not in name:
+                        continue
+                print(f"{name:<18} {summary}")
+    if result: return cmds
 
 def contents(args):
     """List the contents of a package file (.deb)"""
