@@ -53,3 +53,15 @@ setup(
     ],
     include_package_data=True,
 )
+
+# How to effect this:
+#
+# cp ~/.local/lib/python3.8/site-packages/wajig/bash_completion.d/wajig.bash ~/.local/share/bash-completion/completions/wajig
+#
+# Maybe something like the following assuming this is run from lib/python3.8/site-packages
+#
+# cp wajig/bash_completion.d/wajig.bash ../../../share/bash-completion/completions/wajig
+# 
+# os.system("cp wajig/bash_completion.d/wajig.bash ../../../share/bash-completion/completions/wajig")
+#
+# Need to make sure directory path exists.
