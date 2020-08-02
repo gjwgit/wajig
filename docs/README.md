@@ -1,4 +1,4 @@
-# Debian/Ubuntu System Administration using Wajig
+# Wajig: Ubuntu System Administration
 
 Wajig is a simplified, all-in-one-place, system support tool for
 Debian and Ubuntu.  Wajig commands are entered as the first
