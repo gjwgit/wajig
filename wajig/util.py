@@ -490,18 +490,19 @@ def do_status(packages, snapshot=False):
         os.remove(ifile)
 
 
-def do_listnames(pattern=False, pipe=False):
+def do_listnames(pattern=False, pipe=False, teach=False, noop=False):
 
     # If user can't access /etc/apt/sources.list then must do this with
     # sudo or else most packages will not be found.
     needsudo = not os.access("/etc/apt/sources.list", os.R_OK)
     if pattern:
-        command = "apt-cache pkgnames | grep -- " + pattern \
+        command = "apt-cache pkgnames | grep -E -- " + pattern \
                 + " | sort -k 1b,1"
     else:
         command = "apt-cache pkgnames | sort -k 1b,1"
     # Start fix for Bug #292581 - pre-run command to check for no output
-    results = perform.execute(command, root=needsudo, pipe=True)
+    results = perform.execute(command, root=needsudo, pipe=True,
+                              teach=teach, noop=noop)
     if results:
         lines = results.readlines()
         if lines:
