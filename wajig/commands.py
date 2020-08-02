@@ -933,21 +933,24 @@ def source(args):
     perform.execute("apt-get source " + " ".join(args.packages), teach=args.teach,
                     noop=args.noop)
 
+# STATUS
 
 def status(args):
-    """Show the version and available versions of packages"""
-    util.do_status(args.packages)
-
-
-def statusmatch(args):
-    """Show the version and available versions of matching packages"""
-    try:
-        packages = [s.strip() for s in
-                    util.do_listnames(args.pattern, pipe=True).readlines()]
-    except AttributeError:
-        print("No packages found matching '{}'".format(args.pattern))
-    else:
-        util.do_status(packages)
+    """Show the version and available versions of packages (with regexp support)"""
+    pkgs = []
+    for p in args.pattern:
+        notregexp = not any((c in set('.*+') for c in p))
+        if notregexp:
+            pkgs.append(p)
+        else:
+            try:
+                fnd = [s.strip() for s in
+                       util.do_listnames(p, pipe=True,
+                                         teach=args.teach, noop=args.noop).readlines()]
+                pkgs.extend(fnd)
+            except AttributeError:
+                pass
+    util.do_status(pkgs)
 
 # SYSINFO
         
