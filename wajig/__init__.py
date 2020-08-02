@@ -625,6 +625,17 @@ def main():
     )
     parser_orphans.set_defaults(func=function)
 
+    # PASSWORDS
+    
+    function = commands.passwords
+    parser_passwords = subparsers.add_parser(
+        "passwords",
+        parents=[parser_teach],
+        description=function.__doc__,
+    )
+    parser_passwords.add_argument("number")
+    parser_passwords.set_defaults(func=function)
+
     function = commands.policy
     parser_policy = subparsers.add_parser(
         "policy",
