@@ -633,7 +633,9 @@ def main():
         parents=[parser_teach],
         description=function.__doc__,
     )
+    parser_passwords.add_argument("-p", "--punct", action='store_true')
     parser_passwords.add_argument("number")
+    parser_passwords.add_argument("length", nargs="?")
     parser_passwords.set_defaults(func=function)
 
     function = commands.policy
