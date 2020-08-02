@@ -880,25 +880,19 @@ def main():
     parser_start.add_argument("daemon")
     parser_start.set_defaults(func=function)
 
+    # STATUS
+    
     function = commands.status
     parser_status = subparsers.add_parser(
         "status",
         parents=[parser_teach],
         description=function.__doc__,
     )
-    parser_status.add_argument("packages", nargs="+")
+    parser_status.add_argument("pattern", nargs="+")
     parser_status.set_defaults(func=function)
 
-    function = commands.statusmatch
-    parser_statusmatch = subparsers.add_parser(
-        "statusmatch",
-        parents=[parser_teach],
-        aliases="statussearch status-search status-match".split(),
-        description=function.__doc__,
-    )
-    parser_statusmatch.add_argument("pattern")
-    parser_statusmatch.set_defaults(func=function)
-
+    # STOP
+    
     function = commands.stop
     parser_stop = subparsers.add_parser(
         "stop",
