@@ -670,11 +670,16 @@ def orphans(args):
     
 def passwords(args):
     """Generate a list of good passwords"""
-    command = "cat /dev/urandom | tr -cd '[:graph:]' | head -c 20; echo"
-    perform.execute(command, teach=args.teach, noop=args.noop)
-    if not args.noop:
-        for i in range(1, int(args.number)):
-            perform.execute(command)
+    length = args.length if args.length else 10
+    if args.punct:
+        command = f"cat /dev/urandom | tr -cd '[:graph:]' | head -c {length}; echo"
+        perform.execute(command, teach=args.teach, noop=args.noop)
+        if not args.noop:
+            for i in range(1, int(args.number)):
+                perform.execute(command)
+    else:
+        command = f"pwgen {length} {args.number} | tr ' ' '\n'"
+        perform.execute(command, teach=args.teach, noop=args.noop)
 
 # POLICY
     
