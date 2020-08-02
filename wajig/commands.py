@@ -938,8 +938,9 @@ def source(args):
 def status(args):
     """Show the version and available versions of packages (with regexp support)"""
     pkgs = []
+    regexp = set('.^$*+?{},\[]|()')
     for p in args.pattern:
-        notregexp = not any((c in set('.*+') for c in p))
+        notregexp = not any((c in regexp for c in p))
         if notregexp:
             pkgs.append(p)
         else:
