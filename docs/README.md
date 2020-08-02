@@ -12,14 +12,15 @@ Wajig has evolved over more than 20 years to support general users and
 administrators alike in using and maintaining Debian and Ubuntu based
 systems.  It captures in a single command line tool many common tasks
 for managing a GNU/Linux system. It is a single and more comprehensive
-alternative to anm otherwise large suite of tools, starting with
-apt-get and apt.
+alternative to an otherwise large suite of separate tools, starting
+with apt-get and apt.
 
 Wajig was implemented by Graham Williams. It has been supported by
 Dirk Eddelbuettel and Tshepang Lekhonkhobe, with Tshepang maintaining
-and improving wajig for a few years. Contributions also from users of
-wajig, with a special thanks to Reuben Thomas for his many suggestions
-and contributions. Graham has resumed maintenance and development.
+and improving wajig for a few years. Contributions also come from
+users of wajig, with a special thanks to Reuben Thomas for his many
+suggestions and contributions. Graham has resumed maintenance and
+development.
 
 Installing
 ----------
