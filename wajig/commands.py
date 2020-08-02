@@ -892,6 +892,7 @@ def searchapt(args):
     command = "netselect-apt " + args.dist
     perform.execute(command, teach=args.teach, noop=args.noop)
 
+# SHOW
 
 def show(args):
     """Provide a detailed description of package"""
@@ -900,18 +901,21 @@ def show(args):
     command = "{} show {}".format(tool, package_names)
     perform.execute(command, teach=args.teach, noop=args.noop)
 
+# START
 
 def start(args):
     """Start system daemons (see LIST-DAEMONS for available daemons)"""
     command = "/usr/sbin/service {} start".format(args.daemon)
     perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
+# STOP
 
 def stop(args):
     """Stop system daemons (see LISTDAEMONS for available daemons)"""
     command = "/usr/sbin/service {} stop".format(args.daemon)
     perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
+# SIZES
 
 def sizes(args):
     """Display installed sizes of given packages
@@ -921,11 +925,13 @@ def sizes(args):
     """
     util.sizes(args.packages)
 
+# SNAPSHOT
 
 def snapshot(args):
     """Generates a list of package=version for all installed packages"""
     util.do_status([], snapshot=True)
 
+# SOURCE
 
 def source(args):
     """Retrieve and unpack sources for the named packages"""
