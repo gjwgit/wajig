@@ -1,7 +1,8 @@
 # Debian/Ubuntu System Administration using Wajig
 
-Wajig is a system support tool for Debian and Ubuntu.  Wajig commands
-are entered as the first argument to wajig. For example
+Wajig is a simplified, all-in-one-place, system support tool for
+Debian and Ubuntu.  Wajig commands are entered as the first
+argument. For example
 
 ```console
 $ wajig install emacs
@@ -100,12 +101,12 @@ You can then use these underlying commands directly if you
 prefer. 
 
 Indeed, wajig itself will show the commands that it runs if you
-provide the --teach or --simulate options after the wajig
-command. Both will show the command being run, with the latter then
-not actually running the command:
+provide the --teach or --noop options after the wajig command. Both
+will show the command being run, with the latter then not actually
+running the command:
 
 ```console
-$ wajig update --simulate
+$ wajig update --noop
 /usr/bin/sudo apt update
 
 $ wajig update --teach
