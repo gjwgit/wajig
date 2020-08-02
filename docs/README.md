@@ -1,19 +1,18 @@
 # Wajig: Ubuntu System Administration
 
 Wajig is a simplified, all-in-one-place, system support tool for
-Debian and Ubuntu.  Wajig commands are entered as the first
-argument. For example
+Debian and Ubuntu.  It aims to cover every common (and some not so
+common) tasks you may need to perform in managing your computer. A few
+simple examples:
 
 ```console
 $ wajig install emacs
-```
 
-Wajig has evolved over more than 20 years to support general users and
-administrators alike in using and maintaining Debian and Ubuntu based
-systems.  It captures in a single command line tool many common tasks
-for managing a GNU/Linux system. It is a single and more comprehensive
-alternative to an otherwise large suite of separate tools, starting
-with apt-get and apt.
+$ wajig update
+$ wajig distupgrade
+
+$ wajig sysinfo
+```
 
 Wajig was implemented by Graham Williams. It has been supported by
 Dirk Eddelbuettel and Tshepang Lekhonkhobe, with Tshepang maintaining
@@ -48,21 +47,26 @@ If sudo is not set up (see instructions below) then as root:
 Resources
 ---------
 
-* [Home](https://wajig.togaware.com)
-* [Support Wajig](https://togaware.com/gnulinux/)
-* [GitHub](https://github.com/gjwgit/wajig)
-* [Ubuntu](https://packages.ubuntu.com/wajig)
-* [PyPI](https://pypi.org/project/wajig/).
+* [Home](https://wajig.togaware.com) of wajig.
+* [Support Wajig](https://togaware.com/gnulinux/) with a donation.
+* [GitHub](https://github.com/gjwgit/wajig) for the source code.
+* [Ubuntu](https://packages.ubuntu.com/wajig) for the package entry.
+* [PyPI](https://pypi.org/project/wajig/) for the public distribution channel.
 
 Guides
 ------
 
-* [Togaware](https://togaware.com/linux/survivor/wajig.html)
-* [Read The Docs](https://wajig.readthedocs.io/en/latest/)
-* [LinOxide 2019](https://linoxide.com/tools/wajig-package-management-debian/)
-* [Unix Folk 2017](https://www.unixmen.com/wajig-alternative-apt-package-manager/)
-* [Source Digit 2015](https://sourcedigit.com/16708-install-wajig-alternative-to-apt-package-manager-on-linux-ubuntu-15-04/)
-* [Link Sprite 2014](https://learn.linksprite.com/pcduino/linux-applications/wajig-simplyfying-ubuntu-debian-administration/)
+* [Read The Docs](https://wajig.readthedocs.io/en/latest/) on line.
+* [Togaware](https://togaware.com/linux/survivor/wajig.html) for the
+  GNU/Linux Survival Guide.
+* [LinOxide
+  2019](https://linoxide.com/tools/wajig-package-management-debian/) review.
+* [Unix Folk
+  2017](https://www.unixmen.com/wajig-alternative-apt-package-manager/) review.
+* [Source Digit
+  2015](https://sourcedigit.com/16708-install-wajig-alternative-to-apt-package-manager-on-linux-ubuntu-15-04/) review.
+* [Link Sprite
+  2014](https://learn.linksprite.com/pcduino/linux-applications/wajig-simplyfying-ubuntu-debian-administration/) review.
 
 The Name
 --------
@@ -87,8 +91,14 @@ Written in Python, wajig uses traditional Debian/Ubuntu administration
 and user tools including apt-get, aptitude, dpkg, apt-cache, and very
 many others.
 
-Wajig has evolved over many years and was rewritten from its original
-shell script to be a fully fledged Python program.
+Wajig has evolved over more than 20 years and was rewritten from its
+original shell script to be a fully fledged Python program. Its goal
+is to support general users and administrators alike in using and
+maintaining Debian and Ubuntu based systems.  Thus, it captures in a
+single command line tool many common tasks for managing a GNU/Linux
+system. It is a single and more comprehensive alternative to an
+otherwise large suite of separate tools, starting with apt-get and
+apt.
 
 Philosophy
 ----------
