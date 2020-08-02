@@ -666,7 +666,18 @@ def orphans(args):
     util.requires_package("deborphan")
     perform.execute("deborphan", teach=args.teach, noop=args.noop)
 
+# PASSWORDS
+    
+def passwords(args):
+    """Generate a list of good passwords"""
+    command = "cat /dev/urandom | tr -cd '[:graph:]' | head -c 20; echo"
+    perform.execute(command, teach=args.teach, noop=args.noop)
+    if not args.noop:
+        for i in range(1, int(args.number)):
+            perform.execute(command)
 
+# POLICY
+    
 def policy(args):
     """From preferences file show priorities/policy (available)"""
     perform.execute("apt-cache policy " + " ".join(args.packages), teach=args.teach, noop=args.noop)
