@@ -669,8 +669,8 @@ def orphans(args):
 # PASSWORDS
     
 def passwords(args):
-    """Generate a list of good passwords"""
-    length = args.length if args.length else 10
+    """Generate a list of good passwords  optionally with punctuation"""
+    length = args.length if args.length else 16
     if args.punct:
         command = f"cat /dev/urandom | tr -cd '[:graph:]' | head -c {length}; echo"
         perform.execute(command, teach=args.teach, noop=args.noop)
