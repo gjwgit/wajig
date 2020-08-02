@@ -47,7 +47,7 @@ listdaemons|listfiles|listhold|listinstalled|listlog|listnames|listpackages|list
 listsections|liststatus|localupgrade|madison|move|new|newdetail|news|nonfree|orphans|policy|\
 purge|purgeorphans|purgeremoved|rbuilddeps|readme|reboot|recdownload|recommended|reconfigure|\
 reinstall|reload|remove|removeorphans|repackage|reportbug|restart|rpm2deb|rpminstall|search|\
-searchapt|show|sizes|snapshot|source|start|status|statusmatch|stop|sysinfo|tasksel|todo|toupgrade|\
+searchapt|show|sizes|snapshot|source|start|status|stop|sysinfo|tasksel|todo|toupgrade|\
 tutorial|unhold|unofficial|update|updatealternatives|updatepciids|updateusbids|upgrade|upgradesecurity|\
 verify|version|versions|whichpackage) ]];
          then special=${COMP_WORDS[i]}
@@ -104,7 +104,7 @@ verify|version|versions|whichpackage) ]];
                   localupgrade madison move new newdetail news nonfree orphans policy purge purgeorphans
                   purgeremoved rbuilddeps readme reboot recdownload recommended reconfigure reinstall
                   reload remove removeorphans repackage reportbug restart rpm2deb rpminstall search
-                  searchapt show sizes snapshot source start status statusmatch stop sysinfo tasksel
+                  searchapt show sizes snapshot source start status stop sysinfo tasksel
                   todo toupgrade tutorial unhold unofficial update updatealternatives updatepciids
                   updateusbids upgrade upgradesecurity verify version versions whichpackage)
 
