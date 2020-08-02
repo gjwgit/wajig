@@ -44,7 +44,7 @@ builddeps|changelog|clean|commands|contents|dailyupgrade|dependents|describe|des
 distupgrade|download|editsources|extract|fixconfigure|fixinstall|fixmissing|force|hold|\
 info|init|install|installsuggested|integrity|large|lastupdate|listall|listalternatives|listcache|\
 listdaemons|listfiles|listhold|listinstalled|listlog|listnames|listpackages|listscripts|listsection|\
-listsections|liststatus|localupgrade|madison|move|new|newdetail|news|nonfree|orphans|policy|\
+listsections|liststatus|localupgrade|madison|move|new|newdetail|news|nonfree|orphans|passwords|policy|\
 purge|purgeorphans|purgeremoved|rbuilddeps|readme|reboot|recdownload|recommended|reconfigure|\
 reinstall|reload|remove|removeorphans|repackage|reportbug|restart|rpm2deb|rpminstall|search|\
 searchapt|show|sizes|snapshot|source|start|status|stop|sysinfo|tasksel|todo|toupgrade|\
@@ -101,7 +101,7 @@ verify|version|versions|whichpackage) ]];
                   fixmissing force hold info init install installsuggested integrity large lastupdate
                   listall listalternatives listcache listdaemons listfiles listhold listinstalled
                   listlog listnames listpackages listscripts listsection listsections liststatus
-                  localupgrade madison move new newdetail news nonfree orphans policy purge purgeorphans
+                  localupgrade madison move new newdetail news nonfree orphans passwords policy purge purgeorphans
                   purgeremoved rbuilddeps readme reboot recdownload recommended reconfigure reinstall
                   reload remove removeorphans repackage reportbug restart rpm2deb rpminstall search
                   searchapt show sizes snapshot source start status stop sysinfo tasksel
@@ -122,8 +122,4 @@ complete -F _wajig wajig
 
 # Local variables:
 # mode: shell-script
-# sh-basic-offset: 4
-# sh-indent-comment: t
-# indent-tabs-mode: nil
 # End:
-# ex: ts=4 sw=4 et filetype=sh
