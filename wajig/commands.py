@@ -669,7 +669,13 @@ def orphans(args):
 # PASSWORDS
     
 def passwords(args):
-    """Generate a list of good passwords  optionally with punctuation"""
+    """Generate a list of good passwords  optionally with punctuation
+
+    Simple usage to generate a list of 5 passwords of length 20 with 
+    special characters (punctuation).:
+
+    $ wajig passwords --punct 5 20
+    """
     length = args.length if args.length else 16
     if args.punct:
         command = f"cat /dev/urandom | tr -cd '[:graph:]' | head -c {length}; echo"
