@@ -163,6 +163,20 @@ def main():
     parser_addrepo.add_argument("ppa")
     parser_addrepo.set_defaults(func=function)
 
+    # ADDUSER
+    
+    function = commands.adduser
+    parser_adduser = subparsers.add_parser(
+        "adduser",
+        parents=[parser_teach],
+        description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    #parser_adduser.add_argument("number", nargs="?")
+    #parser_adduser.add_argument("username", nargs="*")
+    parser_adduser.add_argument("--file")
+    parser_adduser.set_defaults(func=function)
+
     function = commands.autoalts
     parser_autoalts = subparsers.add_parser(
         "autoalts",
@@ -264,6 +278,18 @@ def main():
         description=function.__doc__,
     )
     parser_dailyupgrade.set_defaults(func=function)
+
+    # DELUSER
+    
+    function = commands.deluser
+    parser_deluser = subparsers.add_parser(
+        "deluser",
+        parents=[parser_teach],
+        description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser_deluser.add_argument("username")
+    parser_deluser.set_defaults(func=function)
 
     function = commands.dependents
     parser_dependents = subparsers.add_parser(
@@ -625,18 +651,19 @@ def main():
     )
     parser_orphans.set_defaults(func=function)
 
-    # PASSWORDS
+    # PASSWORD
     
-    function = commands.passwords
-    parser_passwords = subparsers.add_parser(
-        "passwords",
+    function = commands.password
+    parser_password = subparsers.add_parser(
+        "password",
         parents=[parser_teach],
         description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser_passwords.add_argument("-p", "--punct", action='store_true')
-    parser_passwords.add_argument("number")
-    parser_passwords.add_argument("length", nargs="?")
-    parser_passwords.set_defaults(func=function)
+    parser_password.add_argument("-p", "--punct", action='store_true')
+    parser_password.add_argument("number", nargs="?")
+    parser_password.add_argument("length", nargs="?")
+    parser_password.set_defaults(func=function)
 
     function = commands.policy
     parser_policy = subparsers.add_parser(
