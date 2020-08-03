@@ -6,6 +6,7 @@
 
 import os
 import re
+import sys
 import inspect
 import tempfile
 import subprocess
@@ -44,7 +45,73 @@ def addrepo(args):
     util.requires_package("add-apt-repository")
     perform.execute("/usr/bin/add-apt-repository " + args.ppa, root=True, teach=args.teach, noop=args.noop)
 
+# ADDUSER
 
+def adduser(args):
+    """Add new user, multiple users, or as listed in a file.
+
+With just a username create a new password while adding user and 
+return that.
+
+  $ wajig adduser fred
+
+If a number is provided then that many new users are created and
+the output will be username:password.
+
+  $ wajig adduser 5
+
+If --file then the argument is expected to be a filename of usernames. 
+For each user a random password is generated and the output will be
+username:filename. 
+
+  $ wajig adduser --file newusers.txt
+"""
+    number = None # args.number
+    username = [] # args.username
+    
+    if number and not re.match(r"^[0-9]+$", number):
+        username.insert(0, number)
+        number = ""
+
+    if number and username:
+        print(f"wajig adduser: error: if a number is supplied then no usernames allowed.")
+              
+    elif args.file:
+        if not os.path.exists(args.file):
+            print(f"wajig adduser: error: file not found '{args.file}'")
+        elif not os.access(args.file, os.R_OK):
+            print(f"wajig adduser: error: file not accessible '{args.file}'.")
+        else:
+            
+            created = []
+            for l in open(args.file, 'r'):
+                username = l.strip()
+
+                command = f'adduser {username} --gecos "" --disabled-password'
+                perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+
+                command = f"pwgen 16 1"
+                password = perform.execute(command, pipe=True, teach=args.teach, noop=args.noop)
+                if password: password = password.readline().strip()
+
+                command = f'echo "{username}:{password}" | sudo chpasswd'
+                perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+
+                created.append(f"{username}:{password}")
+            print("\n"+"\n".join(created))
+
+    elif re.match(r"^[0-9]+$", number):
+        print(f"NOT YET IMPLEMENTED: CREATE {number} ACCOUNTS")
+
+    else:
+        for u in username:
+            if not re.match(r"^[a-z][-a-z0-9_]*$", u):
+                print(f"wajig adduser: error: bad user name '{u}' " +
+                      f"must start with lowercase then",
+                      f"alphanumerics or underscore.")
+            print(f"NOT YET IMPLEMENTED: CREATE USER {u}")
+
+            
 def aptlog(args):
     """Display APT log file"""
     perform.execute("cat /var/log/apt/history.log")
@@ -194,6 +261,24 @@ def dailyupgrade(args):
     util.do_update(args.noop)
     perform.execute("/usr/bin/apt --show-upgraded dist-upgrade",
                     root=True, log=True, teach=args.teach, noop=args.noop)
+
+# DELUSER
+
+def deluser(args):
+    """Delete user account or those users in a username file.
+
+With just a list of usernames delete each user.
+
+  $ wajig deluser fred susan
+
+A file with single column or first column identified with colon
+separator can also be provided.
+
+  $ wajig deluser --file staff.txt
+"""
+    command = f"sudo deluser --remove-home {args.username}"
+    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+
 
 
 def dependents(args):
@@ -666,25 +751,28 @@ def orphans(args):
     util.requires_package("deborphan")
     perform.execute("deborphan", teach=args.teach, noop=args.noop)
 
-# PASSWORDS
+# PASSWORD
     
-def passwords(args):
-    """Generate a list of good passwords  optionally with punctuation
+def password(args):
+    """Generate a good password optionally with punctuation
 
-    Simple usage to generate a list of 5 passwords of length 20 with 
-    special characters (punctuation).:
+Default is to generate one password.
 
-    $ wajig passwords --punct 5 20
-    """
+Simple usage to generate a list of 5 passwords of length 20 with 
+special characters (punctuation).:
+
+  $ wajig password --punct 5 20
+"""
     length = args.length if args.length else 16
+    number = args.number if args.number else 1
     if args.punct:
         command = f"cat /dev/urandom | tr -cd '[:graph:]' | head -c {length}; echo"
         perform.execute(command, teach=args.teach, noop=args.noop)
         if not args.noop:
-            for i in range(1, int(args.number)):
+            for i in range(1, int(number)):
                 perform.execute(command)
     else:
-        command = f"pwgen {length} {args.number} | tr ' ' '\n'"
+        command = f"pwgen {length} {number} | tr ' ' '\n'"
         perform.execute(command, teach=args.teach, noop=args.noop)
 
 # POLICY
