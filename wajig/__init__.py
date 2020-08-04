@@ -172,8 +172,8 @@ def main():
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    #parser_adduser.add_argument("number", nargs="?")
-    #parser_adduser.add_argument("username", nargs="*")
+    parser_adduser.add_argument("number", nargs="?")
+    parser_adduser.add_argument("username", nargs="*")
     parser_adduser.add_argument("--file")
     parser_adduser.set_defaults(func=function)
 
@@ -288,7 +288,7 @@ def main():
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser_deluser.add_argument("username")
+    parser_deluser.add_argument("username", nargs="+")
     parser_deluser.set_defaults(func=function)
 
     function = commands.dependents
