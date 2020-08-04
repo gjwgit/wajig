@@ -66,9 +66,24 @@ username:filename.
 
   $ wajig adduser --file newusers.txt
 """
+    def newuser(username, teach, noop):
+        command = f'adduser {username} --gecos "" --disabled-password'
+        perform.execute(command, root=True, teach=teach, noop=noop)
+        
+        command = f"pwgen 16 1"
+        password = perform.execute(command, pipe=True, teach=teach, noop=noop)
+        if password: password = password.readline().strip()
+        
+        command = f'echo "{username}:{password}" | sudo chpasswd'
+        perform.execute(command, root=True, teach=teach, noop=noop)
+
+        print()
+
+        return(password)
+        
     number = None # args.number
-    username = [] # args.username
-    
+    username = args.username
+
     if number and not re.match(r"^[0-9]+$", number):
         username.insert(0, number)
         number = ""
@@ -82,35 +97,27 @@ username:filename.
         elif not os.access(args.file, os.R_OK):
             print(f"wajig adduser: error: file not accessible '{args.file}'.")
         else:
-            
             created = []
             for l in open(args.file, 'r'):
                 username = l.strip()
-
-                command = f'adduser {username} --gecos "" --disabled-password'
-                perform.execute(command, root=True, teach=args.teach, noop=args.noop)
-
-                command = f"pwgen 16 1"
-                password = perform.execute(command, pipe=True, teach=args.teach, noop=args.noop)
-                if password: password = password.readline().strip()
-
-                command = f'echo "{username}:{password}" | sudo chpasswd'
-                perform.execute(command, root=True, teach=args.teach, noop=args.noop)
-
+                password = newuser(username, args.teach, args.noop)
                 created.append(f"{username}:{password}")
-            print("\n"+"\n".join(created))
+            print("\n".join(created))
 
-    elif re.match(r"^[0-9]+$", number):
+    elif number and re.match(r"^[0-9]+$", number):
         print(f"NOT YET IMPLEMENTED: CREATE {number} ACCOUNTS")
 
     else:
+        created = []
         for u in username:
             if not re.match(r"^[a-z][-a-z0-9_]*$", u):
                 print(f"wajig adduser: error: bad user name '{u}' " +
                       f"must start with lowercase then",
                       f"alphanumerics or underscore.")
-            print(f"NOT YET IMPLEMENTED: CREATE USER {u}")
-
+            else:
+                password = newuser(u, args.teach, args.noop)
+                created.append(f"{u}:{password}")
+        print("\n".join(created))
             
 def aptlog(args):
     """Display APT log file"""
