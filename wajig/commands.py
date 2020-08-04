@@ -7,6 +7,8 @@
 import os
 import re
 import sys
+import string
+import random
 import inspect
 import tempfile
 import subprocess
@@ -59,29 +61,8 @@ If a number is provided then that many new users are created and
 the output will be username:password.
 
   $ wajig adduser 5
-
-If --file then the argument is expected to be a filename of usernames. 
-For each user a random password is generated and the output will be
-username:filename. 
-
-  $ wajig adduser --file newusers.txt
 """
-    def newuser(username, teach, noop):
-        command = f'adduser {username} --gecos "" --disabled-password'
-        perform.execute(command, root=True, teach=teach, noop=noop)
-        
-        command = f"pwgen 16 1"
-        password = perform.execute(command, pipe=True, teach=teach, noop=noop)
-        if password: password = password.readline().strip()
-        
-        command = f'echo "{username}:{password}" | sudo chpasswd'
-        perform.execute(command, root=True, teach=teach, noop=noop)
-
-        print()
-
-        return(password)
-        
-    number = None # args.number
+    number = args.number
     username = args.username
 
     if number and not re.match(r"^[0-9]+$", number):
@@ -89,35 +70,50 @@ username:filename.
         number = ""
 
     if number and username:
-        print(f"wajig adduser: error: if a number is supplied then no usernames allowed.")
-              
+        print("wajig adduser: error: if a number is supplied " +
+              "then no usernames allowed.")
+        return()
+
     elif args.file:
         if not os.path.exists(args.file):
             print(f"wajig adduser: error: file not found '{args.file}'")
         elif not os.access(args.file, os.R_OK):
             print(f"wajig adduser: error: file not accessible '{args.file}'.")
         else:
-            created = []
+            usernames = []
             for l in open(args.file, 'r'):
-                username = l.strip()
-                password = newuser(username, args.teach, args.noop)
-                created.append(f"{username}:{password}")
-            print("\n".join(created))
-
+                usernames.append(l.strip())
+    
     elif number and re.match(r"^[0-9]+$", number):
-        print(f"NOT YET IMPLEMENTED: CREATE {number} ACCOUNTS")
-
+        usernames = []
+        for i in range(int(number)):
+            code = ''.join(random.choice(string.ascii_lowercase) for _ in range(7))
+            usernames.append(f"u{code}")
+            
     else:
-        created = []
         for u in username:
             if not re.match(r"^[a-z][-a-z0-9_]*$", u):
                 print(f"wajig adduser: error: bad user name '{u}' " +
                       f"must start with lowercase then",
                       f"alphanumerics or underscore.")
-            else:
-                password = newuser(u, args.teach, args.noop)
-                created.append(f"{u}:{password}")
-        print("\n".join(created))
+        usernames = username
+
+    created = []
+    for u in usernames:
+        command = f'adduser {u} --gecos "" --disabled-password'
+        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+        
+        command = f"pwgen 16 1"
+        password = perform.execute(command, pipe=True, teach=args.teach, noop=args.noop)
+        if password: password = password.readline().strip()
+        
+        command = f'echo "{u}:{password}" | sudo chpasswd'
+        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+
+        print()
+        created.append(f"{u}:{password}")
+
+    print("\n".join(created))
             
 def aptlog(args):
     """Display APT log file"""
@@ -272,20 +268,16 @@ def dailyupgrade(args):
 # DELUSER
 
 def deluser(args):
-    """Delete user account or those users in a username file.
+    """Delete user accounts
 
-With just a list of usernames delete each user.
+With a list of usernames, delete each user.
 
   $ wajig deluser fred susan
-
-A file with single column or first column identified with colon
-separator can also be provided.
-
-  $ wajig deluser --file staff.txt
 """
-    command = f"sudo deluser --remove-home {args.username}"
-    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
-
+    for u in args.username:
+        command = f"sudo deluser --remove-home --backup {u}"
+        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+        if not u == args.username[-1]: print()
 
 
 def dependents(args):
