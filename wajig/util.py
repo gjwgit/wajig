@@ -15,8 +15,9 @@ import apt_pkg
 
 import wajig.perform as perform
 
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process as fuzzprocess
+from rapidfuzz import fuzz
+from rapidfuzz import process as fuzzprocess
+
 
 #------------------------------------------------------------------------
 #
@@ -110,18 +111,13 @@ def find_best_match(misspelled, candidates):
 
     return fuzzprocess.extractOne(misspelled,
                                   candidates,
-                                  scorer=fuzz.ratio)
-
-def is_misspelled(score):
-    """Check misspelled in terms of score."""
-
-    return score >= 80 and score != 100  # 80 is an empirical value.
-
+                                  scorer=fuzz.ratio,
+                                  score_cutoff=80)
 
 def get_misspelled_command(command, available_commands):
 
-    matched, score = find_best_match(command, available_commands)
-    if is_misspelled(score):
+    try:
+        matched, score = find_best_match(command, available_commands)
         yes = yes_or_no(
             "The command '{}' is not supported.  Did you mean '{}'",
             command,
@@ -131,27 +127,28 @@ def get_misspelled_command(command, available_commands):
         if yes:
             print()
             return matched
-
-    return None
+    except TypeError:
+        return None
 
 
 def get_misspelled_pkg(model):
 
     model_completion_list = get_model_completion_list()
     if len(model_completion_list) != 0:
-        matched, score = find_best_match(model, model_completion_list)
-        if is_misspelled(score):
-            yes = yes_or_no(
-                "The package '{}' was not found.  Did you mean '{}'",
-                model,
-                matched,
-                yes=True,
-            )
-            if yes:
-                print()
-                return matched
-
-    return None
+        try:
+            matched, score = find_best_match(model, model_completion_list)
+            if matched:
+                yes = yes_or_no(
+                    "The package '{}' was not found.  Did you mean '{}'",
+                    model,
+                    matched,
+                    yes=True,
+                )
+                if yes:
+                    print()
+                    return matched
+        except TypeError:
+            return None
 
 #-----------------------------------------------------------------------
 
