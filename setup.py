@@ -48,7 +48,7 @@ setup(
     entry_points={'console_scripts': ['wajig=wajig:main']},
     install_requires=[
         'distro',
-        'fuzzywuzzy',
+        'rapidfuzz',
         'python-Levenshtein',
     ],
     include_package_data=True,
