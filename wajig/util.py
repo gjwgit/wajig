@@ -118,15 +118,16 @@ def get_misspelled_command(command, available_commands):
 
     try:
         matched, score = find_best_match(command, available_commands)
-        yes = yes_or_no(
-            "The command '{}' is not supported.  Did you mean '{}'",
-            command,
-            matched,
-            yes=True,
-        )
-        if yes:
-            print()
-            return matched
+        if matched != command:
+            yes = yes_or_no(
+                "The command '{}' is not supported.  Did you mean '{}'",
+                command,
+                matched,
+                yes=True,
+            )
+            if yes:
+                print()
+                return matched
     except TypeError:
         return None
 
@@ -137,7 +138,7 @@ def get_misspelled_pkg(model):
     if len(model_completion_list) != 0:
         try:
             matched, score = find_best_match(model, model_completion_list)
-            if matched:
+            if matched != model:
                 yes = yes_or_no(
                     "The package '{}' was not found.  Did you mean '{}'",
                     model,
