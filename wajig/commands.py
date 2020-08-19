@@ -98,6 +98,7 @@ the output will be username:password.
                       f"alphanumerics or underscore.")
         usernames = username
 
+    util.requires_package("pwgen")
     created = []
     for u in usernames:
         command = f'adduser {u} --gecos "" --disabled-password'
@@ -771,6 +772,7 @@ special characters (punctuation).:
             for i in range(1, int(number)):
                 perform.execute(command)
     else:
+        util.requires_package("pwgen")
         command = f"pwgen {length} {number} | tr ' ' '\n'"
         perform.execute(command, teach=args.teach, noop=args.noop)
 
