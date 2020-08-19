@@ -288,7 +288,8 @@ def requires_package(package, path=None):
         path = package
     if shutil.which(path):
         return True
-    print("This command depends on '{}' being installed".format(package))
+    print(f"\nThis command depends on '{package}' which can be installed with:\n\n" +
+          f"wajig install {package}\n")
     sys.exit(1)
 
 
