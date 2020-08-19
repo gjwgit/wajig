@@ -1149,9 +1149,11 @@ def sysinfo(args):
 
     # IP
 
-    command = "/sbin/ifconfig | grep 'inet ' | awk '{print $2}'"
-    localip = perform.execute(command, getoutput=True, teach=args.teach,
-                              noop=args.noop).decode("utf-8").strip().split("\n")
+    localip = "<requires net-tools package>"
+    if shutil.which("/sbin/ifconfig"):
+        command = "/sbin/ifconfig | grep 'inet ' | awk '{print $2}'"
+        localip = perform.execute(command, getoutput=True, teach=args.teach,
+                                  noop=args.noop).decode("utf-8").strip().split("\n")
     command = "wget http://ipinfo.io/ip -qO -"
     exterip = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
