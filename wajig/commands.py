@@ -840,6 +840,8 @@ def readme(args):
     matches = 'README README.Debian README.rst USAGE'
     util.display_sys_docs(args.package, matches.split())
 
+# REBOOT 20200820 consider removal as also reported in SYSINFO
+    
 def reboot(args):
     """Check if a reboot is required"""
 
@@ -854,7 +856,7 @@ def reboot(args):
         result = perform.execute(cmd)
         if result == 0:
             print("\nThe following packages necessitate the reboot:\n")
-            cmd = f"cat {PKGS} | perl -p -e 's|^|  |'"
+            cmd = f"cat {PKGS} | sort -u | perl -p -e 's|^|  |'"
             perform.execute(cmd)
             print()
         print('To reboot use "sudo reboot"')
@@ -1075,11 +1077,28 @@ def status(args):
 def sysinfo(args):
     """Print information about your system"""
 
+    # HOSTNAME
+    
     command = "hostname"
     result  = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
     print(f"Hostname:   {result}")
 
+    # OS
+    
+    command = "cat /etc/*release | grep '^NAME=' | cut -d '\"' -f2"
+    result  = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
+    command = "cat /etc/*release | grep '^VERSION=' | cut -d '\"' -f2"
+    ver     = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
+    command = "uname -r"
+    kernel  = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip()
+    print(f"OS:         {result} {ver} {kernel}")
+
+    # COMPUTER
+    
     file = "/var/log/kern.log"
     if os.path.isfile(file) and os.access(file, os.R_OK):
         command  = "zgrep DMI: /var/log/kern.log* | grep kernel: | "
@@ -1128,19 +1147,18 @@ def sysinfo(args):
                               noop=args.noop).decode("utf-8").strip()
     print(f"Memory:     {round(float(result))}GB RAM")
 
-    command = "cat /etc/*release | grep '^NAME=' | cut -d '\"' -f2"
-    result  = perform.execute(command, getoutput=True, teach=args.teach,
-                              noop=args.noop).decode("utf-8").strip()
-    command = "cat /etc/*release | grep '^VERSION=' | cut -d '\"' -f2"
-    ver  = perform.execute(command, getoutput=True, teach=args.teach,
-                           noop=args.noop).decode("utf-8").strip()
-    print(f"OS:         {result} {ver}")
+    # IP
 
-    command = "uname -r"
-    result  = perform.execute(command, getoutput=True, teach=args.teach,
+    command = "/sbin/ifconfig | grep 'inet ' | awk '{print $2}'"
+    localip = perform.execute(command, getoutput=True, teach=args.teach,
+                              noop=args.noop).decode("utf-8").strip().split("\n")
+    command = "wget http://ipinfo.io/ip -qO -"
+    exterip = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
-    print(f"Kernel:     {result}")
-
+    print(f"IP:         {', '.join(localip)} (local) {exterip} (external)")
+    
+    # UPTIME
+    
     command = "uptime --pretty"
     up  = perform.execute(command, getoutput=True, teach=args.teach,
                           noop=args.noop).decode("utf-8").strip()
@@ -1148,6 +1166,33 @@ def sysinfo(args):
     since  = perform.execute(command, getoutput=True, teach=args.teach,
                              noop=args.noop).decode("utf-8").strip()
     print(f"Uptime:     {up} since {since}")
+
+    # LOAD
+
+    command = "uptime | perl -p -e 's|[^,]*, +||' | perl -p -e 's|  +| |g' | "
+    command += "cut -d' ' -f2-"
+    load  = perform.execute(command, getoutput=True, teach=args.teach,
+                            noop=args.noop).decode("utf-8").strip()
+    print(f"Load:       {load}")
+    
+    # REBOOT
+
+    REBOOT = "/var/run/reboot-required"
+    PKGS = "/var/run/reboot-required.pkgs"
+    cmd = f"test -f {REBOOT}"
+    result = perform.execute(cmd)
+    reboot = "not required"
+    if result == 0:
+        reboot = "required"
+        cmd = f"test -f {PKGS}"
+        result = perform.execute(cmd)
+        if result == 0:
+            cmd = f"cat {PKGS} | sort -u"
+            pkgs = perform.execute(cmd, getoutput=True, teach=args.teach,
+                                   noop=args.noop).decode("utf-8").strip().split("\n")
+            reboot += " for " + ", ".join(pkgs) + " updates"
+    print(f"Reboot:     {reboot}")
+    
 
 # TASKSEL
     
