@@ -1154,10 +1154,11 @@ def sysinfo(args):
         command = "/sbin/ifconfig | grep 'inet ' | awk '{print $2}'"
         localip = perform.execute(command, getoutput=True, teach=args.teach,
                                   noop=args.noop).decode("utf-8").strip().split("\n")
+        localip = ', '.join(localip)
     command = "wget http://ipinfo.io/ip -qO -"
     exterip = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
-    print(f"IP:         {', '.join(localip)} (local) {exterip} (external)")
+    print(f"IP:         {localip} (local) {exterip} (external)")
     
     # UPTIME
     
