@@ -112,9 +112,12 @@ def find_best_match(misspelled, candidates):
     return fuzzprocess.extractOne(misspelled,
                                   candidates,
                                   scorer=fuzz.ratio,
-                                  score_cutoff=80)
+                                  score_cutoff=60)
 
 def get_misspelled_command(command, available_commands):
+
+    msg  = f"wajig: error: The command '{command}' is not recognised. "
+    msg += f"Try 'wajig --help' or 'wajig commands'."
 
     try:
         matched, score = find_best_match(command, available_commands)
@@ -128,9 +131,13 @@ def get_misspelled_command(command, available_commands):
             if yes:
                 print()
                 return matched
+            else:
+                print(msg)
+                sys.exit(1)
     except TypeError:
-        return None
-
+        print(msg)
+        sys.exit(1)
+    return(command)
 
 def get_misspelled_pkg(model):
 
