@@ -819,6 +819,16 @@ def main():
     parser_reportbug.add_argument("package")
     parser_reportbug.set_defaults(func=function)
 
+    # REPOS - list ppa repositories
+    
+    function = commands.repos
+    parser_repos = subparsers.add_parser(
+        "repos",
+        parents=[parser_teach, parser_grep],
+        description=function.__doc__,
+    )
+    parser_repos.set_defaults(func=function)
+
     function = commands.restart
     parser_restart = subparsers.add_parser(
         "restart",
