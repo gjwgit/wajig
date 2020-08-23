@@ -951,7 +951,15 @@ def reportbug(args):
     util.requires_package("reportbug", "/usr/bin/reportbug")
     perform.execute("reportbug " + args.package, teach=args.teach, noop=args.noop)
 
-
+# REPOS
+    
+def repos(args):
+    """List the added personal package archives (PPAs)"""
+    command  = 'for SRC in `find /etc/apt/ -name \*.list`; do '
+    command += 'grep -o "^deb http://ppa.launchpad.net/[a-z0-9\-]\+/[a-z0-9\-]\+" $SRC; done | '
+    command += "perl -p -e 's|^.*(ppa)[^/]*/|ppa:|'"
+    perform.execute(command, teach=args.teach, noop=args.noop)
+    
 def restart(args):
     """Restart system daemons (see LIST-DAEMONS for available daemons)"""
     command = "/usr/sbin/service {} restart".format(args.daemon)
