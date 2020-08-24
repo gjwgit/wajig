@@ -35,6 +35,7 @@ def addcdrom(args):
     """Add a Debian CD/DVD to APT's list of available sources"""
     perform.execute("/usr/bin/apt-cdrom add", root=True, teach=args.teach, noop=args.noop)
 
+# ADDREPO
 
 def addrepo(args):
     """Add a Launchpad PPA (Personal Package Archive) repository
@@ -965,6 +966,19 @@ def restart(args):
     command = "/usr/sbin/service {} restart".format(args.daemon)
     perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
+# RMREPO
+
+def rmrepo(args):
+    """Remove a Launchpad PPA (Personal Package Archive) repository
+
+    An example that shows how to remove the daily builds of
+    Google's Chromium browser:
+
+    $ wajig rmrepo ppa:chromium-daily
+    """
+    util.requires_package("add-apt-repository")
+    perform.execute("/usr/bin/add-apt-repository --remove " + args.ppa,
+                    root=True, teach=args.teach, noop=args.noop)
 
 def rpm2deb(args):
     """Convert an .rpm file to a Debian .deb file"""

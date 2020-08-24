@@ -838,6 +838,18 @@ def main():
     parser_restart.add_argument("daemon")
     parser_restart.set_defaults(func=function)
 
+    # RMREPO
+    
+    function = commands.rmrepo
+    parser_rmrepo = subparsers.add_parser(
+        "rmrepo",
+        parents=[parser_yesno, parser_teach],
+        description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser_rmrepo.add_argument("ppa")
+    parser_rmrepo.set_defaults(func=function)
+
     function = commands.rpm2deb
     parser_rpm2deb = subparsers.add_parser(
         "rpm2deb",

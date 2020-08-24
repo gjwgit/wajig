@@ -46,7 +46,7 @@ info|init|install|installsuggested|integrity|large|lastupdate|listall|listaltern
 listdaemons|listfiles|listhold|listinstalled|listlog|listnames|listpackages|listscripts|listsection|\
 listsections|liststatus|localupgrade|madison|move|new|newdetail|news|nonfree|orphans|passwords|policy|\
 purge|purgeorphans|purgeremoved|rbuilddeps|readme|reboot|recdownload|recommended|reconfigure|\
-reinstall|reload|remove|removeorphans|repackage|reportbug|repos|restart|rpm2deb|rpminstall|search|\
+reinstall|reload|remove|removeorphans|repackage|reportbug|repos|restart|rmrepo|rpm2deb|rpminstall|search|\
 searchapt|show|sizes|snapshot|source|start|status|stop|sysinfo|tasksel|todo|toupgrade|\
 tutorial|unhold|unofficial|update|updatealternatives|updatepciids|updateusbids|upgrade|upgradesecurity|\
 verify|version|versions|whichpackage) ]];
@@ -103,7 +103,7 @@ verify|version|versions|whichpackage) ]];
                   listlog listnames listpackages listscripts listsection listsections liststatus
                   localupgrade madison move new newdetail news nonfree orphans passwords policy purge purgeorphans
                   purgeremoved rbuilddeps readme reboot recdownload recommended reconfigure reinstall
-                  reload remove removeorphans repackage reportbug repos restart rpm2deb rpminstall search
+                  reload remove removeorphans repackage reportbug repos restart rmrepo rpm2deb rpminstall search
                   searchapt show sizes snapshot source start status stop sysinfo tasksel
                   todo toupgrade tutorial unhold unofficial update updatealternatives updatepciids
                   updateusbids upgrade upgradesecurity verify version versions whichpackage)
