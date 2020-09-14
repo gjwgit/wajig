@@ -39,7 +39,7 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog=APP,
-        # usage="wajig [-h] [-V] [<command>] [--help] [--teach] [--noop] [<options>]",
+        usage="wajig [-h] [-V] [<command> [--help] [--teach] [--noop] [<options>]]",
         description="Unified package management front-end for Debian/Ubuntu.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
@@ -284,6 +284,7 @@ def main():
     function = commands.deluser
     parser_deluser = subparsers.add_parser(
         "deluser",
+        aliases=["rmuser"],
         parents=[parser_teach],
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1144,13 +1145,17 @@ def main():
     #-----------------------------------------------------------------------
     # HANDLE FUZZY COMMANDS
     #-----------------------------------------------------------------------
+
+    # Note all available choices including aliases.
+     
+    choices = list(subparsers.choices.keys())
     
     # Get the first positional argument - the command - and consider replacing.
     
     pos_args = [(i, arg) for i, arg in enumerate(sys.argv[1:]) if not arg.startswith('-')]
     cmd_index, cmd = pos_args[0] if len(pos_args) != 0 else (None, None)
+
     if cmd:
-        choices = commands.commands(None, True)
         matched_cmd = util.get_misspelled_command(cmd, choices)
         if matched_cmd is not None:
             sys.argv[cmd_index + 1] = matched_cmd
