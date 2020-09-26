@@ -151,6 +151,19 @@ def main():
     )
     parser_addcdrom.set_defaults(func=function)
 
+    # ADDKEY
+    
+    function = commands.addkey
+    parser_addkey = subparsers.add_parser(
+        "addkey",
+        aliases=["add-key"],
+        parents=[parser_teach],
+        description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser_addkey.add_argument("key")
+    parser_addkey.set_defaults(func=function)
+
     # ADDREPO
     
     function = commands.addrepo
@@ -1136,6 +1149,7 @@ def main():
         "whichpackage",
         aliases=("findfile find-file locate filesearch file-search whichpkg "
                  "which-package").split(),
+        parents=[parser_teach],
         description=function.__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
