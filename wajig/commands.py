@@ -35,6 +35,23 @@ def addcdrom(args):
     """Add a Debian CD/DVD to APT's list of available sources"""
     perform.execute("/usr/bin/apt-cdrom add", root=True, teach=args.teach, noop=args.noop)
 
+# ADDKEY
+
+def addkey(args):
+    """Add a Repository Key to the Local Archive
+
+    Normally the security key from a repository is added when the repository
+    is added, using ADDREPO. But repositories can also be manually added to
+    /etc/apt/sources.list. An UPDATE will then copmlain that the key is missing.
+    The repository's key can be added with ADDKEY:
+
+    $ wajig addkey F142A4D99F16EB04
+    """
+    util.requires_package("apt")
+    cmd = "/usr/bin/apt-key adv --keyserver keyserver.ubuntu.com --recv-keys "
+    cmd += args.key
+    perform.execute(cmd, root=False, teach=args.teach, noop=args.noop)
+
 # ADDREPO
 
 def addrepo(args):
@@ -1359,8 +1376,8 @@ def versions(args):
 def whichpackage(args):
     """Search for files matching a given pattern within packages
 
-    Note: also searches files for uninstalled packages if apt-file is
-    installed
+    Note that this searches files for uninstalled packages if apt-file is
+    installed as well as the locally installed packages.
     """
     try:
         output = perform.execute(
