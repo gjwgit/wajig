@@ -24,7 +24,7 @@ with open(path.join(here, 'docs/README.md'), encoding='utf-8') as f:
 
 setup(
     name='wajig',
-    version='3.2.18',  # DO NOT MODIFY. Managed from Makefile.
+    version='3.2.19',  # DO NOT MODIFY. Managed from Makefile.
     description='Ubunut admin managemetn tool',
     long_description=long_description,
     long_description_content_type='text/markdown',
