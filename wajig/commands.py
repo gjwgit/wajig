@@ -42,15 +42,15 @@ def addkey(args):
 
     Normally the security key from a repository is added when the repository
     is added, using ADDREPO. But repositories can also be manually added to
-    /etc/apt/sources.list. An UPDATE will then copmlain that the key is missing.
-    The repository's key can be added with ADDKEY:
+    /etc/apt/sources.list and keys can expire. An UPDATE will then complain
+    that the key is missing. The repository's key can be added with ADDKEY:
 
     $ wajig addkey F142A4D99F16EB04
     """
     util.requires_package("apt")
     cmd = "/usr/bin/apt-key adv --keyserver keyserver.ubuntu.com --recv-keys "
     cmd += args.key
-    perform.execute(cmd, root=False, teach=args.teach, noop=args.noop)
+    perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
 
 # ADDREPO
 
