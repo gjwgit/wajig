@@ -1337,7 +1337,7 @@ def upgradesecurity(args):
     sources_file = open(sources_list, "w")
     # check dist
     sources_file.write("deb http://security.debian.org/ " +\
-                       "testing/updates main contrib non-free\n")
+                       "testing-security main contrib non-free\n")
     sources_file.close()
     command = (
         "/usr/bin/apt-get --no-list-cleanup --option Dir::Etc::SourceList="
