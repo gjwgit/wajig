@@ -105,16 +105,17 @@ def yes_or_no(msg, *params, yes=True):
     return answer
 
 
-
 def find_best_match(misspelled, candidates):
     """Find the best matched word with <misspelled> in <candidates>."""
 
     return fuzzprocess.extractOne(misspelled,
                                   candidates,
                                   scorer=fuzz.ratio,
-                                  score_cutoff=60)
+                                  score_cutoff=60)[0:2]
+
 
 def get_misspelled_command(command, available_commands):
+    """Check for and returned any misspelled commands."""
 
     msg  = f"wajig: error: The command '{command}' is not recognised. "
     msg += f"Try 'wajig --help' or 'wajig commands'."
@@ -139,6 +140,7 @@ def get_misspelled_command(command, available_commands):
         sys.exit(1)
     return(command)
 
+
 def get_misspelled_pkg(model):
 
     model_completion_list = get_model_completion_list()
@@ -158,7 +160,8 @@ def get_misspelled_pkg(model):
         except TypeError:
             return None
 
-#-----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+
 
 def newly_available(verbose=False):
     """display brand-new packages.. technically new package names"""
