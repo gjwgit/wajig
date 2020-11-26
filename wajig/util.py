@@ -18,9 +18,15 @@ import wajig.perform as perform
 from rapidfuzz import fuzz
 from rapidfuzz import process as fuzzprocess
 
-
-#------------------------------------------------------------------------
+# -----------------------------------------------------------------------
+# CONSTANTS
 #
+# CW Column width on output. Used to be 24 but today users have wider
+#    screens!
+
+CW = 30
+
+# ------------------------------------------------------------------------
 # LOCATIONS
 #
 # init_dir
@@ -29,7 +35,7 @@ from rapidfuzz import process as fuzzprocess
 #       directories (often through NFS) so we need to have host specific
 #       status files. Make sure the directories exist.
 #
-#------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 init_dir = os.path.expanduser("~/.wajig/") + socket.gethostname()
 if not os.path.exists(init_dir):
     os.makedirs(init_dir)
@@ -408,14 +414,12 @@ def do_describe(packages, verbose=False, die=True):
 def show_package_versions():
     packages = upgradable(get_names_only=False)
     if packages:
-        print("{:<24} {:<24} {}".format("Package", "Available", "Installed"))
-        print("="*24 + "-" + "="*24 + "-" + "="*24)
+        print(f'{"Package":<{CW}} {"Available":<{CW}} Installed')
+        print("="*CW + "-" + "="*CW + "-" + "="*CW)
         for package in sorted(packages):
-            message = "{:<24} {:<24} {}".format(
-                package.name,
-                package.candidate.version,
-                package.installed.version,
-            )
+            message = f"{package.name:<{CW}} "
+            message += f"{package.candidate.version:<{CW}} "
+            message += f"{package.installed.version}"
             print(message)
     return packages
 
