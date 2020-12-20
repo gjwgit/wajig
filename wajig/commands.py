@@ -28,7 +28,7 @@ from wajig.constants import APP, VERSION
 # before we do any other command make sure the right files exist
 util.ensure_initialised()
 
-NO_UPGRADES = 'No packages need to be upgraded. Run "wajig update" to update from the repository.'
+NO_UPGRADES = 'No packages known to be upgradable. Run "wajig update" to update local information from the repository.'
 
 
 def addcdrom(args):
