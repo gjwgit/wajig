@@ -38,15 +38,24 @@ def execute(command, root=False, pipe=False, langC=False,
         if setroot == "/usr/bin/sudo":
             #
             # Bug #320126. Karl suggested that we use -v to preset the
-            # password, which also avoids mixing password failure
-            # with command failure but this causes password to be
-            # asked for even if the sudoers file indicates a password
-            # is not required. But this happens in only a few cases,
-            # like listnames (in user has no access to sources.list),
-            # hold, unhold. So should be sufferable.
+            # password, which also avoids mixing password failure with
+            # command failure but this causes password to be asked for
+            # even if the sudoers file indicates a password is not
+            # required. This happens in only a few cases, like
+            # listnames (if user has no access to sources.list), hold,
+            # unhold, it is problematic if the user does not have a
+            # password (20210312). The problem is that -v will ALWAYS
+            # ask for a password.
             #
-            if '|' in command and subprocess.call(setroot + " -v", shell=True):
-                raise SystemExit("sudo authentication failed.")
+            # 20210312 Possible solution: try sudo -n on an innocuous
+            # command and check $?. If 1 then a password is required,
+            # so proceed to ask for it.
+            #
+            if ('|' in command):
+                dt = " -n date >/dev/null 2>&1"
+                if (subprocess.call(setroot + dt, shell=True) and
+                    subprocess.call(setroot + " -v", shell=True)):
+                    raise SystemExit("sudo authentication failed.")
             #
             # Bug #320126 noted the following is not good as is since
             # the password is asked for multiple times in a pipe
