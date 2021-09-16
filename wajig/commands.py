@@ -493,7 +493,7 @@ def install(args):
       in "~/.wajig/$HOSTNAME"
 
     example:
-    $ wajig install a b_1.0_all.deb http://example.com/c_1.0_all.deb
+    $ wajig install a b_1.0_all.deb https://example.com/c_1.0_all.deb
 
     Assuming there's no errors, the command will install 3 packages named
     'a', 'b', and 'c''
@@ -503,7 +503,7 @@ def install(args):
 
     online_files = [
         package for package in packages if
-        package.startswith(("http://", "ftp://"))
+        package.startswith(("https://", "http://", "ftp://"))
     ]
     deb_files = list()
     for package in online_files:
@@ -977,7 +977,7 @@ def reportbug(args):
 def repos(args):
     """List the added personal package archives (PPAs)"""
     command  = 'for SRC in `find /etc/apt/ -name \*.list`; do '
-    command += 'grep -o "^deb http://ppa.launchpad.net/[a-z0-9\-]\+/[a-z0-9\-]\+" $SRC; done | '
+    command += 'grep -o "^deb https://ppa.launchpad.net/[a-z0-9\-]\+/[a-z0-9\-]\+" $SRC; done | '
     command += "perl -p -e 's|^.*(ppa)[^/]*/|ppa:|'"
     perform.execute(command, teach=args.teach, noop=args.noop)
     
@@ -1205,7 +1205,7 @@ def sysinfo(args):
         localip = perform.execute(command, getoutput=True, teach=args.teach,
                                   noop=args.noop).decode("utf-8").strip().split("\n")
         localip = ', '.join(localip)
-    command = "wget http://ipinfo.io/ip -qO -"
+    command = "wget https://ipinfo.io/ip -qO -"
     exterip = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
     print(f"IP:         {localip} (local) {exterip} (external)")
@@ -1287,7 +1287,7 @@ def unhold(args):
 
 def unofficial(args):
     """Search for an unofficial Debian package at apt-get.org"""
-    aptget_org = "http://www.apt-get.org"
+    aptget_org = "https://www.apt-get.org"
     try:
         urllib.request.urlopen(aptget_org)
     except urllib.error.URLError as error:
@@ -1347,7 +1347,7 @@ def upgradesecurity(args):
     sources_list = tempfile.mkstemp(".security", "wajig.", "/tmp")[1]
     sources_file = open(sources_list, "w")
     # check dist
-    sources_file.write("deb http://security.debian.org/ " +\
+    sources_file.write("deb https://security.debian.org/ " +\
                        "testing-security main contrib non-free\n")
     sources_file.close()
     command = (
