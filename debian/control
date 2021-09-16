@@ -3,12 +3,12 @@ Maintainer: Graham Williams <Graham.Williams@togaware.com>
 Uploaders: Tshepang Lekhonkhobe <tshepang@gmail.com>
 Section: admin
 Priority: optional
-Build-Depends: debhelper (>= 9), dh-python, python3, python3-apt, bash-completion
-X-Python3-Version: >= 3.3
+Build-Depends: debhelper (>= 12), dh-python, python3, python3-apt, bash-completion
+X-Python3-Version: >= 3.7
 Standards-Version: 3.9.8
-Vcs-Browser: https://github.com/gjwgit/wajig/src
+Vcs-Browser: https://github.com/gjwgit/wajig/wajig
 Vcs-Git: https://github.com/gjwgit/wajig
-Homepage: http://wajig.togaware.com
+Homepage: https://wajig.togaware.com
 
 Package: wajig
 Architecture: all
