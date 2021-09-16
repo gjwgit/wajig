@@ -843,8 +843,11 @@ def purgeremoved(args):
 def rbuilddeps(args):
     """Display the packages which build-depend on the given package"""
     util.requires_package("grep-dctrl")
-    command = "grep-available -sPackage -FBuild-Depends,Build-Depends-Indep "
-    command = command + args.package + " /var/lib/apt/lists/*Sources"
+    command = "apt-get indextargets --format '$(FILENAME)' "
+    command = command + "'Created-By: Sources' "
+    command = command + "| xargs grep-available -sPackage "
+    command = command + "-FBuild-Depends,Build-Depends-Indep "
+    command = command + args.package
     perform.execute(command, teach=args.teach, noop=args.noop)
 
 
@@ -1186,6 +1189,14 @@ def sysinfo(args):
                               noop=args.noop).decode("utf-8").strip()
     print(f"Memory:     {round(float(result))}GB RAM")
 
+    # PRINTERS
+
+    # IN PROGRESS
+    # print("X")
+    # lpstat = perform.execute("lpstat -p | egrep '^printer' | cut -d' ' -f2", getoutput=True)
+    # if lpstat:
+    #     print("Printers:    {lpstat}")
+    
     # IP
 
     localip = "<requires net-tools package>"
