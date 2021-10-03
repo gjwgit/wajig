@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Sunday 2021-10-03 13:50:42 AEDT Graham Williams>
+# Time-stamp: <Sunday 2021-10-03 20:36:54 AEDT Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -16,7 +16,7 @@
 #   Trivial update or bug fix
 
 APP=wajig
-VER=4.0.0
+VER=4.0.1
 DATE=$(shell date +%Y-%m-%d)
 
 TAR_GZ = dist/$(APP)-$(VER).tar.gz
@@ -111,13 +111,17 @@ version:
 	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' $(APP)/constants.py
 	sed -i -e 's|^APP = ".*"|APP = "$(APP)"|' $(APP)/constants.py
 
+# For testing a local install, install into
+# ~/.local/share/wajig/wajig, with the __initi__.py in
+# ~/.local/share/wajig, so it can call wajig.utils.
 
 install: version $(APP).sh
 	install -d  $(LIBDIR)/wajig $(BINDIR) $(MANDIR)
-	cp $(APP)/*.py  $(LIBDIR)/wajig/
+	install -D $(APP)/*.py  $(LIBDIR)/wajig/
 	mv $(LIBDIR)/wajig/__init__.py $(LIBDIR)
-	cp $(APP).1  $(MANDIR)/
+	install -D $(APP).1  $(MANDIR)/
 	install -D $(APP).sh $(BINDIR)/$(APP)
+	rm $(APP).sh
 
 uninstall:
 	rm -rf $(LIBDIR)
@@ -138,12 +142,14 @@ pypi: docs/README.md version tgz
 # Might be some way to do this purely command line.
 
 deb: version $(APP).sh
+	sed -e 's|PREFIX|/usr|g' < $(APP).sh.in > $(APP).sh
 	PREFIX=/usr dpkg-buildpackage -us -uc
 	mv ../$(APP)_$(VER)_all.deb .
 	mv ../$(APP)_$(VER)_amd64.buildinfo .
 	mv ../$(APP)_$(VER)_amd64.changes .
 	mv ../$(APP)_$(VER).dsc .
 	mv ../$(APP)_$(VER).tar.xz .
+	rm -f $(APP).sh
 
 clean::
 	rm -rf $(APP)/__pycache__
