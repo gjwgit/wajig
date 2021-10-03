@@ -1,9 +1,16 @@
+wajig (3.2.25) released; urgency=low
+
+  * Prepare for deb creation.
+  * All changes recorded on github.
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 3 Oct 2021 08:51:12 +1100
+
 wajig (3.0.0) unreleased; urgency=low
 
   * Kickstart wajig refresh.
   * Add REBOOT command.
 
- -- Graham Williams <gjw@togaware.com>  Sat, 20 Jun 2020 08:51:12 +1000
+ -- Graham Williams <Graham.Williams@togaware.com>  Sat, 20 Jun 2020 08:51:12 +1000
 
 wajig (2.18.2~pre) unreleased; urgency=low
 

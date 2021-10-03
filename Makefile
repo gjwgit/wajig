@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Thursday 2021-09-16 14:29:02 AEST Graham Williams>
+# Time-stamp: <Sunday 2021-10-03 13:47:21 AEDT Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -84,6 +84,7 @@ $(APP):
   uninstall	Remove the local source installed version from ~/.local
   version	Update version from Makefile version number.
   pypi          Install onto PyPI for pip3 installation.
+  deb           Build the debian package.
 
 endef
 export HELP
@@ -137,7 +138,7 @@ pypi: docs/README.md version tgz
 # Might be some way to do this purely command line.
 
 deb: version $(APP).sh
-	dpkg-buildpackage -us -uc
+	PREFIX=/usr dpkg-buildpackage -us -uc
 	mv ../$(APP)_$(VER)_all.deb .
 	mv ../$(APP)_$(VER)_amd64.buildinfo .
 	mv ../$(APP)_$(VER)_amd64.changes .
