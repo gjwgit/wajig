@@ -1,3 +1,9 @@
+wajig (4.0.0) unstable; urgency=low
+
+  * Debian packaging now functional again.
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 3 Oct 2021 13:52:28 +1100
+
 wajig (3.2.25) released; urgency=low
 
   * Prepare for deb creation.
