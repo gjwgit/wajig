@@ -27,14 +27,13 @@ import wajig.util as util
 import wajig.commands as commands
 
 from wajig.constants import APP, VERSION
+from wajig.shell import main as wajigshell
 
 def main():
 
     # without arguments, run a wajig shell (interactive mode)
     if len(sys.argv) == 1:
-        import subprocess
-        command = "python3 /usr/share/wajig/shell.py"
-        subprocess.call(command.split())
+        wajigshell()
         return
 
     parser = argparse.ArgumentParser(
