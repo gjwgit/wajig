@@ -7,7 +7,9 @@ import readline
 import os
 import atexit
 
+
 HISTFILE = os.path.join(os.environ["HOME"], ".wajig", ".wajig-history")
+
 
 def main():
 
@@ -18,12 +20,17 @@ def main():
     readline.parse_and_bind('tab: complete')
 
     while True:
-        command_line = input("wajig> ")
+        try:
+            command_line = input("wajig> ")
+        except EOFError:
+            print()
+            return
         if command_line in "exit quit bye".split():
             return
         if command_line:
             command = "wajig " + command_line
             subprocess.call(command.split())
+
 
 if __name__ == "__main__":
     try:
