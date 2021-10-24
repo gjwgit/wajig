@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Sunday 2021-10-24 13:11:49 AEDT Graham Williams>
+# Time-stamp: <Sunday 2021-10-24 19:54:43 AEDT Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -83,8 +83,13 @@ $(APP):
   install	Install the current source version of $(APP) into ~/.local
   uninstall	Remove the local source installed version from ~/.local
   version	Update version from Makefile version number.
+
   pypi          Install onto PyPI for pip3 installation.
   deb           Build the debian package.
+
+  snap		Build a snap.
+  snapsh	Start a shell within multipass with the snap package.
+  clean		Also performs snapcraft clean.
 
   azsync	Sync to deb@azure for building natively on Debian
   azbuild	Build the deb pacakge on the remote Debian server
@@ -164,8 +169,17 @@ azbuild:
 azget:
 	scp deb.australiacentral.cloudapp.azure.com:$(APP)/$(APP)_$(VER)_all.deb .
 
+.PHONY: snap
+snap:
+	snapcraft
+
+snapsh:
+	snapcraft prime --shell
+
 clean::
 	rm -rf $(APP)/__pycache__
+	rm -f snap/*~
+	snapcraft clean
 
 realclean::
 	rm -f $(APP)_$(VER)*

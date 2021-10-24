@@ -1,0 +1,27 @@
+name: wajig
+base: core18
+version: '4.0.2'
+summary: GNU/Linux command line admin
+description: |
+  The wajig command line tool pre-conceives command incantations that
+  assist a user in managing their own Debian/Ubuntu system.
+
+grade: stable
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+apps:
+  wajig:
+    command: wajig
+
+parts:
+  cli:
+    source: https://github.com/gjwgit/wajig.git
+    source-tag: 4.0.2
+    plugin: python
+    python-version: python3
+    python-packages:
+      - rapidfuzz
+    stage-packages: 
+      - alien
+      - python3-apt
+      - dpkg
