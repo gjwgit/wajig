@@ -1,3 +1,11 @@
+wajig (4.0.2) unstable; urgency=low
+
+  * Updated debian/control to build Debian package (Dirk's fixes)
+  * Depend on fuzzywuzzy on Debian, rapidfuzz if installed.
+  * Model on meld: https://sources.debian.org/src/meld/3.20.4-1/debian/
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 24 Oct 2021 12:49:56 +1100
+
 wajig (4.0.1) unstable; urgency=low
 
   * Debian packaging now functional again.
