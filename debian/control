@@ -1,5 +1,6 @@
 Source: wajig
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
+Uploaders: Dirk Eddelbuettel <edd@debian.org>
 Section: admin
 Priority: optional
 Build-Depends: python3-setuptools, python3-all, debhelper (>= 9), python3-apt, bash-completion
