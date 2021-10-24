@@ -15,8 +15,12 @@ import apt_pkg
 
 import wajig.perform as perform
 
-from rapidfuzz import fuzz
-from rapidfuzz import process as fuzzprocess
+try:
+    from rapidfuzz import fuzz
+    from rapidfuzz import process as fuzzprocess
+except ImportError:
+    from fuzzywuzzy import fuzz
+    from fuzzywuzzy import process as fuzzprocess
 
 # -----------------------------------------------------------------------
 # CONSTANTS
@@ -118,7 +122,6 @@ def find_best_match(misspelled, candidates):
                                   candidates,
                                   scorer=fuzz.ratio,
                                   score_cutoff=60)[0:2]
-
 
 def get_misspelled_command(command, available_commands):
     """Check for and returned any misspelled commands."""
