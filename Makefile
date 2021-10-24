@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Sunday 2021-10-24 12:54:39 AEDT Graham Williams>
+# Time-stamp: <Sunday 2021-10-24 13:11:49 AEDT Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -86,6 +86,10 @@ $(APP):
   pypi          Install onto PyPI for pip3 installation.
   deb           Build the debian package.
 
+  azsync	Sync to deb@azure for building natively on Debian
+  azbuild	Build the deb pacakge on the remote Debian server
+  azget		Retrieve the built pacakge
+
 endef
 export HELP
 
@@ -150,6 +154,15 @@ deb: version $(APP).sh
 	mv ../$(APP)_$(VER).dsc .
 	mv ../$(APP)_$(VER).tar.xz .
 	rm -f $(APP).sh
+
+azdeb:
+	rsync -avzh --delete ./ deb.australiacentral.cloudapp.azure.com:$(APP)/
+
+azbuild:
+	ssh deb.australiacentral.cloudapp.azure.com 'cd $(APP); make deb'
+
+azget:
+	scp deb.australiacentral.cloudapp.azure.com:$(APP)/$(APP)_$(VER)_all.deb .
 
 clean::
 	rm -rf $(APP)/__pycache__
