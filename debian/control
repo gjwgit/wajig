@@ -1,22 +1,28 @@
 Source: wajig
-Maintainer: Graham Williams <Graham.Williams@togaware.com>
-Uploaders: Dirk Eddelbuettel <edd@debian.org>
 Section: admin
 Priority: optional
-Build-Depends: python3-setuptools, python3-all, debhelper (>= 9), python3-apt, bash-completion
-Standards-Version: 3.9.8
+Maintainer: Graham Williams <Graham.Williams@togaware.com>
+Uploaders: Dirk Eddelbuettel <edd@debian.org>
+Build-Depends: dh-python,
+	       python3-setuptools,
+	       python3-all,
+	       debhelper-compat (= 13),
+	       python3-apt,
+	       bash-completion
+Standards-Version: 4.6.0
 Vcs-Browser: https://github.com/gjwgit/wajig/wajig
 Vcs-Git: https://github.com/gjwgit/wajig
 Homepage: https://wajig.togaware.com
 
 Package: wajig
 Architecture: all
-Depends: ${misc:Depends},
-         ${python3:Depends},
+Depends: ${python3:Depends},
+	 ${misc:Depends},
          apt,
-         python3-apt (>= 0.8.9),
          aptitude,
-         dpkg (>= 1.16.2)
+         dpkg (>= 1.16.2),
+         python3-apt (>= 0.8.9),
+	 python3-fuzzywuzzy
 Suggests: debconf,
           reportbug,
           apt-move,
@@ -35,9 +41,9 @@ Suggests: debconf,
           dpkg-dev,
           chkconfig,
           debtags
-Description: unified package management front-end for Debian
+Description: unified package management front-end for Debian/Ubuntu
  A command-line wrapper around apt, apt-cache, dpkg, aptitude, and more.
- It's goal is to ease package management by unifying the main functions
+ The goal is to ease system management by unifying the main functions
  of these tools from one interface.
  .
  For a short guide, run this command:
