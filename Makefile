@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Sunday 2021-10-24 19:54:43 AEDT Graham Williams>
+# Time-stamp: <Monday 2021-10-25 07:59:52 AEDT Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -163,12 +163,20 @@ deb: version $(APP).sh
 azdeb:
 	rsync -avzh --delete ./ deb.australiacentral.cloudapp.azure.com:$(APP)/
 
-azbuild:
+azbuild: azdeb
 	ssh deb.australiacentral.cloudapp.azure.com 'cd $(APP); make deb'
 
-azget:
-	scp deb.australiacentral.cloudapp.azure.com:$(APP)/$(APP)_$(VER)_all.deb .
+azget: azbuild
+	scp deb.australiacentral.cloudapp.azure.com:$(APP)/$(APP)_$(VER)* .
 
+# https://thecustomizewindows.com/2014/12/create-ubuntu-repository-ppa/
+
+ppa: azget
+	cd ppa
+	dpkg-source -x ../$(APP)_$(VER).dsc
+	cd $(APP)_$(VER)
+	debuild -S -sa
+	dput ppa:gjwkayon/ppa ../$(APP)_$(VER)_source.changes
 .PHONY: snap
 snap:
 	snapcraft

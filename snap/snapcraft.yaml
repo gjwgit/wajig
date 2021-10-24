@@ -7,7 +7,7 @@ description: |
   assist a user in managing their own Debian/Ubuntu system.
 
 grade: stable
-confinement: devmode # use 'strict' once you have the right plugs and slots
+confinement: devmode
 
 apps:
   wajig:

@@ -3,8 +3,10 @@
 import os
 import subprocess
 
+
 def highlight(text):
     return "\x1b[1m{}\x1b[0m".format(text)
+
 
 output = subprocess.check_output("dpkg --get-selections".split())
 output = output.decode().split()
