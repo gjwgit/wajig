@@ -13,7 +13,7 @@ from setuptools import setup, find_packages
 
 from codecs import open
 
-from os import path
+from os import path, environ
 
 here = path.abspath(path.dirname(__file__))
 
@@ -48,7 +48,13 @@ setup(
     entry_points={'console_scripts': ['wajig=wajig:main']},
     install_requires=[
         'distro',
-        'rapidfuzz',
+        # 20211026 Debian does not have rapidfuzz. Checking for
+        # DEB_BUILD_ARCH in the environ may be robust for checking if
+        # this is a Debian build. If it's Debian, use the debian
+        # packaged fuzzywuzzy, else use the quicker rapidfuzz. Note
+        # that wajig/util.py tries rapidfuzz first, and utilises it if
+        # installed, otherwise falls back to fuzzywuzzy.
+        'fuzzywuzzy' if 'DEB_BUILD_ARCH' in environ else 'rapidfuzz',
         'python-Levenshtein',
     ],
     include_package_data=True,
@@ -56,12 +62,16 @@ setup(
 
 # How to effect this:
 #
-# cp ~/.local/lib/python3.8/site-packages/wajig/bash_completion.d/wajig.bash ~/.local/share/bash-completion/completions/wajig
+# cp ~/.local/lib/python3.8/site-packages/wajig/bash_completion.d/wajig.bash \
+#    ~/.local/share/bash-completion/completions/wajig
 #
-# Maybe something like the following assuming this is run from lib/python3.8/site-packages
+# Maybe something like the following assuming this is run from \
+#    lib/python3.8/site-packages
 #
-# cp wajig/bash_completion.d/wajig.bash ../../../share/bash-completion/completions/wajig
-# 
-# os.system("cp wajig/bash_completion.d/wajig.bash ../../../share/bash-completion/completions/wajig")
+# cp wajig/bash_completion.d/wajig.bash \
+#    ../../../share/bash-completion/completions/wajig
+#
+# os.system("cp wajig/bash_completion.d/wajig.bash \
+#   ../../../share/bash-completion/completions/wajig")
 #
 # Need to make sure directory path exists.

@@ -15,6 +15,9 @@ import apt_pkg
 
 import wajig.perform as perform
 
+# 20211026 Debian does not have the quicker rapidfuzz, so fall back to
+# fuzzywuzzy. Both have the same interface.
+
 try:
     from rapidfuzz import fuzz
     from rapidfuzz import process as fuzzprocess
@@ -123,11 +126,12 @@ def find_best_match(misspelled, candidates):
                                   scorer=fuzz.ratio,
                                   score_cutoff=60)[0:2]
 
+
 def get_misspelled_command(command, available_commands):
     """Check for and returned any misspelled commands."""
 
-    msg  = f"wajig: error: The command '{command}' is not recognised. "
-    msg += f"Try 'wajig --help' or 'wajig commands'."
+    msg = f"wajig: error: The command '{command}' is not recognised. "
+    msg += "Try 'wajig --help' or 'wajig commands'."
 
     try:
         matched, score = find_best_match(command, available_commands)
@@ -238,6 +242,7 @@ def update_available(noreport=False):
             print("package.")
         else:
             print("packages.")
+
 
 def gen_installed_command_str():
     """Generate command to list installed packages and their status."""
