@@ -5,3 +5,4 @@ export PYBUILD_NAME=wajig
 
 %:
 	dh $@ --buildsystem=pybuild --with python3 --with bash-completion
+

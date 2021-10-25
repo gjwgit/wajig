@@ -1,3 +1,9 @@
+wajig (4.0.3) unstable; urgency=low
+
+  * Updated setup.py to make fuzzywuzzy conditional on Debian
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 24 Oct 2021 12:49:56 +1100
+
 wajig (4.0.2) unstable; urgency=low
 
   * Updated debian/control to build Debian package (Dirk's fixes)
