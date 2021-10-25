@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Tuesday 2021-10-26 08:02:38 AEDT Graham Williams>
+# Time-stamp: <Tuesday 2021-10-26 09:04:50 AEDT Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -91,9 +91,13 @@ $(APP):
   snapsh	Start a shell within multipass with the snap package.
   clean		Also performs snapcraft clean.
 
+  azup          Fire up the Azure server for Debian
   azsync	Sync to deb@azure for building natively on Debian
   azbuild	Build the deb pacakge on the remote Debian server
   azget		Retrieve the built pacakge
+  azdown	Shutdown the Azure server
+
+  azlist        List VM status
 
 endef
 export HELP
@@ -160,6 +164,9 @@ deb: version $(APP).sh
 	mv ../$(APP)_$(VER).tar.xz .
 	rm -f $(APP).sh
 
+azup:
+	az vm start --resource-group deb --name deb
+
 azdeb:
 	rsync -avzh --delete ./ deb.australiacentral.cloudapp.azure.com:$(APP)/
 
@@ -168,6 +175,12 @@ azbuild: azdeb
 
 azget: azbuild
 	scp deb.australiacentral.cloudapp.azure.com:$(APP)/$(APP)_$(VER)* .
+
+azdown:
+	az vm deallocate --resource-group deb --name deb
+
+azlist:
+	az vm list --output table --show-details
 
 # https://thecustomizewindows.com/2014/12/create-ubuntu-repository-ppa/
 
