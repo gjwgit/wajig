@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Tuesday 2021-10-26 09:04:50 AEDT Graham Williams>
+# Time-stamp: <Tuesday 2021-10-26 11:12:47 AEDT Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -91,13 +91,14 @@ $(APP):
   snapsh	Start a shell within multipass with the snap package.
   clean		Also performs snapcraft clean.
 
-  azup          Fire up the Azure server for Debian
-  azsync	Sync to deb@azure for building natively on Debian
-  azbuild	Build the deb pacakge on the remote Debian server
-  azget		Retrieve the built pacakge
-  azdown	Shutdown the Azure server
+  access	Buld and copy deb to access.togaware.com
+    azsync	Sync to deb@azure for building natively on Debian
+    azbuild	Build the deb pacakge on the remote Debian server
+    azget	Retrieve the built pacakge
 
-  azlist        List VM status
+  azstatus      VM status
+  azup          Fire up the Azure server for Debian
+  azdown	Shut down the Azure server.
 
 endef
 export HELP
@@ -179,8 +180,11 @@ azget: azbuild
 azdown:
 	az vm deallocate --resource-group deb --name deb
 
-azlist:
-	az vm list --output table --show-details
+azstatus:
+	az vm list --output table --show-details | egrep '(Name|----|deb)'
+
+access: azget
+	rsync --perms --chmod=u+rw,g+r,o+r $(APP)_$(VER)_all.deb togaware.com:apps/access/
 
 # https://thecustomizewindows.com/2014/12/create-ubuntu-repository-ppa/
 
