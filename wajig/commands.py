@@ -1366,12 +1366,14 @@ def upgradesecurity(args):
 def verify(args):
     """Check package's md5sum"""
     util.requires_package("debsums")
-    perform.execute("debsums " + args.package, teach=args.teach, noop=args.noop)
+    perform.execute("debsums " + args.package,
+                    teach=args.teach,
+                    noop=args.noop)
 
-    
+
 def version(args):
     """Report wajig version"""
-    print(f"{APP} {VERSION}")
+    print(f"{APP} {VERSION} {util.fuzz.__name__}")
 
 
 def versions(args):
