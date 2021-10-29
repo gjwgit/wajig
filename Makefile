@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Tuesday 2021-10-26 11:12:47 AEDT Graham Williams>
+# Time-stamp: <Friday 2021-10-29 16:32:15 AEDT Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -208,3 +208,6 @@ clean::
 
 realclean::
 	rm -f $(APP)_$(VER)*
+
+README.pdf: README.rst
+	pandoc -V urlcolor=cyan -V geometry=a4paper -V lang=en-AU -V babel-lang=british --standalone --template eisvogel --listings README.rst -o README.pdf
