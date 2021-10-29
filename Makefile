@@ -210,4 +210,4 @@ realclean::
 	rm -f $(APP)_$(VER)*
 
 README.pdf: README.rst
-	pandoc -V urlcolor=cyan -V geometry=a4paper -V lang=en-AU -V babel-lang=british --standalone --template eisvogel --listings README.rst -o README.pdf
+	pandoc -V urlcolor=cyan -V geometry=a4paper -V lang=en-AU -V babel-lang=british --standalone --listings README.rst -o README.pdf
