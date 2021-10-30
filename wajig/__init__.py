@@ -29,6 +29,7 @@ import wajig.commands as commands
 from wajig.constants import APP, VERSION
 from wajig.shell import main as wajigshell
 
+
 def main():
 
     # without arguments, run a wajig shell (interactive mode)
