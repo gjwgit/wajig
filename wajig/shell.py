@@ -69,7 +69,6 @@ def main():
             subprocess.call(command.split())
 
     try:
-        print(HISTFILE)
         readline.write_history_file(HISTFILE)
     except IOError:
         pass
