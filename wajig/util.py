@@ -19,7 +19,8 @@ import wajig.perform as perform
 # fuzzywuzzy. Both have the same interface.
 
 # 20211026 Debian build fails with the exception here for some
-# reason. Remove for now until can debug why it is so.
+# reason. When building for Debian comment out the try and retain just
+# the fuzzywuzzy import.
 
 try:
     from rapidfuzz import fuzz
