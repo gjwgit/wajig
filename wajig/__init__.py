@@ -1034,6 +1034,7 @@ def main():
     function = commands.tutorial
     parser_tutorial = subparsers.add_parser(
         "tutorial",
+        parents=[parser_teach],
         aliases="doc docs documentation".split(),
         description=function.__doc__,
     )
