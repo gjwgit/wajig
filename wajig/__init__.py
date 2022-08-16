@@ -705,7 +705,7 @@ def main():
     parser_purgeorphans = subparsers.add_parser(
         "purgeorphans",
         aliases=["purge-orphans"],
-        parents=[parser_yesno],
+        parents=[parser_yesno, parser_teach],
         description=function.__doc__,
     )
     parser_purgeorphans.set_defaults(func=function)
@@ -714,6 +714,7 @@ def main():
     parser_purgeremoved = subparsers.add_parser(
         "purgeremoved",
         aliases=["purge-removed"],
+        parents=[parser_teach],
         description=function.__doc__,
     )
     parser_purgeremoved.set_defaults(func=function)
