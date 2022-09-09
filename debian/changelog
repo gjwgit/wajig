@@ -1,3 +1,10 @@
+wajig (4.0.4) UNRELEASED; urgency=medium
+
+  * Remove constraints unnecessary since buster (oldstable):
+    + wajig: Drop versioned constraint on dpkg and python3-apt in Depends.
+
+ -- Debian Janitor <janitor@jelmer.uk>  Fri, 09 Sep 2022 08:41:02 -0000
+
 wajig (4.0.3) unstable; urgency=low
 
   * Updated setup.py to make fuzzywuzzy conditional on Debian
