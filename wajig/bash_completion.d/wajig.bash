@@ -40,7 +40,7 @@ _wajig()
     for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
         if [[ ${COMP_WORDS[i]} == \
          @(addcdrom|addrepo|aptlog|autoalts|autoclean|autodownload|autoremove|build|\
-builddeps|changelog|clean|commands|contents|dailyupgrade|dependents|describe|describenew|\
+builddeps|changelog|clean|commands|contents|dailyupgrade|dependents|describe|describenew|detail|details|\
 distupgrade|download|editsources|extract|fixconfigure|fixinstall|fixmissing|force|hold|\
 info|init|install|installsuggested|integrity|large|lastupdate|listall|listalternatives|listcache|\
 listdaemons|listfiles|listhold|listinstalled|listlog|listnames|listpackages|listscripts|listsection|\
@@ -56,7 +56,7 @@ verify|version|versions|whichpackage) ]];
 
     if [[ -n "$special" ]]; then
        case $special in
-           install|distupgrade|download|show|changelog|builddeps|dependents|describe|details|policy|recdownload|source)
+           install|distupgrade|download|show|changelog|builddeps|dependents|describe|detail|details|policy|recdownload|source)
                COMPREPLY=( $( apt-cache pkgnames $cur 2> /dev/null ) )
                if [[ "$special" == "install" ]]; then
                    _filedir
@@ -97,7 +97,7 @@ verify|version|versions|whichpackage) ]];
     elif [[ -z "$special" ]]; then
         commands=(addcdrom addrepo aptlog autoalts autoclean autodownload autoremove build builddeps
                   changelog clean commands contents dailyupgrade dependents describe
-                  describenew distupgrade download editsources extract fixconfigure fixinstall
+                  describenew detail details distupgrade download editsources extract fixconfigure fixinstall
                   fixmissing force hold info init install installsuggested integrity large lastupdate
                   listall listalternatives listcache listdaemons listfiles listhold listinstalled
                   listlog listnames listpackages listscripts listsection listsections liststatus
