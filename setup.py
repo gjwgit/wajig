@@ -51,10 +51,10 @@ setup(
         # 20211026 Debian does not have rapidfuzz. Checking for
         # DEB_BUILD_ARCH in the environ may be robust for checking if
         # this is a Debian build. If it's Debian, use the debian
-        # packaged fuzzywuzzy, else use the quicker rapidfuzz. Note
+        # packaged thefuzz, else use the quicker rapidfuzz. Note
         # that wajig/util.py tries rapidfuzz first, and utilises it if
-        # installed, otherwise falls back to fuzzywuzzy.
-        'fuzzywuzzy' if 'DEB_BUILD_ARCH' in environ else 'rapidfuzz',
+        # installed, otherwise falls back to thefuzz.
+        'thefuzz' if 'DEB_BUILD_ARCH' in environ else 'rapidfuzz',
         'python-Levenshtein',
     ],
     include_package_data=True,

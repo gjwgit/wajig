@@ -21,7 +21,7 @@ def main():
 
     # 20211030 Start exploring implementation of completer.
     #
-    # from fuzzywuzzy import process as fuzzyprocess
+    # from thefuzz import process as fuzzyprocess
     # import rlcompleter
     #
     # def completer(text, state):
