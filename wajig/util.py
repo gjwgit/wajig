@@ -16,18 +16,18 @@ import apt_pkg
 import wajig.perform as perform
 
 # 20211026 Debian does not have the quicker rapidfuzz, so fall back to
-# fuzzywuzzy. Both have the same interface.
+# thefuzz. Both have the same interface.
 
 # 20211026 Debian build fails with the exception here for some
 # reason. When building for Debian comment out the try and retain just
-# the fuzzywuzzy import.
+# the thefuzz import.
 
 try:
     from rapidfuzz import fuzz
     from rapidfuzz import process as fuzzprocess
 except ImportError:
-    from fuzzywuzzy import fuzz
-    from fuzzywuzzy import process as fuzzprocess
+    from thefuzz import fuzz
+    from thefuzz import process as fuzzprocess
 
 # -----------------------------------------------------------------------
 # CONSTANTS
