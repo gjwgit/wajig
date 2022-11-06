@@ -5,7 +5,7 @@ Maintainer: Graham Williams <Graham.Williams@togaware.com>
 Uploaders: Dirk Eddelbuettel <edd@debian.org>
 Build-Depends: dh-python,
 	       python3-setuptools,
-	       python3-fuzzywuzzy,
+	       python3-thefuzz,
 	       python3-all,
 	       debhelper-compat (= 13),
 	       python3-apt,
@@ -22,7 +22,7 @@ Depends: ${python3:Depends},
          apt,
          aptitude,
          python3-apt,
-	 python3-fuzzywuzzy
+	 python3-thefuzz,
 Suggests: debconf,
           reportbug,
           apt-move,
