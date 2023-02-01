@@ -769,19 +769,20 @@ def orphans(args):
     util.requires_package("deborphan")
     perform.execute("deborphan", teach=args.teach, noop=args.noop)
 
+
 # PASSWORD
-    
+
 def password(args):
     """Generate a good password optionally with punctuation
 
 Default is to generate one password.
 
-Simple usage to generate a list of 5 passwords of length 20 with 
+Simple usage to generate a list of 5 passwords of length 20 with
 special characters (punctuation).:
 
   $ wajig password --punct 5 20
 """
-    length = args.length if args.length else 16
+    length = args.length if args.length else 20
     number = args.number if args.number else 1
     if args.punct:
         command = f"cat /dev/urandom | tr -cd '[:graph:]' | head -c {length}; echo"
