@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Thursday 2023-02-02 08:36:58 +1100 Graham Williams>
+# Time-stamp: <Thursday 2023-02-02 08:52:17 +1100 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -80,7 +80,7 @@ endif
 define HELP
 $(APP):
 
-  install	Install the current source version of $(APP) into ~/.local
+  install	NOT REQUIRED - already installaed as 'pip install -e .'
   uninstall	Remove the local source installed version from ~/.local
   version	Update version from Makefile version number.
 
@@ -129,13 +129,10 @@ version:
 # ~/.local/share/wajig/wajig, with the __initi__.py in
 # ~/.local/share/wajig, so it can call wajig.utils.
 
+# 20230202 Use pip -e for local install now.
+
 install: version $(APP).sh
-	install -d  $(LIBDIR)/wajig $(BINDIR) $(MANDIR)
-	install -D $(APP)/*.py  $(LIBDIR)/wajig/
-	mv $(LIBDIR)/wajig/__init__.py $(LIBDIR)
-	install -D $(APP).1  $(MANDIR)/
-	install -D $(APP).sh $(BINDIR)/$(APP)
-	rm $(APP).sh
+	@echo "NOT REQUIRED. USE 'pip install -e .'"
 
 uninstall:
 	rm -rf $(LIBDIR)
