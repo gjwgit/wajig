@@ -792,7 +792,7 @@ special characters (punctuation).:
                 perform.execute(command)
     else:
         util.requires_package("pwgen")
-        command = f"pwgen -s -y {length} {number} | tr ' ' '\n'"
+        command = f"pwgen -s {length} {number} | tr ' ' '\n'"
         perform.execute(command, teach=args.teach, noop=args.noop)
 
 # POLICY
