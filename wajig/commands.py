@@ -126,7 +126,7 @@ the output will be username:password.
         password = perform.execute(command, pipe=True, teach=args.teach, noop=args.noop)
         if password: password = password.readline().strip()
         
-        command = f'echo "{u}:{pasword}" | sudo chpasswd'
+        command = f'echo "{u}:{password}" | sudo chpasswd'
         perform.execute(command, root=True, teach=args.teach, noop=args.noop)
 
         print()
