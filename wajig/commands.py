@@ -122,7 +122,7 @@ the output will be username:password.
         command = f'adduser {u} --gecos "" --disabled-password'
         perform.execute(command, root=True, teach=args.teach, noop=args.noop)
         
-        command = f"pwgen -s -y 20 1"
+        command = f"pwgen -s 20 1"
         password = perform.execute(command, pipe=True, teach=args.teach, noop=args.noop)
         if password: password = password.readline().strip()
         
