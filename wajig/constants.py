@@ -11,4 +11,4 @@
 # Define application constants.
 
 APP = "wajig"
-VERSION = "4.0.11"
+VERSION = "4.0.12"

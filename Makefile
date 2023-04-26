@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Monday 2023-03-27 09:01:33 +1100 Graham Williams>
+# Time-stamp: <Thursday 2023-04-27 08:57:36 +1000 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -16,7 +16,7 @@
 #   Trivial update or bug fix
 
 APP=wajig
-VER=4.0.11
+VER=4.0.12
 DATE=$(shell date +%Y-%m-%d)
 
 TAR_GZ = dist/$(APP)-$(VER).tar.gz
@@ -80,7 +80,7 @@ endif
 define HELP
 $(APP):
 
-  install	NOT REQUIRED - already installaed as 'pip install -e .'
+  install	NOT REQUIRED - already installed as 'pip install -e .'
   uninstall	Remove the local source installed version from ~/.local
   version	Update version from Makefile version number.
 
