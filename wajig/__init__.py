@@ -537,6 +537,7 @@ def main():
     parser_listhold = subparsers.add_parser(
         "listhold",
         aliases=["list-hold"],
+        parents=[parser_teach],
         description=function.__doc__,
     )
     parser_listhold.set_defaults(func=function)
