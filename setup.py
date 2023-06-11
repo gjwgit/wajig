@@ -25,7 +25,7 @@ with open(path.join(here, 'docs/README.md'), encoding='utf-8') as f:
 setup(
     name='wajig',
     version='4.0.12',  # DO NOT MODIFY. Managed from Makefile.
-    description='Ubunut admin managemetn tool',
+    description='Debian/Ubuntu admin management tool',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Graham Williams',
