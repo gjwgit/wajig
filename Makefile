@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Thursday 2023-04-27 08:57:36 +1000 Graham Williams>
+# Time-stamp: <Saturday 2023-07-08 07:14:24 +1000 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -40,7 +40,7 @@ SOURCE = setup.py			\
 
 # Required modules.
 
-INC_BASE    = $(HOME)/.local/share/make
+INC_BASE    = support
 INC_CLEAN   = $(INC_BASE)/clean.mk
 INC_PANDOC  = $(INC_BASE)/pandoc.mk
 INC_GIT     = $(INC_BASE)/git.mk
