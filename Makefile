@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Saturday 2023-07-08 07:14:24 +1000 Graham Williams>
+# Time-stamp: <Saturday 2023-07-08 07:37:32 +1000 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -161,6 +161,8 @@ deb: version $(APP).sh
 	mv ../$(APP)_$(VER).dsc .
 	mv ../$(APP)_$(VER).tar.xz .
 	rm -f $(APP).sh
+
+# 20230708 gjw az support has been removed.
 
 azup:
 	az vm start --resource-group deb --name deb
