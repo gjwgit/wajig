@@ -1,3 +1,12 @@
+wajig (4.0.12) unstable; urgency=low
+
+  * Re-sync the release on Debian with development version.
+  * Depend on python3-thefuzz (Debian 12 and Ubuntu 23.04).
+  * Restore wajig command completion support.
+  * Fix teach functionality.
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sat, 8 Jul 2023 10:37:58 +1000
+
 wajig (4.0.7) UNRELEASED; urgency=medium
 
   * The fuzzywuzzy Python library has been renamed, it is now thefuzz.
