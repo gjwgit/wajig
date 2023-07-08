@@ -25,7 +25,7 @@ Installing
 ----------
 
 Wajig is available in the Debian and Ubuntu repositories. On Ubuntu,
-where sudo is set up by default
+with a user set up with sudo:
 
 .. code:: consoles
 
@@ -42,7 +42,7 @@ If sudo is not set up (see instructions below) then as root:
 
 .. code:: console
 
-   # apt-get install wajig
+   # apt install wajig
 
 Resources
 ---------
@@ -247,8 +247,12 @@ Hacking
 HowTo Release
 -------------
 
--  Ensure that the version string in ``src/wajig.py`` as updated from
-   the Makefil matches that of latest changelog.
+-  Check https://bugs.launchpad.net/ubuntu/+source/wajig
+
+-  Check https://bugs.debian.org/cgi-bin/pkgreport.cgi?src=wajig
+   
+-  Ensure that the version string in ``src/wajig.py`` is updated from
+   the Makefile matches that of latest changelog entry.
 
 -  Ensure that debuild does not emit any lintian errors/warnings.
 
