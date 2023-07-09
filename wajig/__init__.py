@@ -165,7 +165,7 @@ def main():
     parser_addkey.set_defaults(func=function)
 
     # ADDREPO
-    
+
     function = commands.addrepo
     parser_addrepo = subparsers.add_parser(
         "addrepo",
@@ -177,7 +177,7 @@ def main():
     parser_addrepo.set_defaults(func=function)
 
     # ADDUSER
-    
+
     function = commands.adduser
     parser_adduser = subparsers.add_parser(
         "adduser",
@@ -293,7 +293,7 @@ def main():
     parser_dailyupgrade.set_defaults(func=function)
 
     # DELUSER
-    
+
     function = commands.deluser
     parser_deluser = subparsers.add_parser(
         "deluser",
@@ -332,6 +332,19 @@ def main():
     )
     parser_describenew.set_defaults(func=function)
 
+    # DISABLE
+
+    function = commands.disable
+    parser_disable = subparsers.add_parser(
+        "disable",
+        aliases=["disuser", "lock"],
+        parents=[parser_teach],
+        description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser_disable.add_argument("username", nargs="+")
+    parser_disable.set_defaults(func=function)
+
     function = commands.distupgrade
     parser_distupgrade = subparsers.add_parser(
         "distupgrade",
@@ -363,6 +376,19 @@ def main():
         description=function.__doc__,
     )
     parser_editsources.set_defaults(func=function)
+
+    # ENABLE
+
+    function = commands.enable
+    parser_enable = subparsers.add_parser(
+        "enable",
+        aliases=["enuser", "unlock"],
+        parents=[parser_teach],
+        description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser_enable.add_argument("username", nargs="+")
+    parser_enable.set_defaults(func=function)
 
     function = commands.extract
     parser_extract = subparsers.add_parser(

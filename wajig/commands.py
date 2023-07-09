@@ -350,6 +350,22 @@ def describenew(args):
     util.newly_available()
 
 
+# DISABLE
+
+def disable(args):
+    """Disable user accounts.
+
+    The user account is retained and can be re-ENABLEd. The action is
+    to actually place a '!' in front of the encrypted password in the
+    password file.  With a list of usernames, diable each user.
+
+    $ wajig disable fred susan"""
+    for u in args.username:
+        command = f"sudo usermod --lock {u}"
+        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+        if not u == args.username[-1]: print()
+
+
 def distupgrade(args):
     """Comprehensive system upgrade
 
@@ -386,6 +402,23 @@ def download(args):
 def editsources(args):
     """Edit list of Debian repository locations for packages"""
     perform.execute("/usr/bin/apt edit-source", root=True, teach=args.teach, noop=args.noop)
+
+
+# ENABLE
+
+def enable(args):
+    """Enable user accounts.
+
+    A user account that has been `disable`d is re-enabled. The action
+    is to actually remove a '!' in front of the encrypted password in
+    the password file.  With a list of usernames, enable each user.
+
+    $ wajig enable mary john"""
+    for u in args.username:
+        command = f"sudo usermod --unlock {u}"
+        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+        if not u == args.username[-1]:
+            print()
 
 
 def extract(args):
