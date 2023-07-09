@@ -563,6 +563,15 @@ def main():
     )
     parser_listdaemons.set_defaults(func=function)
 
+    function = commands.listgroups
+    parser_listgroups = subparsers.add_parser(
+        "listgroups",
+        aliases=["list-groups", "groups"],
+        parents=[parser_teach],
+        description=function.__doc__,
+    )
+    parser_listgroups.set_defaults(func=function)
+
     function = commands.listfiles
     parser_listfiles = subparsers.add_parser(
         "listfiles",

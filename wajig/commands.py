@@ -136,15 +136,15 @@ def adduser(args):
     util.requires_package("pwgen")
     created = []
     for u in usernames:
-        command = f'adduser {u} --gecos "" --disabled-password'
-        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+        cmd = f'adduser {u} --gecos "" --disabled-password'
+        perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
         
-        command = f"pwgen -s 20 1"
-        password = perform.execute(command, pipe=True, teach=args.teach, noop=args.noop)
+        cmd = f"pwgen -s 20 1"
+        password = perform.execute(cmd, pipe=True, teach=args.teach, noop=args.noop)
         if password: password = password.readline().strip()
         
-        command = f'echo "{u}:{password}" | sudo chpasswd'
-        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+        cmd = f'echo "{u}:{password}" | sudo chpasswd'
+        perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
 
         print()
         created.append(f"{u}:{password}")
@@ -166,9 +166,9 @@ def autoalts(args):
 def autodownload(args):
     """Do an update followed by a download of all updated packages"""
     util.do_update(args.noop)
-    command = ("/usr/bin/apt-get --download-only --show-upgraded --assume-yes "
+    cmd = ("/usr/bin/apt-get --download-only --show-upgraded --assume-yes "
                "--force-yes dist-upgrade")
-    perform.execute(command, root=True)
+    perform.execute(cmd, root=True)
     if not args.noop:
         upgradable_packages = util.upgradable()
         if upgradable_packages:
@@ -196,16 +196,16 @@ def build(args):
     util.requires_package("sudo")
     # First make sure dependencies are met
     if not builddeps(args):
-        command = "apt-get {} source --build " + " ".join(args.packages)
-        command = command.format(args.noauth)
-        perform.execute(command)
+        cmd = "apt-get {} source --build " + " ".join(args.packages)
+        cmd = cmd.format(args.noauth)
+        perform.execute(cmd)
 
 
 def builddeps(args):
     """Install build-dependencies for given packages"""
-    command = "/usr/bin/apt-get {} {} build-dep " + " ".join(args.packages)
-    command = command.format(args.yes, args.noauth)
-    return perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
+    cmd = "/usr/bin/apt-get {} {} build-dep " + " ".join(args.packages)
+    cmd = cmd.format(args.yes, args.noauth)
+    return perform.execute(cmd, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def changelog(args):
@@ -255,10 +255,10 @@ def changelog(args):
                 changelog += "{:=^79}\n".format(" local changelog ")
             f.write(changelog)
         if package.is_installed:
-            command = util.local_changelog(args.package, tmp)
-            if not command:
+            cmd = util.local_changelog(args.package, tmp)
+            if not cmd:
                 return
-            perform.execute(command)
+            perform.execute(cmd)
         with open(tmp) as f:
             for line in f:
                 try:
@@ -311,8 +311,8 @@ With a list of usernames, delete each user.
   $ wajig deluser fred susan
 """
     for u in args.username:
-        command = f"sudo deluser --remove-home --backup {u}"
-        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+        cmd = f"sudo deluser --remove-home --backup {u}"
+        perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
         if not u == args.username[-1]: print()
 
 
@@ -378,8 +378,8 @@ def disable(args):
 
     $ wajig disable fred susan"""
     for u in args.username:
-        command = f"sudo usermod --lock {u}"
-        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+        cmd = f"sudo usermod --lock {u}"
+        perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
         if not u == args.username[-1]: print()
 
 
@@ -410,10 +410,10 @@ def distupgrade(args):
 def download(args):
     """Download one or more packages without installing them"""
     print("Packages being downloaded to /var/cache/apt/archives/")
-    command = "/usr/bin/apt-get --reinstall --download-only install "
+    cmd = "/usr/bin/apt-get --reinstall --download-only install "
     packages = util.consolidate_package_names(args)
-    command = command + " ".join(packages)
-    perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+    cmd = cmd + " ".join(packages)
+    perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
 
 
 def editsources(args):
@@ -432,17 +432,17 @@ def enable(args):
 
     $ wajig enable mary john"""
     for u in args.username:
-        command = f"sudo usermod --unlock {u}"
-        perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+        cmd = f"sudo usermod --unlock {u}"
+        perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
         if not u == args.username[-1]:
             print()
 
 
 def extract(args):
     """Extract the files from a package file to a directory"""
-    command = "dpkg --extract {} {}"
-    command = command.format(args.debfile, args.destination_directory)
-    perform.execute(command, teach=args.teach, noop=args.noop)
+    cmd = "dpkg --extract {} {}"
+    cmd = cmd.format(args.debfile, args.destination_directory)
+    perform.execute(cmd, teach=args.teach, noop=args.noop)
 
 
 def fixconfigure(args):
@@ -452,14 +452,14 @@ def fixconfigure(args):
 
 def fixinstall(args):
     """Fix an install interrupted by broken dependencies"""
-    command = "/usr/bin/apt-get --fix-broken {} install".format(args.noauth)
-    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
+    cmd = "/usr/bin/apt-get --fix-broken {} install".format(args.noauth)
+    perform.execute(cmd, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def fixmissing(args):
     """Fix and install even though there are missing dependencies"""
-    command = "/usr/bin/apt-get --ignore-missing {} upgrade".format(args.noauth)
-    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
+    cmd = "/usr/bin/apt-get --ignore-missing {} upgrade".format(args.noauth)
+    perform.execute(cmd, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def force(args):
@@ -470,16 +470,16 @@ def force(args):
           whatever reason
     """
 
-    command = "/usr/bin/dpkg --install --force overwrite --force depends "
+    cmd = "/usr/bin/dpkg --install --force overwrite --force depends "
     archives = "/var/cache/apt/archives/"
 
     # For a .deb file we simply force install it.
     if args.packages[0].endswith(".deb"):
         for package in args.packages:
             if os.path.exists(package):
-                command += "'" + package + "' "
+                cmd += "'" + package + "' "
             elif os.path.exists(archives + package):
-                command += "'" + archives + package + "' "
+                cmd += "'" + archives + package + "' "
             else:
                 message = ("File {} not found. "
                            "Searched current directory and {}."
@@ -507,9 +507,9 @@ def force(args):
                 debpkg = matches.readline().strip()
 
             # Force install the package from the download archive.
-            command += "'" + archives + debpkg + "' "
+            cmd += "'" + archives + debpkg + "' "
 
-    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
+    perform.execute(cmd, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def hold(args):
@@ -517,8 +517,8 @@ def hold(args):
     for package in args.packages:
         # The dpkg needs sudo but not the echo.
         # Do all of it as root then!
-        command = '/bin/echo "{} hold" | /usr/bin/dpkg --set-selections'
-        perform.execute(command.format(package), root=True, teach=args.teach, noop=args.noop)
+        cmd = '/bin/echo "{} hold" | /usr/bin/dpkg --set-selections'
+        perform.execute(cmd.format(package), root=True, teach=args.teach, noop=args.noop)
     print("The following packages are on hold:")
     perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1", teach=args.teach, noop=args.noop)
 
@@ -677,17 +677,27 @@ def listfiles(args):
             print(line)
 
 
+def listgroups(args):
+    """List the unix groups defined for this computer.
+
+    Groups in unix are used for managing users and their permissions
+    to access commands and files."""
+    cmd = "cat /etc/group | cut -d':' -f1 | sort"
+    perform.execute(cmd, teach=args.teach, noop=args.noop)
+
+
 def listhold(args):
     """List packages that are on hold (i.e. those that won't be upgraded)"""
-    perform.execute("dpkg --get-selections | grep -E 'hold$' | cut -f1", teach=args.teach, noop=args.noop)
+    cmd = "dpkg --get-selections | grep -E 'hold$' | cut -f1"
+    perform.execute(cmd, teach=args.teach, noop=args.noop)
 
 
 def listinstalled(args):
     """List installed packages"""
-    command = "dpkg --get-selections | cut -f1"
+    cmd = "dpkg --get-selections | cut -f1"
     if args.pattern:
-        command += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
-    perform.execute(command, teach=args.teach, noop=args.noop)
+        cmd += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
+    perform.execute(cmd, teach=args.teach, noop=args.noop)
 
 
 def listlog(args):
@@ -704,10 +714,10 @@ def listnames(args):
 
 def listpackages(args):
     """List the status, version, and description of installed packages"""
-    command = "dpkg --list '*' | grep -E -v 'no description avail'"
+    cmd = "dpkg --list '*' | grep -E -v 'no description avail'"
     if args.pattern:
-        command += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
-    perform.execute(command, teach=args.teach, noop=args.noop)
+        cmd += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
+    perform.execute(cmd, teach=args.teach, noop=args.noop)
 
 
 def listscripts(args):
@@ -715,16 +725,16 @@ def listscripts(args):
     package = args.debfile
     scripts = ["preinst", "postinst", "prerm", "postrm"]
     if package.endswith(".deb"):
-        command = "ar p " + package + " control.tar.gz | tar ztvf -"
-        pkgScripts = perform.execute(command, pipe=True).readlines()
+        cmd = "ar p " + package + " control.tar.gz | tar ztvf -"
+        pkgScripts = perform.execute(cmd, pipe=True).readlines()
         for script in scripts:
             if "./" + script in "".join(pkgScripts):
                 nlen = int((72 - len(script)) / 2)
                 print(">"*nlen, script, "<"*nlen)
-                command = "ar p " + package + " control.tar.gz |" +\
+                cmd = "ar p " + package + " control.tar.gz |" +\
                           "tar zxvf - -O ./" + script +\
                           " 2>/dev/null"
-                perform.execute(command, teach=args.teach, noop=args.noop)
+                perform.execute(cmd, teach=args.teach, noop=args.noop)
     else:
         root = "/var/lib/dpkg/info/"
         for script in scripts:
@@ -761,21 +771,21 @@ def listsections(args):
 
 def liststatus(args):
     """Same as list but only prints first two columns, not truncated"""
-    command = "COLUMNS=400 "
-    command += "dpkg --list '*' | grep -E -v 'no description avail'"
-    command += " | awk '{print $1,$2}'"
+    cmd = "COLUMNS=400 "
+    cmd += "dpkg --list '*' | grep -E -v 'no description avail'"
+    cmd += " | awk '{print $1,$2}'"
     if args.pattern:
-        command += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
-    perform.execute(command, teach=args.teach, noop=args.noop)
+        cmd += " | grep -E '{}' | sort -k 1b,1".format(args.pattern)
+    perform.execute(cmd, teach=args.teach, noop=args.noop)
 
 
 def localupgrade(args):
     """Upgrade using only packages that are already downloaded"""
-    command = (
+    cmd = (
         "/usr/bin/apt-get --no-download --ignore-missing "
         "--show-upgraded upgrade"
     )
-    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
+    perform.execute(cmd, root=True, log=True, teach=args.teach, noop=args.noop)
 
 
 def madison(args):
