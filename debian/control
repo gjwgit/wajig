@@ -10,7 +10,7 @@ Build-Depends: dh-python,
 	       debhelper-compat (= 13),
 	       python3-apt,
 	       bash-completion
-Standards-Version: 4.6.0
+Standards-Version: 4.6.2
 Vcs-Browser: https://github.com/gjwgit/wajig/wajig
 Vcs-Git: https://github.com/gjwgit/wajig
 Homepage: https://wajig.togaware.com

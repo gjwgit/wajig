@@ -1,3 +1,11 @@
+wajig (4.1.1) UNRELEASED; urgency=low
+
+  * Implement DISABLE and ENABLE for user accounts.
+  * Implement ADDGROUP, RMGROUP, LISTGROUPS for user group management.
+  * Support tags on each new pypi release.
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 2023-07-09 16:01 +1000
+
 wajig (4.0.12) unstable; urgency=low
 
   * Re-sync the release on Debian with development version.
@@ -24,7 +32,7 @@ wajig (4.0.3) unstable; urgency=low
 
   * Updated setup.py to make fuzzywuzzy conditional on Debian
 
- -- Graham Williams <Graham.Williams@togaware.com>  Sun, 26 Oct 2021 10:40:01 +1100
+ -- Graham Williams <Graham.Williams@togaware.com>  Tue, 26 Oct 2021 10:40:01 +1100
 
 wajig (4.0.2) unstable; urgency=low
 
