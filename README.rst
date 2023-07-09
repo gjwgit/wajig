@@ -247,6 +247,8 @@ Hacking
 HowTo Release
 -------------
 
+-  Bump version in Makefile and add debian/changelog entry.
+
 -  Check https://bugs.launchpad.net/ubuntu/+source/wajig
 
 -  Check https://bugs.debian.org/cgi-bin/pkgreport.cgi?src=wajig
@@ -256,6 +258,25 @@ HowTo Release
 
 -  Ensure that debuild does not emit any lintian errors/warnings.
 
+- Check on a fresh server (e.g., on Linode or VM or Docker)
+
+  $ git clone git@github.com:gjwgit/wajig.git
+  $ cd wajig
+  $ sudo apt install build-essential dh-python python3-setuptools python3-thefuzz python3-all debhelper-compat
+  $ make deb
+  $ sudo apt install python3-distro python3-levenshtein aptitude
+  $ sudo dpkg --install wajig_4.0.12_all.deb
+  $ wajig version
+  $ wajig install most
+
+- Tag the version:
+
+  $ git tag v4.0.12
+  $ git push --tags
+
+- Create a release on github: "Release v4.0.12"
+
+   
 Available Packages
 ------------------
 
