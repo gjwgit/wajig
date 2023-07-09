@@ -14,6 +14,8 @@ $ wajig distupgrade
 $ wajig sysinfo
 ```
 
+Visit https://survivor.togaware.com/gnulinux/wajig.html
+
 Wajig was implemented by Graham Williams. It has been supported by
 Dirk Eddelbuettel and Tshepang Lekhonkhobe, with Tshepang maintaining
 and improving wajig for a few years. Contributions also come from
@@ -254,18 +256,25 @@ $ sudo debi
 
 -   Check on a fresh server (e.g., on Linode or VM or Docker)
 
-    \$ git clone <git@github.com>:gjwgit/wajig.git \$ cd wajig \$ sudo
-    apt install build-essential dh-python python3-setuptools
-    python3-thefuzz python3-all debhelper-compat \$ make deb \$ sudo apt
-    install python3-distro python3-levenshtein aptitude \$ sudo dpkg
-    \--install wajig_4.0.12_all.deb \$ wajig version \$ wajig install
-    most
+```
+$ git clone <git@github.com>:gjwgit/wajig.git 
+$ cd wajig 
+$ sudo apt install build-essential dh-python python3-setuptools python3-thefuzz python3-all debhelper-compat 
+$ make deb 
+$ sudo apt install python3-distro python3-levenshtein aptitude 
+$ sudo dpkg --install wajig_4.0.12_all.deb 
+$ wajig version 
+$ wajig install most
+```
 
 -   Tag the version:
 
-    \$ git tag v4.0.12 \$ git push \--tags
+```
+$ git tag v4.0.12 
+$ git push --tags
+```
 
--   Create a release on github: \"Release v4.0.12\"
+-   Create a release on github: "Release v4.0.12"
 
 ## Available Packages
 
@@ -289,7 +298,9 @@ This uses entries in the file /etc/apt/sources.list to know where to
 get the list of available packages from and which release of Debian
 you wish to follow.  You can edit this file with:
 
-  $ wajig editsources           (<configured editor> /etc/apt/sources.list)
+```
+$ wajig editsources           (<configured editor> /etc/apt/sources.list)
+```
 
 It will check if $VISUAL and $EDITOR are defined, and use the editors
 defined there. If not, it will simply use /usr/bin/sensible-editor.
@@ -297,7 +308,9 @@ defined there. If not, it will simply use /usr/bin/sensible-editor.
 You need to understand the format of the file /etc/apt/sources.list as
 explained in the manual page:
 
-  $ man sources.list
+```
+$ man sources.list
+```
 
 It is pretty straightforward and we will see examples in the next
 section.
@@ -305,35 +318,46 @@ section.
 If you have a Debian CD-ROM or DVD-ROM then you can tell apt what is
 available on it using:
 
-  $ wajig addcdrom
+```
+$ wajig addcdrom
+```
 
 To add a Launchpad PPA (Personal Package Archive) repository (used by
 Ubuntu) the ADD-REPO command can be used. For example, to add the
 daily builds of Google's Chromium browser, do the following:
 
-  $ wajig addrepo ppa:chromium-daily
+```
+$ wajig addrepo ppa:chromium-daily
+```
 
 If you want to check when you last did an update then:
 
-  $ wajig lastupdate
+```
+$ wajig lastupdate
+```
 
 There are quite a few archives available and you can test for a good
 connection to one with:
 
-  $ wajig searchapt
+```
+$ wajig searchapt
+```
 
 This will write a candidate sources.list in the current directory,
 which you can then review and add to the system sources.list, if you
 wish, with
 
-  $ wajig editsources
+```
+$ wajig editsources
+```
 
-
-FINDING PACKAGES
+## FINDING PACKAGES
 
 To search for a particular packages, use:
 
-  $ wajig search                        (apt-cache --names-only)
+```
+$ wajig search                        (apt-cache --names-only)
+```
 
 This will only match a particular string with package names. If you want
 a more comprehensive search, one that also searches for package
@@ -341,7 +365,9 @@ descriptions, use the "-v|--verbose" options.
 
 To display the list of newly-available packages (after a cache update), use:
 
-  $ wajig new
+```
+$ wajig new
+```
 
 Note that after the first time you use update all packages will be
 considered new! But after the next update the new packages are those
@@ -352,12 +378,16 @@ on your Debian system may have been upgraded in the archive since the
 last time you performed an update. The following command will list
 these packages:
 
-  $ wajig newupgrades
+```
+$ wajig newupgrades
+```
 
 For a complete list of the packages you have installed but for which
 there are newer versions available on the archive use:
 
-  $ wajig toupgrade
+```
+$ wajig toupgrade
+```
 
 To check the version of any installed package and also the version
 available from the archive previously (i.e., the last time, but one,
@@ -365,96 +395,131 @@ you performed an upgrade) and now (based on the last time you
 performed an update), and to also see the so called Desired and Status
 flags of the package, use:
 
-  $ wajig status <package names>        (similar to dpkg -l)
+```
+$ wajig status <package names>        (similar to dpkg -l)
+```
 
 Without a list of package names all installed packages will be listed.
 
 A variation is to list the status of all packages with a given string
 in their name:
 
-  $ wajig statussearch <string>
+```
+$ wajig statussearch <string>
+```
 
 To check for a particular package for which you might guess at part of
 its name you can use:
 
-  $ wajig listnames <string>            (apt-cache pkgnames)
+```
+$ wajig listnames <string>            (apt-cache pkgnames)
+```
 
 Without the string argument all known package names will be listed.
 
 To list the names and current install status of all installed packages
 then use:
 
-  $ wajig list
+```
+$ wajig list
+```
 
 You can also list just the names of the packages installed with:
 
-  $ wajig list-installed
+```
+$ wajig list-installed
+```
 
 And if you are looking for a particular installed package with a name
 containing a particular string then use:
 
-  $ wajig list-installed <string>
+```
+$ wajig list-installed <string>
+```
 
 To generate a list of packages, with version numbers, which you might
 save to file, and then restore a system to just this list of packages
 at a later stage, use:
 
-  $ wajig snapshot > snapshop-12dec04
+```
+$ wajig snapshot > snapshop-12dec04
+```
 
 Each package installs some collection of files in different places on
 your system (e.g., in /usr/bin/, /usr/man/man1/ and
 usr/doc/). Sometimes you like to see where those files go or
 even just view the list of files installed. The command to use is:
 
-  $ wajig listfiles <package name>      (dpkg --listfiles )
+```
+$ wajig listfiles <package name>      (dpkg --listfiles )
+```
 
 
 To list a one-line description for a package use:
 
-  $ wajig whatis <package name>
+```
+$ wajig whatis <package name>
+```
 
 And to find which package supplies a given file use:
 
-  $ wajig whichpkg <command or file path>
+```
+$ wajig whichpkg <command or file path>
+```
 
 and for a command (e.g., most):
 
-  $ wajig whichpkg $(which -p most)
+```
+$ wajig whichpkg $(which -p most)
+```
 
 
 For unofficial packages (i.e., you came across a package but it doesn't
 seem to be in Debian yet) search for a site with:
 
-  $ wajig searchpkg <package-name>
+```
+$ wajig searchpkg <package-name>
+```
 
 
 The more detailed description of a package is available with:
 
-  $ wajig detail <package-name>
+```
+$ wajig detail <package-name>
+```
 
 Here, the package name can be replaced with a specific deb file.
 
 The Debian changelog can be retrieved with:
 
-  $ wajig changelog <package name>
+```
+$ wajig changelog <package name>
+```
 
 This command only displays changelog entries for upgradable packages.
 If you want to display the entire changelog, use:
 
-  $ wajig changelog --verbose <package name>
+```
+$ wajig changelog --verbose <package name>
+```
 
 It may be more practical to run the output through a pager:
 
-  $ wajig changelog --verbose <package name> | pager
+```
+$ wajig changelog --verbose <package name> | pager
+```
 
 
 
-INSTALLING PACKAGES
+## INSTALLING PACKAGES
 
 To install a new package (or even to update an already installed
 package) all you need do is:
 
-  $ wajig install <package name>        (apt-get install)
+
+```
+$ wajig install <package name>        (apt-get install)
+```
 
 (Instead of install you could equivalently say update.)
 
@@ -464,7 +529,9 @@ The install command will also accept a .deb file.  So, for example, if
 you have downloaded a Debian package file (with the .deb extension)
 you can install it with:
 
-  $ wajig install <.deb file>           (dpkg -i)
+```
+$ wajig install <.deb file>           (dpkg -i)
+```
 
 The .deb file will be searched for in both the current directory and
 in the apt archive at /var/cache/apt/archive/.
@@ -475,31 +542,41 @@ If the .deb package file you wish to install is available on the
 internet you can give its address and wajig will download then install
 it:
 
-  $ wajig install http://samfundet.no/debian/dists/woody/css/xine-dvd-css.deb
+```
+$ wajig install http://samfundet.no/debian/dists/woody/css/xine-dvd-css.deb
+```
 
 Sometimes you may want to install many packages by listing them in a
 file, one per line.  You can do this with:
 
-  $ wajig install --fileinput <filename>
+```
+$ wajig install --fileinput <filename>
+```
 
 The file of packages to install can conveniently be created from the
 list of installed packages on another system with:
 
-  $ wajig listinstalled > <filename>    (dpkg --get-selections)
+```
+$ wajig listinstalled > <filename>    (dpkg --get-selections)
+```
 
 
-UPGRADING PACKAGES
+## UPGRADING PACKAGES
 
 You can upgrade all installed packages with:
 
-  $ wajig upgrade                       (apt-get -u upgrade)
+```
+$ wajig upgrade                       (apt-get -u upgrade)
+```
 
 And you can upgrade all installed packages, remove those packages that
 need to be removed (for various reasons, including issues to do with
 dependencies) and install all newly required packages in the
 distribution with:
 
-  $ wajig distupgrade                  (apt-get -u dist-upgrade)
+```
+$ wajig distupgrade                  (apt-get -u dist-upgrade)
+```
 
 Note that a dist-upgrade will potentially remove packages where
 dependency checking indicates this is necessary. Important packages
@@ -513,7 +590,9 @@ a package.
 
 To upgrade to a specific distribution (e.g., experimental) you can use:
 
-  # wajig distupgrade --dist experimental
+```
+# wajig distupgrade --dist experimental
+```
 
 Note that the mentioned distribution must also be mentioned in your
 /etc/apt/sources.list file.
@@ -522,15 +601,18 @@ A neat trick with wajig is the ability to upgrade a collection of
 packages all with the same version number to another common version
 number:
 
-  $ wajig status | grep 3.2.3-2 | grep 3.3.0-1 | cut -f1 > list
-  $ wajig installfile list
+```
+$ wajig status | grep 3.2.3-2 | grep 3.3.0-1 | cut -f1 > list
+$ wajig installfile list
+```
 
-
-REMOVING PACKAGES
+## REMOVING PACKAGES
 
 Once a package is installed you can remove it with:
 
-  $ wajig remove <package name>         (apt-get remove)
+```
+$ wajig remove <package name>         (apt-get remove)
+```
 
 Once again, you can list multiple packages to remove with the one
 command.
@@ -539,20 +621,24 @@ A remove will not remove configuration files (in case you have done
 some configuration of the package and later re-install the package).
 To get rid of the configuation files as well use:
 
-  $ wajig purge <package name>          (apt-get --purge remove)
+```
+$ wajig purge <package name>          (apt-get --purge remove)
+```
 
 
-DISPLAYING APT LOG
+## DISPLAYING APT LOG
 
 Whenever a package is installed, removed, upgraded, or downgraded
 with either apt, aptitude, or synaptic, a log found at
 /var/log/apt/history.log is updated. To display it, run:
 
-  $ wajig list-log                      (cat /var/log/apt/history.log)
+```
+$ wajig list-log                      (cat /var/log/apt/history.log)
+```
 
 
 
-CHECKING WHAT'S CHANGED BEFORE INSTALLING
+## CHECKING WHAT'S CHANGED BEFORE INSTALLING
 
 When you install an updated package it is sometimes useful to know
 what's changed.  The apt-listchanges package provides a mechanism
@@ -562,7 +648,7 @@ the upgrade. Simply install the apt-listchanges package to turn this
 feature on.
 
 
-INSTALLING ALIEN (RedHat/Fedora/CentOS) PACKAGES
+## INSTALLING ALIEN (RedHat/Fedora/CentOS) PACKAGES
 
 RedHat has quite an installed base of users. Some packages
 (particularly commercial packages) are available as RedHat packages
@@ -571,10 +657,12 @@ with little effort.  The alien package is required to convert the rpm
 into deb format which can then be installed. This is taken care of by
 wajig:
 
-  $ wajig rpminstall gmyclient-0.0.91b-1.i386.rpm
+```
+$ wajig rpminstall gmyclient-0.0.91b-1.i386.rpm
+```
 
 
-PUTTING PACKAGES ON HOLD
+## PUTTING PACKAGES ON HOLD
 
 Occasionally, and particularly if you are following the unstable
 release, some packages are broken for various reasons.  This was the
@@ -587,7 +675,9 @@ to build a Debian package of cdrecord using the wajig build command.
 Another is to reinstall an older version that worked and then place
 the package on hold with:
 
-  $ wajig hold cdrecord
+```
+$ wajig hold cdrecord
+```
 
 A wajig upgrade would not try to upgrade this package.
 
@@ -614,14 +704,18 @@ for installation. To download the source of a Debian package you will
 need deb-src lines in your /etc/apt/sources.list file, such as the
 following:
 
-  deb-src http://ftp.debian.org/debian unstable main contrib non-free
+```
+deb-src http://ftp.debian.org/debian unstable main contrib non-free
+```
 
 Generally you can add the '-src' to copies of pre-existing 'deb'
 lines.
 
 To retrieve and unpack a source Debian package use:
 
-  $ wajig source <package names>                (apt-get source)
+```
+$ wajig source <package names>                (apt-get source)
+```
 
 Note that you can list several packages and grab all of their sources.
 
@@ -636,17 +730,21 @@ To go one step further and also configure, compile and generate a
 default Debian .deb package from source code (useful if you need to
 compile a package for your setup specifically) then use instead:
 
-  $ wajig build <package names>
+```
+$ wajig build <package names>
+```
 
 This conveniently installs the needed build-dependencies for you.
 
 If you need to modify the source in some way and rebuild a package:
 
- $ wajig update
- $ wajig build ncftp
- $ dpkg-source -x ncftp_3.0.2-3.dsc
- $ cd ncftp-3.0.2
- $ fakeroot dpkg-buildpackage -b -u
+```
+$ wajig update
+$ wajig build ncftp
+$ dpkg-source -x ncftp_3.0.2-3.dsc
+$ cd ncftp-3.0.2
+$ fakeroot dpkg-buildpackage -b -u
+```
 
 Note that for some packages, you will get permission-related build errors.
 Replace 'fakeroot' with 'sudo' in such cases.
@@ -658,17 +756,21 @@ The apt-build package, a front-end to apt-get, provides a general
 solution to build Debian packages tuned (or optimised) for your
 architecture.
 
-  $ wajig install apt-build
+```
+$ wajig install apt-build
+```
 
 You will be asked for some options, and these go into
 /etc/apt/apt-build.conf:
 
+```
   build-dir = /var/cache/apt-build/build
   repository-dir = /var/cache/apt-build/repository
   Olevel = -O2
   march = -march=pentium4
   mcpu = -mcpu=pentium4
   options = " "
+```
 
 The built packages will be placed into
 /var/cache/apt-build/repository, an can be accessed with the
@@ -676,7 +778,9 @@ standard Debian package tools by adding the following line to the top
 of /etc/apt/sources.list (which can be done during the
 installation of apt-build:
 
-  deb file:/var/cache/apt-build/repository apt-build main
+```
+deb file:/var/cache/apt-build/repository apt-build main
+```
 
 You will need deb-src entries in your /etc/apt/sources.list file to be
 able to obtain the source packages.
@@ -686,27 +790,37 @@ update the list of known available packages (particularly if you have
 just added a deb-src entry to /etc/apt/sources.list), although the
 following is equivalent:
 
-  $ wajig update
+```
+$ wajig update
+```
 
 You can then start building packages:
 
-  $ sudo apt-build install most
+```
+$ sudo apt-build install most
+```
 
 You can manage a collection of packages to be recompiled and installed
 instead of obtaining the default compiled versions. Create the file
 /etc/apt/apt-build.list to contain a list of such packages
 and then:
 
-  $ sudo apt-build world
+```
+$ sudo apt-build world
+```
 
 One way to get a full list of installed packages is:
 
+```
   # dpkg --get-selections | awk '{if ($2 == "install") print $1' \\
     > /etc/apt/apt-build.list
+```
 
 Be sure to edit the list to remove, for example, gcc! Then a:
 
-  $ sudo apt-build world
+```
+$ sudo apt-build world
+```
 
 will recompile and optimise all packages.
 
@@ -720,12 +834,15 @@ after it is set up you can have, for example, testing as
 your default release and then include unstable in
 /etc/apt/sources.list and install cdrecord from unstable with:
 
-  # apt-get install cdrecord/unstable
+```
+# apt-get install cdrecord/unstable
+```
 
 The following /etc/apt/preferences makes apt-get use testing unless it
 is overridden, even though there are entries for unstable in
 /etc/apt/sources.list:
 
+```
   Package: *
   Pin: release a=testing
   Pin-Priority: 900
@@ -733,16 +850,20 @@ is overridden, even though there are entries for unstable in
   Package: *
   Pin: release o=Debian
   Pin-Priority: -10
-
+```
 
 ## RECONFIGURE PACKAGES
 
-  $ wajig reconfigure debconf           (dpkg-reconfigure  debconf)
+```
+$ wajig reconfigure debconf           (dpkg-reconfigure  debconf)
+```
 
 An alternative where you can specify a particular front end to use for
 the configurator is:
 
-  # dpkg-reconfigure --frontend=dialog debconf
+```
+# dpkg-reconfigure --frontend=dialog debconf
+```
 
 
 ## SETTING DEFAULT APPLICATIONS
@@ -752,12 +873,16 @@ functionalities).  For example, the editor command could be nano or
 nvi, or one of a large number of alternative editors.  You can update
 the default for this command with:
 
-  $ wajig updatealts editor             (update-alternatives --config editor)
+```
+$ wajig updatealts editor             (update-alternatives --config editor)
+```
 
 Another common alternative is x-window-manager. You can get a list of
 all alternatives with:
 
-  $ wajig listalts                      (ls /etc/alternatives/)
+```
+$ wajig listalts                      (ls /etc/alternatives/)
+```
 
 The information is maintained in the directory /etc/alternatives/.
 
@@ -765,7 +890,9 @@ The information is maintained in the directory /etc/alternatives/.
 
 If you find a problem with your system and think it might be a bug, use:
 
-  $ wajig bug                           (reportbug)
+```
+$ wajig bug                           (reportbug)
+```
 
 This will allow you to view bugs recorded against packages and also
 allow you to add a new bug report to the Debian bug reporting system.
@@ -783,7 +910,9 @@ by so called daemons---processes that run on your computer in the
 background performing various functions on an on-going basis).  The
 commands all follow the same pattern:
 
-  $ wajig restart <service name>        (/etc/init.d/<service> restart)
+```
+$ wajig restart <service name>        (/etc/init.d/<service> restart)
+```
 
 The start and stop commands are obvious.  The restart command
 generally performs a stop followed by a start.  The reload command
@@ -792,11 +921,13 @@ without stopping the daemon, if this is possible.  The services you
 can specifiy here depend on what you have installed.  Common services
 include:
 
+```
   apache Web server
   cron   Regular task scheduler
   exim   Email delivery system
   gdm    The Gnome Windows Display Manager (for logging on)
   ssh    The Secure Shell daemon
+```
 
 Generally, daemons are started at system boot time automatically.
 
@@ -811,41 +942,53 @@ If you have more than one variant of emacs installed (e.g., emacs19,
 emacs20, and xemacs) then you can configure which one you get by
 default with:
 
-  $ wajig updatealts emacs
+```
+$ wajig updatealts emacs
+```
 
 You will be asked to choose from a list of alternatives.
 
 To specify which window manager to use as the system default:
 
-  $ wajig updatealts x-window-manager
+```
+$ wajig updatealts x-window-manager
+```
 
 Suppose the window-manager you want to use as the default is not
 listed as available. You can install it with:
 
+```
 # update-alternatives --install /usr/bin/x-window-manager \\
                       x-window-manager /usr/bin/mywm PRIORITY
+```
 
 Where PRIORITY is a number higher than the highest existing priority
 for the x-window-manager alternative.  You can get a list of
 priorities with:
 
+```
 # update-alternatives --display x-window-manager
+```
 
 To remove a Window Manager:
 
+```
 # update-alternatives --remove x-window-manager /usr/bin/mywm
+```
 
 
-PACKAGE ARCHIVES
+## PACKAGE ARCHIVES
 
-Local Cache
+### Local Cache
 
 When packages are installed from the Debian Archives the corresponding
 deb files are stored in /var/cache/apt/archive.  This can become quite
 populated with older versions of packages and we can clean out these
 older versions with:
 
-  $ wajig autoclean                     (apt-get autoclean)
+```
+$ wajig autoclean                     (apt-get autoclean)
+```
 
 Warning: It is sometimes useful to have older versions of packages
 hanging around if you are tracking the unstable release.  Sometimes
@@ -857,37 +1000,47 @@ If you get short of disk space then you might want to remove all the
 downloaded deb files (not just the older versions of downloaded files)
 with:
 
-  $ wajig clean                         (apt-get clean)
+```
+$ wajig clean                         (apt-get clean)
+```
 
 To remove files immediately after they have been installed edit
 /etc/apt/apt.conf:
 
+```
   // Things that effect the APT dselect method
   DSelect
   {
     Clean "auto";   // always|auto|prompt|never
   ;
+```
 
-Historic Packages
+### Historic Packages
 
 To obtain any package version that might have appeared in the archive
 include http://snapshot.debian.net in your package sources list and
 the name of the package you are interested in. To update your sources
 list run:
 
-  $ wajig editsources
+```
+$ wajig editsources
+```
 
 to add the following line:
 
-  deb http://snapshot.debian.net/archive pool sed
+```
+deb http://snapshot.debian.net/archive pool sed
+```
 
 Then you can do, for example:
 
-  $ wajig available sed
-  $ wajig install sed=4.1.2-1
+```
+$ wajig available sed
+$ wajig install sed=4.1.2-1
+```
 
 
-MAINTAINING A DISTRIBUTION ARCHIVE
+## MAINTAINING A DISTRIBUTION ARCHIVE
 
 Downloaded Debian packages are placed into /var/cache/apt/archive. You
 can have the files moved into a local hierarchy that mirrors a
@@ -901,28 +1054,38 @@ archive, wajig will use the apt-move package.
 Edit /etc/apt-move.conf to set the DIST to match your system (default
 is stable):
 
-  DIST=unstable
+```
+DIST=unstable
+```
 
 The wajig command move will then move any packages in your
 /var/cache/apt/archives into the Debian mirror being created:
 
-  $ wajig move
+```
+$ wajig move
+```
 
 You can actually create a complete mirror with:
 
-  # apt-move mirror
+```
+# apt-move mirror
+```
 
 These commands place the packages into /mirrors/debian. To make it
 available on your web server simply:
 
-  # cd /var/www
-  # ln -s /mirrors pub
+```
+# cd /var/www
+# ln -s /mirrors pub
+```
 
 The file /etc/apt/sources.list can then be updated to point to the new
 archive as the first place to check for packages (place this lines
 first in the file):
 
-  deb http://athens/pub/debian unstable main contrib non-free
+```
+deb http://athens/pub/debian unstable main contrib non-free
+```
 
 
 All of this might happen on your server (called athens in this
@@ -934,33 +1097,41 @@ want to run the risk of your server becoming unstable), you can rsync
 all packages in /var/cache/apt/archives on other machines to the
 server and then run the move command on the server:
 
+```
   # rsync -vr friend:/var/cache/apt/archives/ /var/cache/apt/archives/
   # ssh friend wajig clean         (apt-get clean)
   # wajig move                     (apt-move update)
+```
 
 In fact, on your server you could use the following Python script
 saved to file /root/apt-archive.py to automate this for each of the
 hosts on the network:
 
-    #!/usr/bin/env python
-    import os
+```
+#!/usr/bin/env python
+import os
 
-    hosts = ['friend', 'cargo']
-    archive = '/var/cache/apt/archives/'
+hosts = ['friend', 'cargo']
+archive = '/var/cache/apt/archives/'
 
-    for h in hosts:
-        os.system('rsync -vr %s:%s %s' % (h, archive, archive))
-        os.system('ssh %s wajig clean' % h)
+for h in hosts:
+    os.system('rsync -vr %s:%s %s' % (h, archive, archive))
+    os.system('ssh %s wajig clean' % h)
 
-    os.system('wajig move')
+os.system('wajig move')
+```
 
 Then set the script up to run:
 
-  # chmod u+x apt-archive.py
+```
+# chmod u+x apt-archive.py
+```
 
 and run it as required:
 
-  # ./apt-archive.py
+```
+# ./apt-archive.py
+```
 
 Depending on how you have ssh set up this may ask for your password
 for each connection.  To avoid this, you can use public/private keys
@@ -970,23 +1141,27 @@ using cron each morning by copying the executable script to
 extension are not run, so be sure to rename the file as suggested
 here.)
 
-Local Debian Package Cache
+### Local Debian Package Cache
 
 To set up a local Debian cache of deb files that you've created or
 downloaded separately:
 
+```
   # mkdir -p /usr/local/cache/dists/local/local/binary-i386
   # cp *.deb /usr/local/cache/dists/local/local/binary-i386
   # cd /usr/local/cache
   # dpkg-scanpackages dists/local/local/binary-i386 /dev/null \\
   $ dists/local/local/binary-i386/Packages
+```
 
 Then add the following line to /etc/apt/sources.list:
 
-  deb file:/usr/local/cache local local
+```
+deb file:/usr/local/cache local local
+```
 
 
-OTHER COMMANDS
+## OTHER COMMANDS
 
 These may work their way into wajig.
 
@@ -994,26 +1169,32 @@ You can use the apt-get --download-only option of apt-get to download
 the files for an install without actually unpacking and setting up the
 packages. For example:
 
+```
   # wajig update
   # apt-get --download-only dist-upgrade
+```
 
 In this way you are able to leave the download unattended and when you
 are ready you can monitor the unpacking and setup.
 
 If things go wrong somewhere then apt may be able to help:
 
-  # apt-get --fix-broken dist-upgrade
+```
+# apt-get --fix-broken dist-upgrade
+```
 
 but if things still don't work, you may need to use dpkg directly to
 remove and isntall packages.
 
-Synchronising Two Installations
+## Synchronising Two Installations
 
 The package system maintains a list of all packages installed (and
 de-installed). You can access this list, save it to a file, and use it
 to mark those same packages for installation (or deinstallation) on
 anther machine:
 
+```
 # dpkg --get-selections > dpkg-selections
 # dpkg --set-selections < dpkg-selections
 # apt-get dselect-upgrade
+```
