@@ -141,7 +141,7 @@ def main():
     parser_help.set_defaults(func=help, parser=parser)
 
     # ADDCDROM
-    
+
     function = commands.addcdrom
     parser_addcdrom = subparsers.add_parser(
         "addcdrom",
@@ -151,8 +151,22 @@ def main():
     )
     parser_addcdrom.set_defaults(func=function)
 
+    # ADDGROUP
+
+    function = commands.addgroup
+    parser_addgroup = subparsers.add_parser(
+        "addgroup",
+        aliases=["add-group"],
+        parents=[parser_teach],
+        description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser_addgroup.add_argument("username")
+    parser_addgroup.add_argument("group")
+    parser_addgroup.set_defaults(func=function)
+
     # ADDKEY
-    
+
     function = commands.addkey
     parser_addkey = subparsers.add_parser(
         "addkey",
@@ -863,7 +877,7 @@ def main():
     parser_reportbug.set_defaults(func=function)
 
     # REPOS - list ppa repositories
-    
+
     function = commands.repos
     parser_repos = subparsers.add_parser(
         "repos",
@@ -881,8 +895,22 @@ def main():
     parser_restart.add_argument("daemon")
     parser_restart.set_defaults(func=function)
 
+    # RMGROUP
+
+    function = commands.rmgroup
+    parser_rmgroup = subparsers.add_parser(
+        "rmgroup",
+        aliases=["remove-group", "delgroup"],
+        parents=[parser_teach],
+        description=function.__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser_rmgroup.add_argument("username")
+    parser_rmgroup.add_argument("group")
+    parser_rmgroup.set_defaults(func=function)
+
     # RMREPO
-    
+
     function = commands.rmrepo
     parser_rmrepo = subparsers.add_parser(
         "rmrepo",

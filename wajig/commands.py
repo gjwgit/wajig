@@ -6,7 +6,6 @@
 
 import os
 import re
-import sys
 import string
 import random
 import inspect
@@ -33,7 +32,23 @@ NO_UPGRADES = 'No packages known to be upgradable. Run "wajig update" to update 
 
 def addcdrom(args):
     """Add a Debian CD/DVD to APT's list of available sources"""
-    perform.execute("/usr/bin/apt-cdrom add", root=True, teach=args.teach, noop=args.noop)
+    perform.execute("/usr/bin/apt-cdrom add",
+                    root=True, teach=args.teach, noop=args.noop)
+
+
+# ADDGROUP
+
+def addgroup(args):
+    """Add a user to a group.
+
+    Unix groups are used to provide group access to commands or
+    files. For example, adding users to the group `sudo` give those
+    users super user access through the `sudo` command.
+
+    $ wajig addgroup fred sudo"""
+    cmd = f'/usr/sbin/adduser {args.username} {args.group}'
+    perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
+
 
 # ADDKEY
 
@@ -52,6 +67,7 @@ def addkey(args):
     cmd += args.key
     perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
 
+
 # ADDREPO
 
 def addrepo(args):
@@ -63,23 +79,24 @@ def addrepo(args):
     $ wajig addrepo ppa:chromium-daily
     """
     util.requires_package("add-apt-repository")
-    perform.execute("/usr/bin/add-apt-repository " + args.ppa, root=True, teach=args.teach, noop=args.noop)
+    cmd = "/usr/bin/add-apt-repository " + args.ppa
+    perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
+
 
 # ADDUSER
 
 def adduser(args):
     """Add new user, multiple users, or as listed in a file.
 
-With just a username create a new password while adding user and 
-return that.
+    With just a username create a new password while adding user and
+    return that.
 
-  $ wajig adduser fred
+    $ wajig adduser fred
 
-If a number is provided then that many new users are created and
-the output will be username:password.
+    If a number is provided then that many new users are created and
+    the output will be username:password.
 
-  $ wajig adduser 5
-"""
+    $ wajig adduser 5"""
     number = args.number
     username = args.username
 
@@ -99,15 +116,15 @@ the output will be username:password.
             print(f"wajig adduser: error: file not accessible '{args.file}'.")
         else:
             usernames = []
-            for l in open(args.file, 'r'):
-                usernames.append(l.strip())
-    
+            for u in open(args.file, 'r'):
+                usernames.append(u.strip())
+
     elif number and re.match(r"^[0-9]+$", number):
         usernames = []
         for i in range(int(number)):
             code = ''.join(random.choice(string.ascii_lowercase) for _ in range(7))
             usernames.append(f"u{code}")
-            
+
     else:
         for u in username:
             if not re.match(r"^[a-z][-a-z0-9_]*$", u):
@@ -1019,6 +1036,22 @@ def restart(args):
     """Restart system daemons (see LIST-DAEMONS for available daemons)"""
     command = "/usr/sbin/service {} restart".format(args.daemon)
     perform.execute(command, root=True, teach=args.teach, noop=args.noop)
+
+
+# RMGROUP
+
+def rmgroup(args):
+    """Remove a user from a group.
+
+    Unix groups are used to provide group access to commands or
+    files. For example, adding users to the group `sudo` give those
+    users super user access through the `sudo` command. This command
+    allows users to be removed from groups.
+
+    $ wajig rmgroup fred sudo"""
+    cmd = f'/usr/sbin/deluser {args.username} {args.group}'
+    perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
+
 
 # RMREPO
 
