@@ -21,13 +21,12 @@ users of wajig, with a special thanks to Reuben Thomas for his many
 suggestions and contributions. Graham has resumed maintenance and
 development.
 
-Installing
-----------
+## Installing
 
 Wajig is available in the Debian and Ubuntu repositories. On Ubuntu,
 where sudo is set up by default for the main user:
 
-```consoles
+```console
 $ sudo apt install wajig
 ```
 
@@ -43,36 +42,38 @@ $ pip3 install wajig --break-system-packages
 
 If sudo is not set up for a user (see instructions below) then as root:
 
-```console
-# apt-get install wajig
+``` console
+# apt install wajig
 ```
 
-Resources
----------
+## Resources
 
-* [Home](https://wajig.togaware.com) of wajig.
-* [Support Wajig](https://togaware.com/gnulinux/) with a donation.
-* [GitHub](https://github.com/gjwgit/wajig) for the source code.
-* [Ubuntu](https://packages.ubuntu.com/wajig) for the package entry.
-* [PyPI](https://pypi.org/project/wajig/) for the public distribution channel.
+-   [Home](https://wajig.togaware.com) of wajig.
+-   [Support Wajig](https://togaware.com/gnulinux/) with a donation.
+-   [GitHub](https://github.com/gjwgit/wajig) for the source code.
+-   [Ubuntu](https://packages.ubuntu.com/wajig) for the package entry.
+-   [PyPI](https://pypi.org/project/wajig/) for the public distribution
+    channel.
 
-Guides
-------
+## Guides
 
-* [Read The Docs](https://wajig.readthedocs.io/en/latest/) on line.
-* [Togaware](https://togaware.com/linux/survivor/wajig.html) for the
-  GNU/Linux Survival Guide.
-* [LinOxide
-  2019](https://linoxide.com/tools/wajig-package-management-debian/) review.
-* [Unix Folk
-  2017](https://www.unixmen.com/wajig-alternative-apt-package-manager/) review.
-* [Source Digit
-  2015](https://sourcedigit.com/16708-install-wajig-alternative-to-apt-package-manager-on-linux-ubuntu-15-04/) review.
-* [Link Sprite
-  2014](https://learn.linksprite.com/pcduino/linux-applications/wajig-simplyfying-ubuntu-debian-administration/) review.
+-   [Read The Docs](https://wajig.readthedocs.io/en/latest/) on line.
+-   [Togaware](https://togaware.com/linux/survivor/wajig.html) for the
+    GNU/Linux Survival Guide.
+-   [LinOxide
+    2019](https://linoxide.com/tools/wajig-package-management-debian/)
+    review.
+-   [Unix Folk
+    2017](https://www.unixmen.com/wajig-alternative-apt-package-manager/)
+    review.
+-   [Source Digit
+    2015](https://sourcedigit.com/16708-install-wajig-alternative-to-apt-package-manager-on-linux-ubuntu-15-04/)
+    review.
+-   [Link Sprite
+    2014](https://learn.linksprite.com/pcduino/linux-applications/wajig-simplyfying-ubuntu-debian-administration/)
+    review.
 
-The Name
---------
+## The Name
 
 The word 'jig' has a couple of meanings, as WordNet and Webster's 1913
 Dictionary will confirm. It is a small machine or handy tool used to
@@ -84,8 +85,7 @@ piece of writing, especially in rhyme, a farce in verse, or a ballad.
 The 'wa' in 'wajig' is Japanese, indicating 'harmony' and 'team spirit
 and unity'.
 
-History
--------
+## History
 
 Development of wajig has been sponsored sponsored and supported by
 Togaware Pty Ltd, supporting open source software since the 1980's.
@@ -103,8 +103,7 @@ system. It is a single and more comprehensive alternative to an
 otherwise large suite of separate tools, starting with apt-get and
 apt.
 
-Philosophy
-----------
+## Philosophy
 
 In essence, wajig is simply a front-end to many other commands and
 below we demonstrate how to manage your system with wajig.  wajig may
@@ -137,9 +136,7 @@ wajig is hosted on github at https://github.com/gjwgit/wajig. Stack
 Overflow (https://stackoverflow.com/) is monitored for questions
 relating to wajig so please post your queries there.
 
-
-Motivation
-----------
+## Motivation
 
 If you've tried to remember all the different commands to get
 different information about different aspects of Debian/Ubuntu package
@@ -155,9 +152,7 @@ This Python script simply collects together shortcuts to various
 commands!  Clearly no everything is covered, but as new capabilities
 are understood they get added to the toolkit.
 
-
-Basics
-------
+## Basics
 
 Wajig is designed to run in such a way as to suit the system it is
 running on and the policies of the system administrators.  It can be
@@ -196,9 +191,7 @@ $ wajig list-commands
 In most cases, wajig expects a command and will call upon other Debian
 tools to perform the command.
 
-
-Getting Started With Sudo
--------------------------
+## Getting Started With Sudo
 
 The aim of wajig is to operate as much as possible as a user command
 and to do super user privileged commands only when necessary (if that
@@ -218,39 +211,63 @@ In order to allow your user to use sudo, run this command as root:
 
 The change will take effect after logging out and in again.
 
+## Hacking
 
-Hacking
--------
+-   Setup:
 
-* Setup::
 ```console
 $ wajig install devscripts debhelper
 $ debcheckout wajig
 $ cd wajig
 ```
-* Build::
-```console
+
+-   Build:
+
+``` console
 $ debuild -us -uc
 ```
-* Install::
-```console
+
+-   Install:
+
+``` console
 $ sudo debi
 ```
 
-* Ensure that user-visible changes are mentioned in
-  ``debian/changelog``; use ``/usr/bin/debchange`` from within the
-  project root directory and do your changes there.
+-   Ensure that user-visible changes are mentioned in
+    `debian/changelog`; use `/usr/bin/debchange` from within the project
+    root directory and do your changes there.
 
-HowTo Release
--------------
+## HowTo Release
 
-* Ensure that the version string in ``src/wajig.py`` as updated from
-  the Makefil matches that of latest changelog.
+-   Bump version in Makefile and add debian/changelog entry.
 
-* Ensure that debuild does not emit any lintian errors/warnings.
+-   Check <https://bugs.launchpad.net/ubuntu/+source/wajig>
 
-Available Packages
-------------------
+-   Check <https://bugs.debian.org/cgi-bin/pkgreport.cgi?src=wajig>
+
+-   Check <https://tracker.debian.org/pkg/wajig>
+
+-   Ensure that the version string in `src/wajig.py` is updated from the
+    Makefile matches that of latest changelog entry.
+
+-   Ensure that debuild does not emit any lintian errors/warnings.
+
+-   Check on a fresh server (e.g., on Linode or VM or Docker)
+
+    \$ git clone <git@github.com>:gjwgit/wajig.git \$ cd wajig \$ sudo
+    apt install build-essential dh-python python3-setuptools
+    python3-thefuzz python3-all debhelper-compat \$ make deb \$ sudo apt
+    install python3-distro python3-levenshtein aptitude \$ sudo dpkg
+    \--install wajig_4.0.12_all.deb \$ wajig version \$ wajig install
+    most
+
+-   Tag the version:
+
+    \$ git tag v4.0.12 \$ git push \--tags
+
+-   Create a release on github: \"Release v4.0.12\"
+
+## Available Packages
 
 The Debian packaging system relies on your local system having some
 idea of what packages are available. This is initialised when you
@@ -501,7 +518,6 @@ To upgrade to a specific distribution (e.g., experimental) you can use:
 Note that the mentioned distribution must also be mentioned in your
 /etc/apt/sources.list file.
 
-
 A neat trick with wajig is the ability to upgrade a collection of
 packages all with the same version number to another common version
 number:
@@ -575,8 +591,7 @@ the package on hold with:
 
 A wajig upgrade would not try to upgrade this package.
 
-
-BUILDING PACKAGES
+## BUILDING PACKAGES
 
 Sometimes the binary distribution of the package is configured or
 compiled with options that don't suit you. Or it may be compiled for a
@@ -591,7 +606,7 @@ options for your system and then rebuild many packages with these
 options.
 
 
-BUILDING PACKAGES FROM SOURCE
+## BUILDING PACKAGES FROM SOURCE
 
 You can download the source code for any Debian package from the
 Debian archive. You can then modify it and generate your own .deb file
@@ -637,7 +652,7 @@ Note that for some packages, you will get permission-related build errors.
 Replace 'fakeroot' with 'sudo' in such cases.
 
 
-BUILD ARCHITECTURE-OPTIMISED PACKAGES
+## BUILD ARCHITECTURE-OPTIMISED PACKAGES
 
 The apt-build package, a front-end to apt-get, provides a general
 solution to build Debian packages tuned (or optimised) for your
@@ -696,7 +711,7 @@ Be sure to edit the list to remove, for example, gcc! Then a:
 will recompile and optimise all packages.
 
 
-PINNING DISTRIBUTIONS
+## PINNING DISTRIBUTIONS
 
 With the Debian packaging system you can specify that your packages
 come by default from one distribution but you can override this with
@@ -720,7 +735,7 @@ is overridden, even though there are entries for unstable in
   Pin-Priority: -10
 
 
-RECONFIGURE PACKAGES
+## RECONFIGURE PACKAGES
 
   $ wajig reconfigure debconf           (dpkg-reconfigure  debconf)
 
@@ -730,7 +745,7 @@ the configurator is:
   # dpkg-reconfigure --frontend=dialog debconf
 
 
-SETTING DEFAULT APPLICATIONS
+## SETTING DEFAULT APPLICATIONS
 
 Debian has a system of alternatives for various commands (or
 functionalities).  For example, the editor command could be nano or
@@ -746,7 +761,7 @@ all alternatives with:
 
 The information is maintained in the directory /etc/alternatives/.
 
-BUGS
+## BUGS
 
 If you find a problem with your system and think it might be a bug, use:
 
@@ -760,7 +775,7 @@ search for the problem there.  The advice one gets here is generally
 of high quality.
 
 
-MANAGING DAEMONS OR SERVICES
+## MANAGING DAEMONS OR SERVICES
 
 In addition to managing the installed packages wajig also allows you
 to start, stop, reload, and restart services (which are often provided
@@ -786,7 +801,7 @@ include:
 Generally, daemons are started at system boot time automatically.
 
 
-ALTERNATIVE APPLICATIONS
+## ALTERNATIVE APPLICATIONS
 
 Debian has a mechanism for dealing with applications that provide the
 same functionality.  We describe here how this mechanism works and how
