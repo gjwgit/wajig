@@ -25,20 +25,23 @@ Installing
 ----------
 
 Wajig is available in the Debian and Ubuntu repositories. On Ubuntu,
-where sudo is set up by default
+where sudo is set up by default for the main user:
 
 ```consoles
 $ sudo apt install wajig
 ```
 
-It is also available on [PyPI](https://pypi.org/project/wajig/) from
-where it can be installed with:
+Intermediate updates are also available on
+[PyPI](https://pypi.org/project/wajig/) from where it can be installed
+with `pip`. Recent Debian and Ubuntu encourage the use of `pipx` or
+for individuals you could still use `pip` with
+`--break-system-pacakges`.
 
 ```console
-$ pip3 install wajig
+$ pip3 install wajig --break-system-packages
 ```
 
-If sudo is not set up (see instructions below) then as root:
+If sudo is not set up for a user (see instructions below) then as root:
 
 ```console
 # apt-get install wajig
