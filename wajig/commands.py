@@ -690,6 +690,7 @@ def listgroups(args):
     if not group:
         cmd = "cat /etc/group | cut -d':' -f1 | sort"
     else:
+        util.requires_package("members")
         cmd = f"members {group}"
     perform.execute(cmd, teach=args.teach, noop=args.noop)
 
