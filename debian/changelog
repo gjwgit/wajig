@@ -4,7 +4,7 @@ wajig (4.1.1) UNRELEASED; urgency=low
   * Implement ADDGROUP, RMGROUP, LISTGROUPS for user group management.
   * Support tags on each new pypi release.
 
- -- Graham Williams <Graham.Williams@togaware.com>  Sun, 2023-07-09 16:01 +1000
+ -- Graham Williams <Graham.Williams@togaware.com>  Sun, 9 Jul 2023 16:01:00 +1000
 
 wajig (4.0.12) unstable; urgency=low
 

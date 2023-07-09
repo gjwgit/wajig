@@ -1,6 +1,6 @@
 name: wajig
 base: core18
-version: '4.0.2'
+version: '4.1.1'
 summary: GNU/Linux command line admin
 description: |
   The wajig command line tool pre-conceives command incantations that
@@ -16,7 +16,7 @@ apps:
 parts:
   cli:
     source: https://github.com/gjwgit/wajig.git
-    source-tag: 4.0.2
+    source-tag: 4.1.1
     plugin: python
     python-version: python3
     python-packages:
