@@ -678,11 +678,19 @@ def listfiles(args):
 
 
 def listgroups(args):
-    """List the unix groups defined for this computer.
+    """List the unix groups/members defined for this computer.
 
     Groups in unix are used for managing users and their permissions
-    to access commands and files."""
-    cmd = "cat /etc/group | cut -d':' -f1 | sort"
+    to access commands and files. Without an argument all of the
+    groups are listed. With an argument the users who are members of
+    the named group are listed.
+
+    $ wajig listgroups sudo"""
+    group = args.group
+    if not group:
+        cmd = "cat /etc/group | cut -d':' -f1 | sort"
+    else:
+        cmd = f"members {group}"
     perform.execute(cmd, teach=args.teach, noop=args.noop)
 
 

@@ -570,6 +570,7 @@ def main():
         parents=[parser_teach],
         description=function.__doc__,
     )
+    parser_listgroups.add_argument("group", nargs="?")
     parser_listgroups.set_defaults(func=function)
 
     function = commands.listfiles
