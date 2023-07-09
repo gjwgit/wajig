@@ -252,6 +252,8 @@ HowTo Release
 -  Check https://bugs.launchpad.net/ubuntu/+source/wajig
 
 -  Check https://bugs.debian.org/cgi-bin/pkgreport.cgi?src=wajig
+
+-  Check https://tracker.debian.org/pkg/wajig
    
 -  Ensure that the version string in ``src/wajig.py`` is updated from
    the Makefile matches that of latest changelog entry.
