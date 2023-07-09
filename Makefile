@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Saturday 2023-07-08 07:37:32 +1000 Graham Williams>
+# Time-stamp: <Sunday 2023-07-09 16:03:53 +1000 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -16,7 +16,7 @@
 #   Trivial update or bug fix
 
 APP=wajig
-VER=4.0.12
+VER=4.1.1
 DATE=$(shell date +%Y-%m-%d)
 
 TAR_GZ = dist/$(APP)-$(VER).tar.gz
@@ -148,6 +148,7 @@ tgz: $(TAR_GZ)
 .PHONY: pypi
 pypi: docs/README.md version tgz
 	twine upload $(TAR_GZ)
+	git tag v${VER} && git push --tags
 
 # dch -v 3.0.0 will update version in changelog and allow entry.
 # Might be some way to do this purely command line.
