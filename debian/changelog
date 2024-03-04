@@ -4,6 +4,8 @@ wajig (4.1.2) unstable; urgency=high
     of python-levenshtein 8 Mar 2024. This may be a temporary
     issue. In the meantime, no fuzzy command functionality.
 
+ -- Graham Williams <Graham.Williams@togaware.com>  Tue, 3 Mar 2024 06:01:15 +1100
+
 wajig (4.1.1) UNRELEASED; urgency=low
 
   * Implement DISABLE and ENABLE for user accounts.
