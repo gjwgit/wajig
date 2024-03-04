@@ -22,12 +22,15 @@ import wajig.perform as perform
 # reason. When building for Debian comment out the try and retain just
 # the thefuzz import.
 
-try:
-    from rapidfuzz import fuzz
-    from rapidfuzz import process as fuzzprocess
-except ImportError:
-    from thefuzz import fuzz
-    from thefuzz import process as fuzzprocess
+# 20240304 gjw Remove fuzz for now due to python-levenshtein
+# removal from Debian 8 Mar 2024
+
+# try:
+#     from rapidfuzz import fuzz
+#     from rapidfuzz import process as fuzzprocess
+# except ImportError:
+#     from thefuzz import fuzz
+#     from thefuzz import process as fuzzprocess
 
 # -----------------------------------------------------------------------
 # CONSTANTS
@@ -125,10 +128,15 @@ def yes_or_no(msg, *params, yes=True):
 def find_best_match(misspelled, candidates):
     """Find the best matched word with <misspelled> in <candidates>."""
 
-    return fuzzprocess.extractOne(misspelled,
-                                  candidates,
-                                  scorer=fuzz.ratio,
-                                  score_cutoff=60)[0:2]
+    # 20240304 gjw Remove for now since python-levenshtein is being
+    # removed from Debian and so is thefuzz and rapidfuzz.
+
+    return (misspelled, 0.0)
+
+    # return fuzzprocess.extractOne(misspelled,
+    #                               candidates,
+    #                               scorer=fuzz.ratio,
+    #                               score_cutoff=60)[0:2]
 
 
 def get_misspelled_command(command, available_commands):

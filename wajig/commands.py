@@ -1459,7 +1459,12 @@ def verify(args):
 
 def version(args):
     """Report wajig version"""
-    print(f"{APP} {VERSION} {util.fuzz.__name__}")
+    print(f"{APP} {VERSION}")
+    #
+    # 20240304 gjw Remove fuzz for now due to python-levenshtein
+    # removal from Debian 8 Mar 2024
+    #
+    # print(f"{APP} {VERSION} {util.fuzz.__name__}")
 
 
 def versions(args):

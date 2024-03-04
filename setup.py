@@ -24,7 +24,7 @@ with open(path.join(here, 'docs/README.md'), encoding='utf-8') as f:
 
 setup(
     name='wajig',
-    version='4.1.1',  # DO NOT MODIFY. Managed from Makefile.
+    version='4.1.2',  # DO NOT MODIFY. Managed from Makefile.
     description='Debian/Ubuntu admin management tool',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -54,8 +54,12 @@ setup(
         # packaged thefuzz, else use the quicker rapidfuzz. Note
         # that wajig/util.py tries rapidfuzz first, and utilises it if
         # installed, otherwise falls back to thefuzz.
-        'thefuzz' if 'DEB_BUILD_ARCH' in environ else 'rapidfuzz',
-        'python-Levenshtein',
+        #
+        # 20240304 gjw remove due to removal of python-levenshtein 8 March 2024
+        #
+
+        # 'thefuzz' if 'DEB_BUILD_ARCH' in environ else 'rapidfuzz',
+        # 'python-Levenshtein',
     ],
     include_package_data=True,
 )

@@ -256,12 +256,15 @@ $ sudo debi
 
 -   Check on a fresh server (e.g., on Linode or VM or Docker)
 
+(20240304 gjw Remove python3-thefuzz for now due to python-levenshtein
+removal 8 Mar 2024)
+
 ```
 $ git clone <git@github.com>:gjwgit/wajig.git 
 $ cd wajig 
-$ sudo apt install build-essential dh-python python3-setuptools python3-thefuzz python3-all debhelper-compat 
+$ sudo apt install build-essential dh-python python3-setuptools python3-all debhelper-compat 
 $ make deb 
-$ sudo apt install python3-distro python3-levenshtein aptitude 
+$ sudo apt install python3-distro aptitude 
 $ sudo dpkg --install wajig_4.0.12_all.deb 
 $ wajig version 
 $ wajig install most
