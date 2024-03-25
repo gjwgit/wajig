@@ -618,7 +618,7 @@ def lastupdate(args):
     """Identify when an update was last performed"""
     command = ("ls -l --full-time " + util.available_file + " 2> "
                "/dev/null | awk '{printf \"Last update was %s %s %s\\n\""
-               ", $6, $7, $8}' | sed 's|\.000000000||'")
+               r", $6, $7, $8}' | sed 's|\.000000000||'")
     perform.execute(command, teach=args.teach, noop=args.noop)
 
 
@@ -650,7 +650,7 @@ def listcache(args):
 def listalternatives(args):
     """List the objects that can have alternatives configured"""
     command = ("ls /etc/alternatives/ | "
-               "grep -E -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
+               r"grep -E -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
     perform.execute(command, teach=args.teach, noop=args.noop)
 
 
@@ -1046,8 +1046,8 @@ def reportbug(args):
     
 def repos(args):
     """List the added personal package archives (PPAs)"""
-    command  = 'for SRC in `find /etc/apt/ -name \*.list`; do '
-    command += 'grep -o "^deb https://ppa.launchpad.net/[a-z0-9\-]\+/[a-z0-9\-]\+" $SRC; done | '
+    command  = r'for SRC in `find /etc/apt/ -name \*.list`; do '
+    command += r'grep -o "^deb https://ppa.launchpad.net/[a-z0-9\-]\+/[a-z0-9\-]\+" $SRC; done | '
     command += "perl -p -e 's|^.*(ppa)[^/]*/|ppa:|'"
     perform.execute(command, teach=args.teach, noop=args.noop)
     
@@ -1121,7 +1121,7 @@ def search(args):
         args.patterns = [shlex.quote(pattern) for pattern in args.patterns]
         command = "apt-cache search {} | grep -E --ignore-case '{}'"
         command = command.format(" ".join(args.patterns),
-                                 "\|".join(args.patterns))
+                                 r"\|".join(args.patterns))
     else:
         command = "apt-cache search --full " + " ".join(args.patterns)
     perform.execute(command, teach=args.teach, noop=args.noop)
@@ -1185,7 +1185,7 @@ def source(args):
 def status(args):
     """Show the version and available versions of packages (with regexp support)"""
     pkgs = []
-    regexp = set('.^$*+?{},\[]|()')
+    regexp = set(r'.^$*+?{},\[]|()')
     for p in args.pattern:
         notregexp = not any((c in regexp for c in p))
         if notregexp:
@@ -1253,7 +1253,7 @@ def sysinfo(args):
         command  =  'GPU=$(lspci | grep VGA | cut -d ":" -f3); '
         command += 'RAM=$(cardid=$(lspci | grep VGA |cut -d " " -f1); '
         command += 'lspci -v -s $cardid | grep " prefetchable"| '
-        command += 'cut -d "=" -f2 | tr -d "\]"); '
+        command += r'cut -d "=" -f2 | tr -d "\]"); '
         command += 'echo $GPU $RAM'
         result  = perform.execute(command, getoutput=True, teach=args.teach,
                                   noop=args.noop).decode("utf-8").strip()
