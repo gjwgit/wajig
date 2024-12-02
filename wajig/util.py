@@ -489,10 +489,10 @@ def do_status(packages, snapshot=False):
               "awk 'NF==4 {print $0, \"N/A\"; next}{print}' | "
     if len(packages) > 0:
         # Use grep, not egrep, otherwise g++ gets lost, for example!
-        command = command + "grep '^\($"
+        command = command + r"grep '^\($"
         for i in packages:
-            command = command + " \|" + i
-        command = command + " \)' |"
+            command = command + r" \|" + i
+        command = command + r" \)' |"
 
     command = command +\
               "awk '{printf(\"%-20s\\t%-15s\\t%-15s\\t%-15s\\t%-2s\\n\", " +\
