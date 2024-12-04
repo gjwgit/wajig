@@ -384,7 +384,7 @@ def disable(args):
 
 
 def distupgrade(args):
-    """Comprehensive system upgrade
+    """Comprehensive system upgrade that may remove packages
 
     This may remove some packages in order to ensure no package is
     left stale. Use the more conservative 'upgrade' command to avoid
@@ -1098,7 +1098,7 @@ def rpminstall(args):
     perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 def safeupgrade(args):
-    """Safely upgrade pacakges that are currently deferred due to phasing of their release."""
+    """Safely upgrade packages currently deferred as phasing release"""
     command = "/usr/bin/aptitude safe-upgrade {}"
     # 20241205 gjw `aptitude` only supports `-y`, not `--yes`
     command = command.format('-y' if args.yes == ' --yes ' else '')
@@ -1413,7 +1413,7 @@ def updateusbids(args):
 
 
 def upgrade(args):
-    """Conservative system upgrade
+    """Conservative system upgrade (compared to dist-upgrade)
 
     This will not go as far as removing packages in order to fulfill the
     upgrade, so may leave stale packages around. Use 'dist-upgrade' to
