@@ -1098,8 +1098,10 @@ def rpminstall(args):
     perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 def safeupgrade(args):
-    """Safely upgrade pacakges that are currently deferred due to phasing."""
-    command = "/usr/bin/aptitude safe-upgrade"
+    """Safely upgrade pacakges that are currently deferred due to phasing of their release."""
+    command = "/usr/bin/aptitude safe-upgrade {}"
+    # 20241205 gjw `aptitude` only supports `-y`, not `--yes`
+    command = command.format('-y' if args.yes == ' --yes ' else '')
     perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 def search(args):
@@ -1413,24 +1415,43 @@ def updateusbids(args):
 def upgrade(args):
     """Conservative system upgrade
 
-    This will not go as far remove packages in order to fulfill the
+    This will not go as far as removing packages in order to fulfill the
     upgrade, so may leave stale packages around. Use 'dist-upgrade' to
     avoid that.
     """
+
     # print("COMMANDS TEACH = " + str(args.teach))
+    # print("COMMANDS LOCAL = " + str(args.local))
+    # print("COMMANDS NOAUTH = " + str(args.noauth))
+    # print("COMMANDS YES = " + str(args.yes))
+
+    # 20241205 gjw Migrate from `apt-get` to the new `apt` where
+    # `--yes` is working, unlike `apt-get` which has come to ignore
+    # `--yes` sometime in the past and always ask. As per
+    # https://github.com/gjwgit/wajig/issues/22 we set `--yes` by
+    # default for upgrade as that is the behaviour users have come to
+    # expect in `wajig` though contrary the original intent some 20
+    # years ago!
+
     packages = util.upgradable()
-    if packages:
-        if args.backup:
-            util.requires_package("dpkg-repack")
-            util.requires_package("fakeroot")
-            util.backup_before_upgrade(packages)
-        command = (
-            "/usr/bin/apt-get {} {} {} --show-upgraded --with-new-pkgs upgrade"
-        )
-        command = command.format(args.local, args.yes, args.noauth)
-        perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
-    else:
-        print(NO_UPGRADES)
+
+    # if packages:
+
+    if args.backup:
+        util.requires_package("dpkg-repack")
+        util.requires_package("fakeroot")
+        util.backup_before_upgrade(packages)
+    command = (
+        "/usr/bin/apt {} {} {} --yes --show-upgraded --with-new-pkgs upgrade"
+    )
+    command = command.format(args.local, args.yes, args.noauth)
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
+
+    # else:
+    #   print(NO_UPGRADES)
+
+    if not packages:
+        print('To install any packages being phased try `wajig safeupgrade`.')
 
 
 def upgradesecurity(args):

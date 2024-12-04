@@ -955,7 +955,7 @@ def main():
     parser_safeupgrade = subparsers.add_parser(
         "safeupgrade",
         aliases=["safe-upgrade"],
-        parents=[parser_teach],
+        parents=[parser_yesno, parser_teach],
         description=function.__doc__,
     )
     parser_safeupgrade.set_defaults(func=function)

@@ -1,3 +1,12 @@
+wajig (4.1.3) unstable; urgency=low
+
+  * New SAFEUPGRADE command to install any packages being held back due to
+    their being phased released.
+
+  * Update UPGRADE to always upgrade without asking as per #22.
+
+ -- Graham Williams <Graham.Williams@togaware.com>  Thu, 5 Dec 2024 08:32:21 +1100
+
 wajig (4.1.2) unstable; urgency=high
 
   * Remove dependency of thefuzz/rapidfuzz due to imminent removal
