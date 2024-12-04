@@ -100,6 +100,8 @@ def execute(command, root=False, pipe=False, langC=False,
         import wajig.util as util
         temp = tempfile.mkstemp(dir='/tmp', prefix='wajig_')[1]
         util.start_log(temp)
+    # print("PERFORM TEACH = " + str(teach))
+    # print("PERFORM COMMAND = " + str(command))
     result = subprocess.call(command, shell=True)
     if log:
         util.finish_log(temp)

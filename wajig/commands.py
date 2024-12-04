@@ -1097,6 +1097,10 @@ def rpminstall(args):
     command = "/usr/bin/alien --install " + args.rpm
     perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
+def safeupgrade(args):
+    """Safely upgrade pacakges that are currently deferred due to phasing."""
+    command = "/usr/bin/aptitude safe-upgrade"
+    perform.execute(command, root=True, log=True, teach=args.teach, noop=args.noop)
 
 def search(args):
     """Search for package names containing the given pattern
@@ -1413,6 +1417,7 @@ def upgrade(args):
     upgrade, so may leave stale packages around. Use 'dist-upgrade' to
     avoid that.
     """
+    # print("COMMANDS TEACH = " + str(args.teach))
     packages = util.upgradable()
     if packages:
         if args.backup:

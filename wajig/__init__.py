@@ -951,6 +951,15 @@ def main():
     parser_rpminstall.add_argument("rpm")
     parser_rpminstall.set_defaults(func=function)
 
+    function = commands.safeupgrade
+    parser_safeupgrade = subparsers.add_parser(
+        "safeupgrade",
+        aliases=["safe-upgrade"],
+        parents=[parser_teach],
+        description=function.__doc__,
+    )
+    parser_safeupgrade.set_defaults(func=function)
+
     function = commands.search
     parser_search = subparsers.add_parser(
         "search",
