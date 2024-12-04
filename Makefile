@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line. 
 #
-# Time-stamp: <Tuesday 2024-12-03 08:30:51 +1100 Graham Williams>
+# Time-stamp: <Thursday 2024-12-05 08:38:27 +1100 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
