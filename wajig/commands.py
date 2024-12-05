@@ -138,11 +138,11 @@ def adduser(args):
     for u in usernames:
         cmd = f'adduser {u} --gecos "" --disabled-password'
         perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
-        
+
         cmd = f"pwgen -s 20 1"
         password = perform.execute(cmd, pipe=True, teach=args.teach, noop=args.noop)
         if password: password = password.readline().strip()
-        
+
         cmd = f'echo "{u}:{password}" | sudo chpasswd'
         perform.execute(cmd, root=True, teach=args.teach, noop=args.noop)
 
@@ -150,7 +150,7 @@ def adduser(args):
         created.append(f"{u}:{password}")
 
     print("\n".join(created))
-            
+
 def aptlog(args):
     """Display APT log file"""
     perform.execute("cat /var/log/apt/history.log")
@@ -616,9 +616,14 @@ def large(args):
 
 def lastupdate(args):
     """Identify when an update was last performed"""
+
+    # Use `sed` to remove decimal points from the timestamp as
+    # unnecessary. Note the use of the required `\.` in the `sed`
+    # command.
+
     command = ("ls -l --full-time " + util.available_file + " 2> "
                "/dev/null | awk '{printf \"Last update was %s %s %s\\n\""
-               r", $6, $7, $8}' | sed 's|\.000000000||'")
+               r", $6, $7, $8}' | sed 's|\.[0-9]*||'")
     perform.execute(command, teach=args.teach, noop=args.noop)
 
 
@@ -649,8 +654,8 @@ def listcache(args):
 
 def listalternatives(args):
     """List the objects that can have alternatives configured"""
-    command = ("ls /etc/alternatives/ | "
-               r"grep -E -v '(\.1|\.1\.gz|\.8|\.8\.gz|README)$'")
+    command = ("/bin/ls /etc/alternatives/ | "
+               r"/bin/grep -E -v '(\.gz|README)$'")
     perform.execute(command, teach=args.teach, noop=args.noop)
 
 
@@ -865,7 +870,7 @@ special characters (punctuation).:
         perform.execute(command, teach=args.teach, noop=args.noop)
 
 # POLICY
-    
+
 def policy(args):
     """From preferences file show priorities/policy (available)"""
     perform.execute("apt-cache policy " + " ".join(args.packages), teach=args.teach, noop=args.noop)
@@ -932,7 +937,7 @@ def readme(args):
     util.display_sys_docs(args.package, matches.split())
 
 # REBOOT 20200820 consider removal as also reported in SYSINFO
-    
+
 def reboot(args):
     """Check if a reboot is required"""
 
@@ -1043,14 +1048,14 @@ def reportbug(args):
     perform.execute("reportbug " + args.package, teach=args.teach, noop=args.noop)
 
 # REPOS
-    
+
 def repos(args):
     """List the added personal package archives (PPAs)"""
     command  = r'for SRC in `find /etc/apt/ -name \*.list`; do '
     command += r'grep -o "^deb https://ppa.launchpad.net/[a-z0-9\-]\+/[a-z0-9\-]\+" $SRC; done | '
     command += "perl -p -e 's|^.*(ppa)[^/]*/|ppa:|'"
     perform.execute(command, teach=args.teach, noop=args.noop)
-    
+
 def restart(args):
     """Restart system daemons (see LIST-DAEMONS for available daemons)"""
     command = "/usr/sbin/service {} restart".format(args.daemon)
@@ -1207,19 +1212,19 @@ def status(args):
     util.do_status(pkgs)
 
 # SYSINFO
-        
+
 def sysinfo(args):
     """Print information about your system"""
 
     # HOSTNAME
-    
+
     command = "hostname"
     result  = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
     print(f"Hostname:   {result}")
 
     # OS
-    
+
     command = "cat /etc/*release | grep '^NAME=' | cut -d '\"' -f2"
     result  = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
@@ -1232,7 +1237,7 @@ def sysinfo(args):
     print(f"OS:         {result} {ver} {kernel}")
 
     # COMPUTER
-    
+
     file = "/var/log/kern.log"
     if os.path.isfile(file) and os.access(file, os.R_OK):
         command  = "zgrep DMI: /var/log/kern.log* | grep kernel: | "
@@ -1275,7 +1280,7 @@ def sysinfo(args):
     else:
         print("Video:      <lspci produces no output>")
         print("Audio:      <lspci produces no output>")
-    
+
     command = "cat /proc/meminfo | grep MemTotal | awk '{print $2/(1024*1024)}'"
     result  = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
@@ -1288,7 +1293,7 @@ def sysinfo(args):
     # lpstat = perform.execute("lpstat -p | egrep '^printer' | cut -d' ' -f2", getoutput=True)
     # if lpstat:
     #     print("Printers:    {lpstat}")
-    
+
     # IP
 
     localip = "<requires net-tools package>"
@@ -1301,9 +1306,9 @@ def sysinfo(args):
     exterip = perform.execute(command, getoutput=True, teach=args.teach,
                               noop=args.noop).decode("utf-8").strip()
     print(f"IP:         {localip} (local) {exterip} (external)")
-    
+
     # UPTIME
-    
+
     command = "uptime --pretty"
     up  = perform.execute(command, getoutput=True, teach=args.teach,
                           noop=args.noop).decode("utf-8").strip()
@@ -1319,7 +1324,7 @@ def sysinfo(args):
     load  = perform.execute(command, getoutput=True, teach=args.teach,
                             noop=args.noop).decode("utf-8").strip()
     print(f"Load:       {load}")
-    
+
     # REBOOT
 
     REBOOT = "/var/run/reboot-required"
@@ -1337,10 +1342,10 @@ def sysinfo(args):
                                    noop=args.noop).decode("utf-8").strip().split("\n")
             reboot += " for " + ", ".join(pkgs) + " updates"
     print(f"Reboot:     {reboot}")
-    
+
 
 # TASKSEL
-    
+
 def tasksel(args):
     """Run the task selector to install groups of packages"""
     util.requires_package("tasksel")
@@ -1355,8 +1360,11 @@ def todo(args):
 
 def toupgrade(args):
     """List versions of upgradable packages"""
-    if not util.show_package_versions():
-        print("No upgradeable packages.")
+    perform.execute('/bin/apt list --upgradable',
+                    teach=args.teach, noop=args.noop)
+    # 20241206 gjw Update to using `apt`
+    # if not util.show_package_versions():
+    #    print("No upgradeable packages.")
 
 
 def tutorial(args):
@@ -1451,7 +1459,7 @@ def upgrade(args):
     #   print(NO_UPGRADES)
 
     if not packages:
-        print('To install any packages being phased try `wajig safeupgrade`.')
+        print('To install any packages being phase released try `wajig safeupgrade`.')
 
 
 def upgradesecurity(args):
