@@ -936,7 +936,8 @@ def readme(args):
     matches = 'README README.Debian README.rst USAGE'
     util.display_sys_docs(args.package, matches.split())
 
-# REBOOT 20200820 consider removal as also reported in SYSINFO
+# REBOOT 20241206 gjw while this is also reported in SYSINFO a
+# separate command is handy to check why a reboot is required.
 
 def reboot(args):
     """Check if a reboot is required"""
@@ -1240,8 +1241,8 @@ def sysinfo(args):
 
     file = "/var/log/kern.log"
     if os.path.isfile(file) and os.access(file, os.R_OK):
-        command  = "zgrep DMI: /var/log/kern.log* | grep kernel: | "
-        command += "uniq | sed 's|^.*DMI: ||' | head -1"
+        command  = "/bin/zgrep DMI: /var/log/kern.log* 2> /dev/null | /bin/grep kernel: | "
+        command += "/bin/uniq | /bin/sed 's|^.*DMI: ||' | /bin/head -1"
         result  = perform.execute(command, getoutput=True, teach=args.teach,
                                   noop=args.noop).decode("utf-8").strip()
         print(f"Computer:   {result}")
