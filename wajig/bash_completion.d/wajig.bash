@@ -110,23 +110,35 @@ verify|version|versions|whichpackage) ]];
 	# grep alias wajig/__init__.py
 	#
 	# Bound to be a better way but need time to research/review.
-	
-        commands=(addcdrom add-cdrom addgroup add-group addkey add-key addrepo aptlog
-		  autoalts autoclean auto-clean autodownload auto-download autoremove build builddeps
-                  changelog clean commands contents dailyupgrade dependents describe
-                  describenew detail details distupgrade dist-upgrade download editsources edit-sources
-		  extract fixconfigure fix-configure fixinstall fix-install
-                  fixmissing fix-missing force hold info init install installsuggested integrity large lastupdate
-                  listall listalternatives listcache listdaemons listfiles listhold listinstalled
-                  listlog listnames listpackages listscripts listsection listsections liststatus
-                  localupgrade madison move new newdetail news nonfree orphans passwords policy
-		  purge purgeorphans purge-orphans
-                  purgeremoved purge-removed rbuilddeps readme reboot recdownload recommended reconfigure reinstall
-                  reload remove removeorphans repackage reportbug repos restart rmrepo rpm2deb rpminstall
-		  safeupgrade safe-upgrade search
-                  searchapt show sizes snapshot source start status stop sysinfo tasksel
-                  todo toupgrade tutorial unhold unofficial update updatealternatives updatepciids
-                  updateusbids upgrade upgradesecurity verify version versions whichpackage)
+
+        commands=(addcdrom add-cdrom addgroup add-group addkey add-key
+		  addrepo aptlog autoalts autoclean auto-clean
+		  autodownload auto-download autoremove build
+		  builddeps changelog clean commands contents
+		  dailyupgrade dependents describe describenew detail
+		  details distupgrade dist-upgrade download
+		  editsources edit-sources extract fixconfigure
+		  fix-configure fixinstall fix-install fixmissing
+		  fix-missing force hold info init install
+		  installsuggested integrity large lastupdate
+		  last-update listall list-all listalternatives
+		  list-alternatives listcache list-cache listdaemons
+		  list-daemons listfiles list-files listhold list-hold
+		  listinstalled listlog listnames listpackages
+		  listscripts listsection listsections liststatus
+		  localupgrade madison move new newdetail news
+		  newupgrades new-upgrades nonfree orphans passwords
+		  policy purge purgeorphans purge-orphans purgeremoved
+		  purge-removed rbuilddeps readme reboot recdownload
+		  recommended reconfigure reinstall reload remove
+		  removeorphans repackage reportbug repos restart
+		  rmrepo rpm2deb rpminstall safeupgrade safe-upgrade
+		  search searchapt show sizes snapshot source start
+		  status stop sysinfo tasksel todo toupgrade
+		  to-upgrade tutorial unhold unofficial update
+		  updatealternatives updatepciids updateusbids
+		  upgradable upgrade upgradesecurity verify version
+		  versions whichpackage)
 
         local option oldNoCaseMatch=$(shopt -p nocasematch)
         shopt -s nocasematch
