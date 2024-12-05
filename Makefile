@@ -1,8 +1,8 @@
 ########################################################################
 #
-# Makefile for wajig command line. 
+# Makefile for wajig command line.
 #
-# Time-stamp: <Thursday 2024-12-05 15:45:03 +1100 Graham Williams>
+# Time-stamp: <Friday 2024-12-06 09:36:44 +1100 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -16,7 +16,7 @@
 #   Trivial update or bug fix
 
 APP=wajig
-VER=4.1.3+1
+VER=4.1.3+2
 DATE=$(shell date +%Y-%m-%d)
 
 TAR_GZ = dist/$(APP)-$(VER).tar.gz
@@ -121,7 +121,7 @@ $(APP).sh: $(APP).sh.in
 
 .PHONY: .version
 version:
-	sed -i -e "s|^    version='.*'|    version='$(VER)'|" setup.py 
+	sed -i -e "s|^    version='.*'|    version='$(VER)'|" setup.py
 	sed -i -e 's|^VERSION = ".*"|VERSION = "$(VER)"|' $(APP)/constants.py
 	sed -i -e 's|^APP = ".*"|APP = "$(APP)"|' $(APP)/constants.py
 
