@@ -718,7 +718,7 @@ def main():
     parser_orphans.set_defaults(func=function)
 
     # PASSWORD
-    
+
     function = commands.password
     parser_password = subparsers.add_parser(
         "password",
@@ -781,7 +781,7 @@ def main():
     parser_rbuilddeps.set_defaults(func=function)
 
     # README
-    
+
     function = commands.readme
     parser_readme = subparsers.add_parser(
         "readme",
@@ -793,7 +793,7 @@ def main():
     parser_readme.set_defaults(func=function)
 
     # REBOOT
-    
+
     function = commands.reboot
     parser_reboot = subparsers.add_parser(
         "reboot",
@@ -1033,7 +1033,7 @@ def main():
     parser_start.set_defaults(func=function)
 
     # STATUS
-    
+
     function = commands.status
     parser_status = subparsers.add_parser(
         "status",
@@ -1044,7 +1044,7 @@ def main():
     parser_status.set_defaults(func=function)
 
     # STOP
-    
+
     function = commands.stop
     parser_stop = subparsers.add_parser(
         "stop",
@@ -1055,7 +1055,7 @@ def main():
     parser_stop.set_defaults(func=function)
 
     # SYSINFO
-    
+
     function = commands.sysinfo
     parser_sysinfo = subparsers.add_parser(
         "sysinfo",
@@ -1101,7 +1101,8 @@ def main():
     function = commands.toupgrade
     parser_toupgrade = subparsers.add_parser(
         "toupgrade",
-        aliases="newupgrades new-upgrades to-upgrade".split(),
+        aliases="newupgrades new-upgrades to-upgrade upgradable".split(),
+        parents=[parser_teach],
         description=function.__doc__,
     )
     parser_toupgrade.set_defaults(func=function)
@@ -1200,7 +1201,7 @@ def main():
     parser_verify.set_defaults(func=function)
 
     # VERSION
-    
+
     function = commands.version
     parser_version = subparsers.add_parser(
         "version",
@@ -1209,7 +1210,7 @@ def main():
     parser_version.set_defaults(func=function)
 
     # VERSIONS
-    
+
     function = commands.versions
     parser_versions = subparsers.add_parser(
         "versions",
@@ -1220,7 +1221,7 @@ def main():
     parser_versions.set_defaults(func=function)
 
     # WHICHPKG
-    
+
     function = commands.whichpackage
     parser_whichpackage = subparsers.add_parser(
         "whichpackage",
@@ -1238,11 +1239,11 @@ def main():
     #-----------------------------------------------------------------------
 
     # Note all available choices including aliases.
-     
+
     choices = list(subparsers.choices.keys())
-    
+
     # Get the first positional argument - the command - and consider replacing.
-    
+
     pos_args = [(i, arg) for i, arg in enumerate(sys.argv[1:]) if not arg.startswith('-')]
     cmd_index, cmd = pos_args[0] if len(pos_args) != 0 else (None, None)
 
