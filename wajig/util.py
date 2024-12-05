@@ -236,9 +236,13 @@ def update_available(noreport=False):
     newest = perform.execute(command, pipe=True, langC=True)
     newest = newest.readlines()[0].strip()
 
+    # 20241205 gjw If there are new packages available then note them
+    # in the New file. If not, remove the old New file.
+
     if newest != "0":
         os.rename(temporary_file, new_file)
     else:
+        os.remove(new_file)
         os.remove(temporary_file)
 
     if not noreport:
