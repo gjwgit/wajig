@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line.
 #
-# Time-stamp: <Saturday 2024-12-07 15:31:13 +1100 Graham Williams>
+# Time-stamp: <Saturday 2024-12-07 15:39:10 +1100 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -162,6 +162,7 @@ deb: version $(APP).sh
 	mv ../$(APP)_$(VER).dsc .
 	mv ../$(APP)_$(VER).tar.xz .
 	rm -f $(APP).sh
+	rsync $(APP)_$(VER)_all.deb togaware.com:apps/access/wajig.deb
 
 # 20230708 gjw az support has been removed.
 
