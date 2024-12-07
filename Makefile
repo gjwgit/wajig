@@ -2,7 +2,7 @@
 #
 # Makefile for wajig command line.
 #
-# Time-stamp: <Friday 2024-12-06 09:36:44 +1100 Graham Williams>
+# Time-stamp: <Saturday 2024-12-07 15:31:13 +1100 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -16,7 +16,7 @@
 #   Trivial update or bug fix
 
 APP=wajig
-VER=4.1.3+2
+VER=4.1.3
 DATE=$(shell date +%Y-%m-%d)
 
 TAR_GZ = dist/$(APP)-$(VER).tar.gz
